@@ -10,6 +10,7 @@ function Template10({ brand }: T10Props) {
   const headline = brand.copy?.headline || 'WIN BIG TODAY!'
   const logoUrl = brand.logoUrl || ''
   const iframeRef = useRef<HTMLIFrameElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   // Auto-play the game
   useEffect(() => {
@@ -26,6 +27,23 @@ function Template10({ brand }: T10Props) {
 
     // Wait for iframe to load, then start auto-play
     const timer = setTimeout(autoPlayGame, 2000)
+    return () => clearTimeout(timer)
+  }, [])
+
+  // Force video to play
+  useEffect(() => {
+    const playVideo = async () => {
+      if (videoRef.current) {
+        try {
+          await videoRef.current.play()
+          console.log('✅ Video playing')
+        } catch (error) {
+          console.error('❌ Video autoplay failed:', error)
+        }
+      }
+    }
+
+    const timer = setTimeout(playVideo, 500)
     return () => clearTimeout(timer)
   }, [])
 
@@ -90,16 +108,21 @@ function Template10({ brand }: T10Props) {
               
               {/* Video */}
               <video
+                ref={videoRef}
                 autoPlay
                 loop
                 muted
                 playsInline
+                preload="auto"
                 className="w-64 h-64 object-cover transition-transform duration-300 group-hover:scale-105"
                 style={{
                   filter: 'brightness(1.1) contrast(1.1)'
                 }}
+                onError={(e) => console.error('❌ Video error:', e)}
+                onLoadedData={() => console.log('✅ Video loaded successfully')}
               >
-                <source src="/images/casino .mp4" type="video/mp4" />
+                <source src="/images/casino.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
               </video>
               
               {/* Overlay label */}
