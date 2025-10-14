@@ -52,6 +52,52 @@
 			document.body.style.width = '100vw';
 			document.body.style.height = '100vh';
 			document.body.style.overflow = 'hidden';
+			
+			// Auto-play functionality
+			function autoPlayGame() {
+				console.log('🎰 Starting auto-play...');
+				
+				// Find and click the spin button automatically
+				const clickSpinButton = () => {
+					// Try to find spin button by common patterns
+					const canvas = document.querySelector('canvas');
+					if (canvas) {
+						// Simulate click in the center-bottom area where spin button usually is
+						const rect = canvas.getBoundingClientRect();
+						const x = rect.width / 2;
+						const y = rect.height * 0.85; // 85% down from top
+						
+						const clickEvent = new MouseEvent('click', {
+							view: window,
+							bubbles: true,
+							cancelable: true,
+							clientX: rect.left + x,
+							clientY: rect.top + y
+						});
+						
+						canvas.dispatchEvent(clickEvent);
+						console.log('🎲 Auto-spin triggered');
+					}
+				};
+				
+				// Start auto-playing after game loads
+				setTimeout(() => {
+					clickSpinButton();
+					// Keep spinning every 4 seconds
+					setInterval(clickSpinButton, 4000);
+				}, 3000);
+			}
+			
+			// Start auto-play
+			autoPlayGame();
+			
+			// Listen for messages from parent
+			window.addEventListener('message', function(event) {
+				if (event.data && event.data.action === 'autoPlay') {
+					console.log('🎰 Auto-play triggered by parent');
+					autoPlayGame();
+				}
+			});
 		});
 	</script>
 </body> 
