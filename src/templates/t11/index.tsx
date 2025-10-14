@@ -17,7 +17,7 @@ interface ScratchBox {
 export function Template11({ brand }: T11Props) {
   const [boxes, setBoxes] = useState<ScratchBox[]>([])
   const [showWinModal, setShowWinModal] = useState(false)
-  const [winningPrize, setWinningPrize] = useState('')
+  const [revealedPrize, setRevealedPrize] = useState('')
   const canvasRefs = useRef<(HTMLCanvasElement | null)[]>([])
   const [isScratching, setIsScratching] = useState(false)
   const hasWonRef = useRef(false)
@@ -34,54 +34,49 @@ export function Template11({ brand }: T11Props) {
     accent: brand.colors?.accent || '#8B0000'
   }
   
-  const prizes = ['$500', '$1000', '$5000', '100 FREE SPINS', '200 FREE SPINS', '$10000']
-  const icons = ['💎', '🎰', '🏆', '⭐', '💰', '🎁']
+  // Premio ganador editable desde brand config (se puede editar en Content section)
+  const winningPrize = brand.copy?.subheadline || '$1000'
+  const winningIcon = '💰'
+  
+  // Posiciones fijas para los premios ganadores (0, 4, 8 - esquinas y centro)
+  const winningPositions = [0, 4, 8]
+  
+  const otherPrizes = ['$500', '$5000', '100 FREE SPINS', '200 FREE SPINS', '$10000']
+  const otherIcons = ['💎', '🎰', '🏆', '⭐', '🎁']
 
   useEffect(() => {
-    // Seleccionar un premio ganador
-    const winnerPrize = prizes[Math.floor(Math.random() * prizes.length)]
-    const winnerIcon = icons[Math.floor(Math.random() * icons.length)]
-    
-    // Crear array de cajas con al menos 3 del premio ganador
+    // Crear array de cajas con premios en posiciones fijas
     const initialBoxes: ScratchBox[] = []
     
-    // Agregar 3 cajas ganadoras
-    for (let i = 0; i < 3; i++) {
-      initialBoxes.push({
-        id: i,
-        scratched: 0,
-        prize: winnerPrize,
-        icon: winnerIcon
-      })
+    // Crear las 9 cajas
+    for (let i = 0; i < 9; i++) {
+      if (winningPositions.includes(i)) {
+        // Posiciones ganadoras fijas con $1000
+        initialBoxes.push({
+          id: i,
+          scratched: 0,
+          prize: winningPrize,
+          icon: winningIcon
+        })
+      } else {
+        // Otras posiciones con premios aleatorios
+        const randomIndex = Math.floor(Math.random() * otherPrizes.length)
+        initialBoxes.push({
+          id: i,
+          scratched: 0,
+          prize: otherPrizes[randomIndex],
+          icon: otherIcons[randomIndex]
+        })
+      }
     }
     
-    // Agregar 6 cajas con otros premios
-    for (let i = 3; i < 9; i++) {
-      const randomPrize = prizes[Math.floor(Math.random() * prizes.length)]
-      const randomIcon = icons[Math.floor(Math.random() * icons.length)]
-      initialBoxes.push({
-        id: i,
-        scratched: 0,
-        prize: randomPrize,
-        icon: randomIcon
-      })
-    }
-    
-    // Mezclar las cajas aleatoriamente
-    for (let i = initialBoxes.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [initialBoxes[i], initialBoxes[j]] = [initialBoxes[j], initialBoxes[i]]
-      // Actualizar IDs después de mezclar
-      initialBoxes[i].id = i
-      initialBoxes[j].id = j
-    }
-    
-    console.log('🎰 PREMIOS GENERADOS:')
-    console.log('Premio ganador:', winnerPrize, winnerIcon)
+    console.log('🎰 PREMIOS GENERADOS (POSICIONES FIJAS):')
+    console.log('Premio ganador:', winningPrize, winningIcon)
+    console.log('Posiciones ganadoras:', winningPositions)
     console.log('Todas las cajas:', initialBoxes.map(b => ({ id: b.id, prize: b.prize, icon: b.icon })))
     
     setBoxes(initialBoxes)
-  }, [])
+  }, [winningPrize])
 
   useEffect(() => {
     if (boxes.length === 0) return
@@ -190,7 +185,7 @@ export function Template11({ brand }: T11Props) {
       
       console.log('¡GANADOR! Premio:', winnerPrize)
       hasWonRef.current = true
-      setWinningPrize(winnerPrize)
+      setRevealedPrize(winnerPrize)
       setTimeout(() => {
         console.log('Mostrando modal...')
         setShowWinModal(true)
@@ -495,7 +490,7 @@ export function Template11({ brand }: T11Props) {
                 gap: '15px',
                 marginBottom: '20px'
               }}>
-                {boxes.filter(b => b.prize === winningPrize && b.scratched > 50).slice(0, 3).map(box => (
+                {boxes.filter(b => b.prize === revealedPrize && b.scratched > 50).slice(0, 3).map(box => (
                   <div key={box.id} style={{
                     fontSize: '3rem'
                   }}>
@@ -510,7 +505,7 @@ export function Template11({ brand }: T11Props) {
                 textShadow: '0 2px 8px rgba(0, 0, 0, 0.8)',
                 marginTop: '10px'
               }}>
-                {winningPrize}
+                {revealedPrize}
               </div>
             </div>
             
