@@ -151,13 +151,19 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES ('site-assets', 'site-assets', true)
 ON CONFLICT (id) DO NOTHING;
 
+-- Drop existing storage policies if they exist
+DROP POLICY IF EXISTS "Public read access for site assets" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can upload site assets" ON storage.objects;
+DROP POLICY IF EXISTS "Users can update their own uploads" ON storage.objects;
+DROP POLICY IF EXISTS "Users can delete their own uploads" ON storage.objects;
+
 -- Allow public read access to site-assets
-CREATE POLICY IF NOT EXISTS "Public read access for site assets"
+CREATE POLICY "Public read access for site assets"
 ON storage.objects FOR SELECT
 USING (bucket_id = 'site-assets');
 
 -- Allow authenticated users to upload to site-assets
-CREATE POLICY IF NOT EXISTS "Authenticated users can upload site assets"
+CREATE POLICY "Authenticated users can upload site assets"
 ON storage.objects FOR INSERT
 WITH CHECK (
   bucket_id = 'site-assets'
@@ -165,7 +171,7 @@ WITH CHECK (
 );
 
 -- Allow users to update their own uploads
-CREATE POLICY IF NOT EXISTS "Users can update their own uploads"
+CREATE POLICY "Users can update their own uploads"
 ON storage.objects FOR UPDATE
 USING (
   bucket_id = 'site-assets'
@@ -173,7 +179,7 @@ USING (
 );
 
 -- Allow users to delete their own uploads
-CREATE POLICY IF NOT EXISTS "Users can delete their own uploads"
+CREATE POLICY "Users can delete their own uploads"
 ON storage.objects FOR DELETE
 USING (
   bucket_id = 'site-assets'
