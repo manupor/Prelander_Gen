@@ -139,68 +139,6 @@
     });
   }
 
-  // Enhanced Mouse Trail Effect with Particles
-  function initMouseTrail() {
-    const trail = [];
-    const maxTrail = 20;
-    let mouseX = 0;
-    let mouseY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      
-      trail.push({ x: e.clientX, y: e.clientY, time: Date.now() });
-      
-      if (trail.length > maxTrail) {
-        trail.shift();
-      }
-
-      // Create enhanced glow element with pulse
-      const glow = document.createElement('div');
-      glow.className = 'mouse-glow';
-      const size = 30 + Math.random() * 20;
-      const color = Math.random() > 0.5 ? '2, 193, 115' : '114, 220, 96';
-      glow.style.cssText = `
-        position: fixed;
-        width: ${size}px;
-        height: ${size}px;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(${color}, 0.8), rgba(${color}, 0.3), transparent);
-        pointer-events: none;
-        z-index: 9999;
-        left: ${e.clientX - size/2}px;
-        top: ${e.clientY - size/2}px;
-        animation: mouseGlowFade 0.8s ease-out forwards;
-        box-shadow: 0 0 20px rgba(${color}, 0.6);
-      `;
-      document.body.appendChild(glow);
-
-      setTimeout(() => glow.remove(), 800);
-
-      // Add sparkle particles occasionally
-      if (Math.random() > 0.7) {
-        const sparkle = document.createElement('div');
-        sparkle.className = 'mouse-sparkle';
-        const sparkleSize = 4 + Math.random() * 6;
-        sparkle.style.cssText = `
-          position: fixed;
-          width: ${sparkleSize}px;
-          height: ${sparkleSize}px;
-          border-radius: 50%;
-          background: rgba(${color}, 1);
-          pointer-events: none;
-          z-index: 9999;
-          left: ${e.clientX + (Math.random() - 0.5) * 40}px;
-          top: ${e.clientY + (Math.random() - 0.5) * 40}px;
-          animation: sparkleFade 0.6s ease-out forwards;
-          box-shadow: 0 0 10px rgba(${color}, 0.8);
-        `;
-        document.body.appendChild(sparkle);
-        setTimeout(() => sparkle.remove(), 600);
-      }
-    });
-  }
 
   // Scroll Reveal Animations
   function initScrollReveal() {
@@ -290,14 +228,12 @@
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       initNeonBackground();
-      initMouseTrail();
       initScrollReveal();
       initNeonHover();
       initParallax();
     });
   } else {
     initNeonBackground();
-    initMouseTrail();
     initScrollReveal();
     initNeonHover();
     initParallax();
