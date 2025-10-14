@@ -12,27 +12,77 @@ export default function Home() {
         {/* Purple Gradient Background */}
         <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-950/30 to-black">
           {/* Animated Grid Floor */}
-          <div className="synth-floor">
-            {/* Vertical Grid Lines */}
-            {[...Array(15)].map((_, i) => (
+          <div className="absolute inset-0 perspective-[1000px]">
+            {/* Vertical Grid Lines - Animated */}
+            {[...Array(20)].map((_, i) => (
               <div
                 key={`vline-${i}`}
-                className="vertical-grid-line"
+                className="absolute h-full w-[1px] bg-gradient-to-b from-transparent via-cyan-400/30 to-transparent animate-pulse"
                 style={{
-                  left: `${5 + i * 6}%`,
-                  animationDelay: `${i * 0.15}s`
+                  left: `${5 + i * 5}%`,
+                  animationDelay: `${i * 0.2}s`,
+                  animationDuration: `${2 + (i % 3)}s`,
+                  opacity: 0.3 + (i % 3) * 0.2
                 } as React.CSSProperties}
               />
             ))}
             
-            {/* Horizontal Grid Lines */}
-            {[...Array(12)].map((_, i) => (
+            {/* Horizontal Grid Lines - Animated with glow */}
+            {[...Array(15)].map((_, i) => (
               <div
                 key={`hline-${i}`}
-                className="horizontal-grid-line"
+                className="absolute w-full h-[1px] bg-gradient-to-r from-transparent via-purple-400/30 to-transparent animate-pulse"
                 style={{
-                  bottom: `${10 + i * 8}%`,
-                  animationDelay: `${i * 0.1}s`
+                  top: `${10 + i * 6}%`,
+                  animationDelay: `${i * 0.15}s`,
+                  animationDuration: `${2.5 + (i % 4) * 0.5}s`,
+                  opacity: 0.2 + (i % 4) * 0.15,
+                  boxShadow: i % 3 === 0 ? '0 0 10px rgba(168, 85, 247, 0.3)' : 'none'
+                } as React.CSSProperties}
+              />
+            ))}
+            
+            {/* Moving particles along vertical grid lines */}
+            {[...Array(8)].map((_, i) => (
+              <div
+                key={`grid-particle-v-${i}`}
+                className="absolute w-2 h-2 bg-cyan-400 rounded-full blur-sm"
+                style={{
+                  left: `${5 + (i * 12)}%`,
+                  top: '0',
+                  animation: `moveVertical ${3 + i}s ease-in-out infinite`,
+                  animationDelay: `${i * 0.5}s`,
+                  boxShadow: '0 0 15px rgba(34, 211, 238, 0.8)'
+                } as React.CSSProperties}
+              />
+            ))}
+            
+            {/* Moving particles along horizontal grid lines */}
+            {[...Array(6)].map((_, i) => (
+              <div
+                key={`grid-particle-h-${i}`}
+                className="absolute w-2 h-2 bg-purple-400 rounded-full blur-sm"
+                style={{
+                  left: '0',
+                  top: `${15 + (i * 15)}%`,
+                  animation: `moveHorizontal ${4 + i * 0.5}s ease-in-out infinite`,
+                  animationDelay: `${i * 0.7}s`,
+                  boxShadow: '0 0 15px rgba(168, 85, 247, 0.8)'
+                } as React.CSSProperties}
+              />
+            ))}
+            
+            {/* Intersection glow points */}
+            {[...Array(12)].map((_, i) => (
+              <div
+                key={`intersection-${i}`}
+                className="absolute w-1 h-1 bg-white rounded-full"
+                style={{
+                  left: `${10 + (i * 8)}%`,
+                  top: `${20 + ((i * 7) % 60)}%`,
+                  animation: 'gridPulse 2s ease-in-out infinite',
+                  animationDelay: `${i * 0.3}s`,
+                  boxShadow: '0 0 10px rgba(255, 255, 255, 0.6)'
                 } as React.CSSProperties}
               />
             ))}
