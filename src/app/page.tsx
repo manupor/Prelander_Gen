@@ -162,12 +162,12 @@ export default function Home() {
             </div>
             <div className="flex items-center space-x-4">
               <Link href="/login">
-                <Button variant="outline" className="border border-neon-primary/50 bg-dark-surface/50 text-neon-primary hover:bg-neon-primary hover:text-black hover:border-neon-primary hover:shadow-neon transition-all duration-300 backdrop-blur-sm font-inter">
+                <Button variant="outline" className="border-2 border-neon-primary/60 bg-transparent text-neon-primary hover:bg-neon-primary/10 hover:border-neon-primary hover:shadow-neon transition-all duration-300 backdrop-blur-sm font-inter font-semibold">
                   Sign In
                 </Button>
               </Link>
               <Link href="/signup">
-                <Button className="bg-gradient-to-r from-neon-primary to-neon-secondary hover:from-neon-secondary hover:to-neon-primary text-black shadow-neon hover:shadow-neon-lg transition-all duration-300 hover:scale-105 font-inter font-semibold">
+                <Button className="bg-gradient-to-r from-neon-primary to-neon-secondary hover:from-neon-secondary hover:to-neon-primary text-black shadow-neon hover:shadow-neon-lg transition-all duration-300 hover:scale-105 font-inter font-bold">
                   Get Started
                 </Button>
               </Link>
@@ -249,11 +249,11 @@ export default function Home() {
           {/* Enhanced CTA Button */}
           <div className="flex justify-center items-center mb-16">
             <Link href="/signup">
-              <Button className="relative bg-gradient-to-r from-neon-primary to-neon-secondary hover:from-neon-secondary hover:to-neon-primary text-black font-bold py-4 px-8 rounded-2xl shadow-neon-xl transform hover:scale-110 transition-all duration-300 text-lg font-inter animate-glow group overflow-hidden">
-                <span className="relative z-10 flex items-center">
-                  <span className="mr-2 animate-bounce">◆</span>
+              <Button className="relative bg-gradient-to-r from-neon-primary to-neon-secondary hover:from-neon-secondary hover:to-neon-primary text-black font-black py-5 px-10 rounded-2xl shadow-neon-xl transform hover:scale-105 transition-all duration-300 text-xl font-inter group overflow-hidden border-2 border-neon-primary/20">
+                <span className="relative z-10 flex items-center gap-3">
+                  <span className="text-2xl">⚡</span>
                   START CREATING NOW
-                  <span className="ml-2 animate-bounce" style={{animationDelay: '0.5s'}}>◆</span>
+                  <span className="text-2xl">⚡</span>
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-neon-secondary to-neon-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </Button>

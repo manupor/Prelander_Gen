@@ -5,7 +5,6 @@ import { useParams, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Loader2, Save, Eye, ArrowLeft, Palette, Type, Image as ImageIcon, Link as LinkIcon, ChevronDown, ChevronUp, Layers, FileText, Scale } from 'lucide-react'
 import { EditorTour } from '@/components/EditorTour'
-import { AIAssistantChat } from '@/components/AIAssistantChat'
 
 interface SiteData {
   id: string
@@ -1197,11 +1196,6 @@ export default function SiteEditorPage() {
         />
       )}
 
-      {/* AI Assistant Chat */}
-      <AIAssistantChat 
-        onApplyChanges={handleAIChanges}
-        currentSiteData={getCurrentSiteData()}
-      />
     </div>
   )
 }
