@@ -286,136 +286,136 @@ export default function Home() {
           </div>
         </div>
 
-        {/* NetFusion Synth Features */}
+        {/* Purple Synth Features */}
         <div className="mt-20 reveal-on-scroll" data-parallax="0.3">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-black mb-4 font-inter">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-primary to-neon-secondary">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
                 ▲ NEURAL FORGE SYSTEM ▲
               </span>
             </h2>
-            <p className="text-lg text-text-muted max-w-xl mx-auto font-inter">
+            <p className="text-lg text-slate-300 max-w-xl mx-auto font-inter">
               Advanced AI-powered landing page synthesis
             </p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="group bg-dark-surface/60 backdrop-blur-sm border border-neon-primary/20 rounded-2xl p-6 hover:border-neon-primary/50 transition-all duration-300 transform hover:-translate-y-1 shadow-neon">
-              <div className="w-12 h-12 bg-gradient-to-br from-neon-primary to-neon-secondary rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:animate-glow shadow-neon">
-                <span className="text-xl text-black font-bold">◆</span>
+            <div className="group bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 hover:border-cyan-400/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/10">
+              <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-purple-500 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:shadow-xl group-hover:shadow-purple-500/25 transition-all">
+                <span className="text-xl text-white font-bold">◆</span>
               </div>
-              <h3 className="text-lg font-bold mb-3 text-neon-primary group-hover:text-neon-secondary transition-colors font-inter">AI NEURAL NET</h3>
-              <p className="text-text-muted text-sm leading-relaxed font-inter">
+              <h3 className="text-lg font-bold mb-3 text-cyan-300 group-hover:text-cyan-400 transition-colors font-inter">AI NEURAL NET</h3>
+              <p className="text-slate-300 text-sm leading-relaxed font-inter">
                 Advanced neural networks analyze your brand and generate high-converting copy instantly.
               </p>
             </div>
             
-            <div className="group bg-dark-surface/60 backdrop-blur-sm border border-neon-primary/20 rounded-2xl p-6 hover:border-neon-primary/50 transition-all duration-300 transform hover:-translate-y-1 shadow-neon">
-              <div className="w-12 h-12 bg-gradient-to-br from-neon-primary to-neon-secondary rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:animate-glow shadow-neon">
-                <span className="text-xl text-black font-bold">▲</span>
+            <div className="group bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 hover:border-purple-400/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-500/10">
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:shadow-xl group-hover:shadow-cyan-500/25 transition-all">
+                <span className="text-xl text-white font-bold">▲</span>
               </div>
-              <h3 className="text-lg font-bold mb-3 text-neon-primary group-hover:text-neon-secondary transition-colors font-inter">SYNTH TEMPLATES</h3>
-              <p className="text-text-muted text-sm leading-relaxed font-inter">
+              <h3 className="text-lg font-bold mb-3 text-purple-300 group-hover:text-purple-400 transition-colors font-inter">SYNTH TEMPLATES</h3>
+              <p className="text-slate-300 text-sm leading-relaxed font-inter">
                 Cyber-optimized templates designed for maximum conversion and visual impact.
               </p>
             </div>
             
-            <div className="group bg-dark-surface/60 backdrop-blur-sm border border-neon-primary/20 rounded-2xl p-6 hover:border-neon-primary/50 transition-all duration-300 transform hover:-translate-y-1 shadow-neon">
-              <div className="w-12 h-12 bg-gradient-to-br from-neon-primary to-neon-secondary rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:animate-glow shadow-neon">
-                <span className="text-xl text-black font-bold">●</span>
+            <div className="group bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 hover:border-cyan-400/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/10">
+              <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-purple-500 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:shadow-xl group-hover:shadow-purple-500/25 transition-all">
+                <span className="text-xl text-white font-bold">●</span>
               </div>
-              <h3 className="text-lg font-bold mb-3 text-neon-primary group-hover:text-neon-secondary transition-colors font-inter">INSTANT DEPLOY</h3>
-              <p className="text-text-muted text-sm leading-relaxed font-inter">
+              <h3 className="text-lg font-bold mb-3 text-cyan-300 group-hover:text-cyan-400 transition-colors font-inter">INSTANT DEPLOY</h3>
+              <p className="text-slate-300 text-sm leading-relaxed font-inter">
                 Export clean HTML/CSS code ready for deployment in nanoseconds.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Synth Process Flow */}
+        {/* Purple Process Flow */}
         <div className="mt-20 reveal-on-scroll" data-parallax="0.2">
           <div className="text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-black mb-3 font-inter">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-primary to-neon-secondary">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
                 ● NEURAL PROCESS FLOW ●
               </span>
             </h2>
-            <p className="text-sm text-text-muted font-inter">4-step synthesis protocol</p>
+            <p className="text-sm text-slate-300 font-inter">4-step synthesis protocol</p>
           </div>
           
           <div className="grid md:grid-cols-4 gap-4 relative">
-            {/* Neon Connection Lines */}
-            <div className="hidden md:block absolute top-8 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-neon-primary to-neon-secondary opacity-50"></div>
+            {/* Purple Connection Lines */}
+            <div className="hidden md:block absolute top-8 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-400 opacity-50"></div>
             
             <div className="text-center relative">
-              <div className="w-16 h-16 bg-gradient-to-br from-neon-primary to-neon-secondary text-black rounded-xl flex items-center justify-center mx-auto mb-4 font-black text-lg shadow-neon transform hover:scale-110 transition-all duration-300 hover:animate-glow">
+              <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-purple-500 text-white rounded-xl flex items-center justify-center mx-auto mb-4 font-black text-lg shadow-lg hover:shadow-xl hover:shadow-purple-500/25 transform hover:scale-110 transition-all duration-300">
                 ◆
               </div>
-              <h3 className="text-sm font-bold mb-2 text-neon-primary font-inter">SELECT</h3>
-              <p className="text-text-muted text-xs font-inter">Choose synth template</p>
+              <h3 className="text-sm font-bold mb-2 text-cyan-300 font-inter">SELECT</h3>
+              <p className="text-slate-400 text-xs font-inter">Choose synth template</p>
             </div>
             
             <div className="text-center relative">
-              <div className="w-16 h-16 bg-gradient-to-br from-neon-primary to-neon-secondary text-black rounded-xl flex items-center justify-center mx-auto mb-4 font-black text-lg shadow-neon transform hover:scale-110 transition-all duration-300 hover:animate-glow">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-cyan-500 text-white rounded-xl flex items-center justify-center mx-auto mb-4 font-black text-lg shadow-lg hover:shadow-xl hover:shadow-cyan-500/25 transform hover:scale-110 transition-all duration-300">
                 ▲
               </div>
-              <h3 className="text-sm font-bold mb-2 text-neon-primary font-inter">UPLOAD</h3>
-              <p className="text-text-muted text-xs font-inter">Neural brand analysis</p>
+              <h3 className="text-sm font-bold mb-2 text-purple-300 font-inter">UPLOAD</h3>
+              <p className="text-slate-400 text-xs font-inter">Neural brand analysis</p>
             </div>
             
             <div className="text-center relative">
-              <div className="w-16 h-16 bg-gradient-to-br from-neon-primary to-neon-secondary text-black rounded-xl flex items-center justify-center mx-auto mb-4 font-black text-lg shadow-neon transform hover:scale-110 transition-all duration-300 hover:animate-glow">
+              <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-purple-500 text-white rounded-xl flex items-center justify-center mx-auto mb-4 font-black text-lg shadow-lg hover:shadow-xl hover:shadow-purple-500/25 transform hover:scale-110 transition-all duration-300">
                 ●
               </div>
-              <h3 className="text-sm font-bold mb-2 text-neon-primary font-inter">DESCRIBE</h3>
-              <p className="text-text-muted text-xs font-inter">AI copy synthesis</p>
+              <h3 className="text-sm font-bold mb-2 text-cyan-300 font-inter">DESCRIBE</h3>
+              <p className="text-slate-400 text-xs font-inter">AI copy synthesis</p>
             </div>
             
             <div className="text-center relative">
-              <div className="w-16 h-16 bg-gradient-to-br from-neon-primary to-neon-secondary text-black rounded-xl flex items-center justify-center mx-auto mb-4 font-black text-lg shadow-neon transform hover:scale-110 transition-all duration-300 hover:animate-glow">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-cyan-500 text-white rounded-xl flex items-center justify-center mx-auto mb-4 font-black text-lg shadow-lg hover:shadow-xl hover:shadow-cyan-500/25 transform hover:scale-110 transition-all duration-300">
                 ◇
               </div>
-              <h3 className="text-sm font-bold mb-2 text-neon-primary font-inter">DEPLOY</h3>
-              <p className="text-text-muted text-xs font-inter">Instant export</p>
+              <h3 className="text-sm font-bold mb-2 text-purple-300 font-inter">DEPLOY</h3>
+              <p className="text-slate-400 text-xs font-inter">Instant export</p>
             </div>
           </div>
         </div>
 
-        {/* NetFusion CTA Terminal */}
+        {/* Purple CTA Terminal */}
         <div className="mt-20 relative reveal-on-scroll">
-          <div className="bg-dark-surface/80 backdrop-blur-xl border border-neon-primary/30 rounded-2xl p-8 text-center relative overflow-hidden shadow-neon">
-            {/* Synth Background Effects */}
-            <div className="absolute inset-0 bg-neon-primary/5 rounded-2xl"></div>
+          <div className="bg-slate-900/80 backdrop-blur-xl border border-cyan-400/30 rounded-2xl p-8 text-center relative overflow-hidden shadow-xl shadow-purple-500/10">
+            {/* Purple Background Effects */}
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5 rounded-2xl"></div>
             <div className="absolute top-0 left-0 w-full h-full">
-              <div className="absolute top-1/4 left-1/4 w-20 h-20 bg-neon-primary/20 rounded-full blur-xl animate-pulse"></div>
-              <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-neon-secondary/20 rounded-full blur-xl animate-pulse" style={{animationDelay: '1s'}}></div>
+              <div className="absolute top-1/4 left-1/4 w-20 h-20 bg-cyan-400/20 rounded-full blur-xl animate-pulse"></div>
+              <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-purple-400/20 rounded-full blur-xl animate-pulse" style={{animationDelay: '1s'}}></div>
             </div>
             
             <div className="relative z-10">
-              <div className="inline-flex items-center px-4 py-2 bg-neon-primary/20 border border-neon-primary/30 rounded-full mb-6 backdrop-blur-sm">
-                <span className="w-2 h-2 bg-neon-primary rounded-full mr-2 animate-pulse"></span>
-                <span className="text-neon-primary font-semibold text-sm font-inter">NEURAL FORGE • ONLINE</span>
+              <div className="inline-flex items-center px-4 py-2 bg-cyan-500/20 border border-cyan-400/30 rounded-full mb-6 backdrop-blur-sm">
+                <span className="w-2 h-2 bg-cyan-400 rounded-full mr-2 animate-pulse"></span>
+                <span className="text-cyan-300 font-semibold text-sm font-inter">NEURAL FORGE • ONLINE</span>
               </div>
               
               <h2 className="text-3xl md:text-4xl font-black mb-4 font-inter">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-primary to-neon-secondary">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
                   ▲ READY TO SYNTHESIZE? ▲
                 </span>
               </h2>
               
-              <p className="text-lg text-text-muted mb-8 max-w-2xl mx-auto font-inter">
-                Join <span className="text-neon-primary font-bold">10,000+</span> users forging digital experiences with neural AI
+              <p className="text-lg text-slate-300 mb-8 max-w-2xl mx-auto font-inter">
+                Join <span className="text-cyan-400 font-bold">10,000+</span> users forging digital experiences with neural AI
               </p>
               
               <div className="flex justify-center">
                 <Link href="/signup">
-                  <Button className="text-lg px-12 py-4 bg-gradient-to-r from-neon-primary to-neon-secondary hover:from-neon-secondary hover:to-neon-primary text-black border-0 shadow-neon-xl transform hover:scale-105 transition-all duration-300 rounded-xl font-black font-inter">
+                  <Button className="text-lg px-12 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white border-0 shadow-lg hover:shadow-xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 rounded-xl font-black font-inter">
                     ◆ INITIALIZE FORGE ◆
                   </Button>
                 </Link>
               </div>
               
-              <div className="mt-6 flex justify-center space-x-6 text-xs text-text-muted font-inter">
+              <div className="mt-6 flex justify-center space-x-6 text-xs text-slate-400 font-inter">
                 <span>✓ Neural AI Platform</span>
                 <span>✓ 7 Synth Templates</span>
                 <span>✓ Instant Deploy</span>
