@@ -21,6 +21,9 @@ export function Template11({ brand }: T11Props) {
   const canvasRefs = useRef<(HTMLCanvasElement | null)[]>([])
   const [isScratching, setIsScratching] = useState(false)
   const hasWonRef = useRef(false)
+  
+  // Detectar si está en modo editor
+  const isEditor = typeof window !== 'undefined' && window.location.pathname.includes('/edit')
 
   const brandName = brand.brandName || 'Your Brand'
   const headline = brand.copy?.headline || 'SCRATCH & WIN'
@@ -160,34 +163,21 @@ export function Template11({ brand }: T11Props) {
     // Filtrar cajas que están rascadas más del 50%
     const scratchedBoxes = currentBoxes.filter(box => box.scratched > 50)
     
-    console.log('Cajas rascadas (>50%):', scratchedBoxes.length)
-    console.log('Detalles:', scratchedBoxes.map(b => ({ id: b.id, prize: b.prize, scratched: b.scratched.toFixed(1) })))
+    console.log('🎰 Cajas rascadas (>50%):', scratchedBoxes.length)
+    console.log('📋 Detalles:', scratchedBoxes.map(b => ({ id: b.id, prize: b.prize, scratched: b.scratched.toFixed(1) })))
     
-    // Cuando el jugador raspe 3 cajas, gana automáticamente
-    if (scratchedBoxes.length >= 3) {
-      // Contar ocurrencias de cada premio
-      const prizeCount: Record<string, number> = {}
-      scratchedBoxes.forEach(box => {
-        prizeCount[box.prize] = (prizeCount[box.prize] || 0) + 1
-      })
-      
-      console.log('Conteo de premios:', prizeCount)
-      
-      // Encontrar el premio que más se repite (sabemos que hay al menos 3 iguales)
-      let winnerPrize = ''
-      let maxCount = 0
-      for (const [prize, count] of Object.entries(prizeCount)) {
-        if (count > maxCount) {
-          maxCount = count
-          winnerPrize = prize
-        }
-      }
-      
-      console.log('¡GANADOR! Premio:', winnerPrize)
+    // Verificar si hay al menos 3 cajas rascadas con el premio ganador
+    const winningBoxesScratched = scratchedBoxes.filter(box => box.prize === winningPrize)
+    
+    console.log(`💰 Cajas con premio ganador (${winningPrize}) rascadas:`, winningBoxesScratched.length)
+    
+    // Si el jugador rascó las 3 cajas con el premio ganador, ¡GANA!
+    if (winningBoxesScratched.length >= 3) {
+      console.log('🎉 ¡GANADOR! El jugador rascó las 3 cajas con:', winningPrize)
       hasWonRef.current = true
-      setRevealedPrize(winnerPrize)
+      setRevealedPrize(winningPrize)
       setTimeout(() => {
-        console.log('Mostrando modal...')
+        console.log('📢 Mostrando modal de victoria...')
         setShowWinModal(true)
       }, 300)
     }
@@ -444,6 +434,46 @@ export function Template11({ brand }: T11Props) {
             `,
             position: 'relative'
           }}>
+            {/* Close button - Only visible in editor */}
+            {isEditor && (
+              <button
+                onClick={() => {
+                  setShowWinModal(false)
+                  hasWonRef.current = false
+                }}
+                style={{
+                  position: 'absolute',
+                  top: '15px',
+                  right: '15px',
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  background: 'rgba(0, 0, 0, 0.7)',
+                  border: '2px solid #8B5A2B',
+                  color: colors.primary,
+                  fontSize: '24px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.3s ease',
+                  zIndex: 1
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = colors.primary
+                  e.currentTarget.style.color = '#000'
+                  e.currentTarget.style.transform = 'scale(1.1)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(0, 0, 0, 0.7)'
+                  e.currentTarget.style.color = colors.primary
+                  e.currentTarget.style.transform = 'scale(1)'
+                }}
+              >
+                ×
+              </button>
+            )}
             <div style={{ fontSize: '5rem', marginBottom: '20px' }}>🎉</div>
             <h2 style={{
               fontSize: '3.5rem',
