@@ -99,16 +99,19 @@ export function AIAssistantChat({ onApplyChanges, currentSiteData }: AIAssistant
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-br from-neon-primary to-neon-secondary rounded-full shadow-neon flex items-center justify-center hover:scale-110 transition-all duration-300 z-50 group animate-glow"
+        className="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-br from-neon-primary to-neon-secondary rounded-full shadow-neon flex items-center justify-center hover:scale-110 transition-all duration-300 z-[9999] group animate-glow"
+        style={{ zIndex: 9999 }}
+        title="AI Assistant"
       >
-        <Sparkles className="w-6 h-6 text-black group-hover:rotate-12 transition-transform" />
+        <Sparkles className="w-7 h-7 text-black group-hover:rotate-12 transition-transform" />
       </button>
     )
   }
 
   return (
     <div
-      className={`fixed ${isMinimized ? 'bottom-6 right-6 w-80 h-16' : 'bottom-6 right-6 w-96 h-[600px]'} bg-dark-surface border border-neon-primary/30 rounded-2xl shadow-neon-xl flex flex-col z-50 transition-all duration-300 font-inter`}
+      className={`fixed ${isMinimized ? 'bottom-6 right-6 w-80 h-16' : 'bottom-6 right-6 w-96 h-[600px]'} bg-dark-surface border border-neon-primary/30 rounded-2xl shadow-neon-xl flex flex-col z-[9999] transition-all duration-300 font-inter`}
+      style={{ zIndex: 9999 }}
     >
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-neon-primary/20 bg-gradient-to-r from-neon-primary/10 to-neon-secondary/10">
