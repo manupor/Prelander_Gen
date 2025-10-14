@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Loader2, Save, Eye, ArrowLeft, Palette, Type, Image as ImageIcon, Link as LinkIcon, ChevronDown, ChevronUp, Layers, FileText, Scale } from 'lucide-react'
 import { EditorTour } from '@/components/EditorTour'
+import { AIAssistantChat } from '@/components/AIAssistantChat'
 
 interface SiteData {
   id: string
@@ -289,6 +290,37 @@ export default function SiteEditorPage() {
       setUploadingLogo(false)
     }
   }
+
+  const handleAIChanges = (changes: any) => {
+    if (changes.headline) setHeadline(changes.headline)
+    if (changes.cta) setCta(changes.cta)
+    if (changes.ctaUrl) setCtaUrl(changes.ctaUrl)
+    if (changes.primaryColor) setPrimaryColor(changes.primaryColor)
+    if (changes.secondaryColor) setSecondaryColor(changes.secondaryColor)
+    if (changes.accentColor) setAccentColor(changes.accentColor)
+    if (changes.logoUrl) setLogoUrl(changes.logoUrl)
+    if (changes.popupTitle) setPopupTitle(changes.popupTitle)
+    if (changes.popupMessage) setPopupMessage(changes.popupMessage)
+    if (changes.popupPrize) setPopupPrize(changes.popupPrize)
+    if (changes.gameBalance) setGameBalance(changes.gameBalance)
+    if (changes.templateId) setTemplateId(changes.templateId)
+  }
+
+  const getCurrentSiteData = () => ({
+    headline,
+    cta,
+    ctaUrl,
+    primaryColor,
+    secondaryColor,
+    accentColor,
+    logoUrl,
+    popupTitle,
+    popupMessage,
+    popupPrize,
+    gameBalance,
+    templateId,
+    vertical
+  })
 
   const handleSave = async () => {
     setSaving(true)
@@ -1164,6 +1196,12 @@ export default function SiteEditorPage() {
           onSkip={handleTourSkip}
         />
       )}
+
+      {/* AI Assistant Chat */}
+      <AIAssistantChat 
+        onApplyChanges={handleAIChanges}
+        currentSiteData={getCurrentSiteData()}
+      />
     </div>
   )
 }

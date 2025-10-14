@@ -161,6 +161,11 @@ export default function Home() {
               </Link>
             </div>
             <div className="flex items-center space-x-4">
+              <Link href="/demo">
+                <Button variant="outline" className="border border-neon-secondary/50 bg-dark-surface/50 text-neon-secondary hover:bg-neon-secondary hover:text-black hover:border-neon-secondary hover:shadow-neon transition-all duration-300 backdrop-blur-sm font-inter">
+                  Try Demo
+                </Button>
+              </Link>
               <Link href="/login">
                 <Button variant="outline" className="border border-neon-primary/50 bg-dark-surface/50 text-neon-primary hover:bg-neon-primary hover:text-black hover:border-neon-primary hover:shadow-neon transition-all duration-300 backdrop-blur-sm font-inter">
                   Sign In
