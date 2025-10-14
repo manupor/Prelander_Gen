@@ -1,15 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
-// Initialize OpenAI only if API key is available
-const openai = process.env.OPENAI_API_KEY ? new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-}) : null
-
 export async function POST(request: NextRequest) {
   try {
-    // Check if OpenAI is configured
-    if (!openai) {
+    // Check if OpenAI API key is available
+    const apiKey = process.env.OPENAI_API_KEY
+    
+    if (!apiKey) {
       return NextResponse.json(
         { 
           message: '⚠️ AI Assistant is not configured. Please add OPENAI_API_KEY to environment variables.',
@@ -18,6 +15,11 @@ export async function POST(request: NextRequest) {
         { status: 200 }
       )
     }
+
+    // Initialize OpenAI with the API key
+    const openai = new OpenAI({
+      apiKey: apiKey
+    })
 
     const { message, context, conversationHistory } = await request.json()
 
