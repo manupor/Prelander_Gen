@@ -36,30 +36,6 @@ export async function POST(request: NextRequest) {
     const validatedData = CreateSiteSchema.parse(body)
     console.log('Validated data:', validatedData)
 
-    // Get or create organization
-    let { data: org } = await supabase
-      .from('organizations')
-      .select('*')
-      .eq('owner_user_id', user.id)
-      .single()
-
-    if (!org) {
-      const { data: newOrg, error: orgError } = await supabase
-        .from('organizations')
-        .insert({
-          owner_user_id: user.id,
-          name: `${user.email?.split('@')[0]}'s Organization`
-        })
-        .select()
-        .single()
-
-      if (orgError) {
-        console.error('Organization creation error:', orgError)
-        return NextResponse.json({ error: 'Failed to create organization' }, { status: 500 })
-      }
-      org = newOrg
-    }
-
     // Extract colors from logo if provided
     let colors = {
       primary: '#3B82F6',
@@ -135,10 +111,10 @@ export async function POST(request: NextRequest) {
     }
     const dbTemplateId = templateMapping[validatedData.templateId] || 't6'
     
-    const { data: site, error: siteError } = await supabase
+    const { data: site, error: siteError} = await supabase
       .from('sites')
       .insert({
-        org_id: org.id,
+        user_id: user.id,
         slug,
         template_id: dbTemplateId,
         logo_url: validatedData.logoUrl,
@@ -151,6 +127,7 @@ export async function POST(request: NextRequest) {
         headline: copy.headline,
         subheadline: copy.subheadline,
         cta: copy.cta,
+        cta_url: validatedData.ctaUrl,
         generated_html: html,
         generated_css: css,
         status: 'draft'
