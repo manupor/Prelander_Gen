@@ -137,10 +137,14 @@ export function renderTemplate(brand: BrandConfig): TemplateRenderResult {
       position: absolute;
       bottom: 10%;
       left: 5%;
-      font-size: 4rem;
       transform: rotate(-20deg);
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+      filter: drop-shadow(0 0 10px ${colors.primary}) drop-shadow(0 0 20px ${colors.primary}80);
       animation: flyPlane 13s linear forwards, bounce 0.5s ease-in-out infinite;
+    }
+    
+    .airplane svg {
+      width: 80px;
+      height: 80px;
     }
 
     .multiplier {
@@ -354,7 +358,7 @@ export function renderTemplate(brand: BrandConfig): TemplateRenderResult {
       .headline h1 { font-size: 2rem; }
       .game-area { height: 300px; }
       .video-area { flex: 1 1 100%; height: 300px; }
-      .airplane { font-size: 3rem; }
+      .airplane svg { width: 60px; height: 60px; }
       .multiplier { font-size: 3rem; }
       .modal-title { font-size: 2.5rem; }
       .prize-amount { font-size: 3rem; }
@@ -382,7 +386,22 @@ export function renderTemplate(brand: BrandConfig): TemplateRenderResult {
     <div class="game-area">
       <div class="sky-gradient"></div>
       <div class="clouds"></div>
-      <div class="airplane" id="airplane">✈️</div>
+      <div class="airplane" id="airplane">
+        <svg viewBox="0 0 100 100">
+          <!-- Airplane body -->
+          <path d="M 20 50 L 80 30 L 85 35 L 75 50 L 85 65 L 80 70 L 20 50 Z" fill="${colors.primary}" stroke="${colors.primary}" stroke-width="2"/>
+          <!-- Wings -->
+          <path d="M 40 50 L 30 35 L 35 33 L 50 48 Z" fill="${colors.accent}" stroke="${colors.accent}" stroke-width="2"/>
+          <path d="M 40 50 L 30 65 L 35 67 L 50 52 Z" fill="${colors.accent}" stroke="${colors.accent}" stroke-width="2"/>
+          <!-- Tail -->
+          <path d="M 20 50 L 15 45 L 18 48 L 20 50 L 18 52 L 15 55 Z" fill="${colors.secondary}" stroke="${colors.secondary}" stroke-width="1"/>
+          <!-- Glow effect -->
+          <circle cx="50" cy="50" r="35" fill="none" stroke="${colors.primary}" stroke-width="1" opacity="0.3">
+            <animate attributeName="r" from="35" to="45" dur="1s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" from="0.3" to="0" dur="1s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+      </div>
       <div class="multiplier" id="multiplier">1.00x</div>
       <svg class="trajectory">
         <path d="M 0 360 Q 300 200, 600 40" stroke="${colors.primary}" stroke-width="3" fill="none" stroke-dasharray="10 5" opacity="0.5"/>
@@ -395,7 +414,7 @@ export function renderTemplate(brand: BrandConfig): TemplateRenderResult {
         <div class="video-corner corner-tr"></div>
         <div class="video-corner corner-bl"></div>
         <div class="video-corner corner-br"></div>
-        <video id="video" class="video-element" autoplay muted playsinline preload="auto">
+        <video id="video" class="video-element" autoplay playsinline preload="auto">
           <source src="/images/casino.mp4" type="video/mp4">
         </video>
         <div class="video-label">🎰 LIVE WINNER</div>

@@ -200,18 +200,51 @@ export function Template12({ brand }: T12Props) {
             animation: 'moveCloud 20s linear infinite'
           }} />
 
-          {/* Airplane */}
+          {/* Neon Airplane */}
           <div style={{
             position: 'absolute',
             bottom: `${10 + (multiplier - 1) * 8}%`,
             left: `${5 + (multiplier - 1) * 8}%`,
-            fontSize: '4rem',
             transform: 'rotate(-20deg)',
             transition: 'all 0.1s linear',
-            filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))',
             animation: 'bounce 0.5s ease-in-out infinite'
           }}>
-            ✈️
+            <svg width="80" height="80" viewBox="0 0 100 100" style={{
+              filter: `drop-shadow(0 0 10px ${colors.primary}) drop-shadow(0 0 20px ${colors.primary}80)`
+            }}>
+              {/* Airplane body */}
+              <path
+                d="M 20 50 L 80 30 L 85 35 L 75 50 L 85 65 L 80 70 L 20 50 Z"
+                fill={colors.primary}
+                stroke={colors.primary}
+                strokeWidth="2"
+              />
+              {/* Wings */}
+              <path
+                d="M 40 50 L 30 35 L 35 33 L 50 48 Z"
+                fill={colors.accent}
+                stroke={colors.accent}
+                strokeWidth="2"
+              />
+              <path
+                d="M 40 50 L 30 65 L 35 67 L 50 52 Z"
+                fill={colors.accent}
+                stroke={colors.accent}
+                strokeWidth="2"
+              />
+              {/* Tail */}
+              <path
+                d="M 20 50 L 15 45 L 18 48 L 20 50 L 18 52 L 15 55 Z"
+                fill={colors.secondary}
+                stroke={colors.secondary}
+                strokeWidth="1"
+              />
+              {/* Glow effect */}
+              <circle cx="50" cy="50" r="35" fill="none" stroke={colors.primary} strokeWidth="1" opacity="0.3">
+                <animate attributeName="r" from="35" to="45" dur="1s" repeatCount="indefinite" />
+                <animate attributeName="opacity" from="0.3" to="0" dur="1s" repeatCount="indefinite" />
+              </circle>
+            </svg>
           </div>
 
           {/* Multiplier Display */}
@@ -269,21 +302,20 @@ export function Template12({ brand }: T12Props) {
             <div style={{ position: 'absolute', bottom: 0, right: 0, width: '20px', height: '20px', borderBottom: `4px solid ${colors.accent}`, borderRight: `4px solid ${colors.accent}`, zIndex: 2 }} />
 
             {/* Video */}
-            <video
-              ref={videoRef}
-              autoPlay
-              loop={false}
-              muted
-              playsInline
-              preload="auto"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover'
-              }}
-            >
-              <source src="/images/casino.mp4" type="video/mp4" />
-            </video>
+              <video
+                ref={videoRef}
+                autoPlay
+                loop={false}
+                playsInline
+                preload="auto"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
+              >
+                <source src="/images/casino.mp4" type="video/mp4" />
+              </video>
 
             {/* Overlay label */}
             <div style={{
