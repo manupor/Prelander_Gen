@@ -162,13 +162,14 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-3">
               <Link href="/login">
-                <Button variant="outline" className="neon-border border-2 border-neon-primary bg-black/50 text-neon-primary hover:bg-neon-primary hover:text-black transition-all duration-300 backdrop-blur-sm font-inter font-semibold px-6 py-2 cyber-corner relative">
+                <Button variant="outline" className="neon-border border-2 border-neon-primary bg-black/80 text-neon-primary hover:bg-neon-primary hover:text-black transition-all duration-300 backdrop-blur-sm font-inter font-semibold px-6 py-2 cyber-corner relative shadow-[0_0_15px_rgba(2,193,115,0.3)]">
                   Sign In
                 </Button>
               </Link>
               <Link href="/signup">
-                <Button className="bg-gradient-to-r from-neon-primary to-neon-secondary text-black shadow-neon-lg hover:shadow-neon-xl transition-all duration-300 hover:scale-105 font-inter font-bold px-6 py-2 border-2 border-neon-primary/30 animate-pulse-slow">
-                  Get Started
+                <Button className="relative bg-gradient-to-r from-neon-primary to-neon-secondary text-black shadow-[0_0_20px_rgba(2,193,115,0.6)] hover:shadow-[0_0_30px_rgba(2,193,115,0.8)] transition-all duration-300 hover:scale-105 font-inter font-bold px-8 py-2.5 border-2 border-white/20">
+                  <span className="relative z-10">Get Started</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-neon-primary to-neon-secondary opacity-100 rounded-md"></div>
                 </Button>
               </Link>
             </div>
