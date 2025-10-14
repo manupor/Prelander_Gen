@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>FisherMan Slot</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<meta name="generator" content="Scirra Construct">
+<meta name="author" content="tegagame.com">
+<link rel="manifest" href="appmanifest.json">
+<link rel="apple-touch-icon" sizes="129x129" href="icons/icon-128.png">
+<link rel="apple-touch-icon" sizes="257x257" href="icons/icon-256.png">
+<link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
+<link rel="icon" type="image/png" href="icons/icon-512.png">
+<link rel="stylesheet" href="style.css">
+
+<style>
+html, body {
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	color: white;
+}
+
+html, body, canvas {
+	touch-action: none;
+}
+</style>
+
+<style>
+/* ===== GAME CANVAS WRAPPER ===== */
+#c2canvasdiv {
+    position: relative !important;
+}
+
+/* ===== CUSTOM BALANCE & TOTALWIN OVERLAYS ===== */
+.balance-overlay {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-200px);
+    background: rgba(10, 30, 50, 0.95);
+    padding: 8px 16px;
+    border-radius: 50px;
+    border: 2px solid #FFD700;
+    z-index: 1001;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    color: #FFD700;
+    font-size: 16px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+    display: none; /* Hidden by default, can be enabled via parameter */
+}
+
+.totalwin-overlay {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(50px);
+    background: rgba(10, 30, 50, 0.95);
+    padding: 8px 16px;
+    border-radius: 50px;
+    border: 2px solid #FFD700;
+    z-index: 1001;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    color: #FFD700;
+    font-size: 16px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+    display: none; /* Hidden by default, can be enabled via parameter */
+}
+
+/* ===== BUTTON HIDING OVERLAYS ===== */
+.button-overlay {
+    position: absolute;
+    background: rgba(0, 20, 40, 0.95);
+    z-index: 999;
+    pointer-events: auto;
+    cursor: default;
+    backdrop-filter: blur(10px);
+}
+
+.overlay-bottom-left {
+    bottom: 0;
+    left: 0;
+    width: 200px;
+    height: 100px;
+}
+
+.overlay-bottom-right {
+    bottom: 0;
+    right: 0;
+    width: 200px;
+    height: 100px;
+}
+
+.button-blocker {
+    position: absolute;
+    background: rgba(10, 30, 50, 0.98);
+    z-index: 1000;
+    pointer-events: auto;
+    border-radius: 8px;
+}
+
+.blocker-turbo {
+    bottom: 20px;
+    left: 20px;
+    width: 80px;
+    height: 60px;
+}
+
+.blocker-auto {
+    bottom: 20px;
+    left: 110px;
+    width: 80px;
+    height: 60px;
+}
+
+.blocker-pay {
+    bottom: 20px;
+    right: 110px;
+    width: 80px;
+    height: 60px;
+}
+
+.blocker-history {
+    bottom: 20px;
+    right: 20px;
+    width: 80px;
+    height: 60px;
+}
+
+/* ===== WINNER MODAL STYLES ===== */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 10000;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    border: 3px solid #FFD700;
+    animation: modalBounce 0.5s ease-out;
+}
+
+.modal-title {
+    font-size: 3em;
+    font-weight: bold;
+    color: #FFD700;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    animation: glow 1.5s ease-in-out infinite;
+}
+
+.modal-message {
+    font-size: 1.5em;
+    color: white;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.modal-prize {
+    font-size: 4em;
+    font-weight: bold;
+    color: #22c55e;
+    margin: 30px 0;
+    text-shadow: 0 0 30px rgba(34, 197, 94, 0.8);
+    animation: pulse 1s ease-in-out infinite;
+}
+
+.modal-button {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+    border: none;
+    padding: 20px 60px;
+    font-size: 1.5em;
+    font-weight: 900;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(34, 197, 94, 0.5);
+    transition: all 0.3s ease;
+    animation: buttonPulse 2s ease-in-out infinite;
+}
+
+.modal-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(34, 197, 94, 0.7);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modalBounce {
+    0% {
+        transform: translate(-50%, -50%) scale(0.3);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes glow {
+    0%, 100% {
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    }
+    50% {
+        text-shadow: 0 0 30px rgba(255, 215, 0, 1);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes buttonPulse {
+    0%, 100% {
+        box-shadow: 0 10px 30px rgba(34, 197, 94, 0.5);
+    }
+    50% {
+        box-shadow: 0 10px 40px rgba(34, 197, 94, 0.8);
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        padding: 30px 20px;
+        width: 90%;
+    }
+    
+    .modal-title {
+        font-size: 2em;
+    }
+    
+    .modal-prize {
+        font-size: 3em;
+    }
+    
+    .modal-button {
+        padding: 15px 40px;
+        font-size: 1.2em;
+    }
+    
+    .balance-overlay,
+    .totalwin-overlay {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+    
+    .overlay-bottom-left,
+    .overlay-bottom-right {
+        width: 140px;
+        height: 60px;
+    }
+}
+</style>
+
+</head>
+<body>
+
+<!-- Custom Balance & Totalwin Overlays -->
+<div class="balance-overlay" id="balanceOverlay">Balance: $1000</div>
+<div class="totalwin-overlay" id="totalwinOverlay">Totalwin: $0</div>
+
+<!-- Button Hiding Overlays -->
+<div class="button-overlay overlay-bottom-left" onclick="event.preventDefault(); event.stopPropagation(); return false;"></div>
+<div class="button-overlay overlay-bottom-right" onclick="event.preventDefault(); event.stopPropagation(); return false;"></div>
+
+<!-- Pixel-perfect button blockers -->
+<div class="button-blocker blocker-turbo" onclick="event.preventDefault(); event.stopPropagation(); return false;"></div>
+<div class="button-blocker blocker-auto" onclick="event.preventDefault(); event.stopPropagation(); return false;"></div>
+<div class="button-blocker blocker-pay" onclick="event.preventDefault(); event.stopPropagation(); return false;"></div>
+<div class="button-blocker blocker-history" onclick="event.preventDefault(); event.stopPropagation(); return false;"></div>
+
+<!-- Winner Modal -->
+<div id="winnerModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-title" id="modalTitle">🎉 WINNER! 🎉</div>
+        <div class="modal-message" id="modalMessage">CONGRATULATIONS!</div>
+        <div class="modal-prize" id="modalPrize">$500</div>
+        <button class="modal-button" id="claimButton">CLAIM BONUS</button>
+    </div>
+</div>
+
+<script>
+// ===== CONFIGURATION =====
+(function() {
+    const params = new URLSearchParams(window.location.search);
+    
+    window.GAME_CONFIG = {
+        spinsToWin: parseInt(params.get('spinsToWin')) || 2,
+        delayAfterSpin: parseInt(params.get('delayAfterSpin')) || 3000,
+        redirectUrl: params.get('redirectUrl') || 'https://example.com',
+        modalTitle: params.get('modalTitle') || '🎉 WINNER! 🎉',
+        modalMessage: params.get('modalMessage') || 'CONGRATULATIONS!',
+        prizeAmount: params.get('prizeAmount') || '500',
+        prizeCurrency: params.get('prizeCurrency') || '$',
+        buttonText: params.get('buttonText') || 'CLAIM BONUS',
+        balance: parseInt(params.get('balance')) || 1000,
+        bg: params.get('bg') || 'ocean',
+        primaryColor: params.get('primary') ? decodeURIComponent(params.get('primary')) : '#4a90e2',
+        secondaryColor: params.get('secondary') ? decodeURIComponent(params.get('secondary')) : '#7b68ee',
+        debug: params.get('debug') === 'true' || true
+    };
+    
+    // Apply background style
+    const html = document.documentElement;
+    html.classList.remove('bg-ocean', 'bg-dark', 'bg-custom');
+    
+    if (window.GAME_CONFIG.bg === 'dark') {
+        html.classList.add('bg-dark');
+    } else if (window.GAME_CONFIG.bg === 'custom') {
+        html.classList.add('bg-custom');
+        html.style.setProperty('--primary-color', window.GAME_CONFIG.primaryColor);
+        html.style.setProperty('--secondary-color', window.GAME_CONFIG.secondaryColor);
+    }
+    
+    // Update balance overlay
+    const balanceOverlay = document.getElementById('balanceOverlay');
+    if (balanceOverlay) {
+        balanceOverlay.textContent = 'Balance: ' + window.GAME_CONFIG.prizeCurrency + window.GAME_CONFIG.balance;
+    }
+    
+    console.log('Game config loaded:', window.GAME_CONFIG);
+})();
+
+// ===== GAME MODIFICATION SYSTEM =====
+(function() {
+    'use strict';
+    
+    let spinCount = 0;
+    let modalShown = false;
+    let gameCanvas = null;
+    
+    function log(...args) {
+        if (window.GAME_CONFIG.debug) {
+            console.log('[GAME MOD]', ...args);
+        }
+    }
+    
+    function init() {
+        log('Initializing game modifications...');
+        
+        const checkCanvas = setInterval(() => {
+            gameCanvas = document.querySelector('canvas');
+            if (gameCanvas) {
+                clearInterval(checkCanvas);
+                log('Game canvas found, setting up spin detector...');
+                setupSpinDetector();
+                setupModal();
+            }
+        }, 100);
+    }
+    
+    function setupSpinDetector() {
+        document.addEventListener('click', handleClick, true);
+        document.addEventListener('touchstart', handleClick, true);
+        log('Spin detector activated');
+    }
+    
+    function handleClick(e) {
+        if (modalShown) return;
+        
+        const target = e.target;
+        if (target.tagName === 'CANVAS') {
+            spinCount++;
+            log(`Spin #${spinCount} detected`);
+            
+            if (spinCount === window.GAME_CONFIG.spinsToWin) {
+                log('Winning spin reached! Showing modal in ' + window.GAME_CONFIG.delayAfterSpin + 'ms...');
+                
+                setTimeout(() => {
+                    showWinnerModal();
+                }, window.GAME_CONFIG.delayAfterSpin);
+            }
+        }
+    }
+    
+    function setupModal() {
+        const modal = document.getElementById('winnerModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalPrize = document.getElementById('modalPrize');
+        const claimButton = document.getElementById('claimButton');
+        
+        modalTitle.textContent = window.GAME_CONFIG.modalTitle;
+        modalMessage.textContent = window.GAME_CONFIG.modalMessage;
+        modalPrize.textContent = window.GAME_CONFIG.prizeCurrency + window.GAME_CONFIG.prizeAmount;
+        claimButton.textContent = window.GAME_CONFIG.buttonText;
+        
+        claimButton.addEventListener('click', () => {
+            log('Claim button clicked, redirecting to:', window.GAME_CONFIG.redirectUrl);
+            window.location.href = window.GAME_CONFIG.redirectUrl;
+        });
+        
+        log('Modal configured');
+    }
+    
+    function showWinnerModal() {
+        if (modalShown) return;
+        
+        modalShown = true;
+        const modal = document.getElementById('winnerModal');
+        modal.style.display = 'block';
+        
+        log('Winner modal displayed!');
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+    
+})();
+</script>
+
+<script>
+if (location.protocol.substr(0, 4) === "file") {
+	alert("Web exports won't work until you upload them. (When running on the file: protocol, browsers block many features from working for security reasons.)");
+}
+</script>
+
+<noscript>
+	<div id="notSupportedWrap">
+		<h2 id="notSupportedTitle">This content requires JavaScript</h2>
+		<p class="notSupportedMessage">JavaScript appears to be disabled. Please enable it to view this content.</p>
+	</div>
+</noscript>
+
+<script src="scripts/supportcheck.js"></script>
+<script src="scripts/offlineclient.js" type="module"></script>
+<script src="scripts/main.js" type="module"></script>
+<script src="scripts/register-sw.js" type="module"></script>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+{
+	"name": "addCREDIT",
+	"plugin-id": "Sprite",
+	"sid": 1689564097420267,
+	"isGlobal": false,
+	"instanceVariables": [],
+	"behaviorTypes": [],
+	"effectTypes": [],
+	"animations": {
+		"items": [
+			{
+				"frames": [
+					{
+						"width": 55,
+						"height": 51,
+						"originX": 0.509091,
+						"originY": 0.509804,
+						"originalSource": "C:\\Users\\Home\\Desktop\\graphicriver-10755235-rock-climber-slot-game-kit\\main_game\\ui\\buy_credit.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 2820280,
+						"useCollisionPoly": true,
+						"duration": 1
+					}
+				],
+				"sid": 4450446576806976,
+				"name": "Default",
+				"isLooping": false,
+				"isPingPong": false,
+				"repeatCount": 1,
+				"repeatTo": 0,
+				"speed": 5
+			}
+		],
+		"subfolders": []
+	}
+}

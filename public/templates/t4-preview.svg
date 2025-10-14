@@ -1,0 +1,69 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#dc2626;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7c2d12;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gold4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="400" height="300" fill="url(#bg4)"/>
+  
+  <!-- Floating elements -->
+  <circle cx="60" cy="50" r="8" fill="#fbbf24" opacity="0.7"/>
+  <circle cx="340" cy="70" r="6" fill="#fbbf24" opacity="0.7"/>
+  <circle cx="80" cy="250" r="10" fill="#fbbf24" opacity="0.7"/>
+  
+  <!-- Header -->
+  <text x="200" y="30" text-anchor="middle" fill="#fbbf24" font-family="Arial, sans-serif" font-size="18" font-weight="bold">🎰 CASINO ROYALE 🎰</text>
+  <text x="200" y="50" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12">The Ultimate Gaming Experience</text>
+  
+  <!-- Main Gaming Area -->
+  <rect x="80" y="70" width="240" height="140" rx="15" fill="rgba(0,0,0,0.6)" stroke="#fbbf24" stroke-width="3"/>
+  
+  <!-- Jackpot Display -->
+  <rect x="100" y="85" width="200" height="25" rx="12" fill="url(#gold4)"/>
+  <text x="200" y="100" text-anchor="middle" fill="#7c2d12" font-family="Arial, sans-serif" font-size="12" font-weight="bold">💎 JACKPOT: $50,000 💎</text>
+  
+  <!-- Game Grid -->
+  <rect x="110" y="120" width="40" height="40" fill="#dc2626" rx="5"/>
+  <text x="130" y="140" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16">🍒</text>
+  <text x="130" y="150" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8">CHERRY</text>
+  
+  <rect x="160" y="120" width="40" height="40" fill="#dc2626" rx="5"/>
+  <text x="180" y="140" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16">💎</text>
+  <text x="180" y="150" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8">DIAMOND</text>
+  
+  <rect x="210" y="120" width="40" height="40" fill="#dc2626" rx="5"/>
+  <text x="230" y="140" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16">🎰</text>
+  <text x="230" y="150" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8">SLOTS</text>
+  
+  <rect x="260" y="120" width="40" height="40" fill="#dc2626" rx="5"/>
+  <text x="280" y="140" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16">🏆</text>
+  <text x="280" y="150" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8">BONUS</text>
+  
+  <!-- Spin Button -->
+  <rect x="150" y="170" width="100" height="30" rx="15" fill="url(#gold4)" stroke="#fbbf24" stroke-width="2"/>
+  <text x="200" y="188" text-anchor="middle" fill="#7c2d12" font-family="Arial, sans-serif" font-size="12" font-weight="bold">🎲 SPIN TO WIN 🎲</text>
+  
+  <!-- Side Features -->
+  <rect x="20" y="230" width="100" height="30" rx="5" fill="rgba(251, 191, 36, 0.2)" stroke="#fbbf24" stroke-width="1"/>
+  <text x="70" y="245" text-anchor="middle" fill="#fbbf24" font-family="Arial, sans-serif" font-size="9" font-weight="bold">💰 Free Spins</text>
+  <text x="70" y="255" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8">Daily Bonus</text>
+  
+  <rect x="140" y="230" width="120" height="30" rx="5" fill="rgba(251, 191, 36, 0.2)" stroke="#fbbf24" stroke-width="1"/>
+  <text x="200" y="245" text-anchor="middle" fill="#fbbf24" font-family="Arial, sans-serif" font-size="9" font-weight="bold">🎁 Welcome Package</text>
+  <text x="200" y="255" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8">200% Match Bonus</text>
+  
+  <rect x="280" y="230" width="100" height="30" rx="5" fill="rgba(251, 191, 36, 0.2)" stroke="#fbbf24" stroke-width="1"/>
+  <text x="330" y="245" text-anchor="middle" fill="#fbbf24" font-family="Arial, sans-serif" font-size="9" font-weight="bold">⚡ Instant Play</text>
+  <text x="330" y="255" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8">No Download</text>
+  
+  <!-- Bottom CTA -->
+  <rect x="120" y="275" width="160" height="20" rx="10" fill="#fbbf24"/>
+  <text x="200" y="287" text-anchor="middle" fill="#7c2d12" font-family="Arial, sans-serif" font-size="10" font-weight="bold">🎰 JOIN THE ACTION NOW! 🎰</text>
+</svg>

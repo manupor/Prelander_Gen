@@ -1,0 +1,137 @@
+{
+	"name": "Preload",
+	"events": [
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "every-tick",
+					"objectClass": "System",
+					"sid": 617253729134946
+				}
+			],
+			"actions": [
+				{
+					"id": "set-text",
+					"objectClass": "ScoreFont",
+					"sid": 104715170603871,
+					"parameters": {
+						"text": "round(loadingprogress*100)&\"%\""
+					}
+				}
+			],
+			"sid": 528852065535753
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-loader-layout-complete",
+					"objectClass": "System",
+					"sid": 331289916623336
+				}
+			],
+			"actions": [
+				{
+					"id": "preload",
+					"objectClass": "Audio",
+					"sid": 596272826751157,
+					"parameters": {
+						"audio-file": "BONE"
+					}
+				},
+				{
+					"id": "preload",
+					"objectClass": "Audio",
+					"sid": 953043898118539,
+					"parameters": {
+						"audio-file": "game"
+					}
+				},
+				{
+					"id": "preload",
+					"objectClass": "Audio",
+					"sid": 710826911407182,
+					"parameters": {
+						"audio-file": "GET"
+					}
+				},
+				{
+					"id": "preload",
+					"objectClass": "Audio",
+					"sid": 917310280985019,
+					"parameters": {
+						"audio-file": "ROLL"
+					}
+				},
+				{
+					"id": "preload",
+					"objectClass": "Audio",
+					"sid": 555398602010153,
+					"parameters": {
+						"audio-file": "SPIN"
+					}
+				},
+				{
+					"id": "preload",
+					"objectClass": "Audio",
+					"sid": 121136748325217,
+					"parameters": {
+						"audio-file": "stopROLL"
+					}
+				},
+				{
+					"id": "preload",
+					"objectClass": "Audio",
+					"sid": 340833668820938,
+					"parameters": {
+						"audio-file": "ROLL"
+					}
+				},
+				{
+					"id": "play",
+					"objectClass": "Audio",
+					"sid": 876663337023078,
+					"parameters": {
+						"audio-file": "game",
+						"loop": "looping",
+						"volume": "0",
+						"tag-optional": "\"BG\""
+					}
+				},
+				{
+					"id": "set-visible",
+					"objectClass": "Sprite14",
+					"sid": 464980521914056,
+					"parameters": {
+						"visibility": "visible"
+					}
+				},
+				{
+					"id": "start-fade",
+					"objectClass": "Sprite14",
+					"sid": 744817891762181,
+					"behaviorType": "Fade"
+				},
+				{
+					"id": "wait",
+					"objectClass": "System",
+					"sid": 846861505052729,
+					"parameters": {
+						"seconds": "1.0"
+					}
+				},
+				{
+					"id": "go-to-layout",
+					"objectClass": "System",
+					"sid": 144757457964377,
+					"parameters": {
+						"layout": "game"
+					}
+				}
+			],
+			"sid": 817267430554076
+		}
+	],
+	"sid": 538700606625382
+}

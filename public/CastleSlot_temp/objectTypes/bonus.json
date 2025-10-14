@@ -1,0 +1,133 @@
+{
+	"name": "BONUS",
+	"plugin-id": "Sprite",
+	"sid": 6793792734821193,
+	"isGlobal": false,
+	"instanceVariables": [],
+	"behaviorTypes": [],
+	"effectTypes": [],
+	"animations": {
+		"items": [
+			{
+				"frames": [
+					{
+						"width": 144,
+						"height": 144,
+						"originX": 0.5,
+						"originY": 0.5,
+						"originalSource": "C:\\Users\\Владимир\\Desktop\\замена графики\\бонус\\1.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 3458092,
+						"useCollisionPoly": true,
+						"duration": 1
+					},
+					{
+						"width": 144,
+						"height": 144,
+						"originX": 0.5,
+						"originY": 0.5,
+						"originalSource": "C:\\Users\\Владимир\\Desktop\\замена графики\\бонус\\2.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 8698351,
+						"useCollisionPoly": true,
+						"duration": 1
+					},
+					{
+						"width": 144,
+						"height": 144,
+						"originX": 0.5,
+						"originY": 0.5,
+						"originalSource": "C:\\Users\\Владимир\\Desktop\\замена графики\\бонус\\3.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 7320786,
+						"useCollisionPoly": true,
+						"duration": 1
+					},
+					{
+						"width": 144,
+						"height": 144,
+						"originX": 0.5,
+						"originY": 0.5,
+						"originalSource": "C:\\Users\\Владимир\\Desktop\\замена графики\\бонус\\4.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 4539410,
+						"useCollisionPoly": true,
+						"duration": 1
+					},
+					{
+						"width": 144,
+						"height": 144,
+						"originX": 0.5,
+						"originY": 0.5,
+						"originalSource": "C:\\Users\\Владимир\\Desktop\\замена графики\\бонус\\5.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 2384667,
+						"useCollisionPoly": true,
+						"duration": 1
+					},
+					{
+						"width": 144,
+						"height": 144,
+						"originX": 0.5,
+						"originY": 0.5,
+						"originalSource": "C:\\Users\\Владимир\\Desktop\\замена графики\\бонус\\6.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 9014772,
+						"useCollisionPoly": true,
+						"duration": 1
+					},
+					{
+						"width": 144,
+						"height": 144,
+						"originX": 0.5,
+						"originY": 0.5,
+						"originalSource": "C:\\Users\\Владимир\\Desktop\\замена графики\\бонус\\7.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 5519540,
+						"useCollisionPoly": true,
+						"duration": 1
+					},
+					{
+						"width": 144,
+						"height": 144,
+						"originX": 0.5,
+						"originY": 0.5,
+						"originalSource": "C:\\Users\\Владимир\\Desktop\\замена графики\\бонус\\8.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 5612211,
+						"useCollisionPoly": true,
+						"duration": 1
+					},
+					{
+						"width": 144,
+						"height": 144,
+						"originX": 0.5,
+						"originY": 0.5,
+						"originalSource": "C:\\Users\\Владимир\\Desktop\\замена графики\\бонус\\9.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 6407378,
+						"useCollisionPoly": true,
+						"duration": 1
+					}
+				],
+				"sid": 4864724886089467,
+				"name": "Default",
+				"isLooping": true,
+				"isPingPong": true,
+				"repeatCount": 1,
+				"repeatTo": 0,
+				"speed": 20
+			}
+		],
+		"subfolders": []
+	}
+}

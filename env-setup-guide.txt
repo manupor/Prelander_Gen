@@ -1,0 +1,22 @@
+# Environment Variables Setup Guide
+
+# Replace the values below with your actual credentials:
+
+# Supabase Configuration (get from Supabase Dashboard > Settings > API)
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+# OpenAI Configuration (get from platform.openai.com > API Keys)
+OPENAI_API_KEY=sk-proj-...
+
+# App Configuration
+NEXT_PUBLIC_APP_URL=http://localhost:3003
+
+# Instructions:
+# 1. Go to your Supabase Dashboard > Settings > API
+# 2. Copy your Project URL and API keys
+# 3. Go to OpenAI Platform > API Keys
+# 4. Create a new secret key
+# 5. Replace the values above in your .env.local file
+# 6. Restart your development server: npm run dev

@@ -1,0 +1,56 @@
+{
+	"name": "bet_max",
+	"plugin-id": "Sprite",
+	"sid": 1975341730022393,
+	"isGlobal": false,
+	"instanceVariables": [
+		{
+			"name": "STT",
+			"type": "string",
+			"desc": "",
+			"sid": 4931177903934547
+		}
+	],
+	"behaviorTypes": [],
+	"effectTypes": [],
+	"animations": {
+		"items": [
+			{
+				"frames": [
+					{
+						"width": 265,
+						"height": 141,
+						"originX": 0.501887,
+						"originY": 0.503546,
+						"originalSource": "C:\\Users\\Владимир\\Desktop\\замена графики\\Безымянный 6.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 5064583,
+						"useCollisionPoly": true,
+						"duration": 1
+					},
+					{
+						"width": 265,
+						"height": 141,
+						"originX": 0.501887,
+						"originY": 0.503546,
+						"originalSource": "C:\\Users\\Владимир\\Desktop\\замена графики\\Безымянный 6.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 9047474,
+						"useCollisionPoly": true,
+						"duration": 1
+					}
+				],
+				"sid": 888454173472835,
+				"name": "Default",
+				"isLooping": false,
+				"isPingPong": false,
+				"repeatCount": 1,
+				"repeatTo": 0,
+				"speed": 0
+			}
+		],
+		"subfolders": []
+	}
+}

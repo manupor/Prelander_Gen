@@ -1,0 +1,52 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="400" height="300" fill="#f9fafb"/>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="400" height="50" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="30" y="30" fill="#1f2937" font-family="Arial, sans-serif" font-size="14" font-weight="bold">Lead Gen Pro</text>
+  <rect x="320" y="15" width="60" height="20" rx="10" fill="#10b981"/>
+  <text x="350" y="27" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10">Contact</text>
+  
+  <!-- Hero Section -->
+  <text x="200" y="80" text-anchor="middle" fill="#1f2937" font-family="Arial, sans-serif" font-size="20" font-weight="bold">Get More Qualified Leads</text>
+  <text x="200" y="100" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="12">Convert visitors into customers with proven strategies</text>
+  
+  <!-- Lead Form -->
+  <rect x="50" y="120" width="150" height="120" fill="white" rx="8" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="125" y="140" text-anchor="middle" fill="#1f2937" font-family="Arial, sans-serif" font-size="12" font-weight="bold">Free Consultation</text>
+  
+  <!-- Form Fields -->
+  <rect x="70" y="150" width="110" height="15" fill="#f3f4f6" rx="3"/>
+  <text x="75" y="160" fill="#9ca3af" font-family="Arial, sans-serif" font-size="8">Your Name</text>
+  
+  <rect x="70" y="170" width="110" height="15" fill="#f3f4f6" rx="3"/>
+  <text x="75" y="180" fill="#9ca3af" font-family="Arial, sans-serif" font-size="8">Email Address</text>
+  
+  <rect x="70" y="190" width="110" height="15" fill="#f3f4f6" rx="3"/>
+  <text x="75" y="200" fill="#9ca3af" font-family="Arial, sans-serif" font-size="8">Company Size</text>
+  
+  <rect x="70" y="210" width="110" height="20" rx="10" fill="#10b981"/>
+  <text x="125" y="222" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="9" font-weight="bold">GET FREE AUDIT</text>
+  
+  <!-- Benefits -->
+  <rect x="220" y="120" width="160" height="120" fill="rgba(16, 185, 129, 0.05)" rx="8"/>
+  <text x="300" y="140" text-anchor="middle" fill="#1f2937" font-family="Arial, sans-serif" font-size="12" font-weight="bold">Why Choose Us?</text>
+  
+  <circle cx="240" cy="160" r="4" fill="#10b981"/>
+  <text x="250" y="165" fill="#374151" font-family="Arial, sans-serif" font-size="9">300% increase in leads</text>
+  
+  <circle cx="240" cy="180" r="4" fill="#10b981"/>
+  <text x="250" y="185" fill="#374151" font-family="Arial, sans-serif" font-size="9">Proven conversion funnels</text>
+  
+  <circle cx="240" cy="200" r="4" fill="#10b981"/>
+  <text x="250" y="205" fill="#374151" font-family="Arial, sans-serif" font-size="9">Expert team support</text>
+  
+  <circle cx="240" cy="220" r="4" fill="#10b981"/>
+  <text x="250" y="225" fill="#374151" font-family="Arial, sans-serif" font-size="9">Money-back guarantee</text>
+  
+  <!-- Trust Indicators -->
+  <rect x="0" y="250" width="400" height="50" fill="#f3f4f6"/>
+  <text x="200" y="270" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="10">Trusted by 500+ companies</text>
+  <text x="200" y="285" text-anchor="middle" fill="#9ca3af" font-family="Arial, sans-serif" font-size="8">⭐⭐⭐⭐⭐ 4.9/5 rating from 1,000+ reviews</text>
+</svg>

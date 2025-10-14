@@ -1,0 +1,37 @@
+{
+	"name": "Line18",
+	"plugin-id": "Sprite",
+	"sid": 4347811252685831,
+	"isGlobal": false,
+	"instanceVariables": [],
+	"behaviorTypes": [],
+	"effectTypes": [],
+	"animations": {
+		"items": [
+			{
+				"frames": [
+					{
+						"width": 1181,
+						"height": 524,
+						"originX": 0.500423,
+						"originY": 0.5,
+						"originalSource": "C:\\Users\\Net\\Desktop\\1.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 7870101,
+						"useCollisionPoly": true,
+						"duration": 1
+					}
+				],
+				"sid": 6151235575707653,
+				"name": "Default",
+				"isLooping": false,
+				"isPingPong": false,
+				"repeatCount": 1,
+				"repeatTo": 0,
+				"speed": 5
+			}
+		],
+		"subfolders": []
+	}
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<title>CastleSlot</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	
+	<!-- Made with Construct 3, the HTML5 game and app creator :: https://www.construct.net -->
+	<meta name="generator" content="Construct 3">
+
+	<meta name="author" content="PAS GAMES">
+	<meta name="description" content="Have Fun">
+
+	<link rel="manifest" href="appmanifest.json">
+	<link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128.png">
+	<link rel="apple-touch-icon" sizes="256x256" href="icons/icon-256.png">
+	<link rel="icon" type="image/png" href="icons/icon-256.png">
+
+	<link rel="stylesheet" href="style.css">
+
+</head> 
+<body> 
+	<div id="fb-root"></div>
+	
+	<script src="c2runtime.js"></script>
+	<script src="data.js"></script>
+	<script src="start.js"></script>
+	<script src="register-sw.js"></script>
+
+	<script>
+		// Block external navigation
+		window.addEventListener('load', function() {
+			// Override window.open to prevent external links
+			window.open = function() {
+				console.log('External navigation blocked');
+				return null;
+			};
+			
+			// Block all anchor clicks
+			document.addEventListener('click', function(e) {
+				const target = e.target.closest('a');
+				if (target && target.href) {
+					e.preventDefault();
+					e.stopPropagation();
+					return false;
+				}
+			}, true);
+			
+			// Make game full screen
+			document.body.style.margin = '0';
+			document.body.style.padding = '0';
+			document.body.style.width = '100vw';
+			document.body.style.height = '100vh';
+			document.body.style.overflow = 'hidden';
+		});
+	</script>
+</body> 
+</html>

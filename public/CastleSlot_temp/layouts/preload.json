@@ -1,0 +1,173 @@
+{
+	"name": "Preload",
+	"layers": [
+		{
+			"name": "Layer 0",
+			"overriden": 0,
+			"instances": [
+				{
+					"type": "Sprite11",
+					"properties": {
+						"initially-visible": true,
+						"initial-animation": "Default",
+						"initial-frame": 0,
+						"enable-collisions": true,
+						"live-preview": false
+					},
+					"uid": 9,
+					"instanceVariables": {},
+					"behaviors": {},
+					"world": {
+						"x": -1,
+						"y": -1,
+						"width": 1284,
+						"height": 804,
+						"originX": 0,
+						"originY": 0,
+						"color": [
+							1,
+							1,
+							1,
+							1
+						],
+						"angle": 0
+					}
+				},
+				{
+					"type": "Sprite12",
+					"properties": {
+						"initially-visible": true,
+						"initial-animation": "Default",
+						"initial-frame": 0,
+						"enable-collisions": true,
+						"live-preview": false
+					},
+					"uid": 95,
+					"instanceVariables": {},
+					"behaviors": {},
+					"world": {
+						"x": 647,
+						"y": 251,
+						"width": 643,
+						"height": 342,
+						"originX": 0.500778,
+						"originY": 0.5,
+						"color": [
+							1,
+							1,
+							1,
+							1
+						],
+						"angle": 0
+					}
+				},
+				{
+					"type": "ScoreFont",
+					"properties": {
+						"text": "50000:CREDIT",
+						"enable-bbcode": false,
+						"character-width": 64,
+						"character-height": 64,
+						"character-set": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,:;?!-+=~&$%()\\/{}[]<>^*▲▼|",
+						"spacing-data": "",
+						"scale": 0.6,
+						"character-spacing": -22,
+						"line-height": 0,
+						"horizontal-alignment": "center",
+						"vertical-alignment": "center",
+						"wrapping": "word",
+						"initially-visible": true,
+						"origin": "center"
+					},
+					"uid": 117,
+					"instanceVariables": {},
+					"behaviors": {},
+					"world": {
+						"x": 650,
+						"y": 510,
+						"width": 237,
+						"height": 42,
+						"originX": 0.5,
+						"originY": 0.5,
+						"color": [
+							1,
+							1,
+							1,
+							1
+						],
+						"angle": 0
+					}
+				},
+				{
+					"type": "Sprite14",
+					"properties": {
+						"initially-visible": false,
+						"initial-animation": "Default",
+						"initial-frame": 0,
+						"enable-collisions": true,
+						"live-preview": false
+					},
+					"uid": 119,
+					"instanceVariables": {},
+					"behaviors": {
+						"Fade": {
+							"properties": {
+								"fade-in-time": 1,
+								"wait-time": 0,
+								"fade-out-time": 0,
+								"destroy": true,
+								"enabled": false,
+								"live-preview": false
+							}
+						}
+					},
+					"world": {
+						"x": 641,
+						"y": 401,
+						"width": 1298,
+						"height": 826,
+						"originX": 0.5,
+						"originY": 0.5,
+						"color": [
+							1,
+							1,
+							1,
+							1
+						],
+						"angle": 0
+					}
+				}
+			],
+			"sid": 875992987180390,
+			"effectTypes": [],
+			"isInitiallyVisible": true,
+			"color": [
+				1,
+				1,
+				1,
+				1
+			],
+			"backgroundColor": [
+				1,
+				1,
+				1,
+				1
+			],
+			"isTransparent": false,
+			"parallaxX": 1,
+			"parallaxY": 1,
+			"scaleRate": 1,
+			"forceOwnTexture": false,
+			"useRenderCells": false,
+			"blendMode": "normal",
+			"global": false
+		}
+	],
+	"sid": 745807907225223,
+	"nonworld-instances": [],
+	"effectTypes": [],
+	"width": 1280,
+	"height": 800,
+	"unboundedScrolling": false,
+	"eventSheet": "Preload"
+}
