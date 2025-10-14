@@ -3,9 +3,9 @@ import { Button } from '@/components/ui/button'
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-neon-accent to-black text-white overflow-hidden relative font-inter">
+    <div className="min-h-screen bg-gradient-to-br from-black via-neon-accent to-black text-white overflow-hidden relative font-inter scan-line">
       {/* Synth Canyon Background */}
-      <div className="fixed inset-0 z-0 overflow-hidden">
+      <div className="fixed inset-0 z-0 overflow-hidden synth-grid">
         {/* WebGL Canvas Container */}
         <div id="synth-canyon-container" className="absolute inset-0"></div>
         
@@ -162,12 +162,12 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-3">
               <Link href="/login">
-                <Button variant="outline" className="border-2 border-neon-primary bg-black/50 text-neon-primary hover:bg-neon-primary hover:text-black hover:border-neon-primary hover:shadow-neon transition-all duration-300 backdrop-blur-sm font-inter font-semibold px-6 py-2">
+                <Button variant="outline" className="neon-border border-2 border-neon-primary bg-black/50 text-neon-primary hover:bg-neon-primary hover:text-black transition-all duration-300 backdrop-blur-sm font-inter font-semibold px-6 py-2 cyber-corner relative">
                   Sign In
                 </Button>
               </Link>
               <Link href="/signup">
-                <Button className="bg-gradient-to-r from-neon-primary to-neon-secondary text-black shadow-neon-lg hover:shadow-neon-xl transition-all duration-300 hover:scale-105 font-inter font-bold px-6 py-2 border-2 border-neon-primary/30">
+                <Button className="bg-gradient-to-r from-neon-primary to-neon-secondary text-black shadow-neon-lg hover:shadow-neon-xl transition-all duration-300 hover:scale-105 font-inter font-bold px-6 py-2 border-2 border-neon-primary/30 animate-pulse-slow">
                   Get Started
                 </Button>
               </Link>
@@ -188,15 +188,15 @@ export default function Home() {
           
           {/* NetFusion Gradient Headlines */}
           <h1 className="text-6xl md:text-7xl font-black mb-8 leading-tight font-inter">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-text-muted hover:from-neon-primary hover:to-white transition-all duration-500">
+            <span className="retro-text text-transparent bg-clip-text bg-gradient-to-r from-white to-text-muted hover:from-neon-primary hover:to-white transition-all duration-500">
               Forge Stunning
             </span>
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-primary via-neon-secondary to-neon-primary animate-gradient-x">
+            <span className="retro-text text-transparent bg-clip-text bg-gradient-to-r from-neon-primary via-neon-secondary to-neon-primary animate-gradient-x">
               Digital Experiences
             </span>
             <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-secondary to-neon-primary hover:from-neon-primary hover:to-neon-secondary transition-all duration-500">
+            <span className="retro-text text-transparent bg-clip-text bg-gradient-to-r from-neon-secondary to-neon-primary hover:from-neon-primary hover:to-neon-secondary transition-all duration-500">
               in Seconds
             </span>
           </h1>
@@ -262,25 +262,25 @@ export default function Home() {
           
           {/* NetFusion Synth Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            <div className="bg-dark-surface/90 backdrop-blur-sm border-2 border-neon-primary/40 rounded-xl p-6 transform hover:scale-105 transition-all duration-300 hover:border-neon-primary hover:shadow-neon group">
-              <div className="w-12 h-12 bg-gradient-to-br from-neon-primary to-neon-secondary rounded-lg flex items-center justify-center mb-4 mx-auto shadow-neon group-hover:shadow-neon-lg">
+            <div className="neon-border cyber-corner relative bg-dark-surface/90 backdrop-blur-sm border-2 border-neon-primary/40 rounded-xl p-6 transform hover:scale-105 transition-all duration-300 hover:border-neon-primary hover:shadow-neon group holographic">
+              <div className="w-12 h-12 bg-gradient-to-br from-neon-primary to-neon-secondary rounded-lg flex items-center justify-center mb-4 mx-auto shadow-neon group-hover:shadow-neon-lg animate-pulse-slow">
                 <span className="text-2xl text-black font-bold">◆</span>
               </div>
-              <h3 className="text-base font-bold mb-2 text-neon-primary font-inter text-center">SYNTH TEMPLATES</h3>
+              <h3 className="text-base font-bold mb-2 text-neon-primary font-inter text-center retro-text">SYNTH TEMPLATES</h3>
               <p className="text-gray-300 text-sm font-inter text-center">7 cyber-optimized templates</p>
             </div>
-            <div className="bg-dark-surface/90 backdrop-blur-sm border-2 border-neon-primary/40 rounded-xl p-6 transform hover:scale-105 transition-all duration-300 hover:border-neon-primary hover:shadow-neon group">
-              <div className="w-12 h-12 bg-gradient-to-br from-neon-primary to-neon-secondary rounded-lg flex items-center justify-center mb-4 mx-auto shadow-neon group-hover:shadow-neon-lg">
+            <div className="neon-border cyber-corner relative bg-dark-surface/90 backdrop-blur-sm border-2 border-neon-primary/40 rounded-xl p-6 transform hover:scale-105 transition-all duration-300 hover:border-neon-primary hover:shadow-neon group holographic">
+              <div className="w-12 h-12 bg-gradient-to-br from-neon-primary to-neon-secondary rounded-lg flex items-center justify-center mb-4 mx-auto shadow-neon group-hover:shadow-neon-lg animate-pulse-slow">
                 <span className="text-2xl text-black font-bold">▲</span>
               </div>
-              <h3 className="text-base font-bold mb-2 text-neon-primary font-inter text-center">AI NEURAL NET</h3>
+              <h3 className="text-base font-bold mb-2 text-neon-primary font-inter text-center retro-text">AI NEURAL NET</h3>
               <p className="text-gray-300 text-sm font-inter text-center">Neural copy generation</p>
             </div>
-            <div className="bg-dark-surface/90 backdrop-blur-sm border-2 border-neon-primary/40 rounded-xl p-6 transform hover:scale-105 transition-all duration-300 hover:border-neon-primary hover:shadow-neon group">
-              <div className="w-12 h-12 bg-gradient-to-br from-neon-primary to-neon-secondary rounded-lg flex items-center justify-center mb-4 mx-auto shadow-neon group-hover:shadow-neon-lg">
+            <div className="neon-border cyber-corner relative bg-dark-surface/90 backdrop-blur-sm border-2 border-neon-primary/40 rounded-xl p-6 transform hover:scale-105 transition-all duration-300 hover:border-neon-primary hover:shadow-neon group holographic">
+              <div className="w-12 h-12 bg-gradient-to-br from-neon-primary to-neon-secondary rounded-lg flex items-center justify-center mb-4 mx-auto shadow-neon group-hover:shadow-neon-lg animate-pulse-slow">
                 <span className="text-2xl text-black font-bold">●</span>
               </div>
-              <h3 className="text-base font-bold mb-2 text-neon-primary font-inter text-center">INSTANT DEPLOY</h3>
+              <h3 className="text-base font-bold mb-2 text-neon-primary font-inter text-center retro-text">INSTANT DEPLOY</h3>
               <p className="text-gray-300 text-sm font-inter text-center">Export in nanoseconds</p>
             </div>
           </div>
