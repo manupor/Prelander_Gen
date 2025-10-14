@@ -1119,6 +1119,7 @@ export default function SiteEditorPage() {
               // Live Preview with iframe
               <div className="bg-white rounded-lg shadow-2xl overflow-hidden" style={{ height: '90vh' }}>
                 <iframe
+                  key={`live-${templateId}`}
                   src={getPreviewUrl()}
                   className="w-full h-full border-0"
                   title="Live Preview"
@@ -1145,6 +1146,7 @@ export default function SiteEditorPage() {
                 <div className="bg-gray-900 rounded-lg p-6 border border-gray-700">
                   <div className="relative w-full bg-white rounded-lg overflow-hidden shadow-2xl" style={{ height: '70vh' }}>
                     <iframe
+                      key={`template-${templateId}`}
                       src={getPreviewUrl()}
                       className="w-full h-full border-0"
                       title="Template Preview"
