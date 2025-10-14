@@ -8,7 +8,7 @@ export interface Organization {
   created_at: string
 }
 
-export type TemplateId = 't6' | 't7' | 't9' | 't10' | 't11'
+export type TemplateId = 't6' | 't7' | 't9' | 't10' | 't11' | 't12'
 
 export interface Site {
   id: string
