@@ -3,14 +3,14 @@ import { Button } from '@/components/ui/button'
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-neon-accent to-black text-white overflow-hidden relative font-inter scan-line">
-      {/* Synth Canyon Background */}
-      <div className="fixed inset-0 z-0 overflow-hidden synth-grid">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 text-white overflow-hidden relative font-inter">
+      {/* Purple Synthwave Background */}
+      <div className="fixed inset-0 z-0 overflow-hidden">
         {/* WebGL Canvas Container */}
         <div id="synth-canyon-container" className="absolute inset-0"></div>
         
-        {/* Enhanced NetFusion Neon Background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-neon-accent/20 to-black">
+        {/* Purple Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-950/30 to-black">
           {/* Animated Grid Floor */}
           <div className="synth-floor">
             {/* Vertical Grid Lines */}
@@ -162,14 +162,13 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-3">
               <Link href="/login">
-                <Button variant="outline" className="neon-border border-2 border-neon-primary bg-black/80 text-neon-primary hover:bg-neon-primary hover:text-black transition-all duration-300 backdrop-blur-sm font-inter font-semibold px-6 py-2 cyber-corner relative shadow-[0_0_15px_rgba(2,193,115,0.3)]">
+                <Button variant="outline" className="border-2 border-cyan-400/60 bg-slate-900/80 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300 backdrop-blur-xl font-inter font-semibold px-6 py-2 shadow-lg hover:shadow-cyan-400/25">
                   Sign In
                 </Button>
               </Link>
               <Link href="/signup">
-                <Button className="relative bg-gradient-to-r from-neon-primary to-neon-secondary text-black shadow-[0_0_20px_rgba(2,193,115,0.6)] hover:shadow-[0_0_30px_rgba(2,193,115,0.8)] transition-all duration-300 hover:scale-105 font-inter font-bold px-8 py-2.5 border-2 border-white/20">
-                  <span className="relative z-10">Get Started</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-neon-primary to-neon-secondary opacity-100 rounded-md"></div>
+                <Button className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white font-bold px-8 py-2.5 rounded-xl shadow-lg hover:shadow-xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105 font-inter">
+                  Get Started
                 </Button>
               </Link>
             </div>
@@ -180,24 +179,24 @@ export default function Home() {
       {/* Modern Hero Section */}
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center">
-          {/* NetFusion Badge */}
-          <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-neon-primary/10 to-neon-secondary/10 backdrop-blur-sm border border-neon-primary/30 rounded-full mb-8 hover:border-neon-primary/50 transition-all duration-300 group">
-            <span className="w-3 h-3 bg-neon-primary rounded-full mr-3 animate-pulse group-hover:animate-ping"></span>
-            <span className="text-sm font-medium text-neon-primary tracking-wide font-inter">AI-Powered Landing Pages</span>
-            <span className="w-3 h-3 bg-neon-secondary rounded-full ml-3 animate-pulse group-hover:animate-ping"></span>
+          {/* Purple Badge */}
+          <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 backdrop-blur-sm border border-cyan-400/30 rounded-full mb-8 hover:border-cyan-400/50 transition-all duration-300 group">
+            <span className="w-3 h-3 bg-cyan-400 rounded-full mr-3 animate-pulse group-hover:animate-ping"></span>
+            <span className="text-sm font-medium text-cyan-300 tracking-wide font-inter">AI-Powered Landing Pages</span>
+            <span className="w-3 h-3 bg-purple-400 rounded-full ml-3 animate-pulse group-hover:animate-ping"></span>
           </div>
           
-          {/* NetFusion Gradient Headlines */}
+          {/* Purple Gradient Headlines */}
           <h1 className="text-6xl md:text-7xl font-black mb-8 leading-tight font-inter">
-            <span className="retro-text text-transparent bg-clip-text bg-gradient-to-r from-white to-text-muted hover:from-neon-primary hover:to-white transition-all duration-500">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-300 hover:from-cyan-400 hover:to-white transition-all duration-500">
               Forge Stunning
             </span>
             <br />
-            <span className="retro-text text-transparent bg-clip-text bg-gradient-to-r from-neon-primary via-neon-secondary to-neon-primary animate-gradient-x">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-cyan-400 animate-gradient-x">
               Digital Experiences
             </span>
             <br />
-            <span className="retro-text text-transparent bg-clip-text bg-gradient-to-r from-neon-secondary to-neon-primary hover:from-neon-primary hover:to-neon-secondary transition-all duration-500">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 hover:from-cyan-400 hover:to-purple-400 transition-all duration-500">
               in Seconds
             </span>
           </h1>
@@ -250,39 +249,39 @@ export default function Home() {
           {/* Enhanced CTA Button */}
           <div className="flex justify-center items-center mb-16">
             <Link href="/signup">
-              <Button className="relative bg-gradient-to-r from-neon-primary via-neon-secondary to-neon-primary text-black font-black py-6 px-12 rounded-2xl shadow-[0_0_40px_rgba(2,193,115,0.6)] hover:shadow-[0_0_60px_rgba(2,193,115,0.8)] transform hover:scale-105 transition-all duration-300 text-xl font-inter group overflow-hidden border-2 border-white/20 animate-pulse-slow">
+              <Button className="relative bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white font-black py-6 px-12 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 text-xl font-inter group overflow-hidden">
                 <span className="relative z-10 flex items-center gap-3">
                   <span className="text-2xl animate-bounce">⚡</span>
                   START CREATING NOW
                   <span className="text-2xl animate-bounce" style={{animationDelay: '0.5s'}}>⚡</span>
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-neon-secondary via-neon-primary to-neon-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </Button>
             </Link>
           </div>
           
-          {/* NetFusion Synth Cards */}
+          {/* Purple Synth Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            <div className="neon-border cyber-corner relative bg-dark-surface/90 backdrop-blur-sm border-2 border-neon-primary/40 rounded-xl p-6 transform hover:scale-105 transition-all duration-300 hover:border-neon-primary hover:shadow-neon group holographic">
-              <div className="w-12 h-12 bg-gradient-to-br from-neon-primary to-neon-secondary rounded-lg flex items-center justify-center mb-4 mx-auto shadow-neon group-hover:shadow-neon-lg animate-pulse-slow">
-                <span className="text-2xl text-black font-bold">◆</span>
+            <div className="relative bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 transform hover:scale-105 transition-all duration-300 hover:border-cyan-400/50 hover:shadow-xl hover:shadow-cyan-500/10 group">
+              <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-purple-500 rounded-lg flex items-center justify-center mb-4 mx-auto shadow-lg group-hover:shadow-xl group-hover:shadow-purple-500/25 transition-all">
+                <span className="text-2xl text-white font-bold">◆</span>
               </div>
-              <h3 className="text-base font-bold mb-2 text-neon-primary font-inter text-center retro-text">SYNTH TEMPLATES</h3>
-              <p className="text-gray-300 text-sm font-inter text-center">7 cyber-optimized templates</p>
+              <h3 className="text-base font-bold mb-2 text-cyan-300 font-inter text-center">SYNTH TEMPLATES</h3>
+              <p className="text-slate-300 text-sm font-inter text-center">7 cyber-optimized templates</p>
             </div>
-            <div className="neon-border cyber-corner relative bg-dark-surface/90 backdrop-blur-sm border-2 border-neon-primary/40 rounded-xl p-6 transform hover:scale-105 transition-all duration-300 hover:border-neon-primary hover:shadow-neon group holographic">
-              <div className="w-12 h-12 bg-gradient-to-br from-neon-primary to-neon-secondary rounded-lg flex items-center justify-center mb-4 mx-auto shadow-neon group-hover:shadow-neon-lg animate-pulse-slow">
-                <span className="text-2xl text-black font-bold">▲</span>
+            <div className="relative bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 transform hover:scale-105 transition-all duration-300 hover:border-purple-400/50 hover:shadow-xl hover:shadow-purple-500/10 group">
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-lg flex items-center justify-center mb-4 mx-auto shadow-lg group-hover:shadow-xl group-hover:shadow-cyan-500/25 transition-all">
+                <span className="text-2xl text-white font-bold">▲</span>
               </div>
-              <h3 className="text-base font-bold mb-2 text-neon-primary font-inter text-center retro-text">AI NEURAL NET</h3>
-              <p className="text-gray-300 text-sm font-inter text-center">Neural copy generation</p>
+              <h3 className="text-base font-bold mb-2 text-purple-300 font-inter text-center">AI NEURAL NET</h3>
+              <p className="text-slate-300 text-sm font-inter text-center">Neural copy generation</p>
             </div>
-            <div className="neon-border cyber-corner relative bg-dark-surface/90 backdrop-blur-sm border-2 border-neon-primary/40 rounded-xl p-6 transform hover:scale-105 transition-all duration-300 hover:border-neon-primary hover:shadow-neon group holographic">
-              <div className="w-12 h-12 bg-gradient-to-br from-neon-primary to-neon-secondary rounded-lg flex items-center justify-center mb-4 mx-auto shadow-neon group-hover:shadow-neon-lg animate-pulse-slow">
-                <span className="text-2xl text-black font-bold">●</span>
+            <div className="relative bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 transform hover:scale-105 transition-all duration-300 hover:border-cyan-400/50 hover:shadow-xl hover:shadow-cyan-500/10 group">
+              <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-purple-500 rounded-lg flex items-center justify-center mb-4 mx-auto shadow-lg group-hover:shadow-xl group-hover:shadow-purple-500/25 transition-all">
+                <span className="text-2xl text-white font-bold">●</span>
               </div>
-              <h3 className="text-base font-bold mb-2 text-neon-primary font-inter text-center retro-text">INSTANT DEPLOY</h3>
-              <p className="text-gray-300 text-sm font-inter text-center">Export in nanoseconds</p>
+              <h3 className="text-base font-bold mb-2 text-cyan-300 font-inter text-center">INSTANT DEPLOY</h3>
+              <p className="text-slate-300 text-sm font-inter text-center">Export in nanoseconds</p>
             </div>
           </div>
         </div>
