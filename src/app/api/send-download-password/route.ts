@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     </div>
     <div class="content">
       <p>Hello,</p>
-      <p>You've requested to download your <strong>${siteName}</strong> landing page. For maximum security, your files have been encrypted using AES-256-CBC encryption.</p>
+      <p>You've requested to download your <strong>${siteName}</strong> landing page. For security, your files are protected with a password-access system.</p>
       
       <div class="password-box">
         <p style="margin: 0 0 10px 0; color: #6b7280; font-size: 14px;">Your Download Password:</p>
@@ -56,15 +56,19 @@ export async function POST(request: NextRequest) {
         </ul>
       </div>
 
-      <p><strong>🔓 Decryption Instructions:</strong></p>
+      <p><strong>🔓 Simple Access Instructions:</strong></p>
       <ol>
         <li>Download and extract the ZIP file from your dashboard</li>
-        <li>Ensure you have Node.js installed on your computer</li>
-        <li>Open terminal/command prompt in the extracted folder</li>
-        <li>Run: <code>node decrypt.js</code></li>
-        <li>The script will decrypt your files using the password above</li>
-        <li>Upload the decrypted index.html to your hosting service</li>
+        <li>Open the <code>index.html</code> file in your web browser</li>
+        <li>Enter the password above when prompted</li>
+        <li>Download your landing page files directly from the browser</li>
+        <li>Upload the downloaded files to your hosting service</li>
       </ol>
+      
+      <p style="background: #f0f9ff; padding: 15px; border-radius: 8px; color: #0369a1; margin: 20px 0;">
+        <strong>✨ No technical setup required!</strong><br>
+        Just open the HTML file in any web browser and enter your password.
+      </p>
 
       <p style="margin-top: 30px;">
         <strong>Site Slug:</strong> ${slug}<br>

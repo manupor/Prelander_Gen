@@ -434,7 +434,7 @@ export default function SiteEditorPage() {
       setShowDownloadModal(false)
       setDownloadEmail('')
       
-      alert(`🔐 Encrypted Package Downloaded!\n\n${password ? `Decryption Password: ${password}` : 'Check your email for the decryption password.'}\n\nThe ZIP contains:\n• 📄 README.md - Setup instructions\n• 🔓 decrypt.js - Decryption script\n• 🔒 index.html.encrypted - Your landing page (encrypted)\n• 🔒 config.json.encrypted - Site configuration (encrypted)\n• 📋 SECURITY_NOTICE.txt - Important security info\n\nTO USE:\n1. Extract the ZIP file\n2. Run: node decrypt.js\n3. Upload the decrypted index.html to your server\n\n🔑 Password also sent to your email for security.`)
+      alert(`🔐 Protected Package Downloaded!\n\n${password ? `Access Password: ${password}` : 'Check your email for the access password.'}\n\nThe ZIP contains:\n• 📄 index.html - Protected access page\n• 📋 README.md - Simple instructions\n\nTO USE:\n1. Extract the ZIP file\n2. Open index.html in your browser\n3. Enter the password to access your files\n4. Download your landing page directly from the browser\n\n🔑 Much simpler - no technical setup required!\nPassword also sent to your email for security.`)
       
     } catch (error: any) {
       console.error('Download error:', error)
@@ -1290,10 +1290,10 @@ export default function SiteEditorPage() {
                   <div className="flex items-start gap-3">
                     <Mail className="w-6 h-6 text-neon-primary mt-0.5" />
                     <div>
-                      <p className="text-sm text-white font-semibold">🔐 Encrypted Package Process</p>
+                      <p className="text-sm text-white font-semibold">🔐 Simple Protected Download</p>
                       <p className="text-xs text-gray-300 mt-2 leading-relaxed">
-                        Your prelander files will be encrypted using AES-256-CBC encryption and packaged with a decryption script. 
-                        The decryption password will be sent to your email for maximum security.
+                        Your prelander will be packaged with a password-protected access page. 
+                        Simply open the HTML file in your browser and enter the password - no technical setup required!
                       </p>
                     </div>
                   </div>
