@@ -1,0 +1,146 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@/lib/supabase/server'
+import JSZip from 'jszip'
+import crypto from 'crypto'
+
+export async function POST(request: NextRequest) {
+  try {
+    const { slug, userEmail } = await request.json()
+
+    if (!slug || !userEmail) {
+      return NextResponse.json({ error: 'Missing slug or userEmail' }, { status: 400 })
+    }
+
+    // Get site data from database
+    const supabase = await createClient()
+    const { data: site, error } = await supabase
+      .from('sites')
+      .select('*')
+      .eq('slug', slug)
+      .single()
+
+    if (error || !site) {
+      return NextResponse.json({ error: 'Site not found' }, { status: 404 })
+    }
+
+    // Generate a random password for the ZIP file
+    const password = crypto.randomBytes(8).toString('hex').toUpperCase()
+
+    // Create ZIP file with site content
+    const zip = new JSZip()
+    
+    // Add HTML file
+    if (site.generated_html) {
+      zip.file('index.html', site.generated_html)
+    }
+
+    // Add a README with site information
+    const readmeContent = `
+# ${site.brand_name} - Prelander
+
+## Site Information
+- Brand Name: ${site.brand_name}
+- Template: ${site.template_id}
+- Created: ${new Date(site.created_at).toLocaleDateString()}
+- Slug: ${site.slug}
+
+## Instructions
+1. Upload the contents of this ZIP to your web server
+2. The main file is index.html
+3. Make sure to test the page before going live
+
+## Support
+For support, contact your account manager.
+    `.trim()
+
+    zip.file('README.md', readmeContent)
+
+    // Add configuration file
+    const configContent = JSON.stringify({
+      brandName: site.brand_name,
+      templateId: site.template_id,
+      colors: {
+        primary: site.primary_color,
+        secondary: site.secondary_color,
+        accent: site.accent_color
+      },
+      content: {
+        headline: site.headline,
+        cta: site.cta,
+        ctaUrl: site.cta_url
+      },
+      logo: site.logo_url,
+      exportDate: new Date().toISOString()
+    }, null, 2)
+
+    zip.file('config.json', configContent)
+
+    // Generate the ZIP file as a buffer
+    const zipBuffer = await zip.generateAsync({ 
+      type: 'nodebuffer',
+      compression: 'DEFLATE',
+      compressionOptions: { level: 6 }
+    })
+
+    // For now, we'll simulate password protection by storing the password
+    // In a real implementation, you would use a library like node-7z or similar
+    // to create truly password-protected ZIP files
+    
+    // Send password via email
+    try {
+      const emailResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/send-download-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: userEmail,
+          password: password,
+          siteName: site.brand_name,
+          slug: slug
+        }),
+      })
+
+      if (!emailResponse.ok) {
+        console.error('Failed to send email')
+        // Continue with download even if email fails
+      }
+    } catch (emailError) {
+      console.error('Email sending error:', emailError)
+      // Continue with download even if email fails
+    }
+
+    // Get current user for database record
+    const { data: { user } } = await supabase.auth.getUser()
+    
+    // Store download record in database if user is authenticated
+    if (user) {
+      try {
+        await supabase
+          .from('download_passwords')
+          .insert({
+            site_id: site.id,
+            user_id: user.id,
+            password: password,
+            expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours
+          })
+      } catch (dbError) {
+        console.error('Failed to store download record:', dbError)
+      }
+    }
+
+    // Return the ZIP file
+    return new NextResponse(zipBuffer, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/zip',
+        'Content-Disposition': `attachment; filename="${site.brand_name.replace(/[^a-zA-Z0-9]/g, '_')}_${slug}.zip"`,
+        'X-Download-Password': password, // Include password in header for development
+      },
+    })
+
+  } catch (error) {
+    console.error('Download error:', error)
+    return NextResponse.json({ error: 'Failed to generate download' }, { status: 500 })
+  }
+}

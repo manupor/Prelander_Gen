@@ -3,18 +3,10 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createClient()
-    
-    // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
-    const { email, password, brandName, siteId } = await request.json()
+    const { email, password, siteName, slug } = await request.json()
 
     // Validate input
-    if (!email || !password || !brandName) {
+    if (!email || !password || !siteName) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
@@ -47,7 +39,7 @@ export async function POST(request: NextRequest) {
     </div>
     <div class="content">
       <p>Hello,</p>
-      <p>You've requested to download your <strong>${brandName}</strong> landing page. For security purposes, your download is password-protected.</p>
+      <p>You've requested to download your <strong>${siteName}</strong> landing page. For security purposes, your download is password-protected.</p>
       
       <div class="password-box">
         <p style="margin: 0 0 10px 0; color: #6b7280; font-size: 14px;">Your Download Password:</p>
@@ -72,7 +64,7 @@ export async function POST(request: NextRequest) {
       </ol>
 
       <p style="margin-top: 30px;">
-        <strong>Site ID:</strong> ${siteId}<br>
+        <strong>Site Slug:</strong> ${slug}<br>
         <strong>Generated:</strong> ${new Date().toLocaleString()}
       </p>
 
@@ -96,7 +88,7 @@ export async function POST(request: NextRequest) {
     // await resend.emails.send({
     //   from: 'Olavivo PrelanderAI <noreply@yourdomain.com>',
     //   to: email,
-    //   subject: `🔐 Download Password for ${brandName}`,
+    //   subject: `🔐 Download Password for ${siteName}`,
     //   html: emailHtml
     // })
 

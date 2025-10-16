@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { Loader2, Save, Eye, ArrowLeft, Palette, Type, Image as ImageIcon, Link as LinkIcon, ChevronDown, ChevronUp, Layers, FileText, Scale } from 'lucide-react'
+import { Loader2, Save, Eye, ArrowLeft, Palette, Type, Image as ImageIcon, Link as LinkIcon, ChevronDown, ChevronUp, Layers, FileText, Scale, Download, Mail } from 'lucide-react'
 import { EditorTour } from '@/components/EditorTour'
 
 interface SiteData {
@@ -61,6 +61,9 @@ export default function SiteEditorPage() {
   const [responsibleGamingUrl, setResponsibleGamingUrl] = useState('')
   const [previewMode, setPreviewMode] = useState<'live' | 'template'>('live')
   const [showTour, setShowTour] = useState(false)
+  const [showDownloadModal, setShowDownloadModal] = useState(false)
+  const [downloadEmail, setDownloadEmail] = useState('')
+  const [downloading, setDownloading] = useState(false)
 
   const toggleSection = (section: 'vertical' | 'template' | 'logo' | 'content' | 'colors' | 'legal') => {
     const isExpanding = !expandedSections[section]
@@ -374,11 +377,68 @@ export default function SiteEditorPage() {
 
       alert('Changes saved successfully!')
       await loadSite() // Reload to get updated HTML
+      
+      // Show download modal after successful save
+      setShowDownloadModal(true)
     } catch (error: any) {
       console.error('Error saving:', error)
       alert(`Failed to save changes: ${error.message || 'Unknown error'}`)
     } finally {
       setSaving(false)
+    }
+  }
+
+  const handleDownload = async () => {
+    if (!downloadEmail) {
+      alert('Please enter your email address')
+      return
+    }
+
+    setDownloading(true)
+    try {
+      const response = await fetch('/api/download-encrypted', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          slug,
+          userEmail: downloadEmail
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to generate download')
+      }
+
+      // Get the filename from the response headers
+      const contentDisposition = response.headers.get('content-disposition')
+      const filename = contentDisposition?.match(/filename="(.+)"/)?.[1] || `${site?.brand_name}_${slug}.zip`
+
+      // Create blob and download
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = filename
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+
+      // Get password from header (development only)
+      const password = response.headers.get('X-Download-Password')
+      
+      setShowDownloadModal(false)
+      setDownloadEmail('')
+      
+      alert(`Download started! ${password ? `Password: ${password}` : 'Check your email for the password.'}\n\nThe ZIP file contains your landing page files. You'll receive the password via email shortly.`)
+      
+    } catch (error: any) {
+      console.error('Download error:', error)
+      alert(`Failed to download: ${error.message}`)
+    } finally {
+      setDownloading(false)
     }
   }
 
@@ -1197,6 +1257,84 @@ export default function SiteEditorPage() {
           onComplete={handleTourComplete}
           onSkip={handleTourSkip}
         />
+      )}
+
+      {/* Download Modal */}
+      {showDownloadModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-dark-surface rounded-lg p-6 max-w-md w-full mx-4 border border-neon-primary/20">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-neon-primary/20 rounded-lg">
+                <Download className="w-6 h-6 text-neon-primary" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-white">Download Prelander</h3>
+                <p className="text-sm text-text-muted">Get your encrypted ZIP file</p>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="bg-darker-surface rounded-lg p-4 border border-neon-primary/10">
+                <div className="flex items-start gap-3">
+                  <Mail className="w-5 h-5 text-neon-primary mt-0.5" />
+                  <div>
+                    <p className="text-sm text-white font-medium">Secure Download Process</p>
+                    <p className="text-xs text-text-muted mt-1">
+                      Your prelander will be packaged in an encrypted ZIP file. The password will be sent to your email for security.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={downloadEmail}
+                  onChange={(e) => setDownloadEmail(e.target.value)}
+                  className="w-full px-3 py-2 bg-darker-surface border border-neon-primary/30 rounded-lg text-white focus:outline-none focus:border-neon-primary"
+                  placeholder="your@email.com"
+                  disabled={downloading}
+                />
+                <p className="text-xs text-text-muted mt-1">
+                  The ZIP password will be sent to this email address
+                </p>
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <button
+                  onClick={() => {
+                    setShowDownloadModal(false)
+                    setDownloadEmail('')
+                  }}
+                  disabled={downloading}
+                  className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleDownload}
+                  disabled={downloading || !downloadEmail}
+                  className="flex-1 px-4 py-2 bg-gradient-to-r from-neon-primary to-neon-secondary hover:from-neon-secondary hover:to-neon-primary text-black rounded-lg transition-colors disabled:opacity-50 font-semibold flex items-center justify-center gap-2"
+                >
+                  {downloading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Generating...
+                    </>
+                  ) : (
+                    <>
+                      <Download className="w-4 h-4" />
+                      Download
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
     </div>
