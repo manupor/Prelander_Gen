@@ -77,7 +77,7 @@ For support, contact your account manager.
 
     // Generate the ZIP file as a buffer
     const zipBuffer = await zip.generateAsync({ 
-      type: 'nodebuffer',
+      type: 'uint8array',
       compression: 'DEFLATE',
       compressionOptions: { level: 6 }
     })
@@ -130,7 +130,7 @@ For support, contact your account manager.
     }
 
     // Return the ZIP file
-    return new NextResponse(zipBuffer, {
+    return new NextResponse(Buffer.from(zipBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/zip',
