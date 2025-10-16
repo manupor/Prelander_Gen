@@ -432,7 +432,7 @@ export default function SiteEditorPage() {
       setShowDownloadModal(false)
       setDownloadEmail('')
       
-      alert(`Download started! ${password ? `Password: ${password}` : 'Check your email for the password.'}\n\nThe ZIP file contains your landing page files. You'll receive the password via email shortly.`)
+      alert(`Download completed! ${password ? `Access Code: ${password}` : 'Check your email for the access code.'}\n\nThe ZIP file contains:\n• Your landing page (index.html)\n• Configuration file (config.json)\n• Setup instructions (README.md)\n• Security notice with access code\n\nYou'll also receive the access code via email for your records.`)
       
     } catch (error: any) {
       console.error('Download error:', error)
@@ -490,55 +490,61 @@ export default function SiteEditorPage() {
 
   return (
     <div className="min-h-screen bg-black flex flex-col font-inter">
-        {/* NetFusion Neon Top Bar */}
-        <div className="bg-dark-surface border-b border-neon-primary/20 px-6 py-4 flex items-center justify-between shadow-neon">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => router.push('/')}
-            className="text-text-muted hover:text-white transition-colors flex items-center gap-2 px-3 py-2 bg-darker-surface hover:bg-neon-primary/20 rounded-lg"
-            title="Go to Home"
-          >
-            <ArrowLeft size={18} />
-            <span className="hidden sm:inline">Home</span>
-          </button>
-          <button
-            onClick={() => router.push('/dashboard')}
-            className="text-neon-primary hover:text-neon-secondary transition-colors flex items-center gap-2 px-3 py-2 bg-neon-primary/10 hover:bg-neon-primary/20 rounded-lg border border-neon-primary/30"
-            title="Go to Dashboard"
-          >
-            <span className="hidden sm:inline">Dashboard</span>
-            <span className="sm:hidden">📊</span>
-          </button>
-          <div className="border-l border-neon-primary/30 pl-4">
-            <h1 className="text-white font-semibold font-inter">{site.brand_name}</h1>
-            <p className="text-sm text-text-muted font-inter">Template Editor</p>
+        {/* NetFusion Neon Top Bar - Enhanced */}
+        <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border-b-2 border-neon-primary/30 px-6 py-4 flex items-center justify-between shadow-lg shadow-neon-primary/20 relative">
+          {/* Animated background accent */}
+          <div className="absolute inset-0 bg-gradient-to-r from-neon-primary/5 via-transparent to-neon-secondary/5 animate-pulse"></div>
+          
+          <div className="flex items-center gap-4 relative z-10">
+            <button
+              onClick={() => router.push('/')}
+              className="text-gray-300 hover:text-neon-primary transition-all duration-300 flex items-center gap-2 px-3 py-2 bg-gray-800/50 hover:bg-neon-primary/10 rounded-lg border border-gray-700 hover:border-neon-primary/50 backdrop-blur-sm"
+              title="Go to Home"
+            >
+              <ArrowLeft size={18} />
+              <span className="hidden sm:inline">Home</span>
+            </button>
+            <button
+              onClick={() => router.push('/dashboard')}
+              className="text-neon-primary hover:text-neon-secondary transition-all duration-300 flex items-center gap-2 px-3 py-2 bg-neon-primary/10 hover:bg-neon-primary/20 rounded-lg border border-neon-primary/50 hover:border-neon-primary shadow-sm shadow-neon-primary/20"
+              title="Go to Dashboard"
+            >
+              <span className="hidden sm:inline font-medium">Dashboard</span>
+              <span className="sm:hidden">📊</span>
+            </button>
+            <div className="border-l-2 border-neon-primary/40 pl-4">
+              <h1 className="text-white font-bold font-inter text-lg tracking-wide">{site.brand_name}</h1>
+              <p className="text-sm text-neon-primary/80 font-inter font-medium">Template Editor</p>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-4 relative z-10">
+            <button
+              data-tour="preview-btn"
+              onClick={() => window.open(getPreviewUrl(), '_blank')}
+              className="flex items-center gap-2 px-6 py-3 bg-gray-800/70 hover:bg-neon-primary/10 text-neon-primary hover:text-white rounded-lg transition-all duration-300 border-2 border-neon-primary/40 hover:border-neon-primary hover:shadow-lg hover:shadow-neon-primary/30 backdrop-blur-sm font-medium"
+            >
+              <Eye size={18} />
+              <span className="hidden sm:inline">Preview</span>
+            </button>
+            <button
+              data-tour="save-btn"
+              onClick={handleSave}
+              disabled={saving}
+              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-neon-primary to-neon-secondary hover:from-neon-secondary hover:to-neon-primary text-black rounded-lg transition-all duration-300 disabled:opacity-50 shadow-lg shadow-neon-primary/40 hover:shadow-xl hover:shadow-neon-primary/60 font-bold text-base border-2 border-transparent hover:scale-105 transform"
+            >
+              {saving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
+              <span className="hidden sm:inline">{saving ? 'Saving...' : 'Save Changes'}</span>
+              <span className="sm:hidden">{saving ? '💾' : '💾'}</span>
+            </button>
           </div>
         </div>
-        
-        <div className="flex items-center gap-3">
-          <button
-            data-tour="preview-btn"
-            onClick={() => window.open(getPreviewUrl(), '_blank')}
-            className="flex items-center gap-2 px-4 py-2 bg-darker-surface hover:bg-neon-primary/20 text-neon-primary hover:text-white rounded-lg transition-colors border border-neon-primary/30"
-          >
-            <Eye size={16} />
-            <span className="hidden sm:inline">Preview</span>
-          </button>
-          <button
-            data-tour="save-btn"
-            onClick={handleSave}
-            disabled={saving}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-neon-primary to-neon-secondary hover:from-neon-secondary hover:to-neon-primary text-black rounded-lg transition-colors disabled:opacity-50 shadow-neon font-semibold"
-          >
-            {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-            {saving ? 'Saving...' : 'Save Changes'}
-          </button>
-        </div>
-      </div>
 
       <div className="flex-1 flex">
-        {/* NetFusion Neon Left Panel - Controls */}
-        <div className="w-80 bg-dark-surface border-r border-neon-primary/20 overflow-y-auto">
+        {/* NetFusion Neon Left Panel - Enhanced */}
+        <div className="w-80 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 border-r-2 border-neon-primary/30 overflow-y-auto shadow-xl shadow-neon-primary/10 relative">
+          {/* Animated side accent */}
+          <div className="absolute top-0 right-0 w-1 h-full bg-gradient-to-b from-neon-primary via-neon-secondary to-neon-primary animate-pulse"></div>
           <div className="p-6 space-y-4">
             
             {/* NetFusion Quick Actions */}
@@ -1259,32 +1265,37 @@ export default function SiteEditorPage() {
         />
       )}
 
-      {/* Download Modal */}
+      {/* Enhanced Download Modal */}
       {showDownloadModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-dark-surface rounded-lg p-6 max-w-md w-full mx-4 border border-neon-primary/20">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-neon-primary/20 rounded-lg">
-                <Download className="w-6 h-6 text-neon-primary" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-white">Download Prelander</h3>
-                <p className="text-sm text-text-muted">Get your encrypted ZIP file</p>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div className="bg-darker-surface rounded-lg p-4 border border-neon-primary/10">
-                <div className="flex items-start gap-3">
-                  <Mail className="w-5 h-5 text-neon-primary mt-0.5" />
-                  <div>
-                    <p className="text-sm text-white font-medium">Secure Download Process</p>
-                    <p className="text-xs text-text-muted mt-1">
-                      Your prelander will be packaged in an encrypted ZIP file. The password will be sent to your email for security.
-                    </p>
-                  </div>
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-in fade-in duration-300">
+          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-xl p-6 max-w-lg w-full mx-4 border-2 border-neon-primary/30 shadow-2xl shadow-neon-primary/20 relative overflow-hidden">
+            {/* Animated background */}
+            <div className="absolute inset-0 bg-gradient-to-r from-neon-primary/5 via-transparent to-neon-secondary/5 animate-pulse"></div>
+            
+            <div className="relative z-10">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="p-3 bg-gradient-to-br from-neon-primary/20 to-neon-secondary/20 rounded-xl border border-neon-primary/30">
+                  <Download className="w-8 h-8 text-neon-primary" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white">Download Prelander</h3>
+                  <p className="text-sm text-neon-primary/80">Get your secure package</p>
                 </div>
               </div>
+
+              <div className="space-y-4">
+                <div className="bg-gradient-to-r from-gray-800/50 to-gray-700/50 rounded-lg p-4 border border-neon-primary/20 backdrop-blur-sm">
+                  <div className="flex items-start gap-3">
+                    <Mail className="w-6 h-6 text-neon-primary mt-0.5" />
+                    <div>
+                      <p className="text-sm text-white font-semibold">🔐 Secure Download Process</p>
+                      <p className="text-xs text-gray-300 mt-2 leading-relaxed">
+                        Your prelander will be packaged in a ZIP file with a security notice. 
+                        A unique access code will be sent to your email for verification and tracking purposes.
+                      </p>
+                    </div>
+                  </div>
+                </div>
 
               <div>
                 <label className="block text-sm font-medium text-white mb-2">
@@ -1298,39 +1309,40 @@ export default function SiteEditorPage() {
                   placeholder="your@email.com"
                   disabled={downloading}
                 />
-                <p className="text-xs text-text-muted mt-1">
-                  The ZIP password will be sent to this email address
+                <p className="text-xs text-gray-400 mt-2">
+                  Access code will be sent to this email address
                 </p>
               </div>
 
-              <div className="flex gap-3 pt-2">
+              <div className="flex gap-3 pt-4">
                 <button
                   onClick={() => {
                     setShowDownloadModal(false)
                     setDownloadEmail('')
                   }}
                   disabled={downloading}
-                  className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors disabled:opacity-50"
+                  className="flex-1 px-4 py-3 bg-gray-700/50 hover:bg-gray-600/50 text-gray-300 hover:text-white rounded-lg transition-all duration-300 disabled:opacity-50 border border-gray-600 hover:border-gray-500"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleDownload}
                   disabled={downloading || !downloadEmail}
-                  className="flex-1 px-4 py-2 bg-gradient-to-r from-neon-primary to-neon-secondary hover:from-neon-secondary hover:to-neon-primary text-black rounded-lg transition-colors disabled:opacity-50 font-semibold flex items-center justify-center gap-2"
+                  className="flex-1 px-4 py-3 bg-gradient-to-r from-neon-primary to-neon-secondary hover:from-neon-secondary hover:to-neon-primary text-black rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-2 shadow-lg shadow-neon-primary/30 hover:shadow-xl hover:shadow-neon-primary/50"
                 >
                   {downloading ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <Loader2 className="w-5 h-5 animate-spin" />
                       Generating...
                     </>
                   ) : (
                     <>
-                      <Download className="w-4 h-4" />
+                      <Download className="w-5 h-5" />
                       Download
                     </>
                   )}
                 </button>
+              </div>
               </div>
             </div>
           </div>
