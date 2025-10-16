@@ -408,7 +408,9 @@ export default function SiteEditorPage() {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to generate download')
+        const errorData = await response.json().catch(() => ({}))
+        const errorMessage = errorData.details || errorData.error || 'Failed to generate download'
+        throw new Error(errorMessage)
       }
 
       // Get the filename from the response headers
