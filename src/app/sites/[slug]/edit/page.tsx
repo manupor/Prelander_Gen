@@ -432,7 +432,7 @@ export default function SiteEditorPage() {
       setShowDownloadModal(false)
       setDownloadEmail('')
       
-      alert(`Download completed! ${password ? `Access Code: ${password}` : 'Check your email for the access code.'}\n\nThe ZIP file contains:\n• Your landing page (index.html)\n• Configuration file (config.json)\n• Setup instructions (README.md)\n• Security notice with access code\n\nYou'll also receive the access code via email for your records.`)
+      alert(`🔐 Encrypted Package Downloaded!\n\n${password ? `Decryption Password: ${password}` : 'Check your email for the decryption password.'}\n\nThe ZIP contains:\n• 📄 README.md - Setup instructions\n• 🔓 decrypt.js - Decryption script\n• 🔒 index.html.encrypted - Your landing page (encrypted)\n• 🔒 config.json.encrypted - Site configuration (encrypted)\n• 📋 SECURITY_NOTICE.txt - Important security info\n\nTO USE:\n1. Extract the ZIP file\n2. Run: node decrypt.js\n3. Upload the decrypted index.html to your server\n\n🔑 Password also sent to your email for security.`)
       
     } catch (error: any) {
       console.error('Download error:', error)
@@ -1288,10 +1288,10 @@ export default function SiteEditorPage() {
                   <div className="flex items-start gap-3">
                     <Mail className="w-6 h-6 text-neon-primary mt-0.5" />
                     <div>
-                      <p className="text-sm text-white font-semibold">🔐 Secure Download Process</p>
+                      <p className="text-sm text-white font-semibold">🔐 Encrypted Package Process</p>
                       <p className="text-xs text-gray-300 mt-2 leading-relaxed">
-                        Your prelander will be packaged in a ZIP file with a security notice. 
-                        A unique access code will be sent to your email for verification and tracking purposes.
+                        Your prelander files will be encrypted using AES-256-CBC encryption and packaged with a decryption script. 
+                        The decryption password will be sent to your email for maximum security.
                       </p>
                     </div>
                   </div>

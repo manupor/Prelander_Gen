@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     </div>
     <div class="content">
       <p>Hello,</p>
-      <p>You've requested to download your <strong>${siteName}</strong> landing page. For security purposes, your download is password-protected.</p>
+      <p>You've requested to download your <strong>${siteName}</strong> landing page. For maximum security, your files have been encrypted using AES-256-CBC encryption.</p>
       
       <div class="password-box">
         <p style="margin: 0 0 10px 0; color: #6b7280; font-size: 14px;">Your Download Password:</p>
@@ -56,11 +56,14 @@ export async function POST(request: NextRequest) {
         </ul>
       </div>
 
-      <p><strong>How to use:</strong></p>
+      <p><strong>🔓 Decryption Instructions:</strong></p>
       <ol>
-        <li>Download the ZIP file from your dashboard</li>
-        <li>Use the password above to extract the files</li>
-        <li>Deploy your landing page to your hosting service</li>
+        <li>Download and extract the ZIP file from your dashboard</li>
+        <li>Ensure you have Node.js installed on your computer</li>
+        <li>Open terminal/command prompt in the extracted folder</li>
+        <li>Run: <code>node decrypt.js</code></li>
+        <li>The script will decrypt your files using the password above</li>
+        <li>Upload the decrypted index.html to your hosting service</li>
       </ol>
 
       <p style="margin-top: 30px;">
