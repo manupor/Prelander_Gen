@@ -1,0 +1,37 @@
+{
+	"name": "reels10_",
+	"plugin-id": "Sprite",
+	"sid": 8141214394787215,
+	"isGlobal": false,
+	"instanceVariables": [],
+	"behaviorTypes": [],
+	"effectTypes": [],
+	"animations": {
+		"items": [
+			{
+				"frames": [
+					{
+						"width": 62,
+						"height": 73,
+						"originX": 0.5,
+						"originY": 0.506849,
+						"originalSource": "C:\\Users\\Home\\Desktop\\graphicriver-10755235-rock-climber-slot-game-kit\\main_game\\ui\\10_.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 6039205,
+						"useCollisionPoly": true,
+						"duration": 1
+					}
+				],
+				"sid": 7425973261033775,
+				"name": "Default",
+				"isLooping": false,
+				"isPingPong": false,
+				"repeatCount": 1,
+				"repeatTo": 0,
+				"speed": 5
+			}
+		],
+		"subfolders": []
+	}
+}

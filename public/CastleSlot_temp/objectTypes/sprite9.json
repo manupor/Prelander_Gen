@@ -1,0 +1,43 @@
+{
+	"name": "Sprite9",
+	"plugin-id": "Sprite",
+	"sid": 708867856143618,
+	"isGlobal": false,
+	"instanceVariables": [],
+	"behaviorTypes": [
+		{
+			"behaviorId": "lunarray_LiteTween",
+			"name": "LiteTween",
+			"sid": 764180507257873
+		}
+	],
+	"effectTypes": [],
+	"animations": {
+		"items": [
+			{
+				"frames": [
+					{
+						"width": 1280,
+						"height": 400,
+						"originX": 0,
+						"originY": 0,
+						"originalSource": "C:\\Users\\Владимир\\Desktop\\замена графики\\эффект.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 629395,
+						"useCollisionPoly": true,
+						"duration": 1
+					}
+				],
+				"sid": 584106228898779,
+				"name": "Default",
+				"isLooping": false,
+				"isPingPong": false,
+				"repeatCount": 1,
+				"repeatTo": 0,
+				"speed": 5
+			}
+		],
+		"subfolders": []
+	}
+}

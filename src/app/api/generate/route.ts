@@ -1,0 +1,157 @@
+import { createClient } from '@/lib/supabase/server'
+import { NextRequest, NextResponse } from 'next/server'
+import { CreateSiteSchema } from '@/lib/types'
+import { generateMarketingCopy } from '@/lib/openai'
+import { extractColorsFromImage } from '@/lib/colors'
+import { generateSlug } from '@/lib/utils'
+import { renderTemplate as renderT6 } from '@/templates/t6/server'
+import { renderTemplate as renderT7 } from '@/templates/t7/server'
+import { renderTemplate as renderT9 } from '@/templates/t9/server'
+import { renderTemplate as renderT10 } from '@/templates/t10/server'
+import { renderTemplate as renderT11 } from '@/templates/t11/server'
+import { renderTemplate as renderT12 } from '@/templates/t12/server'
+
+const templateRenderers = {
+  t6: renderT6,
+  t7: renderT7,
+  t9: renderT9,
+  t10: renderT10,
+  t11: renderT11,
+  t12: renderT12,
+}
+
+export async function POST(request: NextRequest) {
+  console.log('API /api/generate called')
+  try {
+    const supabase = await createClient()
+    
+    // Check authentication
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    console.log('Auth check - User:', user?.id, 'Error:', authError)
+    if (authError || !user) {
+      console.log('Authentication failed')
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const body = await request.json()
+    console.log('Request body:', body)
+    const validatedData = CreateSiteSchema.parse(body)
+    console.log('Validated data:', validatedData)
+
+    // Extract colors from logo if provided
+    let colors = {
+      primary: '#3B82F6',
+      secondary: '#6B7280',
+      accent: '#10B981'
+    }
+
+    if (validatedData.logoUrl) {
+      try {
+        colors = await extractColorsFromImage(validatedData.logoUrl)
+      } catch (error) {
+        console.warn('Color extraction failed, using defaults:', error)
+      }
+    }
+
+    // Override with preferred colors if provided
+    if (validatedData.preferredColors) {
+      colors = {
+        ...colors,
+        ...validatedData.preferredColors
+      }
+    }
+
+    // Generate marketing copy with OpenAI
+    const copy = await generateMarketingCopy({
+      brandName: validatedData.brandName,
+      industry: validatedData.industry,
+      description: validatedData.description
+    })
+
+    // Create brand configuration
+    const brandConfig = {
+      brandName: validatedData.brandName,
+      logoUrl: validatedData.logoUrl || undefined,
+      colors,
+      copy: {
+        headline: copy.headline,
+        subheadline: copy.subheadline,
+        cta: copy.cta
+      },
+      industry: validatedData.industry,
+      description: validatedData.description,
+      ctaUrl: validatedData.ctaUrl,
+    }
+
+    // Render template based on selected templateId
+    const renderer = templateRenderers[validatedData.templateId]
+    let html: string
+    let css: string
+    try {
+      const rendered = renderer(brandConfig)
+      html = rendered.html
+      css = rendered.css
+    } catch (e) {
+      console.error('Template render failed, using fallback:', e)
+      css = `:root{--brand-primary:${colors.primary};--brand-secondary:${colors.secondary};--brand-accent:${colors.accent};}body{font-family:ui-sans-serif,system-ui;line-height:1.6;color:#111827;margin:0;padding:2rem}.btn{background:var(--brand-primary);color:#fff;padding:.75rem 1.25rem;border-radius:.5rem;border:0;font-weight:600}`
+      html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>${brandConfig.brandName}</title><style>${css}</style></head><body><header style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem"><div style="display:flex;align-items:center;gap:.5rem">${brandConfig.logoUrl ? `<img src="${brandConfig.logoUrl}" alt="${brandConfig.brandName}" style="height:32px"/>` : ''}<strong>${brandConfig.brandName}</strong></div><button class="btn" onclick="window.open('${brandConfig.ctaUrl || '#'}','_blank')">${brandConfig.copy.cta}</button></header><main style="max-width:720px;margin:0 auto;text-align:center"><h1 style="font-size:2rem;font-weight:800;margin-bottom:.75rem">${brandConfig.copy.headline}</h1><p style="color:#6b7280;margin-bottom:1.5rem">${brandConfig.copy.subheadline}</p><button class="btn">${brandConfig.copy.cta}</button></main></body></html>`
+    }
+
+    // Generate unique slug
+    const slug = generateSlug(validatedData.brandName)
+
+    // Map templates to database-compatible versions
+    // Schema allows: t6, t7, t9, t10, t11
+    // Database allows: t1, t2, t3, t4, t5, t6, t7
+    // Intersection: t6, t7 (these can be used directly)
+    const templateMapping: Record<string, string> = {
+      't6': 't6',   // Direct mapping
+      't7': 't7',   // Direct mapping
+      't9': 't4',   // Map to available slot
+      't10': 't5',  // Map to available slot
+      't11': 't3'   // Map to available slot
+    }
+    const dbTemplateId = templateMapping[validatedData.templateId] || 't6'
+    
+    const { data: site, error: siteError} = await supabase
+      .from('sites')
+      .insert({
+        user_id: user.id,
+        slug,
+        template_id: dbTemplateId,
+        logo_url: validatedData.logoUrl,
+        primary_color: colors.primary,
+        secondary_color: colors.secondary,
+        accent_color: colors.accent,
+        brand_name: validatedData.brandName,
+        industry: validatedData.industry,
+        description: validatedData.description,
+        headline: copy.headline,
+        subheadline: copy.subheadline,
+        cta: copy.cta,
+        cta_url: validatedData.ctaUrl,
+        generated_html: html,
+        generated_css: css,
+        status: 'draft'
+      })
+      .select()
+      .single()
+
+    if (siteError) {
+      console.error('Site creation error:', siteError)
+      return NextResponse.json({ error: 'Failed to create site' }, { status: 500 })
+    }
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        site,
+        slug
+      }
+    })
+
+  } catch (error) {
+    console.error('Generation error:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
+}

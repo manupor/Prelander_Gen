@@ -1,0 +1,10 @@
+{
+	"name": "WebStorage",
+	"plugin-id": "WebStorage",
+	"sid": 2767943250458525,
+	"singleglobal-inst": {
+		"type": "WebStorage",
+		"properties": {},
+		"uid": 93
+	}
+}

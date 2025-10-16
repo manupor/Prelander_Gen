@@ -1,0 +1,19 @@
+{
+	"name": "AdmobAds",
+	"plugin-id": "admob",
+	"sid": 9780417615159236,
+	"singleglobal-inst": {
+		"type": "AdmobAds",
+		"properties": {
+			"overlap": true,
+			"test-mode": false,
+			"android-banner-id": "Your Banner ID (Android)",
+			"android-interstitial-id": "Your Interstitial ID (Android)",
+			"ios-banner-id": "Your Banner ID (IOS)",
+			"ios-interstitial-id": "Your Interstitial ID (IOS)",
+			"windows-banner-id": "Your Banner ID (WP8)",
+			"windows-interstitial-id": "Your Interstitial ID (WP8)"
+		},
+		"uid": 2
+	}
+}

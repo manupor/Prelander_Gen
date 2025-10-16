@@ -1,0 +1,86 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0f08;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2c1810;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffb347;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="400" height="300" fill="url(#bg)"/>
+  
+  <!-- Floating symbols -->
+  <circle cx="50" cy="40" r="8" fill="#ffd700" opacity="0.6"/>
+  <circle cx="350" cy="60" r="6" fill="#ff4444" opacity="0.6"/>
+  <circle cx="80" cy="250" r="10" fill="#4ade80" opacity="0.6"/>
+  <circle cx="320" cy="240" r="7" fill="#3b82f6" opacity="0.6"/>
+  
+  <!-- Header -->
+  <text x="200" y="30" text-anchor="middle" fill="#ffd700" font-family="Arial, sans-serif" font-size="16" font-weight="bold">🏆 CASINO BRAND 🏆</text>
+  <text x="200" y="50" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12">Win Big with AI-Powered Gaming!</text>
+  
+  <!-- Bonus Timer -->
+  <rect x="150" y="60" width="100" height="20" rx="10" fill="#ff4444"/>
+  <text x="200" y="73" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10">⏰ Bonus: 5:55</text>
+  
+  <!-- Slot Machine -->
+  <rect x="100" y="90" width="200" height="140" rx="15" fill="url(#gold)" stroke="#ffd700" stroke-width="3"/>
+  
+  <!-- Prize Display -->
+  <rect x="120" y="105" width="60" height="30" rx="5" fill="#4ade80" stroke="#22c55e" stroke-width="2"/>
+  <text x="150" y="115" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8">🎁</text>
+  <text x="150" y="128" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8" font-weight="bold">WIN $5K</text>
+  
+  <rect x="220" y="105" width="60" height="30" rx="5" fill="#8b5cf6" stroke="#7c3aed" stroke-width="2"/>
+  <text x="250" y="115" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8">💎</text>
+  <text x="250" y="128" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8" font-weight="bold">MIN $1K</text>
+  
+  <!-- Slot Game Area -->
+  <rect x="120" y="145" width="160" height="60" rx="8" fill="#000000"/>
+  
+  <!-- Slot Symbols -->
+  <rect x="130" y="155" width="15" height="15" rx="2" fill="url(#gold)"/>
+  <text x="137" y="165" text-anchor="middle" fill="black" font-family="Arial, sans-serif" font-size="10">🍒</text>
+  
+  <rect x="150" y="155" width="15" height="15" rx="2" fill="url(#gold)"/>
+  <text x="157" y="165" text-anchor="middle" fill="black" font-family="Arial, sans-serif" font-size="10">💎</text>
+  
+  <rect x="170" y="155" width="15" height="15" rx="2" fill="url(#gold)"/>
+  <text x="177" y="165" text-anchor="middle" fill="black" font-family="Arial, sans-serif" font-size="10">🎰</text>
+  
+  <!-- Second row -->
+  <rect x="130" y="175" width="15" height="15" rx="2" fill="url(#gold)"/>
+  <text x="137" y="185" text-anchor="middle" fill="black" font-family="Arial, sans-serif" font-size="10">🎰</text>
+  
+  <rect x="150" y="175" width="15" height="15" rx="2" fill="url(#gold)"/>
+  <text x="157" y="185" text-anchor="middle" fill="black" font-family="Arial, sans-serif" font-size="10">🍒</text>
+  
+  <rect x="170" y="175" width="15" height="15" rx="2" fill="url(#gold)"/>
+  <text x="177" y="185" text-anchor="middle" fill="black" font-family="Arial, sans-serif" font-size="10">💎</text>
+  
+  <!-- Spin Button -->
+  <rect x="200" y="155" width="70" height="35" rx="17" fill="#ef4444" stroke="#ffd700" stroke-width="2"/>
+  <text x="235" y="170" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8" font-weight="bold">🎰 SPIN</text>
+  <text x="235" y="182" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8" font-weight="bold">TO WIN!</text>
+  
+  <!-- Features -->
+  <rect x="50" y="245" width="80" height="25" rx="5" fill="rgba(0,0,0,0.7)" stroke="#ffd700" stroke-width="1"/>
+  <text x="90" y="255" text-anchor="middle" fill="#ffd700" font-family="Arial, sans-serif" font-size="8">💎 Instant</text>
+  <text x="90" y="265" text-anchor="middle" fill="#ffd700" font-family="Arial, sans-serif" font-size="8">Payouts</text>
+  
+  <rect x="160" y="245" width="80" height="25" rx="5" fill="rgba(0,0,0,0.7)" stroke="#ffd700" stroke-width="1"/>
+  <text x="200" y="255" text-anchor="middle" fill="#ffd700" font-family="Arial, sans-serif" font-size="8">🎁 Welcome</text>
+  <text x="200" y="265" text-anchor="middle" fill="#ffd700" font-family="Arial, sans-serif" font-size="8">Bonus</text>
+  
+  <rect x="270" y="245" width="80" height="25" rx="5" fill="rgba(0,0,0,0.7)" stroke="#ffd700" stroke-width="1"/>
+  <text x="310" y="255" text-anchor="middle" fill="#ffd700" font-family="Arial, sans-serif" font-size="8">🏆 24/7</text>
+  <text x="310" y="265" text-anchor="middle" fill="#ffd700" font-family="Arial, sans-serif" font-size="8">Support</text>
+  
+  <!-- CTA Button -->
+  <rect x="150" y="280" width="100" height="15" rx="7" fill="#ef4444" stroke="#ffd700" stroke-width="2"/>
+  <text x="200" y="290" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8" font-weight="bold">🏆 PLAY NOW! 🏆</text>
+</svg>

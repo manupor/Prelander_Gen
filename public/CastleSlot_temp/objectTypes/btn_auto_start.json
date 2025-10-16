@@ -1,0 +1,62 @@
+{
+	"name": "btn_auto_start",
+	"plugin-id": "Sprite",
+	"sid": 7063940371896875,
+	"isGlobal": false,
+	"instanceVariables": [
+		{
+			"name": "STT",
+			"type": "string",
+			"desc": "",
+			"sid": 6830466834936993
+		}
+	],
+	"behaviorTypes": [
+		{
+			"behaviorId": "Flash",
+			"name": "Flash",
+			"sid": 8161270611226818
+		}
+	],
+	"effectTypes": [],
+	"animations": {
+		"items": [
+			{
+				"frames": [
+					{
+						"width": 189,
+						"height": 189,
+						"originX": 0.502645,
+						"originY": 0.502645,
+						"originalSource": "C:\\Users\\Владимир\\Desktop\\замена графики\\Безымянный 7.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 922413,
+						"useCollisionPoly": true,
+						"duration": 1
+					},
+					{
+						"width": 189,
+						"height": 189,
+						"originX": 0.502645,
+						"originY": 0.502645,
+						"originalSource": "C:\\Users\\Владимир\\Desktop\\замена графики\\Безымянный 7.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 6343576,
+						"useCollisionPoly": true,
+						"duration": 1
+					}
+				],
+				"sid": 9647263989177354,
+				"name": "Default",
+				"isLooping": false,
+				"isPingPong": false,
+				"repeatCount": 1,
+				"repeatTo": 0,
+				"speed": 0
+			}
+		],
+		"subfolders": []
+	}
+}

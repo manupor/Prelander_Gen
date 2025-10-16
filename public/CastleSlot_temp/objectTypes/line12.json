@@ -1,0 +1,37 @@
+{
+	"name": "Line12",
+	"plugin-id": "Sprite",
+	"sid": 2850807864701733,
+	"isGlobal": false,
+	"instanceVariables": [],
+	"behaviorTypes": [],
+	"effectTypes": [],
+	"animations": {
+		"items": [
+			{
+				"frames": [
+					{
+						"width": 1181,
+						"height": 243,
+						"originX": 0.500423,
+						"originY": 0.502058,
+						"originalSource": "C:\\Users\\Net\\Desktop\\1.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 2724886,
+						"useCollisionPoly": true,
+						"duration": 1
+					}
+				],
+				"sid": 337439114713712,
+				"name": "Default",
+				"isLooping": false,
+				"isPingPong": false,
+				"repeatCount": 1,
+				"repeatTo": 0,
+				"speed": 5
+			}
+		],
+		"subfolders": []
+	}
+}

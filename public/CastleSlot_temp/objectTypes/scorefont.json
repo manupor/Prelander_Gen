@@ -1,0 +1,20 @@
+{
+	"name": "ScoreFont",
+	"plugin-id": "Spritefont2",
+	"sid": 280234331543013,
+	"isGlobal": false,
+	"instanceVariables": [],
+	"behaviorTypes": [],
+	"effectTypes": [],
+	"image": {
+		"width": 512,
+		"height": 512,
+		"originX": 0.5,
+		"originY": 0.5,
+		"originalSource": "H:\\ИГРОСТРОЙ\\Будущие_игры\\021_ExtremeRunner\\Font.png",
+		"exportFormat": "png",
+		"exportQuality": 0.8,
+		"imageSpriteId": 1072096,
+		"useCollisionPoly": true
+	}
+}

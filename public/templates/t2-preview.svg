@@ -1,0 +1,46 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="400" height="300" fill="url(#bg2)"/>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="400" height="50" fill="rgba(255,255,255,0.1)"/>
+  <text x="30" y="30" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">BOLD BRAND</text>
+  <rect x="320" y="15" width="60" height="20" rx="10" fill="url(#accent2)"/>
+  <text x="350" y="27" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10">JOIN NOW</text>
+  
+  <!-- Hero Section -->
+  <text x="200" y="80" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="22" font-weight="bold">UNLEASH YOUR POTENTIAL</text>
+  <text x="200" y="100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Arial, sans-serif" font-size="12">Bold marketing that gets results</text>
+  <rect x="170" y="110" width="60" height="25" rx="12" fill="url(#accent2)"/>
+  <text x="200" y="125" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10" font-weight="bold">START NOW</text>
+  
+  <!-- Split Layout -->
+  <rect x="20" y="150" width="170" height="80" fill="rgba(255,255,255,0.1)" rx="10"/>
+  <text x="105" y="170" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">PREMIUM FEATURES</text>
+  <text x="105" y="185" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Arial, sans-serif" font-size="9">✓ Advanced Analytics</text>
+  <text x="105" y="200" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Arial, sans-serif" font-size="9">✓ 24/7 Support</text>
+  <text x="105" y="215" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Arial, sans-serif" font-size="9">✓ Custom Integration</text>
+  
+  <!-- Pricing Card -->
+  <rect x="210" y="150" width="170" height="80" fill="rgba(255,255,255,0.2)" rx="10" stroke="url(#accent2)" stroke-width="2"/>
+  <text x="295" y="170" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">SPECIAL OFFER</text>
+  <text x="295" y="190" text-anchor="middle" fill="url(#accent2)" font-family="Arial, sans-serif" font-size="20" font-weight="bold">$99/mo</text>
+  <text x="295" y="205" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-family="Arial, sans-serif" font-size="9">Save 50% Today</text>
+  <rect x="265" y="210" width="60" height="15" rx="7" fill="url(#accent2)"/>
+  <text x="295" y="220" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8" font-weight="bold">CLAIM NOW</text>
+  
+  <!-- Bottom CTA -->
+  <rect x="100" y="250" width="200" height="30" rx="15" fill="url(#accent2)"/>
+  <text x="200" y="268" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">🚀 TRANSFORM YOUR BUSINESS 🚀</text>
+</svg>

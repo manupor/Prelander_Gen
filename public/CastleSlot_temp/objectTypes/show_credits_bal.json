@@ -1,0 +1,57 @@
+{
+	"name": "show_credits_bal",
+	"plugin-id": "Sprite",
+	"sid": 9430919703708932,
+	"isGlobal": false,
+	"instanceVariables": [],
+	"behaviorTypes": [],
+	"effectTypes": [],
+	"animations": {
+		"items": [
+			{
+				"frames": [
+					{
+						"width": 175,
+						"height": 54,
+						"originX": 0.502857,
+						"originY": 0.518519,
+						"originalSource": "D:\\c2\\ниндзя\\2222.png",
+						"exportFormat": "png",
+						"exportQuality": 0.8,
+						"imageSpriteId": 4597063,
+						"collisionPoly": {
+							"points": [
+								0.0228571,
+								0.0740741,
+								0.497143,
+								0,
+								0.971429,
+								0.0925926,
+								0.994286,
+								0.5,
+								0.971429,
+								0.907407,
+								0.497143,
+								1,
+								0.0228571,
+								0.925926,
+								0,
+								0.5
+							]
+						},
+						"useCollisionPoly": true,
+						"duration": 1
+					}
+				],
+				"sid": 1213094419727667,
+				"name": "Default",
+				"isLooping": false,
+				"isPingPong": false,
+				"repeatCount": 1,
+				"repeatTo": 0,
+				"speed": 5
+			}
+		],
+		"subfolders": []
+	}
+}

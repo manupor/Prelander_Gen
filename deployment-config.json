@@ -1,0 +1,45 @@
+{
+  "name": "Olavivo Prelander AI",
+  "description": "AI-powered prelander site generator with Bonanza slot machine template",
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
+  "devCommand": "npm run dev",
+  "environmentVariables": {
+    "required": [
+      {
+        "key": "NEXT_PUBLIC_SUPABASE_URL",
+        "description": "Supabase project URL",
+        "example": "https://your-project-id.supabase.co"
+      },
+      {
+        "key": "NEXT_PUBLIC_SUPABASE_ANON_KEY", 
+        "description": "Supabase anonymous/public key",
+        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      }
+    ],
+    "optional": [
+      {
+        "key": "OPENAI_API_KEY",
+        "description": "OpenAI API key for AI-generated marketing copy",
+        "example": "sk-proj-...",
+        "fallback": "Uses predefined marketing copy templates"
+      }
+    ]
+  },
+  "features": [
+    "User authentication via Supabase",
+    "AI-powered marketing copy generation",
+    "Bonanza slot machine template with guaranteed jackpot",
+    "Brand customization (logo, colors, copy)",
+    "Static site export and publishing",
+    "Responsive design with Tailwind CSS"
+  ],
+  "deployment": {
+    "platforms": ["Vercel", "Netlify", "Railway", "Render"],
+    "nodeVersion": "18+",
+    "buildTime": "~2-3 minutes",
+    "staticExport": true
+  }
+}
