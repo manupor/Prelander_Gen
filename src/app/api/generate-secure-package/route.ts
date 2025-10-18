@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import crypto from 'crypto'
-import fs from 'fs'
-import path from 'path'
-import { promisify } from 'util'
-// @ts-ignore - archiver-zip-encrypted doesn't have types
-import archiver from 'archiver-zip-encrypted'
+import JSZip from 'jszip'
 // @ts-ignore - javascript-obfuscator doesn't have perfect types
 import JavaScriptObfuscator from 'javascript-obfuscator'
 
@@ -40,8 +36,20 @@ export async function POST(request: NextRequest) {
     // Generate password for ZIP
     const password = crypto.randomBytes(12).toString('hex').toUpperCase()
 
-    // Create encrypted ZIP
-    const zipBuffer = await createEncryptedZip(securePackage, password)
+    // Create ZIP with JSZip (simpler approach)
+    const zip = new JSZip()
+    
+    // Add all files to ZIP
+    Object.entries(securePackage).forEach(([filename, content]) => {
+      zip.file(filename, content)
+    })
+    
+    // Generate ZIP buffer
+    const zipBuffer = await zip.generateAsync({ 
+      type: 'uint8array',
+      compression: 'DEFLATE',
+      compressionOptions: { level: 6 }
+    })
 
     // Send password via email
     try {
@@ -599,37 +607,3 @@ Security Level: Maximum
 `.trim()
 }
 
-async function createEncryptedZip(files: Record<string, string>, password: string): Promise<Buffer> {
-  return new Promise<Buffer>((resolve, reject) => {
-    const chunks: Buffer[] = []
-    
-    // Create archiver instance with encryption
-    const archive = archiver('zip-encrypted', {
-      zlib: { level: 9 },
-      password: password
-    })
-
-    // Handle data chunks
-    archive.on('data', (chunk: Buffer) => {
-      chunks.push(chunk)
-    })
-
-    // Handle completion
-    archive.on('end', () => {
-      resolve(Buffer.concat(chunks))
-    })
-
-    // Handle errors
-    archive.on('error', (err: Error) => {
-      reject(err)
-    })
-
-    // Add all files to the encrypted archive
-    Object.entries(files).forEach(([filename, content]) => {
-      archive.append(content, { name: filename })
-    })
-
-    // Finalize the archive
-    archive.finalize()
-  })
-}
