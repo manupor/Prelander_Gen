@@ -603,20 +603,23 @@ async function createEncryptedZip(files: Record<string, string>, password: strin
   return new Promise<Buffer>((resolve, reject) => {
     const chunks: Buffer[] = []
     
+    // Create archiver instance with encryption
     const archive = archiver('zip-encrypted', {
       zlib: { level: 9 },
-      encryptionMethod: 'aes256',
       password: password
     })
 
+    // Handle data chunks
     archive.on('data', (chunk: Buffer) => {
       chunks.push(chunk)
     })
 
+    // Handle completion
     archive.on('end', () => {
       resolve(Buffer.concat(chunks))
     })
 
+    // Handle errors
     archive.on('error', (err: Error) => {
       reject(err)
     })
@@ -626,6 +629,7 @@ async function createEncryptedZip(files: Record<string, string>, password: strin
       archive.append(content, { name: filename })
     })
 
+    // Finalize the archive
     archive.finalize()
   })
 }
