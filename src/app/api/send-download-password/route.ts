@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password, siteName, slug } = await request.json()
+    const { email, password, siteName, slug, isSecurePackage } = await request.json()
 
     // Validate input
     if (!email || !password || !siteName) {
@@ -29,45 +29,49 @@ export async function POST(request: NextRequest) {
     .warning { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; border-radius: 4px; }
     .footer { text-align: center; color: #6b7280; font-size: 14px; margin-top: 30px; }
     .button { display: inline-block; background: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; margin: 20px 0; }
+    .secure-badge { background: #10b981; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1>🔐 Your Download Password</h1>
-      <p>Secure Access to Your Landing Page</p>
+      <h1>${isSecurePackage ? '🛡️ Secure Package Access' : '🔐 Your Download Password'}</h1>
+      <p>${isSecurePackage ? 'Military-Grade Protected Landing Page' : 'Secure Access to Your Landing Page'}</p>
+      ${isSecurePackage ? '<span class="secure-badge">MAXIMUM SECURITY</span>' : ''}
     </div>
     <div class="content">
       <p>Hello,</p>
-      <p>You've requested to download your <strong>${siteName}</strong> landing page. For security, your files are protected with a password-access system.</p>
+      <p>You've requested to download your <strong>${siteName}</strong> landing page. ${isSecurePackage ? 'This is a SECURE PACKAGE with advanced protection features.' : 'For security, your files are protected in an encrypted ZIP archive.'}</p>
       
       <div class="password-box">
-        <p style="margin: 0 0 10px 0; color: #6b7280; font-size: 14px;">Your Download Password:</p>
+        <p style="margin: 0 0 10px 0; color: #6b7280; font-size: 14px;">Your ${isSecurePackage ? 'Secure Package' : 'ZIP Encryption'} Password:</p>
         <div class="password">${password}</div>
       </div>
 
       <div class="warning">
-        <strong>⚠️ Important Security Information:</strong>
+        <strong>⚠️ ${isSecurePackage ? 'MAXIMUM SECURITY' : 'Important Security'} Information:</strong>
         <ul style="margin: 10px 0 0 0;">
           <li>This password expires in <strong>24 hours</strong></li>
           <li>Keep this password secure and do not share it</li>
-          <li>The password protects your landing page assets from unauthorized access</li>
+          <li>${isSecurePackage ? 'Package includes JavaScript obfuscation, domain locking, and anti-tampering' : 'The entire ZIP file is encrypted with AES-256 encryption'}</li>
+          ${isSecurePackage ? '<li><strong>Code is protected against reverse engineering</strong></li>' : ''}
           <li>If you didn't request this download, please contact support immediately</li>
         </ul>
       </div>
 
-      <p><strong>🔓 Simple Access Instructions:</strong></p>
+      <p><strong>🔓 ${isSecurePackage ? 'Deployment' : 'Access'} Instructions:</strong></p>
       <ol>
-        <li>Download and extract the ZIP file from your dashboard</li>
-        <li>Open the <code>index.html</code> file in your web browser</li>
-        <li>Enter the password above when prompted</li>
-        <li>Download your landing page files directly from the browser</li>
-        <li>Upload the downloaded files to your hosting service</li>
+        <li>Download the encrypted ZIP file from your dashboard</li>
+        <li>Extract the ZIP using the password above</li>
+        ${isSecurePackage ? '<li><strong>Upload ALL files</strong> to your web hosting service (maintain file structure)</li>' : '<li>Upload the extracted <code>index.html</code> file to your hosting service</li>'}
+        ${isSecurePackage ? '<li><strong>Do NOT modify any files</strong> - this will break the security features</li>' : ''}
+        <li>Test your landing page to ensure it works correctly</li>
+        ${isSecurePackage ? '<li>Access via your domain (will not work locally via file://)</li>' : ''}
       </ol>
       
-      <p style="background: #f0f9ff; padding: 15px; border-radius: 8px; color: #0369a1; margin: 20px 0;">
-        <strong>✨ No technical setup required!</strong><br>
-        Just open the HTML file in any web browser and enter your password.
+      <p style="background: ${isSecurePackage ? '#dc2626' : '#f0f9ff'}; padding: 15px; border-radius: 8px; color: ${isSecurePackage ? 'white' : '#0369a1'}; margin: 20px 0;">
+        <strong>${isSecurePackage ? '🛡️ MAXIMUM PROTECTION!' : '🔒 True Encryption!'}</strong><br>
+        ${isSecurePackage ? 'Your landing page is protected with obfuscation, encryption, domain locking, and anti-debugging measures.' : 'Your files are now protected with military-grade AES-256 encryption.'}
       </p>
 
       <p style="margin-top: 30px;">

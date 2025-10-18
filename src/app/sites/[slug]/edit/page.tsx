@@ -64,6 +64,8 @@ export default function SiteEditorPage() {
   const [showDownloadModal, setShowDownloadModal] = useState(false)
   const [downloadEmail, setDownloadEmail] = useState('')
   const [downloading, setDownloading] = useState(false)
+  const [affiliateCode, setAffiliateCode] = useState('')
+  const [domainLock, setDomainLock] = useState('')
 
   const toggleSection = (section: 'vertical' | 'template' | 'logo' | 'content' | 'colors' | 'legal') => {
     const isExpanding = !expandedSections[section]
@@ -434,11 +436,76 @@ export default function SiteEditorPage() {
       setShowDownloadModal(false)
       setDownloadEmail('')
       
-      alert(`🔐 Protected Package Downloaded!\n\n${password ? `Access Password: ${password}` : 'Check your email for the access password.'}\n\nThe ZIP contains:\n• 📄 index.html - Protected access page\n• 📋 README.md - Simple instructions\n\nTO USE:\n1. Extract the ZIP file\n2. Open index.html in your browser\n3. Enter the password to access your files\n4. Download your landing page directly from the browser\n\n🔑 Much simpler - no technical setup required!\nPassword also sent to your email for security.`)
+      alert(`🔐 Encrypted Package Downloaded!\n\n${password ? `ZIP Password: ${password}` : 'Check your email for the ZIP password.'}\n\nThe encrypted ZIP contains:\n• 📄 index.html - Your complete landing page\n• ⚙️ config.json - Site configuration\n• 📋 README.md - Deployment instructions\n\nTO USE:\n1. Extract the ZIP file using the password\n2. Upload index.html to your web hosting service\n3. Test your landing page\n\n🔒 Your files are now properly encrypted!\nPassword sent to your email for security.`)
       
     } catch (error: any) {
       console.error('Download error:', error)
       alert(`Failed to download: ${error.message}`)
+    } finally {
+      setDownloading(false)
+    }
+  }
+
+  const handleSecureDownload = async () => {
+    if (!downloadEmail) {
+      alert('Please enter your email address')
+      return
+    }
+
+    if (!affiliateCode) {
+      alert('Please enter an affiliate code')
+      return
+    }
+
+    setDownloading(true)
+    try {
+      const response = await fetch('/api/generate-secure-package', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          slug,
+          userEmail: downloadEmail,
+          affiliateCode,
+          allowedDomain: domainLock || undefined
+        }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        const errorMessage = errorData.details || errorData.error || 'Failed to generate secure package'
+        throw new Error(errorMessage)
+      }
+
+      // Get the filename from the response headers
+      const contentDisposition = response.headers.get('content-disposition')
+      const filename = contentDisposition?.match(/filename="(.+)"/)?.[1] || `secure_${site?.brand_name}_${affiliateCode}.zip`
+
+      // Create blob and download
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = filename
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+
+      // Get password from header (development only)
+      const password = response.headers.get('X-Download-Password')
+      
+      setShowDownloadModal(false)
+      setDownloadEmail('')
+      setAffiliateCode('')
+      setDomainLock('')
+      
+      alert(`🛡️ SECURE Package Downloaded!\n\n${password ? `ZIP Password: ${password}` : 'Check your email for the ZIP password.'}\n\nThe SECURE ZIP contains:\n• 📄 index.html - Protected shell page\n• 🔒 script.js - Obfuscated JavaScript with encrypted content\n• 🎨 style.css - Responsive styling\n• 📋 README.md - Security & deployment guide\n\nSECURITY FEATURES:\n✅ JavaScript obfuscation & encryption\n✅ Anti-debugging protection\n✅ Domain locking${domainLock ? ` (${domainLock})` : ' (disabled)'}\n✅ Hidden affiliate tracking (${affiliateCode})\n✅ File:// protocol blocking\n✅ Right-click protection\n\nDEPLOYMENT:\n1. Extract ZIP with password\n2. Upload ALL files to web hosting\n3. Access via your domain (not locally)\n4. Do NOT modify files\n\n🛡️ Maximum security protection active!\nPassword sent to your email.`)
+      
+    } catch (error: any) {
+      console.error('Secure download error:', error)
+      alert(`Failed to generate secure package: ${error.message}`)
     } finally {
       setDownloading(false)
     }
@@ -1270,7 +1337,7 @@ export default function SiteEditorPage() {
       {/* Enhanced Download Modal */}
       {showDownloadModal && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-in fade-in duration-300">
-          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-xl p-6 max-w-lg w-full mx-4 border-2 border-neon-primary/30 shadow-2xl shadow-neon-primary/20 relative overflow-hidden">
+          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-xl p-6 max-w-2xl w-full mx-4 border-2 border-neon-primary/30 shadow-2xl shadow-neon-primary/20 relative overflow-hidden">
             {/* Animated background */}
             <div className="absolute inset-0 bg-gradient-to-r from-neon-primary/5 via-transparent to-neon-secondary/5 animate-pulse"></div>
             
@@ -1281,56 +1348,128 @@ export default function SiteEditorPage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white">Download Prelander</h3>
-                  <p className="text-sm text-neon-primary/80">Get your secure package</p>
+                  <p className="text-sm text-neon-primary/80">Choose your security level</p>
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                {/* Standard Package */}
                 <div className="bg-gradient-to-r from-gray-800/50 to-gray-700/50 rounded-lg p-4 border border-neon-primary/20 backdrop-blur-sm">
                   <div className="flex items-start gap-3">
-                    <Mail className="w-6 h-6 text-neon-primary mt-0.5" />
+                    <div className="p-2 bg-blue-500/20 rounded-lg">
+                      <Mail className="w-5 h-5 text-blue-400" />
+                    </div>
                     <div>
-                      <p className="text-sm text-white font-semibold">🔐 Simple Protected Download</p>
-                      <p className="text-xs text-gray-300 mt-2 leading-relaxed">
-                        Your prelander will be packaged with a password-protected access page. 
-                        Simply open the HTML file in your browser and enter the password - no technical setup required!
+                      <p className="text-sm text-white font-semibold">🔐 Standard Package</p>
+                      <p className="text-xs text-gray-300 mt-1 leading-relaxed">
+                        Password-protected ZIP with ready-to-use files. Simple deployment.
                       </p>
+                      <ul className="text-xs text-gray-400 mt-2 space-y-1">
+                        <li>• ZIP encryption</li>
+                        <li>• Ready HTML files</li>
+                        <li>• Easy deployment</li>
+                      </ul>
                     </div>
                   </div>
                 </div>
 
-              <div>
-                <label className="block text-sm font-medium text-white mb-2">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  value={downloadEmail}
-                  onChange={(e) => setDownloadEmail(e.target.value)}
-                  className="w-full px-3 py-2 bg-darker-surface border border-neon-primary/30 rounded-lg text-white focus:outline-none focus:border-neon-primary"
-                  placeholder="your@email.com"
-                  disabled={downloading}
-                />
-                <p className="text-xs text-gray-400 mt-2">
-                  Access code will be sent to this email address
+                {/* Secure Package */}
+                <div className="bg-gradient-to-r from-red-900/30 to-orange-900/30 rounded-lg p-4 border border-red-500/30 backdrop-blur-sm">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-red-500/20 rounded-lg">
+                      <Layers className="w-5 h-5 text-red-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-white font-semibold">🛡️ SECURE Package</p>
+                      <p className="text-xs text-gray-300 mt-1 leading-relaxed">
+                        Military-grade protection with obfuscation and anti-tampering.
+                      </p>
+                      <ul className="text-xs text-gray-400 mt-2 space-y-1">
+                        <li>• JS obfuscation & encryption</li>
+                        <li>• Domain locking</li>
+                        <li>• Anti-debugging protection</li>
+                        <li>• Hidden affiliate tracking</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    value={downloadEmail}
+                    onChange={(e) => setDownloadEmail(e.target.value)}
+                    className="w-full px-3 py-2 bg-darker-surface border border-neon-primary/30 rounded-lg text-white focus:outline-none focus:border-neon-primary"
+                    placeholder="your@email.com"
+                    disabled={downloading}
+                  />
+                </div>
+
+                {/* Secure Package Options */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-2">
+                      Affiliate Code (for secure package)
+                    </label>
+                    <input
+                      type="text"
+                      value={affiliateCode}
+                      onChange={(e) => setAffiliateCode(e.target.value.toUpperCase())}
+                      className="w-full px-3 py-2 bg-darker-surface border border-neon-primary/30 rounded-lg text-white focus:outline-none focus:border-neon-primary"
+                      placeholder="e.g. AFF001"
+                      disabled={downloading}
+                    />
+                    <p className="text-xs text-gray-400 mt-1">
+                      Hidden tracking identifier
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-white mb-2">
+                      Domain Lock (optional)
+                    </label>
+                    <input
+                      type="text"
+                      value={domainLock}
+                      onChange={(e) => setDomainLock(e.target.value)}
+                      className="w-full px-3 py-2 bg-darker-surface border border-neon-primary/30 rounded-lg text-white focus:outline-none focus:border-neon-primary"
+                      placeholder="example.com"
+                      disabled={downloading}
+                    />
+                    <p className="text-xs text-gray-400 mt-1">
+                      Restrict to specific domain
+                    </p>
+                  </div>
+                </div>
+
+                <p className="text-xs text-gray-400">
+                  Access codes will be sent to your email address
                 </p>
               </div>
 
-              <div className="flex gap-3 pt-4">
+              <div className="flex gap-3 pt-6">
                 <button
                   onClick={() => {
                     setShowDownloadModal(false)
                     setDownloadEmail('')
+                    setAffiliateCode('')
+                    setDomainLock('')
                   }}
                   disabled={downloading}
-                  className="flex-1 px-4 py-3 bg-gray-700/50 hover:bg-gray-600/50 text-gray-300 hover:text-white rounded-lg transition-all duration-300 disabled:opacity-50 border border-gray-600 hover:border-gray-500"
+                  className="px-4 py-3 bg-gray-700/50 hover:bg-gray-600/50 text-gray-300 hover:text-white rounded-lg transition-all duration-300 disabled:opacity-50 border border-gray-600 hover:border-gray-500"
                 >
                   Cancel
                 </button>
+                
                 <button
                   onClick={handleDownload}
                   disabled={downloading || !downloadEmail}
-                  className="flex-1 px-4 py-3 bg-gradient-to-r from-neon-primary to-neon-secondary hover:from-neon-secondary hover:to-neon-primary text-black rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-2 shadow-lg shadow-neon-primary/30 hover:shadow-xl hover:shadow-neon-primary/50"
+                  className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-medium flex items-center justify-center gap-2"
                 >
                   {downloading ? (
                     <>
@@ -1340,11 +1479,28 @@ export default function SiteEditorPage() {
                   ) : (
                     <>
                       <Download className="w-5 h-5" />
-                      Download
+                      Standard Package
                     </>
                   )}
                 </button>
-              </div>
+
+                <button
+                  onClick={handleSecureDownload}
+                  disabled={downloading || !downloadEmail || !affiliateCode}
+                  className="flex-1 px-4 py-3 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-2 shadow-lg shadow-red-500/30"
+                >
+                  {downloading ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Securing...
+                    </>
+                  ) : (
+                    <>
+                      <Layers className="w-5 h-5" />
+                      SECURE Package
+                    </>
+                  )}
+                </button>
               </div>
             </div>
           </div>
