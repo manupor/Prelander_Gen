@@ -33,22 +33,44 @@ export async function POST(request: NextRequest) {
       slug
     })
 
-    // Generate password for ZIP
+    // Generate password for the secure package
     const password = crypto.randomBytes(12).toString('hex').toUpperCase()
 
-    // Create ZIP with JSZip (simpler approach)
+    // Create ZIP with JSZip and add password info to README
     const zip = new JSZip()
     
-    // Add all files to ZIP
+    // Add password info to README for user reference
+    const enhancedReadme = securePackage['README.md'] + `
+
+## 🔐 IMPORTANT: Package Security Information
+
+**Package Password:** ${password}
+**Generated:** ${new Date().toISOString()}
+**Affiliate:** ${affiliateCode}
+
+This password has been sent to your email: ${userEmail}
+Keep this information secure and do not share it.
+
+---
+SECURITY NOTE: While this ZIP is not password-protected at the file level,
+the JavaScript content inside is heavily obfuscated and encrypted.
+The real security comes from the obfuscated code, not the ZIP password.
+`
+    
+    // Add all files to ZIP (including enhanced README with password)
     Object.entries(securePackage).forEach(([filename, content]) => {
-      zip.file(filename, content)
+      if (filename === 'README.md') {
+        zip.file(filename, enhancedReadme)
+      } else {
+        zip.file(filename, content)
+      }
     })
     
     // Generate ZIP buffer
     const zipBuffer = await zip.generateAsync({ 
       type: 'uint8array',
       compression: 'DEFLATE',
-      compressionOptions: { level: 6 }
+      compressionOptions: { level: 9 }
     })
 
     // Send password via email

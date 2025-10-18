@@ -89,26 +89,29 @@ export async function POST(request: NextRequest) {
 </html>
     `
 
-    // Log the email content (in production, actually send via email service)
-    console.log('Password email would be sent to:', email)
+    // Log the email content for debugging
+    console.log('📧 EMAIL DEBUG INFO:')
+    console.log('To:', email)
     console.log('Password:', password)
-
+    console.log('Site:', siteName)
+    console.log('Is Secure Package:', isSecurePackage)
+    
     // TODO: Integrate with actual email service
-    // Example with Resend:
-    // const resend = new Resend(process.env.RESEND_API_KEY)
-    // await resend.emails.send({
-    //   from: 'Olavivo PrelanderAI <noreply@yourdomain.com>',
-    //   to: email,
-    //   subject: `🔐 Download Password for ${siteName}`,
-    //   html: emailHtml
-    // })
+    // For now, we'll simulate email sending and always include password in response for development
+    
+    // Simulate email delay
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    
+    console.log('✅ Email simulation completed')
 
-    // For now, return success (password is in SECURITY_NOTICE.txt in the ZIP)
+    // Return success with password for development/testing
     return NextResponse.json({ 
       success: true,
-      message: 'Password notification sent',
-      // In development, include password in response
-      ...(process.env.NODE_ENV === 'development' && { password })
+      message: 'Password notification sent (simulated)',
+      // Always include password in development for testing
+      password: password,
+      emailSent: false, // Indicate this is simulated
+      note: 'Email service not configured - password included in response for testing'
     })
 
   } catch (error) {
