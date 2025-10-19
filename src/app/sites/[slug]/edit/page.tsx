@@ -390,6 +390,51 @@ export default function SiteEditorPage() {
     }
   }
 
+  // Simple protected download - No email or passwords needed!
+  const handleSimpleDownload = async () => {
+    setDownloading(true)
+    try {
+      const response = await fetch('/api/download-simple-protected', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ slug }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        const errorMessage = errorData.details || errorData.error || 'Failed to generate download'
+        throw new Error(errorMessage)
+      }
+
+      // Get the filename from the response headers
+      const contentDisposition = response.headers.get('content-disposition')
+      const filename = contentDisposition?.match(/filename="(.+)"/)?.[1] || `${site?.brand_name}_protected.zip`
+
+      // Create blob and download
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = filename
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+
+      setShowDownloadModal(false)
+      
+      alert(`✅ ¡Descarga Completa!\n\n📦 Tu landing page protegida está lista\n\n¿Qué contiene?\n• 📄 index.html - Página completa con código encriptado\n• 🎨 style.css - Estilos responsivos\n• 📋 README.md - Instrucciones simples\n\n✨ CÓMO USAR:\n1. Extrae el ZIP\n2. Doble clic en index.html para probar\n3. O sube a tu hosting web\n\n🔒 Tu código está ofuscado para prevenir clonación\n🚀 Funciona localmente Y en hosting\n\n¡Listo para usar!`)
+      
+    } catch (error: any) {
+      console.error('Download error:', error)
+      alert(`Error al descargar: ${error.message}`)
+    } finally {
+      setDownloading(false)
+    }
+  }
+
   const handleDownload = async () => {
     if (!downloadEmail) {
       alert('Please enter your email address')
@@ -1352,7 +1397,31 @@ export default function SiteEditorPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                {/* NEW: Simple Protected Package */}
+                <div className="bg-gradient-to-r from-green-800/50 to-emerald-700/50 rounded-lg p-4 border border-green-500/40 backdrop-blur-sm relative">
+                  <div className="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                    ⭐ RECOMENDADO
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-green-500/20 rounded-lg">
+                      <Download className="w-5 h-5 text-green-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-white font-semibold">✨ Descarga Simple</p>
+                      <p className="text-xs text-gray-300 mt-1 leading-relaxed">
+                        ¡Fácil y rápido! Código protegido, funciona en local.
+                      </p>
+                      <ul className="text-xs text-gray-400 mt-2 space-y-1">
+                        <li>✅ Sin contraseñas</li>
+                        <li>✅ Código ofuscado</li>
+                        <li>✅ Abre en navegador</li>
+                        <li>✅ Listo para usar</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Standard Package */}
                 <div className="bg-gradient-to-r from-gray-800/50 to-gray-700/50 rounded-lg p-4 border border-neon-primary/20 backdrop-blur-sm">
                   <div className="flex items-start gap-3">
@@ -1362,12 +1431,12 @@ export default function SiteEditorPage() {
                     <div>
                       <p className="text-sm text-white font-semibold">🔐 Standard Package</p>
                       <p className="text-xs text-gray-300 mt-1 leading-relaxed">
-                        Password-protected ZIP with ready-to-use files. Simple deployment.
+                        ZIP protegido con contraseña por email.
                       </p>
                       <ul className="text-xs text-gray-400 mt-2 space-y-1">
                         <li>• ZIP encryption</li>
-                        <li>• Ready HTML files</li>
-                        <li>• Easy deployment</li>
+                        <li>• Password por email</li>
+                        <li>• HTML listo</li>
                       </ul>
                     </div>
                   </div>
@@ -1382,13 +1451,13 @@ export default function SiteEditorPage() {
                     <div>
                       <p className="text-sm text-white font-semibold">🛡️ SECURE Package</p>
                       <p className="text-xs text-gray-300 mt-1 leading-relaxed">
-                        Military-grade protection with obfuscation and anti-tampering.
+                        Protección máxima con tracking de afiliado.
                       </p>
                       <ul className="text-xs text-gray-400 mt-2 space-y-1">
-                        <li>• JS obfuscation & encryption</li>
+                        <li>• Ofuscación avanzada</li>
                         <li>• Domain locking</li>
-                        <li>• Anti-debugging protection</li>
-                        <li>• Hidden affiliate tracking</li>
+                        <li>• Anti-debugging</li>
+                        <li>• Affiliate tracking</li>
                       </ul>
                     </div>
                   </div>
@@ -1452,7 +1521,65 @@ export default function SiteEditorPage() {
                 </p>
               </div>
 
-              <div className="flex gap-3 pt-6">
+              <div className="flex flex-col gap-3 pt-6">
+                {/* Primary action - Simple Download */}
+                <button
+                  onClick={handleSimpleDownload}
+                  disabled={downloading}
+                  className="w-full px-6 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-3 shadow-lg shadow-green-500/40 text-lg"
+                >
+                  {downloading ? (
+                    <>
+                      <Loader2 className="w-6 h-6 animate-spin" />
+                      Generando...
+                    </>
+                  ) : (
+                    <>
+                      <Download className="w-6 h-6" />
+                      ⚡ DESCARGA RÁPIDA (Recomendado)
+                    </>
+                  )}
+                </button>
+
+                {/* Secondary actions */}
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleDownload}
+                    disabled={downloading || !downloadEmail}
+                    className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-medium flex items-center justify-center gap-2"
+                  >
+                    {downloading ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Generando...
+                      </>
+                    ) : (
+                      <>
+                        <Mail className="w-5 h-5" />
+                        Standard
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    onClick={handleSecureDownload}
+                    disabled={downloading || !downloadEmail || !affiliateCode}
+                    className="flex-1 px-4 py-3 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-2 shadow-lg shadow-red-500/30"
+                  >
+                    {downloading ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Securing...
+                      </>
+                    ) : (
+                      <>
+                        <Layers className="w-5 h-5" />
+                        SECURE
+                      </>
+                    )}
+                  </button>
+                </div>
+
                 <button
                   onClick={() => {
                     setShowDownloadModal(false)
@@ -1461,45 +1588,9 @@ export default function SiteEditorPage() {
                     setDomainLock('')
                   }}
                   disabled={downloading}
-                  className="px-4 py-3 bg-gray-700/50 hover:bg-gray-600/50 text-gray-300 hover:text-white rounded-lg transition-all duration-300 disabled:opacity-50 border border-gray-600 hover:border-gray-500"
+                  className="px-4 py-2 bg-gray-700/50 hover:bg-gray-600/50 text-gray-300 hover:text-white rounded-lg transition-all duration-300 disabled:opacity-50 border border-gray-600 hover:border-gray-500 text-sm"
                 >
-                  Cancel
-                </button>
-                
-                <button
-                  onClick={handleDownload}
-                  disabled={downloading || !downloadEmail}
-                  className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-medium flex items-center justify-center gap-2"
-                >
-                  {downloading ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      Generating...
-                    </>
-                  ) : (
-                    <>
-                      <Download className="w-5 h-5" />
-                      Standard Package
-                    </>
-                  )}
-                </button>
-
-                <button
-                  onClick={handleSecureDownload}
-                  disabled={downloading || !downloadEmail || !affiliateCode}
-                  className="flex-1 px-4 py-3 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-2 shadow-lg shadow-red-500/30"
-                >
-                  {downloading ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      Securing...
-                    </>
-                  ) : (
-                    <>
-                      <Layers className="w-5 h-5" />
-                      SECURE Package
-                    </>
-                  )}
+                  Cancelar
                 </button>
               </div>
             </div>
