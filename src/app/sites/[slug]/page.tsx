@@ -6,6 +6,7 @@ import { renderTemplate as renderT9 } from '@/templates/t9/server'
 import { renderTemplate as renderT10 } from '@/templates/t10/server'
 import { renderTemplate as renderT11 } from '@/templates/t11/server'
 import { renderTemplate as renderT12 } from '@/templates/t12/server'
+import { renderTemplate as renderT13 } from '@/templates/t13/server'
 
 interface SitePageParams {
   slug: string
@@ -80,30 +81,33 @@ export default async function SitePage({
     } as any
 
     // Render based on template ID
-    let rendered
+    let rendered;
     switch (activeTemplateId) {
       case 't6':
-        rendered = renderT6(brandConfig)
-        break
+        rendered = renderT6(brandConfig);
+        break;
       case 't7':
-        rendered = renderT7(brandConfig)
-        break
+        rendered = renderT7(brandConfig);
+        break;
       case 't9':
       case 't4': // Legacy support for t4 as t9
-        rendered = renderT9(brandConfig)
-        break
+        rendered = renderT9(brandConfig);
+        break;
       case 't10':
-        rendered = renderT10(brandConfig)
-        break
+        rendered = renderT10(brandConfig);
+        break;
       case 't11':
-        rendered = renderT11(brandConfig)
-        break
+        rendered = renderT11(brandConfig);
+        break;
       case 't12':
-        rendered = renderT12(brandConfig)
-        break
+        rendered = renderT12(brandConfig);
+        break;
+      case 't13':
+        rendered = renderT13(brandConfig);
+        break;
       default:
         // Fallback to site's stored HTML if template not found
-        rendered = { html: site.generated_html, css: site.generated_css }
+        rendered = { html: site.generated_html, css: site.generated_css };
     }
     
     html = rendered.html

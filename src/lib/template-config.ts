@@ -286,6 +286,69 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
         required: true
       }
     }
+  },
+
+  t13: {
+    id: 't13',
+    name: 'Pirate\'s Treasures Slot',
+    fields: {
+      headline: {
+        id: 'headline',
+        label: 'Game Title',
+        type: 'text',
+        placeholder: 'PIRATE\'S TREASURES',
+        description: 'Main game title displayed at top',
+        required: true
+      },
+      gameBalance: {
+        id: 'gameBalance',
+        label: '💰 Game Balance',
+        type: 'number',
+        placeholder: '150000',
+        description: 'Starting balance shown in coins',
+        required: false
+      },
+      cta: {
+        id: 'cta',
+        label: 'Spin Button Text',
+        type: 'text',
+        placeholder: 'SPIN',
+        description: 'Main spin button text',
+        required: true
+      },
+      ctaUrl: {
+        id: 'ctaUrl',
+        label: 'Destination URL',
+        type: 'url',
+        placeholder: 'https://your-casino.com/signup',
+        description: 'Where users go after claiming prize',
+        required: true
+      },
+      popupTitle: {
+        id: 'popupTitle',
+        label: 'Win Popup Title',
+        type: 'text',
+        placeholder: 'TREASURE FOUND!',
+        description: 'Title shown in the win popup',
+        required: false
+      },
+      popupMessage: {
+        id: 'popupMessage',
+        label: 'Win Popup Message',
+        type: 'textarea',
+        placeholder: 'You\'ve discovered a legendary prize!',
+        description: 'Message shown in the win popup',
+        required: false
+      },
+      popupPrize: {
+        id: 'popupPrize',
+        label: 'Prize Display',
+        type: 'text',
+        placeholder: '$5,000 + 100 FREE SPINS',
+        description: 'Prize amount shown in popup',
+        required: false
+      }
+    }
   }
 }
 
