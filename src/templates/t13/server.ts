@@ -73,26 +73,28 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       justify-content: space-between;
     }
 
-    /* Top section with balance only */
+    /* Top section integrated in frame */
     .top-section {
+      position: absolute;
+      top: 8%;
+      right: 15%;
       display: flex;
-      justify-content: flex-end;
-      align-items: flex-start;
-      padding: 20px;
-      height: 80px;
+      align-items: center;
+      gap: 10px;
+      z-index: 15;
     }
 
     .pirates-title {
       position: absolute;
-      top: 3%;
+      top: 18%;
       left: 50%;
       transform: translateX(-50%);
       background-image: url('/Pirates Slot/pirates treasure.svg');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      width: 500px;
-      height: 100px;
+      width: 300px;
+      height: 60px;
       z-index: 15;
     }
 
@@ -149,16 +151,16 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       justify-content: center;
     }
 
-    /* 5x3 Grid container - pixel-perfect alignment */
+    /* 5x9 Grid container - exact reference match */
     .slot-grid {
       position: absolute;
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      gap: 8px;
-      width: 520px;
-      height: 310px;
-      top: 45%;
+      grid-template-rows: repeat(9, 1fr);
+      gap: 3px;
+      width: 450px;
+      height: 360px;
+      top: 52%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
@@ -247,72 +249,63 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       pointer-events: all;
     }
 
-    /* Menu button - positioned on left frame element */
-    .menu-btn {
+    /* Bottom control bar integrated in frame */
+    .bottom-controls {
       position: absolute;
-      bottom: 15%;
-      left: 8%;
-      background-image: url('/Pirates Slot/menu.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      width: 100px;
-      height: 50px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    /* Total bet display - positioned near center-left */
-    .total-bet-display {
-      position: absolute;
-      bottom: 15%;
-      left: 25%;
-      background-image: url('/Pirates Slot/total bet.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      width: 120px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #FFD700;
-      font-weight: bold;
-      font-size: 14px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-    }
-
-    /* Spin button - positioned on center circle of frame */
-    .spin-btn {
-      position: absolute;
-      bottom: 12%;
+      bottom: 8%;
       left: 50%;
       transform: translateX(-50%);
-      background-image: url('/Pirates Slot/spin.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      width: 110px;
-      height: 75px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 80%;
+      z-index: 15;
     }
 
-    /* Auto spin button - positioned on right frame element */
+    .menu-btn {
+      background: linear-gradient(135deg, #8B4513 0%, #654321 100%);
+      color: #FFD700;
+      border: 2px solid #FFD700;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .total-bet-display {
+      text-align: center;
+      color: #FFD700;
+      font-weight: bold;
+    }
+
+    .spin-btn {
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+      color: #8B4513;
+      border: 3px solid #8B4513;
+      padding: 12px 24px;
+      border-radius: 50%;
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 80px;
+      height: 80px;
+    }
+
+    .balance-display {
+      text-align: center;
+      color: #FFD700;
+      font-weight: bold;
+    }
+
     .auto-spin-btn {
-      position: absolute;
-      bottom: 15%;
-      right: 8%;
-      background-image: url('/Pirates Slot/auto spin.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      width: 100px;
-      height: 50px;
-      border: none;
+      background: linear-gradient(135deg, #8B4513 0%, #654321 100%);
+      color: #FFD700;
+      border: 2px solid #FFD700;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: bold;
       cursor: pointer;
       transition: all 0.3s ease;
     }
@@ -540,8 +533,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     function initGame() {
       const slotGrid = document.getElementById('slot-grid');
       
-      // Create 5x3 grid of slot cells
-      for (let row = 0; row < 3; row++) {
+      // Create 5x9 grid matching reference
+      for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 5; col++) {
           const cell = document.createElement('div');
           cell.className = 'slot-cell';
@@ -556,7 +549,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
           
           slotGrid.appendChild(cell);
           
-          // Store in column-based structure for game logic
+          // Store in column-based structure
           if (!reelElements[col]) {
             reelElements[col] = [];
           }
@@ -621,7 +614,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       for (let col = 0; col < 5; col++) {
         const promise = new Promise(resolve => {
           // Start rollover animation for each row in this column
-          for (let row = 0; row < 3; row++) {
+          for (let row = 0; row < 9; row++) {
             const cell = reelElements[col][row];
             setTimeout(() => {
               cell.classList.add('spinning');
@@ -636,13 +629,13 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
               setTimeout(() => {
                 cell.classList.remove('spinning');
               }, 800);
-            }, row * 100); // Stagger rows within column
+            }, row * 50); // Stagger rows within column
           }
           
           // Resolve when all rows in column are done
           setTimeout(() => {
             resolve();
-          }, 1100 + (col * 300)); // Staggered column completion
+          }, 1500 + (col * 200)); // Staggered column completion
         });
         spinPromises.push(promise);
       }
@@ -666,8 +659,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     function checkWins() {
       const rows = [];
       
-      // Build rows array
-      for (let row = 0; row < 3; row++) {
+      // Build rows array for 9 rows
+      for (let row = 0; row < 9; row++) {
         const rowSymbols = [];
         for (let col = 0; col < 5; col++) {
           const cell = reelElements[col][row];
@@ -796,11 +789,11 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
   
   <!-- Main game container -->
   <div class="game-container">
-    <!-- Top section with balance only -->
+    <!-- Top section with balance and buy coins -->
     <div class="top-section">
       <div class="balance-info">
-        <button class="buy-coins-btn" id="buyCoinsBtn"></button>
-        <div class="balance-display" id="balance">${gameBalance.toLocaleString()}</div>
+        <div style="color: #FFD700; font-weight: bold;">${gameBalance.toLocaleString()}</div>
+        <button class="buy-coins-btn" id="buyCoinsBtn">BUY COINS</button>
       </div>
     </div>
     
@@ -810,12 +803,19 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       <div class="slot-grid" id="slot-grid"></div>
     </div>
     
-    <!-- Frame-integrated buttons -->
-    <div class="frame-buttons">
-      <button class="menu-btn" id="menuBtn"></button>
-      <div class="total-bet-display">85,150</div>
-      <button class="spin-btn" id="spinBtn"></button>
-      <button class="auto-spin-btn" id="autoSpinBtn"></button>
+    <!-- Bottom control bar -->
+    <div class="bottom-controls">
+      <button class="menu-btn" id="menuBtn">MENU</button>
+      <div class="total-bet-display">
+        <div>TOTAL BET</div>
+        <div>85,150</div>
+      </div>
+      <button class="spin-btn" id="spinBtn">SPIN</button>
+      <div class="balance-display">
+        <div>BALANCE</div>
+        <div id="balance">${gameBalance.toLocaleString()}</div>
+      </div>
+      <button class="auto-spin-btn" id="autoSpinBtn">AUTO<br>SPIN</button>
     </div>
   </div>
   
