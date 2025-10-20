@@ -84,15 +84,15 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
 
     .pirates-title {
       position: absolute;
-      top: 5%;
+      top: 3%;
       left: 50%;
       transform: translateX(-50%);
       background-image: url('/Pirates Slot/pirates treasure.svg');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      width: 400px;
-      height: 80px;
+      width: 500px;
+      height: 100px;
       z-index: 15;
     }
 
@@ -139,7 +139,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     .slot-machine {
       position: relative;
       width: 100%;
-      height: 450px;
+      height: 550px;
       background-image: url('/Pirates Slot/frame.svg');
       background-size: contain;
       background-repeat: no-repeat;
@@ -155,9 +155,9 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       grid-template-rows: repeat(3, 1fr);
-      gap: 6px;
-      width: 420px;
-      height: 250px;
+      gap: 8px;
+      width: 520px;
+      height: 310px;
       top: 45%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -256,8 +256,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      width: 80px;
-      height: 40px;
+      width: 100px;
+      height: 50px;
       border: none;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -272,14 +272,14 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      width: 100px;
-      height: 40px;
+      width: 120px;
+      height: 50px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #FFD700;
       font-weight: bold;
-      font-size: 12px;
+      font-size: 14px;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
     }
 
@@ -293,8 +293,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      width: 90px;
-      height: 60px;
+      width: 110px;
+      height: 75px;
       border: none;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -310,8 +310,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      width: 80px;
-      height: 40px;
+      width: 100px;
+      height: 50px;
       border: none;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -452,26 +452,26 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       }
       
       .slot-machine {
-        height: 350px;
+        height: 420px;
       }
       
       .slot-grid {
-        width: 320px;
-        height: 190px;
-        gap: 4px;
+        width: 380px;
+        height: 230px;
+        gap: 6px;
         top: 43%;
       }
       
       .pirates-title {
-        width: 300px;
-        height: 60px;
-        top: 3%;
+        width: 350px;
+        height: 70px;
+        top: 2%;
       }
       
       .menu-btn,
       .auto-spin-btn {
-        width: 60px;
-        height: 30px;
+        width: 75px;
+        height: 38px;
         bottom: 12%;
       }
       
@@ -484,16 +484,16 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       }
       
       .total-bet-display {
-        width: 80px;
-        height: 30px;
-        font-size: 10px;
+        width: 95px;
+        height: 38px;
+        font-size: 12px;
         bottom: 12%;
         left: 22%;
       }
       
       .spin-btn {
-        width: 70px;
-        height: 45px;
+        width: 85px;
+        height: 55px;
         bottom: 10%;
       }
       
