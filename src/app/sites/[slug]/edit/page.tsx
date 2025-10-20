@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Loader2, Save, Eye, ArrowLeft, Palette, Type, Image as ImageIcon, Link as LinkIcon, ChevronDown, ChevronUp, Layers, FileText, Scale, Download, Mail } from 'lucide-react'
 import { EditorTour } from '@/components/EditorTour'
-import { InlineEditor } from '@/components/InlineEditor'
+import { SimpleInlineEditor } from '@/components/SimpleInlineEditor'
 
 interface SiteData {
   id: string
@@ -146,14 +146,14 @@ export default function SiteEditorPage() {
     },
     {
       target: '[data-tour="preview"]',
-      title: 'Live Preview & Inline Editing',
-      content: '✨ NEW! Click the pencil icons (✏️) directly on the preview to edit text and numbers inline. All your changes are reflected instantly!',
+      title: 'Preview & Quick Edit Buttons',
+      content: '✨ In Edit Mode, you\'ll see floating edit buttons on the right side. Click any button to quickly edit that content!',
       position: 'left' as const
     },
     {
       target: '[data-tour="inline-edit-headline"]',
-      title: 'Inline Editing',
-      content: 'Click any pencil icon to edit content directly on the preview. Much faster than using sidepanel forms!',
+      title: 'Quick Edit Buttons',
+      content: 'Click any edit button to modify content instantly. Press Enter to save or Esc to cancel. Much faster than using sidebar!',
       position: 'left' as const
     },
     {
@@ -903,7 +903,7 @@ export default function SiteEditorPage() {
                       </div>
                       <p className="text-xs text-gray-500 mt-2">
                         {previewMode === 'template' 
-                          ? '✏️ Edit Mode: Click pencil icons to edit content'
+                          ? '✏️ Edit Mode: Floating edit buttons appear on the right'
                           : '👁️ Final View: Clean preview without editing tools'
                         }
                       </p>
@@ -1229,7 +1229,7 @@ export default function SiteEditorPage() {
                       Template Preview
                       <span className="text-sm bg-blue-600 px-2 py-1 rounded font-normal">✏️ Edit Mode</span>
                     </h3>
-                    <p className="text-sm text-gray-400 mt-1">Click pencil icons (✏️) to edit text directly</p>
+                    <p className="text-sm text-gray-400 mt-1">Use the floating edit buttons on the right to modify content</p>
                   </div>
                   <button
                     onClick={() => window.open(getPreviewUrl(), '_blank')}
@@ -1251,9 +1251,8 @@ export default function SiteEditorPage() {
                       title="Template Preview"
                     />
                     
-                    {/* Inline Editor Overlay - Only in Template Preview mode */}
-                    <InlineEditor
-                      iframeRef={iframeRef}
+                    {/* Simple Inline Editor - Floating buttons */}
+                    <SimpleInlineEditor
                       onUpdate={handleInlineUpdate}
                       fields={{
                         headline,
@@ -1268,12 +1267,12 @@ export default function SiteEditorPage() {
 
                 {/* Customization Info */}
                 <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-700/50 rounded-lg p-4">
-                  <h4 className="text-sm font-semibold text-white mb-2">✏️ Inline Editing Mode</h4>
+                  <h4 className="text-sm font-semibold text-white mb-2">✏️ Quick Edit Mode</h4>
                   <div className="grid grid-cols-2 gap-3 text-xs text-gray-300">
                     <div className="flex items-start gap-2">
-                      <span className="text-blue-400">✏️</span>
+                      <span className="text-blue-400">📝</span>
                       <div>
-                        <strong>Click pencil icons:</strong> Edit text directly on the preview
+                        <strong>Edit Buttons:</strong> Click floating buttons on the right side
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
