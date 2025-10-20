@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Loader2, Save, Eye, ArrowLeft, Palette, Type, Image as ImageIcon, Link as LinkIcon, ChevronDown, ChevronUp, Layers, FileText, Scale, Download, Mail } from 'lucide-react'
 import { EditorTour } from '@/components/EditorTour'
+import { InlineEditor } from '@/components/InlineEditor'
 
 interface SiteData {
   id: string
@@ -26,6 +27,7 @@ export default function SiteEditorPage() {
   const params = useParams()
   const router = useRouter()
   const slug = params.slug as string
+  const iframeRef = useRef<HTMLIFrameElement>(null)
   
   const [site, setSite] = useState<SiteData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -34,7 +36,6 @@ export default function SiteEditorPage() {
     vertical: false,
     template: false,
     logo: false,
-    content: false,
     colors: false,
     legal: false
   })
@@ -67,7 +68,7 @@ export default function SiteEditorPage() {
   const [affiliateCode, setAffiliateCode] = useState('')
   const [domainLock, setDomainLock] = useState('')
 
-  const toggleSection = (section: 'vertical' | 'template' | 'logo' | 'content' | 'colors' | 'legal') => {
+  const toggleSection = (section: 'vertical' | 'template' | 'logo' | 'colors' | 'legal') => {
     const isExpanding = !expandedSections[section]
     
     setExpandedSections(prev => ({
@@ -91,7 +92,6 @@ export default function SiteEditorPage() {
       vertical: false,
       template: false,
       logo: false,
-      content: false,
       colors: false,
       legal: false
     })
@@ -102,7 +102,6 @@ export default function SiteEditorPage() {
       vertical: true,
       template: true,
       logo: true,
-      content: true,
       colors: true,
       legal: true
     })
@@ -152,12 +151,6 @@ export default function SiteEditorPage() {
       position: 'right' as const
     },
     {
-      target: '[data-tour="content-section"]',
-      title: 'Content & Text',
-      content: 'Customize the main texts: headline, subheadline, and the call-to-action button text (CTA).',
-      position: 'right' as const
-    },
-    {
       target: '[data-tour="colors-section"]',
       title: 'Brand Colors',
       content: 'Customize the primary, secondary and accent colors to match your brand.',
@@ -165,8 +158,14 @@ export default function SiteEditorPage() {
     },
     {
       target: '[data-tour="preview"]',
-      title: 'Live Preview',
-      content: 'All your changes are reflected here instantly. You can see exactly how your page will look.',
+      title: 'Live Preview & Inline Editing',
+      content: '✨ NEW! Click the pencil icons (✏️) directly on the preview to edit text and numbers inline. All your changes are reflected instantly!',
+      position: 'left' as const
+    },
+    {
+      target: '[data-tour="inline-edit-headline"]',
+      title: 'Inline Editing',
+      content: 'Click any pencil icon to edit content directly on the preview. Much faster than using sidepanel forms!',
       position: 'left' as const
     },
     {
@@ -308,6 +307,30 @@ export default function SiteEditorPage() {
     if (changes.popupPrize) setPopupPrize(changes.popupPrize)
     if (changes.gameBalance) setGameBalance(changes.gameBalance)
     if (changes.templateId) setTemplateId(changes.templateId)
+  }
+
+  // Handler for inline editing updates
+  const handleInlineUpdate = (fieldId: string, value: string | number) => {
+    switch (fieldId) {
+      case 'headline':
+        setHeadline(value as string)
+        break
+      case 'gameBalance':
+        setGameBalance(value as number)
+        break
+      case 'popupTitle':
+        setPopupTitle(value as string)
+        break
+      case 'popupMessage':
+        setPopupMessage(value as string)
+        break
+      case 'popupPrize':
+        setPopupPrize(value as string)
+        break
+      case 'cta':
+        setCta(value as string)
+        break
+    }
   }
 
   const getCurrentSiteData = () => ({
@@ -1016,151 +1039,6 @@ export default function SiteEditorPage() {
               )}
             </div>
 
-            {/* Content Section */}
-            <div data-tour="content-section" className="bg-gray-800 rounded-lg overflow-hidden">
-              <button
-                onClick={() => toggleSection('content')}
-                className="w-full flex items-center justify-between px-4 py-3 bg-gray-800 hover:bg-gray-750 transition-colors"
-              >
-                <div className="flex items-center gap-2">
-                  <Type size={18} className="text-green-400" />
-                  <h3 className="text-sm font-semibold text-white">Content</h3>
-                </div>
-                {expandedSections.content ? <ChevronUp size={18} className="text-gray-400" /> : <ChevronDown size={18} className="text-gray-400" />}
-              </button>
-              
-              {expandedSections.content && (
-              <div className="p-4 space-y-4 border-t border-gray-700">
-                {/* Main Content Section */}
-                <div>
-                  <label className="block text-xs font-medium text-gray-300 mb-2">
-                    Game Title
-                  </label>
-                  <input
-                    type="text"
-                    value={headline}
-                    onChange={(e) => setHeadline(e.target.value)}
-                    className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                    placeholder="YOUR TITLE HERE"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">Appears above the game</p>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-medium text-gray-300 mb-2">
-                    💰 Game Balance
-                  </label>
-                  <input
-                    type="number"
-                    value={gameBalance}
-                    onChange={(e) => setGameBalance(parseInt(e.target.value) || 1000)}
-                    min="0"
-                    step="100"
-                    className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                    placeholder="1000"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">Starting balance shown in the game</p>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-medium text-gray-300 mb-2 flex items-center gap-1">
-                    <LinkIcon size={12} />
-                    Destination URL
-                  </label>
-                  <input
-                    type="url"
-                    value={ctaUrl}
-                    onChange={(e) => setCtaUrl(e.target.value)}
-                    className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                    placeholder="https://your-casino.com/signup"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">Where users go when they click the popup button</p>
-                </div>
-
-                <div className="border-t border-gray-700 pt-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <label className="block text-xs font-medium text-gray-300">
-                      🎉 Win Popup
-                    </label>
-                    <button
-                      onClick={() => {
-                        setIsPopupOpen(true)
-                        const iframe = document.querySelector('iframe') as HTMLIFrameElement
-                        if (iframe && iframe.contentWindow) {
-                          iframe.contentWindow.postMessage('showPopup', '*')
-                        }
-                      }}
-                      className="px-2 py-1 bg-purple-600 hover:bg-purple-700 text-white text-xs rounded transition-colors"
-                    >
-                      👁️ Preview
-                    </button>
-                  </div>
-                  <p className="text-xs text-gray-500 mb-3">
-                    Appears after 2 clicks on the game
-                  </p>
-                  
-                  <div className="space-y-3">
-                    <div>
-                      <label className="block text-xs font-medium text-gray-300 mb-1">
-                        Title
-                      </label>
-                      <input
-                        type="text"
-                        value={popupTitle}
-                        onChange={(e) => setPopupTitle(e.target.value)}
-                        className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white font-bold focus:outline-none focus:border-blue-500"
-                        placeholder="WINNER!"
-                      />
-                      <p className="text-xs text-gray-500 mt-1">Large bold text at the top</p>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-medium text-gray-300 mb-1">
-                        Message
-                      </label>
-                      <input
-                        type="text"
-                        value={popupMessage}
-                        onChange={(e) => setPopupMessage(e.target.value)}
-                        className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                        placeholder="Congratulations! You've won!"
-                      />
-                      <p className="text-xs text-gray-500 mt-1">Subtitle below the title</p>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-medium text-gray-300 mb-1">
-                        Prize Display
-                      </label>
-                      <input
-                        type="text"
-                        value={popupPrize}
-                        onChange={(e) => setPopupPrize(e.target.value)}
-                        className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white font-bold focus:outline-none focus:border-blue-500"
-                        placeholder="$1,000 + 50 FREE SPINS"
-                      />
-                      <p className="text-xs text-gray-500 mt-1">The prize amount shown in the box</p>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-medium text-gray-300 mb-1">
-                        Button Text
-                      </label>
-                      <input
-                        type="text"
-                        value={cta}
-                        onChange={(e) => setCta(e.target.value)}
-                        className="w-full px-3 py-2 text-sm bg-green-700 border border-green-600 rounded-lg text-white font-bold focus:outline-none focus:border-green-500"
-                        placeholder="CLAIM BONUS NOW!"
-                      />
-                      <p className="text-xs text-gray-500 mt-1">Text on the green button</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              )}
-            </div>
-
             {/* Colors Section */}
             <div data-tour="colors-section" className="bg-gray-800 rounded-lg overflow-hidden">
               <button
@@ -1339,13 +1217,27 @@ export default function SiteEditorPage() {
         <div data-tour="preview" className="flex-1 bg-gray-950 p-6 overflow-auto">
           <div className="max-w-7xl mx-auto">
             {previewMode === 'live' ? (
-              // Live Preview with iframe
-              <div className="bg-white rounded-lg shadow-2xl overflow-hidden" style={{ height: '90vh' }}>
+              // Live Preview with iframe and inline editing
+              <div className="bg-white rounded-lg shadow-2xl overflow-hidden relative" style={{ height: '90vh' }}>
                 <iframe
+                  ref={iframeRef}
                   key={`live-${templateId}`}
                   src={getPreviewUrl()}
                   className="w-full h-full border-0"
                   title="Live Preview"
+                />
+                
+                {/* Inline Editor Overlay */}
+                <InlineEditor
+                  iframeRef={iframeRef}
+                  onUpdate={handleInlineUpdate}
+                  fields={{
+                    headline,
+                    gameBalance,
+                    popupTitle,
+                    popupMessage,
+                    popupPrize
+                  }}
                 />
               </div>
             ) : (
