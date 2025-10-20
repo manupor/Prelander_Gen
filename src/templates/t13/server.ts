@@ -121,15 +121,15 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
 
     .reels-container {
       position: absolute;
-      top: 50%;
+      top: 54%;
       left: 50%;
       transform: translate(-50%, -50%);
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       grid-template-rows: repeat(3, 1fr);
-      gap: 4px;
-      width: 500px;
-      height: 240px;
+      gap: 1px;
+      width: 440px;
+      height: 210px;
       padding: 0;
     }
 
@@ -142,7 +142,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       height: 100%;
       background: transparent;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -153,8 +153,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
 
     .slot-cell img {
-      width: 80%;
-      height: 80%;
+      width: 90%;
+      height: 90%;
       object-fit: contain;
       transition: all 0.3s ease;
     }
@@ -392,9 +392,10 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       }
       
       .reels-container {
-        width: 400px;
-        height: 200px;
-        gap: 3px;
+        width: 330px;
+        height: 160px;
+        gap: 1px;
+        top: 53%;
       }
       
       .slot-cell img {
