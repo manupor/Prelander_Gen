@@ -1,11 +1,10 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Loader2, Save, Eye, ArrowLeft, Palette, Type, Image as ImageIcon, Link as LinkIcon, ChevronDown, ChevronUp, Layers, FileText, Scale, Download, Mail } from 'lucide-react'
 import { EditorTour } from '@/components/EditorTour'
-import { SimpleInlineEditor } from '@/components/SimpleInlineEditor'
 
 interface SiteData {
   id: string
@@ -27,7 +26,6 @@ export default function SiteEditorPage() {
   const params = useParams()
   const router = useRouter()
   const slug = params.slug as string
-  const iframeRef = useRef<HTMLIFrameElement>(null)
   
   const [site, setSite] = useState<SiteData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -36,6 +34,7 @@ export default function SiteEditorPage() {
     vertical: false,
     template: false,
     logo: false,
+    content: false,
     colors: false,
     legal: false
   })
@@ -60,7 +59,7 @@ export default function SiteEditorPage() {
   const [termsUrl, setTermsUrl] = useState('')
   const [privacyUrl, setPrivacyUrl] = useState('')
   const [responsibleGamingUrl, setResponsibleGamingUrl] = useState('')
-  const [previewMode, setPreviewMode] = useState<'live' | 'template'>('template')
+  const [previewMode, setPreviewMode] = useState<'live' | 'template'>('live')
   const [showTour, setShowTour] = useState(false)
   const [showDownloadModal, setShowDownloadModal] = useState(false)
   const [downloadEmail, setDownloadEmail] = useState('')
@@ -68,11 +67,23 @@ export default function SiteEditorPage() {
   const [affiliateCode, setAffiliateCode] = useState('')
   const [domainLock, setDomainLock] = useState('')
 
-  const toggleSection = (section: 'vertical' | 'template' | 'logo' | 'colors' | 'legal') => {
+  const toggleSection = (section: 'vertical' | 'template' | 'logo' | 'content' | 'colors' | 'legal') => {
+    const isExpanding = !expandedSections[section]
+    
     setExpandedSections(prev => ({
       ...prev,
       [section]: !prev[section]
     }))
+    
+    // Switch to template preview mode when template section is expanded
+    if (section === 'template' && isExpanding) {
+      setPreviewMode('template')
+    }
+    
+    // Switch back to live preview when other sections are expanded
+    if (section !== 'template' && isExpanding && previewMode === 'template') {
+      setPreviewMode('live')
+    }
   }
 
   const collapseAll = () => {
@@ -80,6 +91,7 @@ export default function SiteEditorPage() {
       vertical: false,
       template: false,
       logo: false,
+      content: false,
       colors: false,
       legal: false
     })
@@ -90,6 +102,7 @@ export default function SiteEditorPage() {
       vertical: true,
       template: true,
       logo: true,
+      content: true,
       colors: true,
       legal: true
     })
@@ -139,6 +152,12 @@ export default function SiteEditorPage() {
       position: 'right' as const
     },
     {
+      target: '[data-tour="content-section"]',
+      title: 'Content & Text',
+      content: 'Customize the main texts: headline, subheadline, and the call-to-action button text (CTA).',
+      position: 'right' as const
+    },
+    {
       target: '[data-tour="colors-section"]',
       title: 'Brand Colors',
       content: 'Customize the primary, secondary and accent colors to match your brand.',
@@ -146,14 +165,8 @@ export default function SiteEditorPage() {
     },
     {
       target: '[data-tour="preview"]',
-      title: 'Preview & Quick Edit Buttons',
-      content: '✨ In Edit Mode, you\'ll see floating edit buttons on the right side. Click any button to quickly edit that content!',
-      position: 'left' as const
-    },
-    {
-      target: '[data-tour="inline-edit-headline"]',
-      title: 'Quick Edit Buttons',
-      content: 'Click any edit button to modify content instantly. Press Enter to save or Esc to cancel. Much faster than using sidebar!',
+      title: 'Live Preview',
+      content: 'All your changes are reflected here instantly. You can see exactly how your page will look.',
       position: 'left' as const
     },
     {
@@ -295,30 +308,6 @@ export default function SiteEditorPage() {
     if (changes.popupPrize) setPopupPrize(changes.popupPrize)
     if (changes.gameBalance) setGameBalance(changes.gameBalance)
     if (changes.templateId) setTemplateId(changes.templateId)
-  }
-
-  // Handler for inline editing updates
-  const handleInlineUpdate = (fieldId: string, value: string | number) => {
-    switch (fieldId) {
-      case 'headline':
-        setHeadline(value as string)
-        break
-      case 'gameBalance':
-        setGameBalance(value as number)
-        break
-      case 'popupTitle':
-        setPopupTitle(value as string)
-        break
-      case 'popupMessage':
-        setPopupMessage(value as string)
-        break
-      case 'popupPrize':
-        setPopupPrize(value as string)
-        break
-      case 'cta':
-        setCta(value as string)
-        break
-    }
   }
 
   const getCurrentSiteData = () => ({
@@ -877,7 +866,7 @@ export default function SiteEditorPage() {
                   <div className="pt-4 border-t border-gray-700">
                     <div className="bg-gray-900 rounded-lg p-3">
                       <p className="text-xs text-gray-400 mb-2">
-                        <strong className="text-white">Preview Mode:</strong> Switch between editing and final view
+                        <strong className="text-white">Preview:</strong> See the selected template in the right panel
                       </p>
                       <div className="flex gap-2">
                         <button
@@ -888,25 +877,19 @@ export default function SiteEditorPage() {
                               : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
                           }`}
                         >
-                          ✏️ Edit Mode
+                          📋 Template Preview
                         </button>
                         <button
                           onClick={() => setPreviewMode('live')}
                           className={`flex-1 px-3 py-2 text-xs rounded transition-all ${
                             previewMode === 'live'
-                              ? 'bg-green-600 text-white'
+                              ? 'bg-blue-600 text-white'
                               : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
                           }`}
                         >
-                          👁️ Final View
+                          👁️ Live Preview
                         </button>
                       </div>
-                      <p className="text-xs text-gray-500 mt-2">
-                        {previewMode === 'template' 
-                          ? '✏️ Edit Mode: Floating edit buttons appear on the right'
-                          : '👁️ Final View: Clean preview without editing tools'
-                        }
-                      </p>
                     </div>
                   </div>
 
@@ -1030,6 +1013,151 @@ export default function SiteEditorPage() {
                     </div>
                   )}
                 </div>
+              )}
+            </div>
+
+            {/* Content Section */}
+            <div data-tour="content-section" className="bg-gray-800 rounded-lg overflow-hidden">
+              <button
+                onClick={() => toggleSection('content')}
+                className="w-full flex items-center justify-between px-4 py-3 bg-gray-800 hover:bg-gray-750 transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <Type size={18} className="text-green-400" />
+                  <h3 className="text-sm font-semibold text-white">Content</h3>
+                </div>
+                {expandedSections.content ? <ChevronUp size={18} className="text-gray-400" /> : <ChevronDown size={18} className="text-gray-400" />}
+              </button>
+              
+              {expandedSections.content && (
+              <div className="p-4 space-y-4 border-t border-gray-700">
+                {/* Main Content Section */}
+                <div>
+                  <label className="block text-xs font-medium text-gray-300 mb-2">
+                    Game Title
+                  </label>
+                  <input
+                    type="text"
+                    value={headline}
+                    onChange={(e) => setHeadline(e.target.value)}
+                    className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                    placeholder="YOUR TITLE HERE"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Appears above the game</p>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-gray-300 mb-2">
+                    💰 Game Balance
+                  </label>
+                  <input
+                    type="number"
+                    value={gameBalance}
+                    onChange={(e) => setGameBalance(parseInt(e.target.value) || 1000)}
+                    min="0"
+                    step="100"
+                    className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                    placeholder="1000"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Starting balance shown in the game</p>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-gray-300 mb-2 flex items-center gap-1">
+                    <LinkIcon size={12} />
+                    Destination URL
+                  </label>
+                  <input
+                    type="url"
+                    value={ctaUrl}
+                    onChange={(e) => setCtaUrl(e.target.value)}
+                    className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                    placeholder="https://your-casino.com/signup"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Where users go when they click the popup button</p>
+                </div>
+
+                <div className="border-t border-gray-700 pt-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <label className="block text-xs font-medium text-gray-300">
+                      🎉 Win Popup
+                    </label>
+                    <button
+                      onClick={() => {
+                        setIsPopupOpen(true)
+                        const iframe = document.querySelector('iframe') as HTMLIFrameElement
+                        if (iframe && iframe.contentWindow) {
+                          iframe.contentWindow.postMessage('showPopup', '*')
+                        }
+                      }}
+                      className="px-2 py-1 bg-purple-600 hover:bg-purple-700 text-white text-xs rounded transition-colors"
+                    >
+                      👁️ Preview
+                    </button>
+                  </div>
+                  <p className="text-xs text-gray-500 mb-3">
+                    Appears after 2 clicks on the game
+                  </p>
+                  
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-300 mb-1">
+                        Title
+                      </label>
+                      <input
+                        type="text"
+                        value={popupTitle}
+                        onChange={(e) => setPopupTitle(e.target.value)}
+                        className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white font-bold focus:outline-none focus:border-blue-500"
+                        placeholder="WINNER!"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Large bold text at the top</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-gray-300 mb-1">
+                        Message
+                      </label>
+                      <input
+                        type="text"
+                        value={popupMessage}
+                        onChange={(e) => setPopupMessage(e.target.value)}
+                        className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                        placeholder="Congratulations! You've won!"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Subtitle below the title</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-gray-300 mb-1">
+                        Prize Display
+                      </label>
+                      <input
+                        type="text"
+                        value={popupPrize}
+                        onChange={(e) => setPopupPrize(e.target.value)}
+                        className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white font-bold focus:outline-none focus:border-blue-500"
+                        placeholder="$1,000 + 50 FREE SPINS"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">The prize amount shown in the box</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-gray-300 mb-1">
+                        Button Text
+                      </label>
+                      <input
+                        type="text"
+                        value={cta}
+                        onChange={(e) => setCta(e.target.value)}
+                        className="w-full px-3 py-2 text-sm bg-green-700 border border-green-600 rounded-lg text-white font-bold focus:outline-none focus:border-green-500"
+                        placeholder="CLAIM BONUS NOW!"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Text on the green button</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
               )}
             </div>
 
@@ -1211,7 +1339,7 @@ export default function SiteEditorPage() {
         <div data-tour="preview" className="flex-1 bg-gray-950 p-6 overflow-auto">
           <div className="max-w-7xl mx-auto">
             {previewMode === 'live' ? (
-              // Live Preview - Clean view without editing tools
+              // Live Preview with iframe
               <div className="bg-white rounded-lg shadow-2xl overflow-hidden" style={{ height: '90vh' }}>
                 <iframe
                   key={`live-${templateId}`}
@@ -1221,15 +1349,12 @@ export default function SiteEditorPage() {
                 />
               </div>
             ) : (
-              // Template Preview Mode - With Inline Editing
+              // Template Preview Mode
               <div className="space-y-4">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                      Template Preview
-                      <span className="text-sm bg-blue-600 px-2 py-1 rounded font-normal">✏️ Edit Mode</span>
-                    </h3>
-                    <p className="text-sm text-gray-400 mt-1">Use the floating edit buttons on the right to modify content</p>
+                    <h3 className="text-xl font-bold text-white">Template Preview</h3>
+                    <p className="text-sm text-gray-400 mt-1">Customize in real-time</p>
                   </div>
                   <button
                     onClick={() => window.open(getPreviewUrl(), '_blank')}
@@ -1240,51 +1365,38 @@ export default function SiteEditorPage() {
                   </button>
                 </div>
 
-                {/* Large Template Preview - With inline editing */}
+                {/* Large Template Preview - Live with customizations */}
                 <div className="bg-gray-900 rounded-lg p-6 border border-gray-700">
                   <div className="relative w-full bg-white rounded-lg overflow-hidden shadow-2xl" style={{ height: '70vh' }}>
                     <iframe
-                      ref={iframeRef}
                       key={`template-${templateId}`}
                       src={getPreviewUrl()}
                       className="w-full h-full border-0"
                       title="Template Preview"
-                    />
-                    
-                    {/* Simple Inline Editor - Floating buttons */}
-                    <SimpleInlineEditor
-                      onUpdate={handleInlineUpdate}
-                      fields={{
-                        headline,
-                        gameBalance,
-                        popupTitle,
-                        popupMessage,
-                        popupPrize
-                      }}
                     />
                   </div>
                 </div>
 
                 {/* Customization Info */}
                 <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-700/50 rounded-lg p-4">
-                  <h4 className="text-sm font-semibold text-white mb-2">✏️ Quick Edit Mode</h4>
+                  <h4 className="text-sm font-semibold text-white mb-2">💡 Real-time Customization</h4>
                   <div className="grid grid-cols-2 gap-3 text-xs text-gray-300">
                     <div className="flex items-start gap-2">
-                      <span className="text-blue-400">📝</span>
+                      <span className="text-blue-400">🎨</span>
                       <div>
-                        <strong>Edit Buttons:</strong> Click floating buttons on the right side
+                        <strong>Colors:</strong> Change colors in the Colors section to see updates
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
-                      <span className="text-green-400">⌨️</span>
+                      <span className="text-green-400">🖼️</span>
                       <div>
-                        <strong>Keyboard:</strong> Enter to save, Esc to cancel
+                        <strong>Logo:</strong> Upload or paste logo URL in Logo section
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
-                      <span className="text-purple-400">🎨</span>
+                      <span className="text-purple-400">📝</span>
                       <div>
-                        <strong>Colors & Logo:</strong> Use sidebar sections for these
+                        <strong>Content:</strong> Edit text and messages in Content section
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
