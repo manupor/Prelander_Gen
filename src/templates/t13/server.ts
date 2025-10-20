@@ -76,26 +76,25 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     /* Top section integrated in frame */
     .top-section {
       position: absolute;
-      top: 8%;
-      right: 15%;
+      top: 6%;
+      right: 12%;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       z-index: 15;
     }
 
     .pirates-title {
       position: absolute;
-      top: 18%;
+      top: 15%;
       left: 50%;
       transform: translateX(-50%);
-      background-image: url('/Pirates Slot/pirates treasure.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      width: 300px;
-      height: 60px;
+      color: #8B0000;
+      font-size: 28px;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
       z-index: 15;
+      font-family: 'Pirata One', cursive;
     }
 
     .balance-info {
@@ -105,13 +104,13 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
 
     .buy-coins-btn {
-      background-image: url('/Pirates Slot/buy coins.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      width: 120px;
-      height: 50px;
-      border: none;
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+      color: #8B4513;
+      border: 2px solid #8B4513;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 10px;
       cursor: pointer;
       transition: all 0.3s ease;
     }
@@ -151,16 +150,16 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       justify-content: center;
     }
 
-    /* 5x9 Grid container - exact reference match */
+    /* 5x9 Grid container - contained within frame */
     .slot-grid {
       position: absolute;
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       grid-template-rows: repeat(9, 1fr);
-      gap: 3px;
-      width: 450px;
-      height: 360px;
-      top: 52%;
+      gap: 2px;
+      width: 380px;
+      height: 290px;
+      top: 48%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
@@ -178,8 +177,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
 
     .slot-cell img {
-      width: 90%;
-      height: 90%;
+      width: 75%;
+      height: 75%;
       object-fit: contain;
       transition: all 0.3s ease;
     }
@@ -252,13 +251,13 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     /* Bottom control bar integrated in frame */
     .bottom-controls {
       position: absolute;
-      bottom: 8%;
+      bottom: 5%;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 80%;
+      width: 85%;
       z-index: 15;
     }
 
@@ -266,9 +265,10 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       background: linear-gradient(135deg, #8B4513 0%, #654321 100%);
       color: #FFD700;
       border: 2px solid #FFD700;
-      padding: 8px 16px;
-      border-radius: 8px;
+      padding: 6px 12px;
+      border-radius: 6px;
       font-weight: bold;
+      font-size: 12px;
       cursor: pointer;
       transition: all 0.3s ease;
     }
@@ -277,37 +277,41 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       text-align: center;
       color: #FFD700;
       font-weight: bold;
+      font-size: 11px;
     }
 
     .spin-btn {
       background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
       color: #8B4513;
       border: 3px solid #8B4513;
-      padding: 12px 24px;
+      padding: 8px 16px;
       border-radius: 50%;
       font-weight: bold;
-      font-size: 18px;
+      font-size: 14px;
       cursor: pointer;
       transition: all 0.3s ease;
-      min-width: 80px;
-      height: 80px;
+      min-width: 60px;
+      height: 60px;
     }
 
     .balance-display {
       text-align: center;
       color: #FFD700;
       font-weight: bold;
+      font-size: 11px;
     }
 
     .auto-spin-btn {
       background: linear-gradient(135deg, #8B4513 0%, #654321 100%);
       color: #FFD700;
       border: 2px solid #FFD700;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 8px;
+      border-radius: 6px;
       font-weight: bold;
+      font-size: 10px;
       cursor: pointer;
       transition: all 0.3s ease;
+      line-height: 1.2;
     }
 
     /* Remove the old control panel */
@@ -778,6 +782,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${headline}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
   <style>${css}</style>
 </head>
 <body>
@@ -785,7 +790,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
   <div class="game-background"></div>
   
   <!-- Centered Pirates Treasures title -->
-  <div class="pirates-title"></div>
+  <div class="pirates-title">${headline}</div>
   
   <!-- Main game container -->
   <div class="game-container">
