@@ -159,12 +159,18 @@ export async function generateMetadata({ params }: { params: Promise<SitePagePar
 
   if (!site) {
     return {
-      title: 'Site Not Found'
+      title: 'Site Not Found',
+      other: {
+        'charset': 'utf-8',
+      },
     }
   }
 
   return {
     title: `${site.brand_name} - ${site.headline}`,
     description: site.description,
+    other: {
+      'charset': 'utf-8',
+    },
   }
 }
