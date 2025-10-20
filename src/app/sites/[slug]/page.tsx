@@ -14,6 +14,7 @@ interface SitePageParams {
 interface SearchParams {
   templateId?: string
   headline?: string
+  subheadline?: string
   cta?: string
   ctaUrl?: string
   primaryColor?: string
@@ -66,7 +67,7 @@ export default async function SitePage({
       },
       copy: {
         headline: query.headline || site.headline || 'YOUR TITLE HERE',
-        subheadline: site.subheadline || '',
+        subheadline: query.subheadline || site.subheadline || '',
         cta: query.cta || site.cta || 'PLAY NOW'
       },
       industry: site.industry || 'Casino & Gaming',
