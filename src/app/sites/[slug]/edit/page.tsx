@@ -339,7 +339,8 @@ export default function SiteEditorPage() {
         primary_color: primaryColor,
         secondary_color: secondaryColor,
         accent_color: accentColor,
-        logo_url: logoUrl || null
+        logo_url: logoUrl || null,
+        template_id: templateId  // Always save template_id
       }
       
       // Try to add popup fields and game balance (they might not exist in DB yet)
@@ -348,7 +349,6 @@ export default function SiteEditorPage() {
         updateData.popup_message = popupMessage
         updateData.popup_prize = popupPrize
         updateData.game_balance = gameBalance
-        updateData.template_id = templateId
       } catch (e) {
         console.warn('Popup fields or game_balance not available in database yet')
       }
