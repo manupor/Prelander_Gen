@@ -9,24 +9,23 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
   const popupPrize = (brand as any).popupPrize || '$5,000 + 100 FREE SPINS'
   const gameBalance = (brand as any).gameBalance || 150000
 
-  // Pirates Slot symbol assets (Asset 2, 5-19)
+  // Pirates Slot symbol assets (ICON 1-15)
   const SYMBOL_ASSETS = [
-    '/Pirates Slot/Asset 2.svg',
-    '/Pirates Slot/Asset 5.svg', 
-    '/Pirates Slot/Asset 6.svg',
-    '/Pirates Slot/Asset 7.svg',
-    '/Pirates Slot/Asset 8.svg',
-    '/Pirates Slot/Asset 9.svg',
-    '/Pirates Slot/Asset 10.svg',
-    '/Pirates Slot/Asset 11.svg',
-    '/Pirates Slot/Asset 12.svg',
-    '/Pirates Slot/Asset 13.svg',
-    '/Pirates Slot/Asset 14.svg',
-    '/Pirates Slot/Asset 15.svg',
-    '/Pirates Slot/Asset 16.svg',
-    '/Pirates Slot/Asset 17.svg',
-    '/Pirates Slot/Asset 18.svg',
-    '/Pirates Slot/Asset 19.svg'
+    '/Pirates Slot/ICON 1.svg',
+    '/Pirates Slot/ICON 2.svg', 
+    '/Pirates Slot/ICON 3.svg',
+    '/Pirates Slot/ICON 4.svg',
+    '/Pirates Slot/ICON 5.svg',
+    '/Pirates Slot/ICON 6.svg',
+    '/Pirates Slot/ICON 7.svg',
+    '/Pirates Slot/ICON 8.svg',
+    '/Pirates Slot/ICON 9.svg',
+    '/Pirates Slot/ICON 10.svg',
+    '/Pirates Slot/ICON 11.svg',
+    '/Pirates Slot/ICON 12.svg',
+    '/Pirates Slot/ICON 13.svg',
+    '/Pirates Slot/ICON 14.svg',
+    '/Pirates Slot/ICON 15.svg'
   ]
 
   const css = `
@@ -453,22 +452,21 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
   const jsCode = `
     // Pirates Slot symbol assets
     const SYMBOL_ASSETS = [
-      '/Pirates Slot/Asset 2.svg',
-      '/Pirates Slot/Asset 5.svg', 
-      '/Pirates Slot/Asset 6.svg',
-      '/Pirates Slot/Asset 7.svg',
-      '/Pirates Slot/Asset 8.svg',
-      '/Pirates Slot/Asset 9.svg',
-      '/Pirates Slot/Asset 10.svg',
-      '/Pirates Slot/Asset 11.svg',
-      '/Pirates Slot/Asset 12.svg',
-      '/Pirates Slot/Asset 13.svg',
-      '/Pirates Slot/Asset 14.svg',
-      '/Pirates Slot/Asset 15.svg',
-      '/Pirates Slot/Asset 16.svg',
-      '/Pirates Slot/Asset 17.svg',
-      '/Pirates Slot/Asset 18.svg',
-      '/Pirates Slot/Asset 19.svg'
+      '/Pirates Slot/ICON 1.svg',
+      '/Pirates Slot/ICON 2.svg', 
+      '/Pirates Slot/ICON 3.svg',
+      '/Pirates Slot/ICON 4.svg',
+      '/Pirates Slot/ICON 5.svg',
+      '/Pirates Slot/ICON 6.svg',
+      '/Pirates Slot/ICON 7.svg',
+      '/Pirates Slot/ICON 8.svg',
+      '/Pirates Slot/ICON 9.svg',
+      '/Pirates Slot/ICON 10.svg',
+      '/Pirates Slot/ICON 11.svg',
+      '/Pirates Slot/ICON 12.svg',
+      '/Pirates Slot/ICON 13.svg',
+      '/Pirates Slot/ICON 14.svg',
+      '/Pirates Slot/ICON 15.svg'
     ];
 
     let balance = ${gameBalance};
@@ -673,7 +671,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     function createFloatingCoin(cell) {
       const coin = document.createElement('img');
       coin.className = 'floating-coin';
-      coin.src = '/Pirates Slot/Asset 19.svg'; // Use coin asset
+      coin.src = '/Pirates Slot/ICON 1.svg'; // Use coin asset
       coin.style.left = cell.offsetLeft + 'px';
       coin.style.top = cell.offsetTop + 'px';
       document.body.appendChild(coin);
