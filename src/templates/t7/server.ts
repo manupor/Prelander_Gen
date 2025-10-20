@@ -5,10 +5,11 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
   // Safely extract brand data with fallbacks
   const brandName = brand.brandName || 'Bonanza Casino'
   const logoUrl = brand.logoUrl || ''
+  // Sweet Bonanza Premium Colors - Diseño profesional inspirado en dulces y frutas
   const colors = {
-    primary: brand.colors?.primary || '#FFD700',
-    secondary: brand.colors?.secondary || '#FF6B35', 
-    accent: brand.colors?.accent || '#FF1744'
+    primary: brand.colors?.primary || '#FF1493',     // Hot Pink / Magenta vibrante
+    secondary: brand.colors?.secondary || '#9333EA',  // Purple 600 / Morado profundo
+    accent: brand.colors?.accent || '#FBBF24'         // Amber 400 / Dorado brillante
   }
   const headline = brand.copy?.headline || 'WIN BIG WITH BONANZA BILLION SLOTS!'
   const subheadline = brand.copy?.subheadline || 'Premium 3x3 slot machine with life-changing prizes'
@@ -31,13 +32,31 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       font-family: 'Inter', sans-serif;
       line-height: 1.6;
       color: #ffffff;
-      background-image: url('/images/backgroundbonanza.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-color: #000000;
+      background: linear-gradient(135deg, 
+        #1e1b4b 0%,     /* Indigo 950 */
+        #312e81 25%,    /* Indigo 900 */
+        #4c1d95 50%,    /* Purple 900 */
+        #581c87 75%,    /* Purple 900 */
+        #1e1b4b 100%    /* Indigo 950 */
+      );
+      background-attachment: fixed;
       min-height: 100vh;
       overflow-x: hidden;
+      position: relative;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 40% 20%, rgba(251, 191, 36, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 1;
     }
     
     /* Logo container styles */
@@ -64,34 +83,101 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     .slot-machine {
-      background: linear-gradient(to bottom, var(--brand-secondary), var(--brand-primary));
-      border: 4px solid var(--brand-accent);
-      border-radius: 1.5rem;
-      padding: 1.5rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      background: linear-gradient(135deg, 
+        rgba(147, 51, 234, 0.95) 0%,   /* Purple */
+        rgba(192, 38, 211, 0.95) 35%,  /* Fuchsia */
+        rgba(236, 72, 153, 0.95) 70%,  /* Pink */
+        rgba(251, 113, 133, 0.95) 100% /* Rose */
+      );
+      border: 5px solid var(--brand-accent);
+      border-radius: 2rem;
+      padding: 2rem;
+      box-shadow: 
+        0 30px 60px -15px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+        0 0 40px rgba(251, 191, 36, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .slot-machine::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.05) 50%, 
+        transparent 100%
+      );
+      pointer-events: none;
     }
     
     .slot-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem;
-      background-color: #475569;
-      padding: 1rem;
-      border-radius: 0.75rem;
+      gap: 0.75rem;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      padding: 1.5rem;
+      border-radius: 1.25rem;
+      box-shadow: 
+        inset 0 4px 6px rgba(0, 0, 0, 0.5),
+        inset 0 0 20px rgba(0, 0, 0, 0.3),
+        0 0 30px rgba(251, 191, 36, 0.2) inset;
+      border: 3px solid rgba(251, 191, 36, 0.3);
+      position: relative;
+    }
+    
+    .slot-grid::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, 
+        var(--brand-accent) 0%, 
+        var(--brand-primary) 50%, 
+        var(--brand-accent) 100%
+      );
+      border-radius: 1.25rem;
+      z-index: -1;
+      opacity: 0.3;
+      filter: blur(8px);
     }
     
     .slot-square {
       width: 5rem;
       height: 5rem;
-      background: linear-gradient(to bottom, var(--brand-primary), var(--brand-accent));
-      border-radius: 0.75rem;
+      background: linear-gradient(135deg, 
+        #fbbf24 0%,   /* Amber 400 */
+        #f59e0b 25%,  /* Amber 500 */
+        #fb923c 50%,  /* Orange 400 */
+        #f97316 75%,  /* Orange 500 */
+        #ea580c 100%  /* Orange 600 */
+      );
+      border-radius: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.875rem;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      font-size: 2.25rem;
+      box-shadow: 
+        0 10px 25px -5px rgba(0, 0, 0, 0.4),
+        0 0 0 2px rgba(255, 255, 255, 0.2) inset,
+        0 4px 6px rgba(251, 191, 36, 0.5);
       overflow: hidden;
       position: relative;
+      transition: transform 0.2s ease;
+    }
+    
+    .slot-square:hover {
+      transform: scale(1.05);
+      box-shadow: 
+        0 15px 30px -8px rgba(0, 0, 0, 0.5),
+        0 0 0 3px rgba(255, 255, 255, 0.3) inset,
+        0 0 20px rgba(251, 191, 36, 0.8);
     }
     
     .slot-square::before {
@@ -119,52 +205,161 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     .game-controls {
-      background: linear-gradient(to bottom, var(--brand-secondary), var(--brand-primary));
-      border: 4px solid var(--brand-accent);
-      border-radius: 1.5rem;
-      padding: 1.5rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      min-width: 280px;
+      background: linear-gradient(135deg, 
+        rgba(147, 51, 234, 0.95) 0%,
+        rgba(168, 85, 247, 0.95) 50%,
+        rgba(192, 38, 211, 0.95) 100%
+      );
+      border: 5px solid var(--brand-accent);
+      border-radius: 2rem;
+      padding: 2rem;
+      box-shadow: 
+        0 30px 60px -15px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+        0 0 40px rgba(251, 191, 36, 0.3);
+      min-width: 300px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .game-controls::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.05) 50%, 
+        transparent 100%
+      );
+      pointer-events: none;
     }
     
     .control-display {
-      background-color: rgba(15, 23, 42, 0.95);
-      border: 2px solid #fbbf24;
-      border-radius: 0.75rem;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(251, 191, 36, 0.1);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(7, 12, 23, 0.98) 100%);
+      border: 3px solid #fbbf24;
+      border-radius: 1rem;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 
+        0 10px 20px -5px rgba(0, 0, 0, 0.5),
+        inset 0 0 30px rgba(251, 191, 36, 0.15),
+        inset 0 2px 4px rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+    
+    .control-display::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(to bottom, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        transparent 100%
+      );
+      border-radius: 1rem 1rem 0 0;
+      pointer-events: none;
     }
     
     .spin-button {
       width: 100%;
-      background: linear-gradient(to right, var(--brand-primary), var(--brand-accent));
-      color: white;
+      background: linear-gradient(135deg, 
+        #fbbf24 0%,   /* Amber 400 */
+        #f59e0b 25%,  /* Amber 500 */
+        #fb923c 50%,  /* Orange 400 */
+        #f97316 100%  /* Orange 500 */
+      );
+      color: #ffffff;
       font-weight: 900;
-      font-size: 1.25rem;
-      padding: 1rem;
+      font-size: 1.5rem;
+      padding: 1.25rem 2rem;
       border-radius: 9999px;
-      border: 3px solid rgba(255, 255, 255, 0.3);
+      border: 4px solid rgba(255, 255, 255, 0.4);
       cursor: pointer;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-      transition: all 0.2s;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      box-shadow: 
+        0 20px 40px -10px rgba(251, 146, 60, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+        0 10px 20px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.6),
+        0 0 10px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .spin-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.3) 50%, 
+        transparent 100%
+      );
+      transition: left 0.5s;
     }
     
     .spin-button:hover {
-      transform: scale(1.05);
-      opacity: 0.9;
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 
+        0 25px 50px -10px rgba(251, 146, 60, 0.8),
+        0 0 0 2px rgba(255, 255, 255, 0.4) inset,
+        0 15px 30px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(251, 191, 36, 0.6);
+    }
+    
+    .spin-button:hover::before {
+      left: 100%;
+    }
+    
+    .spin-button:active {
+      transform: scale(1.02) translateY(0);
+      box-shadow: 
+        0 10px 20px -5px rgba(251, 146, 60, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
     }
     
     .disclaimer {
-      background: linear-gradient(to right, rgba(15, 23, 42, 0.95), rgba(7, 12, 23, 0.95));
-      backdrop-filter: blur(4px);
-      border: 2px solid rgba(251, 191, 36, 0.3);
-      border-radius: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      background: linear-gradient(135deg, 
+        rgba(30, 27, 75, 0.95) 0%, 
+        rgba(49, 46, 129, 0.95) 50%, 
+        rgba(30, 27, 75, 0.95) 100%
+      );
+      backdrop-filter: blur(8px);
+      border: 3px solid rgba(251, 191, 36, 0.4);
+      border-radius: 1rem;
+      padding: 1rem 2rem;
+      box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+        0 0 30px rgba(147, 51, 234, 0.3);
       display: inline-block;
       margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .disclaimer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, 
+        transparent 0%, 
+        rgba(251, 191, 36, 0.05) 50%, 
+        transparent 100%
+      );
+      pointer-events: none;
     }
   `
 
@@ -179,37 +374,38 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     </head>
     <body>
       <!-- Preloader -->
-      <div id="preloader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center;">
+      <div id="preloader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 50%, #581c87 100%); z-index: 9999; display: flex; align-items: center; justify-content: center;">
         <div style="text-align: center;">
           <div style="margin-bottom: 2rem;">
             <!-- Mini Slot Machine Animation -->
-            <div style="background: linear-gradient(to bottom, #475569, #334155); border-radius: 1.5rem; padding: 1rem; border: 3px solid #facc15; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); margin: 0 auto; width: fit-content;">
-              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.25rem; background-color: #475569; padding: 0.5rem; border-radius: 0.5rem;">
-                <div style="width: 3rem; height: 3rem; background: linear-gradient(to bottom, #fb923c, #eab308); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; animation: spin 0.5s linear infinite;">🍑</div>
-                <div style="width: 3rem; height: 3rem; background: linear-gradient(to bottom, #fb923c, #eab308); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; animation: spin 0.5s linear infinite; animation-delay: 0.1s;">💎</div>
-                <div style="width: 3rem; height: 3rem; background: linear-gradient(to bottom, #fb923c, #eab308); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; animation: spin 0.5s linear infinite; animation-delay: 0.2s;">🔔</div>
-                <div style="width: 3rem; height: 3rem; background: linear-gradient(to bottom, #fb923c, #eab308); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; animation: spin 0.5s linear infinite; animation-delay: 0.05s;">⭐</div>
-                <div style="width: 3rem; height: 3rem; background: linear-gradient(to bottom, #fb923c, #eab308); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; animation: spin 0.5s linear infinite; animation-delay: 0.15s;">🍀</div>
-                <div style="width: 3rem; height: 3rem; background: linear-gradient(to bottom, #fb923c, #eab308); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; animation: spin 0.5s linear infinite; animation-delay: 0.25s;">🍇</div>
-                <div style="width: 3rem; height: 3rem; background: linear-gradient(to bottom, #fb923c, #eab308); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; animation: spin 0.5s linear infinite; animation-delay: 0.3s;">💰</div>
-                <div style="width: 3rem; height: 3rem; background: linear-gradient(to bottom, #fb923c, #eab308); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; animation: spin 0.5s linear infinite; animation-delay: 0.2s;">🍋</div>
-                <div style="width: 3rem; height: 3rem; background: linear-gradient(to bottom, #fb923c, #eab308); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; animation: spin 0.5s linear infinite; animation-delay: 0.1s;">🍑</div>
+            <div style="background: linear-gradient(135deg, rgba(147, 51, 234, 0.8), rgba(236, 72, 153, 0.8)); border-radius: 2rem; padding: 1.5rem; border: 4px solid #fbbf24; box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5), 0 0 40px rgba(251, 191, 36, 0.4); margin: 0 auto; width: fit-content; position: relative;">
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; background: linear-gradient(135deg, #1e293b, #0f172a); padding: 1rem; border-radius: 1rem; box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.5); border: 3px solid rgba(251, 191, 36, 0.3);">
+                <div style="width: 3.5rem; height: 3.5rem; background: linear-gradient(135deg, #fbbf24, #f97316); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; animation: spin 0.5s linear infinite; box-shadow: 0 4px 6px rgba(251, 191, 36, 0.5); border: 2px solid rgba(255, 255, 255, 0.2);">🍑</div>
+                <div style="width: 3.5rem; height: 3.5rem; background: linear-gradient(135deg, #fbbf24, #f97316); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; animation: spin 0.5s linear infinite; animation-delay: 0.1s; box-shadow: 0 4px 6px rgba(251, 191, 36, 0.5); border: 2px solid rgba(255, 255, 255, 0.2);">💎</div>
+                <div style="width: 3.5rem; height: 3.5rem; background: linear-gradient(135deg, #fbbf24, #f97316); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; animation: spin 0.5s linear infinite; animation-delay: 0.2s; box-shadow: 0 4px 6px rgba(251, 191, 36, 0.5); border: 2px solid rgba(255, 255, 255, 0.2);">🔔</div>
+                <div style="width: 3.5rem; height: 3.5rem; background: linear-gradient(135deg, #fbbf24, #f97316); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; animation: spin 0.5s linear infinite; animation-delay: 0.05s; box-shadow: 0 4px 6px rgba(251, 191, 36, 0.5); border: 2px solid rgba(255, 255, 255, 0.2);">⭐</div>
+                <div style="width: 3.5rem; height: 3.5rem; background: linear-gradient(135deg, #fbbf24, #f97316); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; animation: spin 0.5s linear infinite; animation-delay: 0.15s; box-shadow: 0 4px 6px rgba(251, 191, 36, 0.5); border: 2px solid rgba(255, 255, 255, 0.2);">🍀</div>
+                <div style="width: 3.5rem; height: 3.5rem; background: linear-gradient(135deg, #fbbf24, #f97316); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; animation: spin 0.5s linear infinite; animation-delay: 0.25s; box-shadow: 0 4px 6px rgba(251, 191, 36, 0.5); border: 2px solid rgba(255, 255, 255, 0.2);">🍇</div>
+                <div style="width: 3.5rem; height: 3.5rem; background: linear-gradient(135deg, #fbbf24, #f97316); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; animation: spin 0.5s linear infinite; animation-delay: 0.3s; box-shadow: 0 4px 6px rgba(251, 191, 36, 0.5); border: 2px solid rgba(255, 255, 255, 0.2);">💰</div>
+                <div style="width: 3.5rem; height: 3.5rem; background: linear-gradient(135deg, #fbbf24, #f97316); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; animation: spin 0.5s linear infinite; animation-delay: 0.2s; box-shadow: 0 4px 6px rgba(251, 191, 36, 0.5); border: 2px solid rgba(255, 255, 255, 0.2);">🍋</div>
+                <div style="width: 3.5rem; height: 3.5rem; background: linear-gradient(135deg, #fbbf24, #f97316); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; animation: spin 0.5s linear infinite; animation-delay: 0.1s; box-shadow: 0 4px 6px rgba(251, 191, 36, 0.5); border: 2px solid rgba(255, 255, 255, 0.2);">🍑</div>
               </div>
             </div>
           </div>
-          <h1 style="font-size: 2.5rem; font-weight: 900; color: #facc15; margin-bottom: 1rem; animation: pulse 2s infinite; text-shadow: 0 0 1px #ffd700, 0 0 2px #ffd700, 0 1px 0 rgba(0,0,0,0.3);">
+          <h1 style="font-size: 3rem; font-weight: 900; background: linear-gradient(135deg, #fbbf24, #fb923c, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; animation: pulse 2s infinite; filter: drop-shadow(0 4px 8px rgba(251, 191, 36, 0.6)) drop-shadow(0 0 20px rgba(236, 72, 153, 0.4));">
             💎 BONANZA BILLION 💎
           </h1>
-          <p style="color: #a5f3fc; font-size: 1.25rem; font-weight: bold; text-shadow: 0 0 1px #00bfff, 0 0 2px #00bfff, 0 1px 0 rgba(0,0,0,0.3);">Loading your casino experience...</p>
+          <p style="color: #fbbf24; font-size: 1.5rem; font-weight: 900; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px rgba(251, 191, 36, 0.6); letter-spacing: 0.05em;">Loading your casino experience...</p>
         </div>
       </div>
       <div style="min-height: 100vh; position: relative; overflow: hidden;">
-        <!-- Animated Background -->
+        <!-- Animated Background Orbs -->
         <div style="position: absolute; inset: 0;">
-          <div style="position: absolute; top: 5rem; left: 5rem; width: 8rem; height: 8rem; background-color: rgba(250, 204, 21, 0.2); border-radius: 50%; animation: pulse 2s infinite;"></div>
-          <div style="position: absolute; top: 10rem; right: 8rem; width: 6rem; height: 6rem; background-color: rgba(236, 72, 153, 0.2); border-radius: 50%; animation: pulse 2s infinite;"></div>
-          <div style="position: absolute; bottom: 8rem; left: 10rem; width: 7rem; height: 7rem; background-color: rgba(59, 130, 246, 0.2); border-radius: 50%; animation: pulse 2s infinite;"></div>
-          <div style="position: absolute; bottom: 5rem; right: 5rem; width: 5rem; height: 5rem; background-color: rgba(34, 197, 94, 0.2); border-radius: 50%; animation: pulse 2s infinite;"></div>
+          <div style="position: absolute; top: 5rem; left: 5rem; width: 10rem; height: 10rem; background: radial-gradient(circle, rgba(251, 191, 36, 0.25) 0%, transparent 70%); border-radius: 50%; animation: pulse 3s infinite; filter: blur(40px);"></div>
+          <div style="position: absolute; top: 15rem; right: 8rem; width: 12rem; height: 12rem; background: radial-gradient(circle, rgba(236, 72, 153, 0.25) 0%, transparent 70%); border-radius: 50%; animation: pulse 4s infinite; filter: blur(40px); animation-delay: 0.5s;"></div>
+          <div style="position: absolute; bottom: 10rem; left: 12rem; width: 14rem; height: 14rem; background: radial-gradient(circle, rgba(147, 51, 234, 0.25) 0%, transparent 70%); border-radius: 50%; animation: pulse 3.5s infinite; filter: blur(40px); animation-delay: 1s;"></div>
+          <div style="position: absolute; bottom: 5rem; right: 5rem; width: 8rem; height: 8rem; background: radial-gradient(circle, rgba(255, 20, 147, 0.25) 0%, transparent 70%); border-radius: 50%; animation: pulse 4.5s infinite; filter: blur(40px); animation-delay: 1.5s;"></div>
+          <div style="position: absolute; top: 50%; left: 50%; width: 16rem; height: 16rem; background: radial-gradient(circle, rgba(192, 38, 211, 0.15) 0%, transparent 70%); border-radius: 50%; animation: pulse 5s infinite; filter: blur(50px); transform: translate(-50%, -50%); animation-delay: 2s;"></div>
         </div>
 
         <!-- Header -->
@@ -234,10 +430,10 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
             </div>
           </div>
           ` : ''}
-          <h1 style="font-size: 3rem; font-weight: 900; color: #fbbf24; margin-bottom: 1.5rem; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 20px rgba(251, 191, 36, 0.7), 0 4px 8px rgba(0, 0, 0, 0.6);">
+          <h1 style="font-size: 3.5rem; font-weight: 900; background: linear-gradient(135deg, #fbbf24 0%, #fb923c 30%, #ec4899 60%, #c026d3 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1.5rem; filter: drop-shadow(0 4px 10px rgba(251, 191, 36, 0.8)) drop-shadow(0 0 30px rgba(236, 72, 153, 0.5)) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.6)); letter-spacing: 0.02em;">
             💎 ${brandName.toUpperCase()} 💎
           </h1>
-          <p style="font-size: 1.5rem; font-weight: 900; color: #ffffff; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 15px rgba(165, 243, 252, 0.6), 0 4px 6px rgba(0, 0, 0, 0.7); background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.7)); padding: 0.75rem 2rem; border-radius: 0.5rem; display: inline-block; margin-top: 1rem; border: 2px solid rgba(165, 243, 252, 0.3);">
+          <p style="font-size: 1.75rem; font-weight: 900; color: #ffffff; text-shadow: 0 3px 6px rgba(0, 0, 0, 0.9), 0 0 25px rgba(251, 191, 36, 0.7), 0 0 40px rgba(236, 72, 153, 0.4); background: linear-gradient(135deg, rgba(147, 51, 234, 0.4) 0%, rgba(192, 38, 211, 0.5) 50%, rgba(147, 51, 234, 0.4) 100%); padding: 1rem 2.5rem; border-radius: 1rem; display: inline-block; margin-top: 1rem; border: 3px solid rgba(251, 191, 36, 0.5); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 40px rgba(251, 191, 36, 0.3) inset; backdrop-filter: blur(8px); letter-spacing: 0.03em;">
             ⭐ ${headline || 'WIN BIG WITH BONANZA BILLION SLOTS!'} ⭐
           </p>
         </div>
@@ -248,8 +444,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
           <!-- Slot Machine Container -->
           <div class="slot-machine">
             <div style="text-align: center; margin-bottom: 1.5rem;">
-              <h2 style="font-size: 1.5rem; font-weight: 900; color: #fbbf24; margin-bottom: 0.25rem; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(251, 191, 36, 0.5);">${brandName.toUpperCase()}</h2>
-              <h3 style="font-size: 1.25rem; font-weight: bold; color: #fbbf24; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(251, 191, 36, 0.5);">SLOTS</h3>
+              <h2 style="font-size: 1.75rem; font-weight: 900; background: linear-gradient(135deg, #fbbf24 0%, #fb923c 50%, #f97316 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.25rem; filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 15px rgba(251, 191, 36, 0.6)); letter-spacing: 0.05em;">${brandName.toUpperCase()}</h2>
+              <h3 style="font-size: 1.5rem; font-weight: 900; color: #ffffff; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px rgba(251, 191, 36, 0.8), 0 0 30px rgba(236, 72, 153, 0.4); letter-spacing: 0.1em;">💎 SLOTS 💎</h3>
             </div>
 
             <!-- 3x3 Slot Grid -->
@@ -269,17 +465,17 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
           <!-- Game Controls Panel -->
           <div class="game-controls">
             <div style="text-align: center; margin-bottom: 1.5rem;">
-              <h2 style="font-size: 1.5rem; font-weight: 900; color: #fbbf24; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(251, 191, 36, 0.5);">GAME CONTROLS</h2>
+              <h2 style="font-size: 1.75rem; font-weight: 900; background: linear-gradient(135deg, #fbbf24 0%, #fb923c 50%, #f97316 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 15px rgba(251, 191, 36, 0.6)); letter-spacing: 0.05em;">🎮 GAME CONTROLS 🎮</h2>
             </div>
 
             <!-- Bet Display -->
             <div class="control-display">
-              <div style="color: #fbbf24; font-weight: 900; text-align: center; font-size: 1.25rem; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(251, 191, 36, 0.5);">BET: $10</div>
+              <div style="background: linear-gradient(135deg, #fbbf24 0%, #fb923c 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 900; text-align: center; font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 15px rgba(251, 191, 36, 0.8)); letter-spacing: 0.05em;">💰 BET: $10</div>
             </div>
 
             <!-- Balance Display -->
             <div class="control-display">
-              <div style="color: #fbbf24; font-weight: 900; text-align: center; font-size: 1.25rem; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(251, 191, 36, 0.5);">BALANCE: $1,000</div>
+              <div style="background: linear-gradient(135deg, #10b981 0%, #22c55e 50%, #84cc16 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 900; text-align: center; font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 15px rgba(34, 197, 94, 0.8)); letter-spacing: 0.05em;">💵 BALANCE: $1,000</div>
             </div>
 
             <!-- Spin Button -->
