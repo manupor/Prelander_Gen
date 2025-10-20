@@ -556,6 +556,49 @@ export default function SiteEditorPage() {
     }
   }
 
+  // AWS Hosting - Deploy directly to S3
+  const handleAWSHosting = async () => {
+    if (!downloadEmail) {
+      alert('Please enter your email address')
+      return
+    }
+
+    setDownloading(true)
+    try {
+      const response = await fetch('/api/host-to-aws', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          slug,
+          email: downloadEmail,
+          domainLock: domainLock || undefined
+        }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        const errorMessage = errorData.details || errorData.error || 'Failed to host prelander'
+        throw new Error(errorMessage)
+      }
+
+      const data = await response.json()
+      
+      setShowDownloadModal(false)
+      setDownloadEmail('')
+      setDomainLock('')
+      
+      alert(`🚀 Prelander Hosted on AWS!\n\n🔗 LIVE URL:\n${data.hostedUrl}\n\nYour prelander is now live and accessible worldwide!\n\nFEATURES:\n✅ Hosted on Amazon S3\n✅ Code obfuscation & protection\n✅ Affiliate fingerprinting\n✅ Anti-screenshot protection\n${domainLock ? `✅ Domain locked to: ${domainLock}\n` : ''}✅ CDN delivery (fast loading)\n\nNEXT STEPS:\n1. Check your email for the live URL\n2. Test your prelander\n3. Share with your audience\n4. Monitor performance in dashboard\n\n📧 Confirmation email sent to ${downloadEmail}\n\n🎉 Your prelander is ready to convert!`)
+      
+    } catch (error: any) {
+      console.error('AWS hosting error:', error)
+      alert(`Failed to host prelander: ${error.message}`)
+    } finally {
+      setDownloading(false)
+    }
+  }
+
   const getPreviewUrl = () => {
     if (!site) return ''
     
@@ -1397,7 +1440,7 @@ export default function SiteEditorPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 {/* NEW: Simple Protected Package */}
                 <div className="bg-gradient-to-r from-green-800/50 to-emerald-700/50 rounded-lg p-4 border border-green-500/40 backdrop-blur-sm relative">
                   <div className="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
@@ -1417,6 +1460,32 @@ export default function SiteEditorPage() {
                         <li>✅ Código ofuscado</li>
                         <li>✅ Abre en navegador</li>
                         <li>✅ Listo para usar</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                {/* AWS Hosted Package - NEW! */}
+                <div className="bg-gradient-to-r from-purple-800/50 to-indigo-700/50 rounded-lg p-4 border border-purple-500/40 backdrop-blur-sm relative">
+                  <div className="absolute -top-2 -right-2 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                    🚀 NUEVO
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-purple-500/20 rounded-lg">
+                      <svg className="w-5 h-5 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0L1.608 6v12L12 24l10.392-6V6L12 0zm0 2.5l8.892 5.136v10.728L12 23.5l-8.892-5.136V7.636L12 2.5z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-sm text-white font-semibold">☁️ AWS Hosted</p>
+                      <p className="text-xs text-gray-300 mt-1 leading-relaxed">
+                        Hosting automático en Amazon S3 con CDN global.
+                      </p>
+                      <ul className="text-xs text-gray-400 mt-2 space-y-1">
+                        <li>✅ URL pública instantánea</li>
+                        <li>✅ Código protegido</li>
+                        <li>✅ CDN delivery</li>
+                        <li>✅ Email con link</li>
                       </ul>
                     </div>
                   </div>
@@ -1537,6 +1606,27 @@ export default function SiteEditorPage() {
                     <>
                       <Download className="w-6 h-6" />
                       ⚡ DESCARGA RÁPIDA (Recomendado)
+                    </>
+                  )}
+                </button>
+
+                {/* NEW: AWS Hosting Button */}
+                <button
+                  onClick={handleAWSHosting}
+                  disabled={downloading || !downloadEmail}
+                  className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-3 shadow-lg shadow-purple-500/40 text-lg"
+                >
+                  {downloading ? (
+                    <>
+                      <Loader2 className="w-6 h-6 animate-spin" />
+                      Hosting...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0L1.608 6v12L12 24l10.392-6V6L12 0zm0 2.5l8.892 5.136v10.728L12 23.5l-8.892-5.136V7.636L12 2.5z"/>
+                      </svg>
+                      🚀 HOSTING EN AWS (Nuevo)
                     </>
                   )}
                 </button>
