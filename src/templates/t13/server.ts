@@ -151,10 +151,10 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       grid-template-rows: repeat(3, 1fr);
-      gap: 3px;
-      width: 420px;
-      height: 252px;
-      top: 50%;
+      gap: 4px;
+      width: 400px;
+      height: 240px;
+      top: 48%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
@@ -172,8 +172,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
 
     .slot-cell img {
-      width: 100%;
-      height: 100%;
+      width: 85%;
+      height: 85%;
       object-fit: contain;
       transition: all 0.3s ease;
     }
@@ -214,65 +214,91 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       }
     }
 
-    /* Bottom control panel */
-    .control-panel {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 40px;
-      height: 80px;
+    /* Frame-integrated buttons positioned on frame elements */
+    .frame-buttons {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
     }
 
+    .frame-buttons > * {
+      pointer-events: all;
+    }
+
+    /* Menu button - positioned on left frame element */
     .menu-btn {
+      position: absolute;
+      bottom: 15%;
+      left: 8%;
       background-image: url('/Pirates Slot/menu.svg');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      width: 100px;
-      height: 50px;
+      width: 80px;
+      height: 40px;
       border: none;
       cursor: pointer;
       transition: all 0.3s ease;
     }
 
+    /* Total bet display - positioned near center-left */
     .total-bet-display {
+      position: absolute;
+      bottom: 15%;
+      left: 25%;
       background-image: url('/Pirates Slot/total bet.svg');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      width: 140px;
-      height: 50px;
+      width: 100px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #FFD700;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 12px;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
     }
 
+    /* Spin button - positioned on center circle of frame */
     .spin-btn {
+      position: absolute;
+      bottom: 12%;
+      left: 50%;
+      transform: translateX(-50%);
       background-image: url('/Pirates Slot/spin.svg');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      width: 120px;
-      height: 70px;
+      width: 90px;
+      height: 60px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 20;
+    }
+
+    /* Auto spin button - positioned on right frame element */
+    .auto-spin-btn {
+      position: absolute;
+      bottom: 15%;
+      right: 8%;
+      background-image: url('/Pirates Slot/auto spin.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 80px;
+      height: 40px;
       border: none;
       cursor: pointer;
       transition: all 0.3s ease;
     }
 
-    .auto-spin-btn {
-      background-image: url('/Pirates Slot/auto spin.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      width: 100px;
-      height: 50px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
+    /* Remove the old control panel */
+    .control-panel {
+      display: none;
     }
 
     /* Button hover effects */
@@ -409,31 +435,39 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       }
       
       .slot-grid {
-        width: 320px;
-        height: 192px;
-        gap: 2px;
-      }
-      
-      .control-panel {
-        padding: 0 20px;
-        height: 60px;
+        width: 300px;
+        height: 180px;
+        gap: 3px;
+        top: 46%;
       }
       
       .menu-btn,
       .auto-spin-btn {
-        width: 80px;
-        height: 40px;
+        width: 60px;
+        height: 30px;
+        bottom: 12%;
+      }
+      
+      .menu-btn {
+        left: 6%;
+      }
+      
+      .auto-spin-btn {
+        right: 6%;
       }
       
       .total-bet-display {
-        width: 110px;
-        height: 40px;
-        font-size: 12px;
+        width: 80px;
+        height: 30px;
+        font-size: 10px;
+        bottom: 12%;
+        left: 22%;
       }
       
       .spin-btn {
-        width: 90px;
-        height: 55px;
+        width: 70px;
+        height: 45px;
+        bottom: 10%;
       }
       
       .balance-display {
@@ -740,8 +774,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       <div class="slot-grid" id="slot-grid"></div>
     </div>
     
-    <!-- Bottom control panel -->
-    <div class="control-panel">
+    <!-- Frame-integrated buttons -->
+    <div class="frame-buttons">
       <button class="menu-btn" id="menuBtn"></button>
       <div class="total-bet-display">85,150</div>
       <button class="spin-btn" id="spinBtn"></button>
