@@ -60,7 +60,7 @@ export default function SiteEditorPage() {
   const [termsUrl, setTermsUrl] = useState('')
   const [privacyUrl, setPrivacyUrl] = useState('')
   const [responsibleGamingUrl, setResponsibleGamingUrl] = useState('')
-  const [previewMode, setPreviewMode] = useState<'live' | 'template'>('live')
+  const [previewMode, setPreviewMode] = useState<'live' | 'template'>('template')
   const [showTour, setShowTour] = useState(false)
   const [showDownloadModal, setShowDownloadModal] = useState(false)
   const [downloadEmail, setDownloadEmail] = useState('')
@@ -69,22 +69,10 @@ export default function SiteEditorPage() {
   const [domainLock, setDomainLock] = useState('')
 
   const toggleSection = (section: 'vertical' | 'template' | 'logo' | 'colors' | 'legal') => {
-    const isExpanding = !expandedSections[section]
-    
     setExpandedSections(prev => ({
       ...prev,
       [section]: !prev[section]
     }))
-    
-    // Switch to template preview mode when template section is expanded
-    if (section === 'template' && isExpanding) {
-      setPreviewMode('template')
-    }
-    
-    // Switch back to live preview when other sections are expanded
-    if (section !== 'template' && isExpanding && previewMode === 'template') {
-      setPreviewMode('live')
-    }
   }
 
   const collapseAll = () => {
@@ -889,7 +877,7 @@ export default function SiteEditorPage() {
                   <div className="pt-4 border-t border-gray-700">
                     <div className="bg-gray-900 rounded-lg p-3">
                       <p className="text-xs text-gray-400 mb-2">
-                        <strong className="text-white">Preview:</strong> See the selected template in the right panel
+                        <strong className="text-white">Preview Mode:</strong> Switch between editing and final view
                       </p>
                       <div className="flex gap-2">
                         <button
@@ -900,19 +888,25 @@ export default function SiteEditorPage() {
                               : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
                           }`}
                         >
-                          📋 Template Preview
+                          ✏️ Edit Mode
                         </button>
                         <button
                           onClick={() => setPreviewMode('live')}
                           className={`flex-1 px-3 py-2 text-xs rounded transition-all ${
                             previewMode === 'live'
-                              ? 'bg-blue-600 text-white'
+                              ? 'bg-green-600 text-white'
                               : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
                           }`}
                         >
-                          👁️ Live Preview
+                          👁️ Final View
                         </button>
                       </div>
+                      <p className="text-xs text-gray-500 mt-2">
+                        {previewMode === 'template' 
+                          ? '✏️ Edit Mode: Click pencil icons to edit content'
+                          : '👁️ Final View: Clean preview without editing tools'
+                        }
+                      </p>
                     </div>
                   </div>
 
@@ -1217,36 +1211,25 @@ export default function SiteEditorPage() {
         <div data-tour="preview" className="flex-1 bg-gray-950 p-6 overflow-auto">
           <div className="max-w-7xl mx-auto">
             {previewMode === 'live' ? (
-              // Live Preview with iframe and inline editing
-              <div className="bg-white rounded-lg shadow-2xl overflow-hidden relative" style={{ height: '90vh' }}>
+              // Live Preview - Clean view without editing tools
+              <div className="bg-white rounded-lg shadow-2xl overflow-hidden" style={{ height: '90vh' }}>
                 <iframe
-                  ref={iframeRef}
                   key={`live-${templateId}`}
                   src={getPreviewUrl()}
                   className="w-full h-full border-0"
                   title="Live Preview"
                 />
-                
-                {/* Inline Editor Overlay */}
-                <InlineEditor
-                  iframeRef={iframeRef}
-                  onUpdate={handleInlineUpdate}
-                  fields={{
-                    headline,
-                    gameBalance,
-                    popupTitle,
-                    popupMessage,
-                    popupPrize
-                  }}
-                />
               </div>
             ) : (
-              // Template Preview Mode
+              // Template Preview Mode - With Inline Editing
               <div className="space-y-4">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h3 className="text-xl font-bold text-white">Template Preview</h3>
-                    <p className="text-sm text-gray-400 mt-1">Customize in real-time</p>
+                    <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                      Template Preview
+                      <span className="text-sm bg-blue-600 px-2 py-1 rounded font-normal">✏️ Edit Mode</span>
+                    </h3>
+                    <p className="text-sm text-gray-400 mt-1">Click pencil icons (✏️) to edit text directly</p>
                   </div>
                   <button
                     onClick={() => window.open(getPreviewUrl(), '_blank')}
@@ -1257,38 +1240,52 @@ export default function SiteEditorPage() {
                   </button>
                 </div>
 
-                {/* Large Template Preview - Live with customizations */}
+                {/* Large Template Preview - With inline editing */}
                 <div className="bg-gray-900 rounded-lg p-6 border border-gray-700">
                   <div className="relative w-full bg-white rounded-lg overflow-hidden shadow-2xl" style={{ height: '70vh' }}>
                     <iframe
+                      ref={iframeRef}
                       key={`template-${templateId}`}
                       src={getPreviewUrl()}
                       className="w-full h-full border-0"
                       title="Template Preview"
+                    />
+                    
+                    {/* Inline Editor Overlay - Only in Template Preview mode */}
+                    <InlineEditor
+                      iframeRef={iframeRef}
+                      onUpdate={handleInlineUpdate}
+                      fields={{
+                        headline,
+                        gameBalance,
+                        popupTitle,
+                        popupMessage,
+                        popupPrize
+                      }}
                     />
                   </div>
                 </div>
 
                 {/* Customization Info */}
                 <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-700/50 rounded-lg p-4">
-                  <h4 className="text-sm font-semibold text-white mb-2">💡 Real-time Customization</h4>
+                  <h4 className="text-sm font-semibold text-white mb-2">✏️ Inline Editing Mode</h4>
                   <div className="grid grid-cols-2 gap-3 text-xs text-gray-300">
                     <div className="flex items-start gap-2">
-                      <span className="text-blue-400">🎨</span>
+                      <span className="text-blue-400">✏️</span>
                       <div>
-                        <strong>Colors:</strong> Change colors in the Colors section to see updates
+                        <strong>Click pencil icons:</strong> Edit text directly on the preview
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
-                      <span className="text-green-400">🖼️</span>
+                      <span className="text-green-400">⌨️</span>
                       <div>
-                        <strong>Logo:</strong> Upload or paste logo URL in Logo section
+                        <strong>Keyboard:</strong> Enter to save, Esc to cancel
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
-                      <span className="text-purple-400">📝</span>
+                      <span className="text-purple-400">🎨</span>
                       <div>
-                        <strong>Content:</strong> Edit text and messages in Content section
+                        <strong>Colors & Logo:</strong> Use sidebar sections for these
                       </div>
                     </div>
                     <div className="flex items-start gap-2">
