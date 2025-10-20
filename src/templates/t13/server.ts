@@ -73,23 +73,27 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       justify-content: space-between;
     }
 
-    /* Top section with title and balance */
+    /* Top section with balance only */
     .top-section {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
+      justify-content: flex-end;
+      align-items: flex-start;
+      padding: 20px;
       height: 80px;
     }
 
     .pirates-title {
+      position: absolute;
+      top: 5%;
+      left: 50%;
+      transform: translateX(-50%);
       background-image: url('/Pirates Slot/pirates treasure.svg');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      width: 350px;
-      height: 70px;
-      flex-shrink: 0;
+      width: 400px;
+      height: 80px;
+      z-index: 15;
     }
 
     .balance-info {
@@ -151,10 +155,10 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       grid-template-rows: repeat(3, 1fr);
-      gap: 4px;
-      width: 400px;
-      height: 240px;
-      top: 48%;
+      gap: 6px;
+      width: 420px;
+      height: 250px;
+      top: 45%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
@@ -172,8 +176,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
 
     .slot-cell img {
-      width: 85%;
-      height: 85%;
+      width: 90%;
+      height: 90%;
       object-fit: contain;
       transition: all 0.3s ease;
     }
@@ -190,17 +194,34 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
 
     /* Animation effects */
     .slot-cell.spinning {
-      animation: spin-effect 0.6s ease-in-out infinite;
+      animation: rollover-spin 0.8s ease-in-out;
     }
 
     .slot-cell.winning {
       animation: win-glow 1.2s ease-in-out infinite;
     }
 
-    @keyframes spin-effect {
-      0% { transform: rotateY(0deg); }
-      50% { transform: rotateY(180deg); }
-      100% { transform: rotateY(360deg); }
+    @keyframes rollover-spin {
+      0% { 
+        transform: translateY(0) rotateX(0deg);
+        opacity: 1;
+      }
+      25% {
+        transform: translateY(-20px) rotateX(90deg);
+        opacity: 0.7;
+      }
+      50% {
+        transform: translateY(-40px) rotateX(180deg);
+        opacity: 0.3;
+      }
+      75% {
+        transform: translateY(-20px) rotateX(270deg);
+        opacity: 0.7;
+      }
+      100% { 
+        transform: translateY(0) rotateX(360deg);
+        opacity: 1;
+      }
     }
 
     @keyframes win-glow {
@@ -435,10 +456,16 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       }
       
       .slot-grid {
+        width: 320px;
+        height: 190px;
+        gap: 4px;
+        top: 43%;
+      }
+      
+      .pirates-title {
         width: 300px;
-        height: 180px;
-        gap: 3px;
-        top: 46%;
+        height: 60px;
+        top: 3%;
       }
       
       .menu-btn,
@@ -589,26 +616,33 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         cell.classList.remove('winning');
       });
       
-      // Animate each column with delay
+      // Animate each column with staggered rollover effect
       const spinPromises = [];
       for (let col = 0; col < 5; col++) {
         const promise = new Promise(resolve => {
-          // Add spinning effect to all cells in this column
+          // Start rollover animation for each row in this column
           for (let row = 0; row < 3; row++) {
             const cell = reelElements[col][row];
-            cell.classList.add('spinning');
+            setTimeout(() => {
+              cell.classList.add('spinning');
+              
+              // Change symbol during the middle of animation
+              setTimeout(() => {
+                const img = cell.querySelector('img');
+                img.src = getRandomSymbol();
+              }, 400); // Middle of 0.8s animation
+              
+              // Remove spinning class after animation
+              setTimeout(() => {
+                cell.classList.remove('spinning');
+              }, 800);
+            }, row * 100); // Stagger rows within column
           }
           
+          // Resolve when all rows in column are done
           setTimeout(() => {
-            // Update symbols and remove spinning effect
-            for (let row = 0; row < 3; row++) {
-              const cell = reelElements[col][row];
-              cell.classList.remove('spinning');
-              const img = cell.querySelector('img');
-              img.src = getRandomSymbol();
-            }
             resolve();
-          }, 2000 + (col * 200)); // Staggered stop by column
+          }, 1100 + (col * 300)); // Staggered column completion
         });
         spinPromises.push(promise);
       }
@@ -624,7 +658,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         // Continue auto spin if enabled
         if (autoSpin) {
           spinCount++;
-          setTimeout(() => spin(), 1000);
+          setTimeout(() => spin(), 1500);
         }
       }, 500);
     }
@@ -757,11 +791,13 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
   <!-- Full-screen responsive background -->
   <div class="game-background"></div>
   
+  <!-- Centered Pirates Treasures title -->
+  <div class="pirates-title"></div>
+  
   <!-- Main game container -->
   <div class="game-container">
-    <!-- Top section with title and balance -->
+    <!-- Top section with balance only -->
     <div class="top-section">
-      <div class="pirates-title"></div>
       <div class="balance-info">
         <button class="buy-coins-btn" id="buyCoinsBtn"></button>
         <div class="balance-display" id="balance">${gameBalance.toLocaleString()}</div>
