@@ -44,6 +44,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       position: relative;
     }
 
+    /* Full-screen responsive background */
     .game-background {
       position: fixed;
       top: 0;
@@ -57,22 +58,29 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       z-index: 1;
     }
 
+    /* Main game container - centered and responsive */
     .game-container {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 95%;
-      max-width: 1200px;
+      width: 90%;
+      max-width: 1000px;
+      height: 90%;
+      max-height: 700px;
       z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
+    /* Top section with title and balance */
     .top-section {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
       padding: 0 20px;
+      height: 80px;
     }
 
     .pirates-title {
@@ -80,155 +88,40 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      width: 400px;
-      height: 80px;
+      width: 350px;
+      height: 70px;
+      flex-shrink: 0;
+    }
+
+    .balance-info {
       display: flex;
       align-items: center;
-      justify-content: center;
-      color: transparent;
-      font-size: 0;
+      gap: 15px;
     }
 
-    .balance-section {
-      background-image: url('/Pirates Slot/balance.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      width: 200px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #FFD700;
-      font-weight: bold;
-      font-size: 18px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-    }
-
-    .slot-machine {
-      position: relative;
-      background-image: url('/Pirates Slot/frame.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      width: 100%;
-      height: 500px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto;
-    }
-
-    .reels-container {
-      position: absolute;
-      top: 54%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      gap: 1px;
-      width: 440px;
-      height: 210px;
-      padding: 0;
-    }
-
-    .reel {
-      display: contents;
-    }
-
-    .slot-cell {
-      width: 100%;
-      height: 100%;
-      background: transparent;
-      border: none;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .slot-cell img {
-      width: 90%;
-      height: 90%;
-      object-fit: contain;
-      transition: all 0.3s ease;
-    }
-
-    .slot-cell:hover {
-      transform: scale(1.05);
-    }
-
-    .slot-cell:hover img {
-      transform: scale(1.1);
-      filter: brightness(1.3) drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
-    }
-
-    .slot-cell.spinning {
-      animation: spin-effect 0.5s ease-in-out infinite;
-    }
-
-    .slot-cell.winning {
-      animation: win-glow 1s ease-in-out infinite;
-      border-color: #4CAF50;
-      box-shadow: 0 0 30px #4CAF50;
-    }
-
-    @keyframes spin-effect {
-      0% { transform: rotateY(0deg); }
-      50% { transform: rotateY(180deg); }
-      100% { transform: rotateY(360deg); }
-    }
-
-    @keyframes win-glow {
-      0%, 100% { 
-        box-shadow: 0 0 20px #4CAF50;
-        transform: scale(1);
-      }
-      50% { 
-        box-shadow: 0 0 40px #4CAF50, 0 0 60px #4CAF50;
-        transform: scale(1.1);
-      }
-    }
-
-    .control-panel {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 20px 40px;
-      margin-top: 10px;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .menu-btn {
-      background-image: url('/Pirates Slot/menu.svg');
+    .buy-coins-btn {
+      background-image: url('/Pirates Slot/buy coins.svg');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
       width: 120px;
-      height: 60px;
+      height: 50px;
       border: none;
       cursor: pointer;
       transition: all 0.3s ease;
     }
 
-    .menu-btn:hover {
+    .buy-coins-btn:hover {
       transform: scale(1.05);
       filter: brightness(1.2);
     }
 
-    .total-bet {
-      background-image: url('/Pirates Slot/total bet.svg');
+    .balance-display {
+      background-image: url('/Pirates Slot/balance.svg');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      width: 150px;
+      width: 180px;
       height: 60px;
       display: flex;
       align-items: center;
@@ -239,22 +132,156 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
     }
 
-    .spin-btn {
-      background-image: url('/Pirates Slot/spin.svg');
+    /* Slot machine frame - perfectly centered */
+    .slot-machine {
+      position: relative;
+      width: 100%;
+      height: 450px;
+      background-image: url('/Pirates Slot/frame.svg');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      width: 150px;
-      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 5x3 Grid container - pixel-perfect alignment */
+    .slot-grid {
+      position: absolute;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 3px;
+      width: 420px;
+      height: 252px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* Individual slot cells */
+    .slot-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
       border: none;
       cursor: pointer;
       transition: all 0.3s ease;
       position: relative;
     }
 
-    .spin-btn:hover {
+    .slot-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: all 0.3s ease;
+    }
+
+    /* Hover effects */
+    .slot-cell:hover {
+      transform: scale(1.08);
+      z-index: 10;
+    }
+
+    .slot-cell:hover img {
+      filter: brightness(1.3) drop-shadow(0 0 12px rgba(255, 215, 0, 0.9));
+    }
+
+    /* Animation effects */
+    .slot-cell.spinning {
+      animation: spin-effect 0.6s ease-in-out infinite;
+    }
+
+    .slot-cell.winning {
+      animation: win-glow 1.2s ease-in-out infinite;
+    }
+
+    @keyframes spin-effect {
+      0% { transform: rotateY(0deg); }
+      50% { transform: rotateY(180deg); }
+      100% { transform: rotateY(360deg); }
+    }
+
+    @keyframes win-glow {
+      0%, 100% { 
+        transform: scale(1);
+        filter: brightness(1) drop-shadow(0 0 8px rgba(76, 175, 80, 0.8));
+      }
+      50% { 
+        transform: scale(1.15);
+        filter: brightness(1.4) drop-shadow(0 0 20px rgba(76, 175, 80, 1));
+      }
+    }
+
+    /* Bottom control panel */
+    .control-panel {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+      height: 80px;
+    }
+
+    .menu-btn {
+      background-image: url('/Pirates Slot/menu.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 100px;
+      height: 50px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .total-bet-display {
+      background-image: url('/Pirates Slot/total bet.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 140px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFD700;
+      font-weight: bold;
+      font-size: 14px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    }
+
+    .spin-btn {
+      background-image: url('/Pirates Slot/spin.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 120px;
+      height: 70px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .auto-spin-btn {
+      background-image: url('/Pirates Slot/auto spin.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 100px;
+      height: 50px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    /* Button hover effects */
+    .menu-btn:hover,
+    .spin-btn:hover,
+    .auto-spin-btn:hover {
       transform: scale(1.05);
-      filter: brightness(1.2) drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+      filter: brightness(1.2) drop-shadow(0 0 15px rgba(255, 215, 0, 0.7));
     }
 
     .spin-btn:disabled {
@@ -264,27 +291,11 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       filter: grayscale(1);
     }
 
-    .auto-spin-btn {
-      background-image: url('/Pirates Slot/auto spin.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      width: 120px;
-      height: 60px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .auto-spin-btn:hover {
-      transform: scale(1.05);
-      filter: brightness(1.2);
-    }
-
     .auto-spin-btn.active {
       filter: hue-rotate(120deg) brightness(1.3);
     }
 
+    /* Win modal */
     .win-modal {
       position: fixed;
       top: 0;
@@ -361,6 +372,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       box-shadow: 0 8px 30px rgba(76,175,80,0.6);
     }
 
+    /* Floating coin animation */
     .floating-coin {
       position: absolute;
       width: 30px;
@@ -381,42 +393,59 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       }
     }
 
+    /* Responsive design */
     @media (max-width: 768px) {
       .game-container {
-        width: 98%;
-        padding: 0 10px;
-      }
-      
-      .slot-machine {
-        height: 400px;
-      }
-      
-      .reels-container {
-        width: 330px;
-        height: 160px;
-        gap: 1px;
-        top: 53%;
-      }
-      
-      .slot-cell img {
-        width: 75%;
-        height: 75%;
-      }
-      
-      .control-panel {
-        flex-direction: column;
-        gap: 15px;
-        padding: 15px;
+        width: 95%;
+        height: 95%;
       }
       
       .pirates-title {
-        width: 300px;
+        width: 250px;
+        height: 50px;
+      }
+      
+      .slot-machine {
+        height: 350px;
+      }
+      
+      .slot-grid {
+        width: 320px;
+        height: 192px;
+        gap: 2px;
+      }
+      
+      .control-panel {
+        padding: 0 20px;
         height: 60px;
       }
       
-      .balance-section {
-        width: 150px;
-        height: 50px;
+      .menu-btn,
+      .auto-spin-btn {
+        width: 80px;
+        height: 40px;
+      }
+      
+      .total-bet-display {
+        width: 110px;
+        height: 40px;
+        font-size: 12px;
+      }
+      
+      .spin-btn {
+        width: 90px;
+        height: 55px;
+      }
+      
+      .balance-display {
+        width: 140px;
+        height: 45px;
+        font-size: 14px;
+      }
+      
+      .buy-coins-btn {
+        width: 90px;
+        height: 35px;
       }
     }
   `
@@ -450,25 +479,23 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     let reelElements = [];
 
     function initGame() {
-      const reelsContainer = document.getElementById('reels');
+      const slotGrid = document.getElementById('slot-grid');
       
-      // Create a 5x3 grid directly in the container
+      // Create 5x3 grid of slot cells
       for (let row = 0; row < 3; row++) {
-        const rowCells = [];
         for (let col = 0; col < 5; col++) {
           const cell = document.createElement('div');
           cell.className = 'slot-cell';
           cell.dataset.col = col;
           cell.dataset.row = row;
-          cell.style.gridColumn = col + 1;
-          cell.style.gridRow = row + 1;
           
           const img = document.createElement('img');
           img.src = getRandomSymbol();
-          img.alt = 'Symbol';
+          img.alt = 'Pirate Symbol';
+          img.draggable = false;
           cell.appendChild(img);
           
-          reelsContainer.appendChild(cell);
+          slotGrid.appendChild(cell);
           
           // Store in column-based structure for game logic
           if (!reelElements[col]) {
@@ -695,26 +722,36 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
   <style>${css}</style>
 </head>
 <body>
+  <!-- Full-screen responsive background -->
   <div class="game-background"></div>
   
+  <!-- Main game container -->
   <div class="game-container">
+    <!-- Top section with title and balance -->
     <div class="top-section">
-      <div class="pirates-title">${headline}</div>
-      <div class="balance-section" id="balance">${gameBalance.toLocaleString()}</div>
+      <div class="pirates-title"></div>
+      <div class="balance-info">
+        <button class="buy-coins-btn" id="buyCoinsBtn"></button>
+        <div class="balance-display" id="balance">${gameBalance.toLocaleString()}</div>
+      </div>
     </div>
     
+    <!-- Slot machine with frame -->
     <div class="slot-machine">
-      <div class="reels-container" id="reels"></div>
+      <!-- 5x3 Grid of slot symbols -->
+      <div class="slot-grid" id="slot-grid"></div>
     </div>
     
+    <!-- Bottom control panel -->
     <div class="control-panel">
       <button class="menu-btn" id="menuBtn"></button>
-      <div class="total-bet">85,150</div>
+      <div class="total-bet-display">85,150</div>
       <button class="spin-btn" id="spinBtn"></button>
       <button class="auto-spin-btn" id="autoSpinBtn"></button>
     </div>
   </div>
   
+  <!-- Win modal -->
   <div class="win-modal" id="winModal">
     <div class="win-content">
       <h2 class="win-title">${popupTitle}</h2>
