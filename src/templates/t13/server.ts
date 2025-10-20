@@ -112,60 +112,60 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       background-repeat: no-repeat;
       background-position: center;
       width: 100%;
-      height: 600px;
+      height: 500px;
       display: flex;
       align-items: center;
       justify-content: center;
+      margin: 0 auto;
     }
 
     .reels-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-      padding: 60px 120px;
-      width: 100%;
-      height: 100%;
-      align-items: center;
+      grid-template-rows: repeat(3, 1fr);
+      gap: 4px;
+      width: 500px;
+      height: 240px;
+      padding: 0;
     }
 
     .reel {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+      display: contents;
     }
 
     .slot-cell {
-      width: 90px;
-      height: 90px;
-      background: rgba(139, 69, 19, 0.3);
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border: none;
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       transition: all 0.3s ease;
-      border: 2px solid rgba(255, 215, 0, 0.3);
       position: relative;
       overflow: hidden;
     }
 
     .slot-cell img {
-      width: 70px;
-      height: 70px;
+      width: 80%;
+      height: 80%;
       object-fit: contain;
       transition: all 0.3s ease;
     }
 
     .slot-cell:hover {
-      transform: scale(1.1);
-      border-color: #FFD700;
-      box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-      background: rgba(255, 215, 0, 0.2);
+      transform: scale(1.05);
     }
 
     .slot-cell:hover img {
       transform: scale(1.1);
-      filter: brightness(1.2) drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+      filter: brightness(1.3) drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
     }
 
     .slot-cell.spinning {
@@ -197,10 +197,13 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
 
     .control-panel {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       align-items: center;
       padding: 20px 40px;
-      margin-top: 20px;
+      margin-top: 10px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .menu-btn {
@@ -384,14 +387,19 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         padding: 0 10px;
       }
       
-      .slot-cell {
-        width: 60px;
-        height: 60px;
+      .slot-machine {
+        height: 400px;
+      }
+      
+      .reels-container {
+        width: 400px;
+        height: 200px;
+        gap: 3px;
       }
       
       .slot-cell img {
-        width: 45px;
-        height: 45px;
+        width: 75%;
+        height: 75%;
       }
       
       .control-panel {
@@ -405,8 +413,9 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         height: 60px;
       }
       
-      .reels-container {
-        padding: 40px 60px;
+      .balance-section {
+        width: 150px;
+        height: 50px;
       }
     }
   `
@@ -442,35 +451,58 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     function initGame() {
       const reelsContainer = document.getElementById('reels');
       
-      for (let col = 0; col < 5; col++) {
-        const reel = document.createElement('div');
-        reel.className = 'reel';
-        
-        const reelCells = [];
-        for (let row = 0; row < 3; row++) {
+      // Create a 5x3 grid directly in the container
+      for (let row = 0; row < 3; row++) {
+        const rowCells = [];
+        for (let col = 0; col < 5; col++) {
           const cell = document.createElement('div');
           cell.className = 'slot-cell';
           cell.dataset.col = col;
           cell.dataset.row = row;
+          cell.style.gridColumn = col + 1;
+          cell.style.gridRow = row + 1;
           
           const img = document.createElement('img');
           img.src = getRandomSymbol();
           img.alt = 'Symbol';
           cell.appendChild(img);
           
-          reel.appendChild(cell);
-          reelCells.push(cell);
+          reelsContainer.appendChild(cell);
+          
+          // Store in column-based structure for game logic
+          if (!reelElements[col]) {
+            reelElements[col] = [];
+          }
+          reelElements[col][row] = cell;
         }
-        
-        reelElements.push(reelCells);
-        reelsContainer.appendChild(reel);
       }
       
       updateDisplay();
     }
 
+    // Track used symbols to avoid immediate repetition
+    let lastUsedSymbols = [];
+    
     function getRandomSymbol() {
-      return SYMBOL_ASSETS[Math.floor(Math.random() * SYMBOL_ASSETS.length)];
+      let availableSymbols = SYMBOL_ASSETS.filter(symbol => 
+        !lastUsedSymbols.includes(symbol)
+      );
+      
+      // If we've used all symbols, reset the tracking
+      if (availableSymbols.length === 0) {
+        lastUsedSymbols = [];
+        availableSymbols = [...SYMBOL_ASSETS];
+      }
+      
+      const selectedSymbol = availableSymbols[Math.floor(Math.random() * availableSymbols.length)];
+      
+      // Track the last 8 symbols to avoid repetition
+      lastUsedSymbols.push(selectedSymbol);
+      if (lastUsedSymbols.length > 8) {
+        lastUsedSymbols.shift();
+      }
+      
+      return selectedSymbol;
     }
 
     function updateDisplay() {
@@ -497,23 +529,29 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         cell.classList.remove('winning');
       });
       
-      // Animate each reel with delay
-      const spinPromises = reelElements.map((reel, reelIndex) => {
-        return new Promise(resolve => {
-          // Add spinning effect
-          reel.forEach(cell => cell.classList.add('spinning'));
+      // Animate each column with delay
+      const spinPromises = [];
+      for (let col = 0; col < 5; col++) {
+        const promise = new Promise(resolve => {
+          // Add spinning effect to all cells in this column
+          for (let row = 0; row < 3; row++) {
+            const cell = reelElements[col][row];
+            cell.classList.add('spinning');
+          }
           
           setTimeout(() => {
             // Update symbols and remove spinning effect
-            reel.forEach(cell => {
+            for (let row = 0; row < 3; row++) {
+              const cell = reelElements[col][row];
               cell.classList.remove('spinning');
               const img = cell.querySelector('img');
               img.src = getRandomSymbol();
-            });
+            }
             resolve();
-          }, 2000 + (reelIndex * 200)); // Staggered stop
+          }, 2000 + (col * 200)); // Staggered stop by column
         });
-      });
+        spinPromises.push(promise);
+      }
       
       await Promise.all(spinPromises);
       
