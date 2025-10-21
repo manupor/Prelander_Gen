@@ -404,57 +404,83 @@ export default function DashboardPage() {
         ) : (
           // Sites Table
           <div>
-            <div className="sm:flex sm:items-center mb-8">
-              <div className="sm:flex-auto">
-                <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Your Forge</h2>
-                <p className="mt-2 text-lg text-slate-300">
-                  Manage your forged digital experiences
-                </p>
-              </div>
-              <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none flex flex-col items-end space-y-4">
-                {/* View Mode Filters */}
-                <div className="flex items-center space-x-2">
-                  {(['all', 'published', 'downloaded'] as const).map((mode) => {
-                    const stats = getViewModeStats()
-                    const count = stats[mode]
-                    const labels = {
-                      all: '📊 All Sites',
-                      published: '🚀 Published',
-                      downloaded: '📥 Downloaded'
-                    }
-                    
-                    return (
-                      <Button
-                        key={mode}
-                        onClick={() => setViewMode(mode)}
-                        variant="outline"
-                        className={`border-slate-600 bg-slate-800/50 text-slate-300 hover:bg-slate-700 hover:text-white hover:border-slate-500 backdrop-blur-sm transition-all duration-300 ${
-                          viewMode === mode ? 'bg-slate-700 text-white border-slate-500' : ''
-                        }`}
-                      >
-                        {labels[mode]} ({count})
-                      </Button>
-                    )
-                  })}
+            {/* Header Section */}
+            <div className="mb-8">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Your Forge</h2>
+                  <p className="mt-2 text-lg text-slate-300">
+                    Manage your forged digital experiences
+                  </p>
                 </div>
-                
-                {/* Archive Toggle */}
-                <Button
-                  onClick={() => setShowArchived(!showArchived)}
-                  variant="outline"
-                  className="border-slate-600 bg-slate-800/50 text-slate-300 hover:bg-slate-700 hover:text-white hover:border-slate-500 backdrop-blur-sm transition-all duration-300"
-                >
-                  {showArchived ? '📂 Show Active' : '🗄️ Show Archived'}
-                </Button>
                 <Button 
                   onClick={handleQuickCreate}
-                  className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white border-0 shadow-lg hover:shadow-xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105"
+                  className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white border-0 shadow-lg hover:shadow-xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105 font-semibold px-8 py-6 text-lg"
                 >
                   <span className="flex items-center">
-                    <span className="mr-2">⚡</span>
+                    <span className="mr-2 text-xl">⚡</span>
                     Forge New Site
                   </span>
                 </Button>
+              </div>
+              
+              {/* Filter Pills - Horizontal Layout */}
+              <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 shadow-xl">
+                <div className="flex items-center justify-between flex-wrap gap-4">
+                  {/* View Mode Filters */}
+                  <div className="flex items-center space-x-3">
+                    {(['all', 'published', 'downloaded'] as const).map((mode) => {
+                      const stats = getViewModeStats()
+                      const count = stats[mode]
+                      const icons = {
+                        all: '📊',
+                        published: '🚀',
+                        downloaded: '📥'
+                      }
+                      const labels = {
+                        all: 'All Sites',
+                        published: 'Published',
+                        downloaded: 'Downloaded'
+                      }
+                      const isActive = viewMode === mode
+                      
+                      return (
+                        <button
+                          key={mode}
+                          onClick={() => setViewMode(mode)}
+                          className={`group relative px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
+                            isActive 
+                              ? 'bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border-2 border-cyan-400/50 text-white shadow-lg shadow-cyan-500/20' 
+                              : 'bg-slate-800/50 border-2 border-slate-700/50 text-slate-300 hover:border-slate-600 hover:bg-slate-700/50'
+                          }`}
+                        >
+                          <span className="flex items-center space-x-2">
+                            <span className="text-lg">{icons[mode]}</span>
+                            <span>{labels[mode]}</span>
+                            <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${
+                              isActive 
+                                ? 'bg-cyan-400/30 text-cyan-300' 
+                                : 'bg-slate-700 text-slate-400'
+                            }`}>
+                              {count}
+                            </span>
+                          </span>
+                        </button>
+                      )
+                    })}
+                  </div>
+                  
+                  {/* Archive Toggle */}
+                  <button
+                    onClick={() => setShowArchived(!showArchived)}
+                    className="px-6 py-3 rounded-xl font-semibold bg-slate-800/50 border-2 border-slate-700/50 text-slate-300 hover:border-slate-600 hover:bg-slate-700/50 transition-all duration-300"
+                  >
+                    <span className="flex items-center space-x-2">
+                      <span className="text-lg">{showArchived ? '📂' : '🗄️'}</span>
+                      <span>{showArchived ? 'Show Active' : 'Show Archived'}</span>
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
 
