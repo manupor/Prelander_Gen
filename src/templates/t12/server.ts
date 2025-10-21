@@ -354,7 +354,15 @@ export function renderTemplate(brand: BrandConfig): TemplateRenderResult {
       50% { text-shadow: 0 0 40px ${colors.primary}, 0 0 60px ${colors.primary}, 0 4px 8px rgba(0,0,0,0.8); }
     }
 
+    /* Comprehensive Responsive Design */
+    @media (max-width: 1024px) {
+      .container { padding: 1.5rem; }
+      .headline h1 { font-size: 2.5rem; }
+      .game-area { height: 350px; }
+    }
+    
     @media (max-width: 768px) {
+      .container { padding: 1rem; }
       .headline h1 { font-size: 2rem; }
       .game-area { height: 300px; }
       .video-area { flex: 1 1 100%; height: 300px; }
@@ -362,6 +370,38 @@ export function renderTemplate(brand: BrandConfig): TemplateRenderResult {
       .multiplier { font-size: 3rem; }
       .modal-title { font-size: 2.5rem; }
       .prize-amount { font-size: 3rem; }
+    }
+    
+    @media (max-width: 600px) {
+      .container { padding: 0.75rem; }
+      .headline h1 { font-size: 1.8rem; }
+      .game-area { height: 250px; }
+      .video-area { height: 250px; }
+      .airplane svg { width: 50px; height: 50px; }
+      .multiplier { font-size: 2.5rem; }
+      .modal-title { font-size: 2rem; }
+      .prize-amount { font-size: 2.5rem; }
+    }
+    
+    @media (max-width: 480px) {
+      .container { padding: 0.5rem; }
+      .headline h1 { font-size: 1.5rem; line-height: 1.2; }
+      .game-area { height: 200px; }
+      .video-area { height: 200px; }
+      .airplane svg { width: 40px; height: 40px; }
+      .multiplier { font-size: 2rem; }
+      .modal-title { font-size: 1.8rem; }
+      .prize-amount { font-size: 2rem; }
+    }
+    
+    @media (max-width: 360px) {
+      .headline h1 { font-size: 1.3rem; }
+      .game-area { height: 180px; }
+      .video-area { height: 180px; }
+      .airplane svg { width: 35px; height: 35px; }
+      .multiplier { font-size: 1.8rem; }
+      .modal-title { font-size: 1.5rem; }
+      .prize-amount { font-size: 1.8rem; }
     }
   </style>
 </head>

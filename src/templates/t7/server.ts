@@ -361,6 +361,111 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       );
       pointer-events: none;
     }
+    
+    /* Comprehensive Responsive Design */
+    @media (max-width: 1024px) {
+      .container {
+        padding: 1.5rem;
+      }
+      
+      .game-controls {
+        min-width: 280px;
+        padding: 1.5rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      .game-controls {
+        min-width: 250px;
+        padding: 1.25rem;
+      }
+      
+      .control-display {
+        padding: 1rem;
+        margin-bottom: 1rem;
+      }
+      
+      .balance-display {
+        font-size: 1.5rem;
+      }
+      
+      .spin-button {
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .container {
+        padding: 0.75rem;
+      }
+      
+      .game-controls {
+        min-width: 220px;
+        padding: 1rem;
+        border-radius: 1.5rem;
+      }
+      
+      .control-display {
+        padding: 0.75rem;
+        border-radius: 0.75rem;
+      }
+      
+      .balance-display {
+        font-size: 1.25rem;
+      }
+      
+      .spin-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        padding: 0.5rem;
+      }
+      
+      .game-controls {
+        min-width: 200px;
+        padding: 0.75rem;
+        border-radius: 1rem;
+      }
+      
+      .control-display {
+        padding: 0.5rem;
+        margin-bottom: 0.75rem;
+      }
+      
+      .balance-display {
+        font-size: 1rem;
+      }
+      
+      .spin-button {
+        padding: 0.5rem 1.25rem;
+        font-size: 0.8rem;
+      }
+    }
+    
+    @media (max-width: 360px) {
+      .game-controls {
+        min-width: 180px;
+        padding: 0.5rem;
+      }
+      
+      .balance-display {
+        font-size: 0.9rem;
+      }
+      
+      .spin-button {
+        padding: 0.4rem 1rem;
+        font-size: 0.75rem;
+      }
+    }
   `
 
   const html = `

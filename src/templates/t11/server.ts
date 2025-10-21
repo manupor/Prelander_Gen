@@ -208,11 +208,41 @@ export function renderTemplate(brand: BrandConfig): TemplateRenderResult {
       letter-spacing: 3px;
     }
     
+    /* Comprehensive Responsive Design */
+    @media (max-width: 1024px) {
+      .container { padding: 1.5rem; }
+      .title { font-size: 2.5rem; }
+    }
+    
     @media (max-width: 768px) {
+      .container { padding: 1rem; }
       .title { font-size: 2rem; }
       .grid { gap: 15px; }
       .prize-icon { font-size: 2rem; }
       .prize-text { font-size: 1.2rem; }
+    }
+    
+    @media (max-width: 600px) {
+      .container { padding: 0.75rem; }
+      .title { font-size: 1.8rem; }
+      .grid { gap: 12px; }
+      .prize-icon { font-size: 1.8rem; }
+      .prize-text { font-size: 1.1rem; }
+    }
+    
+    @media (max-width: 480px) {
+      .container { padding: 0.5rem; }
+      .title { font-size: 1.5rem; line-height: 1.2; }
+      .grid { gap: 10px; }
+      .prize-icon { font-size: 1.5rem; }
+      .prize-text { font-size: 1rem; }
+    }
+    
+    @media (max-width: 360px) {
+      .title { font-size: 1.3rem; }
+      .grid { gap: 8px; }
+      .prize-icon { font-size: 1.3rem; }
+      .prize-text { font-size: 0.9rem; }
     }
   </style>
 </head>

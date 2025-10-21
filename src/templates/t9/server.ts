@@ -228,6 +228,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         0 0 0 2px #2d1810;
       overflow: hidden;
       transform-origin: center;
+      transition: transform 0.3s ease-out; /* Smooth scaling transition */
     }
     
     .game-frame::before {
@@ -666,10 +667,22 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       to { transform: rotate(360deg); }
     }
     
-    /* Responsive scaling for game frame */
+    /* Smooth responsive scaling for all screen sizes */
+    @media (max-width: 1200px) {
+      .game-frame {
+        transform: scale(0.95);
+      }
+    }
+    
     @media (max-width: 1024px) {
       .game-frame {
-        transform: scale(0.9);
+        transform: scale(0.85);
+      }
+    }
+    
+    @media (max-width: 900px) {
+      .game-frame {
+        transform: scale(0.75);
       }
     }
     
@@ -680,7 +693,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       }
       
       .game-frame {
-        transform: scale(0.75);
+        transform: scale(0.65);
         padding: 12px;
         border-radius: 12px;
       }
@@ -783,9 +796,15 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       .footer .nail-br { bottom: 6px; right: 6px; }
     }
     
+    @media (max-width: 600px) {
+      .game-frame {
+        transform: scale(0.55);
+      }
+    }
+    
     @media (max-width: 480px) {
       .game-frame {
-        transform: scale(0.6);
+        transform: scale(0.5);
         padding: 8px;
         border-radius: 8px;
       }
@@ -799,6 +818,13 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         width: 4px;
         height: 4px;
       }
+    }
+    
+    @media (max-width: 360px) {
+      .game-frame {
+        transform: scale(0.45);
+      }
+    }
       
       .game-title {
         padding: 8px 12px;

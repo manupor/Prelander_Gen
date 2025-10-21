@@ -635,13 +635,45 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       to { opacity: 1; transform: scale(1); }
     }
     
+    /* Responsive Design for All Devices */
+    @media (max-width: 1024px) {
+      .main-title { font-size: 2.5rem; }
+      .container { padding: 1.5rem; }
+    }
+    
     @media (max-width: 768px) {
       .main-title { font-size: 2rem; }
       .rollover-symbol { width: 3.75rem; height: 3.75rem; }
       .rollover-icon { font-size: 1.125rem; }
-      .features { gap: 0.75rem; }
+      .features { gap: 0.75rem; flex-wrap: wrap; }
       .feature-item { min-width: 120px; padding: 0.75rem; }
       .floating-symbol { font-size: 2rem; }
+      .container { padding: 1rem; }
+    }
+    
+    @media (max-width: 600px) {
+      .main-title { font-size: 1.8rem; }
+      .rollover-symbol { width: 3.5rem; height: 3.5rem; }
+      .rollover-icon { font-size: 1rem; }
+      .features { justify-content: center; }
+      .feature-item { min-width: 100px; padding: 0.5rem; font-size: 0.8rem; }
+    }
+    
+    @media (max-width: 480px) {
+      .main-title { font-size: 1.5rem; line-height: 1.2; }
+      .rollover-symbol { width: 3rem; height: 3rem; }
+      .rollover-icon { font-size: 0.9rem; }
+      .container { padding: 0.75rem; }
+      .floating-symbol { font-size: 1.5rem; }
+      .features { gap: 0.5rem; }
+      .feature-item { min-width: 80px; padding: 0.4rem; font-size: 0.7rem; }
+    }
+    
+    @media (max-width: 360px) {
+      .main-title { font-size: 1.3rem; }
+      .rollover-symbol { width: 2.5rem; height: 2.5rem; }
+      .rollover-icon { font-size: 0.8rem; }
+      .container { padding: 0.5rem; }
     }
   `
 
