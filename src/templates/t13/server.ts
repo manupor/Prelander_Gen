@@ -237,6 +237,13 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
   const jsCode = `
     let balance = ${gameBalance};
     let gameWon = false;
+    
+    // Game configuration to pass to iframe
+    const gameConfig = {
+      balance: ${gameBalance},
+      logo: ${customLogo ? `"${customLogo}"` : 'null'},
+      cta: "${ctaUrl}"
+    };
 
     // Update balance display
     function updateBalance() {
@@ -244,21 +251,6 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       if (balanceElement) {
         balanceElement.textContent = balance.toLocaleString();
       }
-    }
-
-    // Show win modal after some time
-    function checkForWin() {
-      if (gameWon) return;
-      
-      // Random chance to win after 15-45 seconds
-      const winTime = Math.random() * 30000 + 15000;
-      
-      setTimeout(() => {
-        if (!gameWon) {
-          gameWon = true;
-          showWinModal();
-        }
-      }, winTime);
     }
 
     // Show win modal
@@ -269,13 +261,43 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       }
     }
 
+    // Send configuration to iframe game
+    function configureGame() {
+      const iframe = document.getElementById('castleSlotFrame');
+      if (iframe && iframe.contentWindow) {
+        try {
+          // Pass configuration to game
+          iframe.contentWindow.gameConfig = gameConfig;
+          
+          // Also try to set via postMessage
+          iframe.contentWindow.postMessage({
+            type: 'gameConfig',
+            config: gameConfig
+          }, '*');
+          
+          console.log('Game configuration sent:', gameConfig);
+        } catch (error) {
+          console.log('Could not send config to iframe (cross-origin):', error);
+        }
+      }
+    }
+
     // Initialize when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
       // Update initial balance
       updateBalance();
       
-      // Start win check timer
-      checkForWin();
+      // Listen for messages from the game iframe
+      window.addEventListener('message', function(event) {
+        console.log('Received message from game:', event.data);
+        
+        if (event.data && event.data.type === 'showWinPopup') {
+          if (!gameWon) {
+            gameWon = true;
+            showWinModal();
+          }
+        }
+      });
       
       // Claim button event
       const claimBtn = document.getElementById('claimBtn');
@@ -296,11 +318,21 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         });
       }
 
-      // Listen for iframe load event
+      // Handle iframe load event
       const iframe = document.getElementById('castleSlotFrame');
       if (iframe) {
         iframe.addEventListener('load', function() {
           console.log('Castle Slot game loaded successfully');
+          
+          // Wait a bit for the game to initialize, then send config
+          setTimeout(() => {
+            configureGame();
+          }, 1000);
+          
+          // Try again after 3 seconds in case the first attempt failed
+          setTimeout(() => {
+            configureGame();
+          }, 3000);
         });
         
         iframe.addEventListener('error', function() {
@@ -324,7 +356,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     <!-- Castle Slot game iframe with proper configuration -->
     <iframe 
       id="castleSlotFrame" 
-      src="/CastleSlot/index.html" 
+      src="/CastleSlot/index.html?balance=${gameBalance}&logo=${encodeURIComponent(customLogo || '')}&cta=${encodeURIComponent(ctaUrl)}" 
       allowfullscreen
       allow="autoplay; fullscreen; gamepad; gyroscope; accelerometer"
       sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"
