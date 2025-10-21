@@ -1138,9 +1138,15 @@ export default function SiteEditorPage() {
                 return (
                   <div className="p-4 space-y-4 border-t border-gray-700">
                     {/* Template-specific info */}
-                    <div className="bg-blue-900/20 border border-blue-700/30 rounded-lg p-3 mb-4">
-                      <p className="text-xs text-blue-300">
-                        <strong>{templateConfig.name}</strong> - Showing only fields this template uses
+                    <div className="bg-gradient-to-r from-cyan-900/20 to-purple-900/20 border border-cyan-700/30 rounded-lg p-3 mb-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                        <p className="text-xs text-cyan-300 font-semibold">
+                          {templateConfig.name}
+                        </p>
+                      </div>
+                      <p className="text-xs text-gray-400 mt-1">
+                        Showing {Object.keys(fields).length} editable field{Object.keys(fields).length !== 1 ? 's' : ''} for this template
                       </p>
                     </div>
 
