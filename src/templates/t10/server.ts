@@ -100,7 +100,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     .logo-header {
       position: relative;
       width: 100%;
-      height: 120px;
+      height: 160px;
       background: 
         repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(0,0,0,0.05) 50px, rgba(0,0,0,0.05) 51px),
         repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(0,0,0,0.03) 30px, rgba(0,0,0,0.03) 31px),
@@ -108,17 +108,18 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 15px 30px;
-      margin-bottom: 15px;
-      border-radius: 8px;
+      padding: 20px 40px;
+      margin-bottom: 0;
+      border-radius: 8px 8px 0 0;
       box-shadow: 
         inset 0 3px 15px rgba(255, 255, 255, 0.15),
         inset 0 -3px 15px rgba(0, 0, 0, 0.6),
         inset 4px 0 8px rgba(0, 0, 0, 0.3),
         inset -4px 0 8px rgba(0, 0, 0, 0.3),
-        0 8px 25px rgba(0, 0, 0, 0.7);
+        0 4px 15px rgba(0, 0, 0, 0.5);
       z-index: 100;
       border: 4px solid #2a2a2a;
+      border-bottom: 2px solid #1a1a1a;
       border-top-color: #555;
       border-left-color: #444;
     }
@@ -155,8 +156,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     .logo-header img {
-      max-height: 90px;
-      max-width: 400px;
+      max-height: 130px;
+      max-width: 500px;
       width: auto;
       height: auto;
       object-fit: contain;
@@ -221,10 +222,11 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       padding: 0;
       overflow: hidden;
       background: #000;
-      border-radius: 12px;
+      border-radius: 0 0 12px 12px;
       box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
       min-height: 500px;
-      margin-top: 0.5rem;
+      margin-top: 0;
+      border-top: 2px solid #1a1a1a;
     }
     
     .game-iframe {
