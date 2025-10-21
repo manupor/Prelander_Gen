@@ -440,15 +440,24 @@ export default function SiteEditorPage() {
 
       setShowDownloadModal(false)
       
-      // Mark site as downloaded
-      await supabase
-        .from('sites')
-        .update({ 
-          is_downloaded: true, 
-          downloaded_at: new Date().toISOString(),
-          download_count: site?.download_count ? site.download_count + 1 : 1
-        })
-        .eq('slug', slug)
+      // Mark site as downloaded (with fallback if columns don't exist)
+      try {
+        await supabase
+          .from('sites')
+          .update({ 
+            is_downloaded: true, 
+            downloaded_at: new Date().toISOString(),
+            download_count: site?.download_count ? site.download_count + 1 : 1
+          })
+          .eq('slug', slug)
+      } catch (columnError: any) {
+        // If the new columns don't exist, skip the tracking for now
+        if (columnError.message?.includes('is_downloaded') || columnError.message?.includes('column')) {
+          console.log('Download tracking columns not available, skipping tracking')
+        } else {
+          console.error('Error updating download tracking:', columnError)
+        }
+      }
 
       alert(`✅ ¡Descarga Completa!\n\n📦 Tu landing page protegida está lista\n\n¿Qué contiene?\n• 📄 index.html - Página completa con código encriptado\n• 🎨 style.css - Estilos responsivos\n• 📋 README.md - Instrucciones simples\n\n✨ CÓMO USAR:\n1. Extrae el ZIP\n2. Doble clic en index.html para probar\n3. O sube a tu hosting web\n\n🔒 Tu código está ofuscado para prevenir clonación\n🚀 Funciona localmente Y en hosting\n\n¡Listo para usar!`)
       
@@ -469,18 +478,35 @@ export default function SiteEditorPage() {
       // First save any pending changes
       await handleSave()
       
-      // Mark site as published
-      const { error } = await supabase
-        .from('sites')
-        .update({ 
-          is_published: true, 
-          published_at: new Date().toISOString(),
-          status: 'published' 
-        })
-        .eq('slug', slug)
+      // Try to mark site as published with new columns, fallback to just status if columns don't exist
+      try {
+        const { error } = await supabase
+          .from('sites')
+          .update({ 
+            is_published: true, 
+            published_at: new Date().toISOString(),
+            status: 'published' 
+          })
+          .eq('slug', slug)
 
-      if (error) {
-        throw error
+        if (error) {
+          throw error
+        }
+      } catch (columnError: any) {
+        // If the new columns don't exist, just update the status
+        if (columnError.message?.includes('is_published') || columnError.message?.includes('column')) {
+          console.log('New columns not available, updating status only')
+          const { error } = await supabase
+            .from('sites')
+            .update({ status: 'published' })
+            .eq('slug', slug)
+
+          if (error) {
+            throw error
+          }
+        } else {
+          throw columnError
+        }
       }
 
       alert('🚀 Site Published Successfully!\n\n✅ Your site is now live and accessible.\n\n🌐 What\'s next?\n• Share your site URL\n• Monitor performance in dashboard\n• Make updates anytime\n\nYour site is ready for the world!')
