@@ -3,14 +3,14 @@ import { BrandConfig } from '../../lib/types'
 export function renderTemplate(brand: BrandConfig): { html: string; css: string } {
   const headline = brand.copy?.headline || "CASTLE SLOT"
   const cta = brand.copy?.cta || 'CLAIM PRIZE'
-  const ctaUrl = (brand as any).ctaUrl || 'https://example.com'
-  const popupTitle = (brand as any).popupTitle || 'TREASURE FOUND!'
-  const popupMessage = (brand as any).popupMessage || "You've discovered a legendary prize!"
-  const popupPrize = (brand as any).popupPrize || '$5,000 + 100 FREE SPINS'
-  const gameBalance = (brand as any).gameBalance || 150000
+  const ctaUrl = (brand as BrandConfig & { ctaUrl?: string }).ctaUrl || 'https://example.com'
+  const popupTitle = (brand as BrandConfig & { popupTitle?: string }).popupTitle || 'TREASURE FOUND!'
+  const popupMessage = (brand as BrandConfig & { popupMessage?: string }).popupMessage || "You've discovered a legendary prize!"
+  const popupPrize = (brand as BrandConfig & { popupPrize?: string }).popupPrize || '$5,000 + 100 FREE SPINS'
+  const gameBalance = (brand as BrandConfig & { gameBalance?: number }).gameBalance || 150000
   
   // User's custom logo URL (if provided)
-  const customLogo = (brand as any).customLogo || null
+  const customLogo = (brand as BrandConfig & { customLogo?: string }).customLogo || null
 
   const css = `
     html, body {

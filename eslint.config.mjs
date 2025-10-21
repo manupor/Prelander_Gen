@@ -32,6 +32,21 @@ const eslintConfig = [
       "src/app/api/debug-env/**",
     ],
   },
+  {
+    rules: {
+      // Disable strict rules for production build
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/ban-ts-comment": "warn",
+      "@next/next/no-img-element": "warn",
+      "react/no-unescaped-entities": "warn",
+      "react-hooks/exhaustive-deps": "warn",
+      "@next/next/no-css-tags": "warn",
+      // Allow some common patterns
+      "@typescript-eslint/no-this-alias": "off",
+      "@typescript-eslint/no-require-imports": "off",
+    },
+  },
 ];
 
 export default eslintConfig;

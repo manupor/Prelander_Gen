@@ -87,7 +87,7 @@ function checkWins() {
   }
   
   let hasWin = false;
-  grid.forEach((row, rowIndex) => {
+  grid.forEach((row) => {
     let consecutive = 1;
     let currentIcon = row[0].icon;
     let matchingCells = [row[0].cell];
