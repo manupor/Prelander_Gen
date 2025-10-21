@@ -340,7 +340,7 @@ export default function DashboardPage() {
             <div className="flex items-center space-x-6">
               <NexusLogo size="md" href="/" />
               <div className="border-l border-neon-primary/30 pl-6">
-                <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-neon-primary to-neon-secondary font-inter">
+                <h2 className="text-2xl font-bold text-white font-inter">
                   Dashboard
                 </h2>
                 <div className="flex items-center gap-4">

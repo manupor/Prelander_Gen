@@ -41,10 +41,10 @@ export function NexusLogo({ size = 'md', showText = true, href = '/' }: NexusLog
       {/* Brand Name */}
       {showText && (
         <div className="flex flex-col">
-          <h1 className={`${sizeClasses[size].title} font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 transition-all duration-300 hover:from-pink-400 hover:to-cyan-400 tracking-tight`}>
+          <h1 className={`${sizeClasses[size].title} font-black text-white tracking-tight drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]`}>
             NEXUS
           </h1>
-          <span className={`${sizeClasses[size].subtitle} font-mono text-cyan-300 tracking-widest -mt-1`}>
+          <span className={`${sizeClasses[size].subtitle} font-mono text-cyan-400 tracking-widest -mt-1 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]`}>
             FORGE
           </span>
         </div>
