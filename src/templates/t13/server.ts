@@ -17,16 +17,9 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       padding: 0;
       margin: 0;
       overflow: hidden;
-      background: #000000;
-      color: white;
       width: 100vw;
       height: 100vh;
-      font-family: Arial, sans-serif;
-    }
-
-    html, body, canvas {
-      touch-action: none;
-      touch-action-delay: none;
+      font-family: 'Arial Black', Arial, sans-serif;
     }
 
     /* Game container */
@@ -35,17 +28,6 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       width: 100%;
       height: 100%;
       overflow: hidden;
-    }
-
-    /* Castle Slot game iframe */
-    #castleSlotFrame {
-      width: 100%;
-      height: 100%;
-      border: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1;
     }
 
     /* Overlay for custom elements */
@@ -198,9 +180,34 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       
       .balance-overlay {
         font-size: 14px;
-        padding: 6px 12px;
+        padding: 8px 12px;
         top: 15px;
         left: 15px;
+      }
+      
+      .game-area {
+        width: 95%;
+        height: 70%;
+      }
+      
+      .slot-machine {
+        padding: 20px;
+      }
+      
+      .slot-reels {
+        padding: 15px;
+        gap: 8px;
+      }
+      
+      .slot-reel {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+      }
+      
+      .spin-button {
+        padding: 12px 30px;
+        font-size: 16px;
       }
       
       .win-content {
@@ -239,12 +246,12 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       }
     }
 
-    // Simulate random win after some time
+    // Show win modal after some time
     function checkForWin() {
       if (gameWon) return;
       
-      // Random chance to win after 10-30 seconds
-      const winTime = Math.random() * 20000 + 10000;
+      // Random chance to win after 15-45 seconds
+      const winTime = Math.random() * 30000 + 15000;
       
       setTimeout(() => {
         if (!gameWon) {
@@ -267,7 +274,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       // Update initial balance
       updateBalance();
       
-      // Start win check
+      // Start win check timer
       checkForWin();
       
       // Claim button event
@@ -289,13 +296,17 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         });
       }
 
-      // Listen for messages from the game iframe
-      window.addEventListener('message', function(event) {
-        // Handle game events if needed
-        if (event.data && event.data.type === 'gameWin') {
-          showWinModal();
-        }
-      });
+      // Listen for iframe load event
+      const iframe = document.getElementById('castleSlotFrame');
+      if (iframe) {
+        iframe.addEventListener('load', function() {
+          console.log('Castle Slot game loaded successfully');
+        });
+        
+        iframe.addEventListener('error', function() {
+          console.error('Failed to load Castle Slot game');
+        });
+      }
     });
   `
 
@@ -310,10 +321,17 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
 <body>
   <!-- Main game container -->
   <div id="gameContainer">
-    <!-- Castle Slot game iframe -->
-    <iframe id="castleSlotFrame" src="/CastleSlot/index.html" allowfullscreen></iframe>
+    <!-- Castle Slot game iframe with proper configuration -->
+    <iframe 
+      id="castleSlotFrame" 
+      src="/CastleSlot/index.html" 
+      allowfullscreen
+      allow="autoplay; fullscreen; gamepad; gyroscope; accelerometer"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"
+      style="width: 100%; height: 100%; border: none; position: absolute; top: 0; left: 0; z-index: 1;"
+    ></iframe>
     
-    <!-- Game overlay for custom elements -->
+    <!-- Overlay for custom elements -->
     <div class="game-overlay">
       <!-- Custom title overlay -->
       <div class="custom-title">${headline}</div>
