@@ -2,10 +2,9 @@ import { Template6, renderTemplate as renderT6 } from './t6'
 import { Template7, renderTemplate as renderT7 } from './t7'
 import { Template9, renderTemplate as renderT9 } from './t9'
 import { Template10, renderTemplate as renderT10 } from './t10'
-import { Template11, renderTemplate as renderT11 } from './t11'
 import { TemplateDefinition } from '@/lib/types'
 
-export const templates: Record<'t6' | 't7' | 't9' | 't10' | 't11', TemplateDefinition> = {
+export const templates: Record<'t6' | 't7' | 't9' | 't10', TemplateDefinition> = {
   t6: {
     id: 't6',
     name: 'Cyber Casino',
@@ -38,14 +37,6 @@ export const templates: Record<'t6' | 't7' | 't9' | 't10' | 't11', TemplateDefin
     component: Template10,
     renderTemplate: renderT10,
   },
-  t11: {
-    id: 't11',
-    name: 'Scratch & Win',
-    description: 'Interactive scratch card game with 9 scratchable golden boxes and instant win prizes',
-    preview: '/templates/t11-preview.svg',
-    component: Template11,
-    renderTemplate: renderT11,
-  },
 }
 
 export { 
@@ -53,10 +44,8 @@ export {
   Template7, 
   Template9,
   Template10,
-  Template11,
   renderT6,
   renderT7,
   renderT9,
-  renderT10,
-  renderT11
+  renderT10
 }

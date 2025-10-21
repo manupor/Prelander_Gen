@@ -229,36 +229,6 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
     }
   },
 
-  t11: {
-    id: 't11',
-    name: 'Aviator Crash',
-    fields: {
-      headline: {
-        id: 'headline',
-        label: 'Game Title',
-        type: 'text',
-        placeholder: 'AVIATOR CRASH',
-        description: 'Main game title',
-        required: true
-      },
-      cta: {
-        id: 'cta',
-        label: 'Button Text',
-        type: 'text',
-        placeholder: 'PLACE BET',
-        description: 'Main action button text',
-        required: true
-      },
-      ctaUrl: {
-        id: 'ctaUrl',
-        label: 'Destination URL',
-        type: 'url',
-        placeholder: 'https://your-casino.com/signup',
-        description: 'Where users go when they click',
-        required: true
-      }
-    }
-  },
 
 
 }

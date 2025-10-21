@@ -4,13 +4,11 @@ import { renderTemplate as renderT6 } from '@/templates/t6/server'
 import { renderTemplate as renderT7 } from '@/templates/t7/server'
 import { renderTemplate as renderT9 } from '@/templates/t9/server'
 import { renderTemplate as renderT10 } from '@/templates/t10/server'
-import { renderTemplate as renderT11 } from '@/templates/t11/server'
 const templateRenderers = {
   t6: renderT6,
   t7: renderT7,
   t9: renderT9,
   t10: renderT10,
-  t11: renderT11,
 }
 
 export async function POST(request: NextRequest) {
