@@ -87,7 +87,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       justify-content: center;
       gap: 8px;
       width: 100%;
-      padding: 40px 32px; /* Much more padding for bigger banner */
+      padding: 50px 40px; /* Even more padding for huge title */
       background: 
         linear-gradient(90deg, rgba(139, 90, 43, 0.95), rgba(101, 67, 33, 0.95)),
         repeating-linear-gradient(90deg, 
@@ -176,27 +176,28 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     
     .game-title h1 {
       margin: 0;
-      font-size: 3.5rem; /* Much bigger title */
+      font-size: 5rem; /* MUCH bigger title */
       font-weight: 900;
       color: #FFD700;
       text-transform: uppercase;
-      letter-spacing: 6px; /* More spacing */
+      letter-spacing: 8px; /* More spacing */
       text-shadow: 
-        0 3px 0 #654321,
-        0 6px 0 #4a3219,
-        0 9px 0 #3d2914,
-        0 12px 20px rgba(0, 0, 0, 0.9), /* Stronger shadow */
-        0 0 40px rgba(255, 215, 0, 0.8), /* Brighter glow */
-        0 0 80px rgba(255, 215, 0, 0.5); /* Extended glow */
+        0 4px 0 #654321,
+        0 8px 0 #4a3219,
+        0 12px 0 #3d2914,
+        0 16px 30px rgba(0, 0, 0, 0.9), /* Stronger shadow */
+        0 0 60px rgba(255, 215, 0, 1), /* Brighter glow */
+        0 0 120px rgba(255, 215, 0, 0.7); /* Extended glow */
       text-align: center;
       position: relative;
       z-index: 1;
       font-family: 'Arial Black', sans-serif;
-      line-height: 1;
+      line-height: 1.1;
       animation: titleGlow 3s ease-in-out infinite alternate; /* Add animation */
     }
     
     .game-subtitle {
+      display: none !important; /* Hide subtitle */
       margin: 0;
       font-size: 1.2rem;
       font-weight: 600;
@@ -777,6 +778,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       }
       
       .game-subtitle {
+        display: none !important; /* Hide subtitle on tablet */
         font-size: 0.9rem;
         letter-spacing: 1px;
       }
@@ -905,6 +907,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       }
       
       .game-subtitle {
+        display: none !important; /* Hide subtitle on mobile */
         font-size: 0.7rem;
         letter-spacing: 1px;
       }
