@@ -95,6 +95,34 @@ export async function POST(request: NextRequest) {
     // Generate unique slug
     const slug = generateSlug(validatedData.brandName)
 
+    // Ensure user has an organization
+    let orgId: string | null = null
+    const { data: existingOrg } = await supabase
+      .from('organizations')
+      .select('id')
+      .eq('owner_user_id', user.id)
+      .single()
+
+    if (existingOrg) {
+      orgId = existingOrg.id
+    } else {
+      // Create organization for user
+      const { data: newOrg, error: orgError } = await supabase
+        .from('organizations')
+        .insert({
+          owner_user_id: user.id,
+          name: 'My Organization'
+        })
+        .select('id')
+        .single()
+
+      if (orgError) {
+        console.error('Failed to create organization:', orgError)
+      } else {
+        orgId = newOrg.id
+      }
+    }
+
     // Map templates to database-compatible versions
     // Schema allows: t6, t7, t9, t10, t11
     // Database allows: t1, t2, t3, t4, t5, t6, t7
@@ -112,6 +140,7 @@ export async function POST(request: NextRequest) {
       .from('sites')
       .insert({
         user_id: user.id,
+        org_id: orgId,
         slug,
         template_id: dbTemplateId,
         logo_url: validatedData.logoUrl,
