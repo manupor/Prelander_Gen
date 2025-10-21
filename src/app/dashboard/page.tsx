@@ -56,12 +56,14 @@ export default function DashboardPage() {
 
       if (orgError) {
         console.error('Error fetching organization:', orgError)
+        console.log('User ID:', user.id)
         // If no organization exists, we might need to create one or handle this case
         setSites([])
         setLoading(false)
         return
       }
 
+      console.log('Organization found:', org)
       setOrganization(org)
 
       // Get user's sites
@@ -74,10 +76,13 @@ export default function DashboardPage() {
         .eq('org_id', org?.id)
         .order('created_at', { ascending: false })
 
+      console.log('Sites query result:', { sitesData, sitesError, orgId: org?.id })
+
       if (sitesError) {
         console.error('Error fetching sites:', sitesError)
         setSites([])
       } else {
+        console.log('Setting sites:', sitesData)
         setSites(sitesData || [])
       }
     } catch (error) {
@@ -336,6 +341,15 @@ export default function DashboardPage() {
 
       {/* Main Content */}
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Debug info */}
+        {process.env.NODE_ENV === 'development' && (
+          <div className="mb-4 p-4 bg-gray-800 rounded-lg text-white text-sm">
+            <p>Debug: Sites length: {sites?.length || 0}</p>
+            <p>Debug: Organization: {organization?.id || 'none'}</p>
+            <p>Debug: User: {user?.id || 'none'}</p>
+          </div>
+        )}
+        
         {!sites || sites.length === 0 ? (
           // Empty State
           <div className="text-center py-12">
