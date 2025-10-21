@@ -230,7 +230,7 @@ export default function DashboardPage() {
   }
 
   const getFilteredSites = () => {
-    let filtered = sites.filter(site => showArchived ? site.status === 'draft' : site.status === 'published')
+    const filtered = sites.filter(site => showArchived ? site.status === 'draft' : site.status === 'published')
     
     switch (viewMode) {
       case 'published':
