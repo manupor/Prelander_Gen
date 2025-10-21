@@ -189,23 +189,26 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     .game-container {
       flex: 1;
       width: 100%;
-      background: #2d1810; /* Dark background behind frame */
+      background: #000; /* Pure black background */
       border-radius: 0;
       overflow: hidden;
       box-shadow: none;
       border: none;
       position: relative;
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       min-height: 0;
       margin-bottom: 0;
-      padding: 20px; /* Space for the wooden frame */
+      padding: 0; /* No padding - frame is part of iframe */
     }
     
     .game-frame {
       position: relative;
-      width: 100%;
-      height: 100%;
+      width: 960px; /* Fixed game width */
+      height: 540px; /* Fixed game height (16:9 ratio) */
+      max-width: 100%;
+      max-height: 100%;
       background: 
         repeating-linear-gradient(90deg, 
           #8B5A2B 0px, 
@@ -224,6 +227,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         0 10px 30px rgba(0, 0, 0, 0.8),
         0 0 0 2px #2d1810;
       overflow: hidden;
+      transform-origin: center;
     }
     
     .game-frame::before {
@@ -417,9 +421,9 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       background-size: 6px 100%, 100%;
       border: 8px solid #3d2914;
       border-radius: 15px;
-      padding: 50px 40px;
+      padding: 30px 40px;
       text-align: center;
-      max-width: 520px;
+      max-width: 800px; /* Wider for horizontal layout */
       width: 90%;
       box-shadow: 
         inset 0 0 0 3px #8B5A2B,
@@ -429,6 +433,10 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       animation: modalBounce 0.5s ease-out;
       position: relative;
       overflow: visible;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 30px;
     }
     
     .win-modal-content::before {
@@ -475,21 +483,37 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     .win-modal-content .nail-bl { bottom: 12px; left: 12px; }
     .win-modal-content .nail-br { bottom: 12px; right: 12px; }
     
+    .win-left-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .win-right-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
     .win-icon {
-      font-size: 5rem;
-      margin-bottom: 20px;
+      font-size: 4rem;
+      margin-bottom: 15px;
       animation: bounce 1s infinite;
       position: relative;
       z-index: 1;
     }
     
     .win-title {
-      font-size: 3.5rem;
+      font-size: 2.5rem;
       font-weight: 900;
       color: #FFD700;
       text-transform: uppercase;
-      letter-spacing: 4px;
-      margin: 0 0 15px 0;
+      letter-spacing: 3px;
+      margin: 0 0 10px 0;
       text-shadow: 
         0 2px 0 #654321,
         0 4px 0 #4a3219,
@@ -501,9 +525,9 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     .win-message {
-      font-size: 1.3rem;
+      font-size: 1.1rem;
       color: white;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       position: relative;
       z-index: 1;
     }
@@ -642,11 +666,10 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       to { transform: rotate(360deg); }
     }
     
-    /* Desktop - maintain exact game width */
-    @media (min-width: 1024px) {
-      .wrapper {
-        width: 960px; /* Exact game width */
-        margin: 0 auto;
+    /* Responsive scaling for game frame */
+    @media (max-width: 1024px) {
+      .game-frame {
+        transform: scale(0.9);
       }
     }
     
@@ -656,11 +679,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         margin: 0;
       }
       
-      .game-container {
-        padding: 15px;
-      }
-      
       .game-frame {
+        transform: scale(0.75);
         padding: 12px;
         border-radius: 12px;
       }
@@ -710,28 +730,36 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       }
       
       .win-modal-content {
-        padding: 30px 20px;
+        padding: 20px;
+        flex-direction: column;
+        gap: 20px;
+        max-width: 90%;
+      }
+      
+      .win-left-section,
+      .win-right-section {
+        flex: none;
       }
       
       .win-icon {
-        font-size: 3.5rem;
+        font-size: 3rem;
       }
       
       .win-title {
-        font-size: 2rem;
-      }
-      
-      .win-message {
-        font-size: 1.1rem;
-      }
-      
-      .prize-amount {
         font-size: 1.8rem;
       }
       
+      .win-message {
+        font-size: 1rem;
+      }
+      
+      .prize-amount {
+        font-size: 1.6rem;
+      }
+      
       .claim-bonus-btn {
-        font-size: 1.1rem;
-        padding: 16px 32px;
+        font-size: 1rem;
+        padding: 14px 28px;
       }
     }
     
@@ -756,11 +784,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     @media (max-width: 480px) {
-      .game-container {
-        padding: 10px;
-      }
-      
       .game-frame {
+        transform: scale(0.6);
         padding: 8px;
         border-radius: 8px;
       }
@@ -853,19 +878,25 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       <div class="nail nail-tr"></div>
       <div class="nail nail-bl"></div>
       <div class="nail nail-br"></div>
-      <div class="win-icon">🎉</div>
-      <h2 class="win-title">${popupTitle}</h2>
-      <p class="win-message">${popupMessage}</p>
-      <div class="win-prize">
-        <span class="prize-label">YOUR BONUS:</span>
-        <span class="prize-amount">${popupPrize}</span>
+      
+      <div class="win-left-section">
+        <div class="win-icon">🎉</div>
+        <h2 class="win-title">${popupTitle}</h2>
+        <p class="win-message">${popupMessage}</p>
       </div>
-      <button class="claim-bonus-btn" onclick="window.open('${ctaUrl}', '_blank')">
-        🎁 ${cta}
-      </button>
-      <button class="editor-close-btn" onclick="closePopupPreview()" style="display:none">
-        ✕ Close Preview
-      </button>
+      
+      <div class="win-right-section">
+        <div class="win-prize">
+          <span class="prize-label">YOUR BONUS:</span>
+          <span class="prize-amount">${popupPrize}</span>
+        </div>
+        <button class="claim-bonus-btn" onclick="window.open('${ctaUrl}', '_blank')">
+          🎁 ${cta}
+        </button>
+        <button class="editor-close-btn" onclick="closePopupPreview()" style="display:none">
+          ✕ Close Preview
+        </button>
+      </div>
     </div>
   </div>
 
@@ -910,8 +941,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
               clickCount++;
               console.log('Click detected! Count:', clickCount);
               
-              // Show modal ONLY after exactly 2 clicks
-              if (clickCount === 2) {
+              // Show modal ONLY after exactly 3 clicks
+              if (clickCount === 3) {
                 document.getElementById('winModal').style.display = 'flex';
                 hasShownModal = true;
               }
