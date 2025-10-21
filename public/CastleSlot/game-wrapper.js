@@ -1,7 +1,9 @@
 /**
  * Castle Slot Game Wrapper - Makes the game deterministic and editable
- * This script intercepts the Construct 3 runtime and modifies game behavior
+ * This script works with Construct 2 runtime (c2runtime.js)
  */
+
+console.log('🏰 Castle Slot Game Wrapper Loading...');
 
 // Global variables for game control
 window.gameState = {
@@ -38,6 +40,7 @@ function parseGameConfig() {
         console.log('Cannot access parent config (cross-origin)');
     }
     
+    console.log('🎮 Game Config Parsed:', config);
     return config;
 }
 
@@ -61,70 +64,84 @@ function seededRandom() {
     return randomSeed / 233280;
 }
 
-// Don't override Math.random immediately - let the game load first
-// We'll override it after the game initializes
-
-// Function to intercept Construct 3 runtime
-function interceptConstruct3Runtime() {
-    console.log('Starting Castle Slot wrapper initialization...');
+// Function to intercept Construct 2 runtime
+function interceptConstruct2Runtime() {
+    console.log('🔧 Starting Castle Slot C2 wrapper initialization...');
     
     // Wait for the window to be fully loaded first
     if (document.readyState === 'complete') {
         setTimeout(() => {
-            console.log('Document ready, setting up wrapper...');
-            setupRuntimeInterception();
-        }, 8000); // Wait 8 seconds for game to fully load
+            console.log('📄 Document ready, setting up C2 wrapper...');
+            setupC2RuntimeInterception();
+        }, 5000); // Wait 5 seconds for game to fully load
     } else {
         window.addEventListener('load', () => {
             setTimeout(() => {
-                console.log('Window loaded, setting up wrapper...');
-                setupRuntimeInterception();
-            }, 8000); // Wait 8 seconds after window load
+                console.log('🌐 Window loaded, setting up C2 wrapper...');
+                setupC2RuntimeInterception();
+            }, 5000); // Wait 5 seconds after window load
         });
     }
 }
 
-function setupRuntimeInterception() {
-    console.log('Setting up Castle Slot runtime interception...');
+function setupC2RuntimeInterception() {
+    console.log('⚙️ Setting up Castle Slot C2 runtime interception...');
     
     try {
-        // Don't override Math.random immediately - just set up click detection
-        // The game needs to load and render first
-        
         // Set up logo display if provided
         setupLogoDisplay();
         
-        // Use DOM-based interception which is more reliable
-        setupDOMInterception();
+        // Set up click detection for Construct 2 canvas
+        setupC2ClickDetection();
+        
+        // Override Math.random after game loads
+        setTimeout(() => {
+            if (window.gameState.isDeterministic) {
+                Math.random = seededRandom;
+                console.log('🎲 Math.random overridden for deterministic behavior');
+            }
+        }, 2000);
         
         window.gameState.isGameReady = true;
-        console.log('Castle Slot wrapper setup complete!');
+        console.log('✅ Castle Slot C2 wrapper setup complete!');
         
     } catch (error) {
-        console.error('Error setting up runtime interception:', error);
-        // Fallback: use DOM-based interception
-        setupDOMInterception();
+        console.error('❌ Error setting up C2 runtime interception:', error);
+        // Fallback: use basic click detection
+        setupC2ClickDetection();
     }
 }
 
-function interceptSpinFunction(runtime) {
-    // Try to find and intercept spin-related functions
+function setupC2ClickDetection() {
+    console.log('🖱️ Setting up C2 click detection...');
+    
     try {
-        // Look for common spin button elements or events
-        const spinElements = document.querySelectorAll('[id*="spin"], [class*="spin"], [id*="button"], [class*="button"]');
-        
-        spinElements.forEach(element => {
-            element.addEventListener('click', handleSpinClick, true);
-            element.addEventListener('touchstart', handleSpinClick, true);
-        });
-        
-        // Also intercept any runtime events that might be spin-related
-        if (runtime.addEventListener) {
-            runtime.addEventListener('tick', checkForSpinEvents);
-        }
+        // Wait for canvas to be available
+        setTimeout(() => {
+            // Look for Construct 2 canvas elements
+            const canvases = document.querySelectorAll('canvas');
+            console.log(`🎨 Found ${canvases.length} canvas elements`);
+            
+            canvases.forEach((canvas, index) => {
+                console.log(`🎯 Adding click listener to canvas ${index}`);
+                canvas.addEventListener('click', handleSpinClick, true);
+                canvas.addEventListener('touchstart', handleSpinClick, true);
+            });
+            
+            // Also monitor for any clickable elements
+            document.addEventListener('click', (event) => {
+                const target = event.target;
+                if (target.tagName === 'CANVAS' || target.closest('canvas')) {
+                    handleSpinClick(event);
+                }
+            }, true);
+            
+            console.log('✅ C2 click detection setup complete');
+            
+        }, 1000); // Wait 1 second for canvas to be created
         
     } catch (error) {
-        console.error('Error intercepting spin function:', error);
+        console.error('❌ Error setting up C2 click detection:', error);
     }
 }
 
@@ -299,18 +316,22 @@ function setupDOMInterception() {
 }
 
 // Initialize when DOM is ready
+console.log('🚀 Initializing Castle Slot C2 wrapper...');
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', interceptConstruct3Runtime);
+    document.addEventListener('DOMContentLoaded', interceptConstruct2Runtime);
 } else {
-    interceptConstruct3Runtime();
+    interceptConstruct2Runtime();
 }
 
 // Also try after window load
 window.addEventListener('load', () => {
     if (!window.gameState.isGameReady) {
-        interceptConstruct3Runtime();
+        console.log('🔄 Retrying C2 wrapper initialization...');
+        interceptConstruct2Runtime();
     }
 });
+
+console.log('🏰 Castle Slot Game Wrapper Loaded Successfully!');
 
 // Export functions for external access
 window.CastleSlotWrapper = {
