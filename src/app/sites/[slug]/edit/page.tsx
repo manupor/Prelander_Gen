@@ -58,7 +58,7 @@ export default function SiteEditorPage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [uploadingLogo, setUploadingLogo] = useState(false)
   const [vertical, setVertical] = useState('casino')
-  const [templateId, setTemplateId] = useState('t10')
+  const [templateId, setTemplateId] = useState('t13')
   const [termsUrl, setTermsUrl] = useState('')
   const [privacyUrl, setPrivacyUrl] = useState('')
   const [responsibleGamingUrl, setResponsibleGamingUrl] = useState('')
@@ -238,7 +238,7 @@ export default function SiteEditorPage() {
       setGameBalance(data.game_balance || 1000)
       setCustomLogo(data.custom_logo || '')
       setVertical(data.vertical || 'casino')
-      setTemplateId(data.template_id || 't10')
+      setTemplateId(data.template_id || 't13')
       setTermsUrl(data.terms_url || '')
       setPrivacyUrl(data.privacy_url || '')
       setResponsibleGamingUrl(data.responsible_gaming_url || '')
@@ -823,10 +823,10 @@ export default function SiteEditorPage() {
                   <div className="space-y-2">
                     {/* Template Options - Compact List */}
                     {[
+                      { id: 't13', name: 'Castle Slot', desc: 'Medieval castle slot game', preview: '/templates/t13-preview.svg' },
                       { id: 't6', name: 'Classic Overlay', desc: 'Traditional popup overlay', preview: '/templates/t6-preview.svg' },
                       { id: 't7', name: 'Sweet Bonanza', desc: 'Colorful slot theme', preview: '/templates/t7-preview.svg' },
                       { id: 't9', name: 'Pirate Slots', desc: 'Adventure pirate theme', preview: '/templates/t9-preview.png' },
-                      { id: 't13', name: 'Castle Slot', desc: 'Medieval castle slot game', preview: '/templates/t13-preview.svg' },
                       { id: 't11', name: 'Scratch & Win', desc: 'Interactive scratch card game', preview: '/templates/t11-preview.svg' },
                       { id: 't12', name: 'Aviator Crash', desc: 'Airplane crash game with video', preview: '/templates/t12-preview.svg' }
                     ].map((template) => (
