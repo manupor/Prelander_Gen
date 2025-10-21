@@ -343,7 +343,11 @@ export default function DashboardPage() {
                   Dashboard
                 </h2>
                 <div className="flex items-center gap-4">
-                  <p className="text-sm text-text-muted font-inter">Welcome back, {user.email}</p>
+                  <p className="text-sm text-text-muted font-inter">
+                    Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 font-semibold">
+                      {user?.user_metadata?.preferred_name || user?.email?.split('@')[0] || 'Creator'}
+                    </span>! 👋
+                  </p>
                   {organization?.user_code && (
                     <div className="flex items-center gap-2 px-3 py-1 bg-neon-primary/20 border border-neon-primary/40 rounded-lg backdrop-blur-sm">
                       <span className="text-xs text-neon-primary font-medium">User Code:</span>

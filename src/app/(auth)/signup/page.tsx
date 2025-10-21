@@ -12,6 +12,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [preferredName, setPreferredName] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
@@ -47,6 +48,11 @@ export default function SignupPage() {
       const { error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          data: {
+            preferred_name: preferredName || email.split('@')[0]
+          }
+        }
       })
 
       if (error) {
@@ -212,6 +218,23 @@ export default function SignupPage() {
                   {error}
                 </div>
               )}
+
+              <div>
+                <label htmlFor="preferredName" className="block text-sm font-semibold text-purple-300 mb-3">
+                  Preferred Name
+                </label>
+                <input
+                  id="preferredName"
+                  name="preferredName"
+                  type="text"
+                  autoComplete="given-name"
+                  value={preferredName}
+                  onChange={(e) => setPreferredName(e.target.value)}
+                  className="w-full px-4 py-4 bg-slate-800/50 border border-slate-600 rounded-xl placeholder-slate-400 text-white focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-400/50 backdrop-blur-sm transition-all duration-300 hover:border-slate-500"
+                  placeholder="How should we call you?"
+                />
+                <p className="mt-2 text-xs text-slate-400">Optional - We'll use this to personalize your experience</p>
+              </div>
 
               <div>
                 <label htmlFor="email" className="block text-sm font-semibold text-purple-300 mb-3">
