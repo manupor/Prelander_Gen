@@ -189,15 +189,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     .game-container {
       flex: 1;
       width: 100%;
-      background: 
-        repeating-linear-gradient(90deg, 
-          #8B5A2B 0px, 
-          #654321 2px, 
-          #8B5A2B 4px, 
-          #654321 6px
-        ),
-        #4a3219;
-      background-size: 6px 100%, 100%;
+      background: #2d1810; /* Dark background behind frame */
       border-radius: 0;
       overflow: hidden;
       box-shadow: none;
@@ -207,6 +199,107 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       flex-direction: column;
       min-height: 0;
       margin-bottom: 0;
+      padding: 20px; /* Space for the wooden frame */
+    }
+    
+    .game-frame {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: 
+        repeating-linear-gradient(90deg, 
+          #8B5A2B 0px, 
+          #654321 2px, 
+          #8B5A2B 4px, 
+          #654321 6px
+        ),
+        #4a3219;
+      background-size: 6px 100%, 100%;
+      border-radius: 15px;
+      padding: 15px;
+      box-shadow: 
+        inset 0 0 0 3px #654321,
+        inset 0 0 0 6px #8B5A2B,
+        inset 0 0 0 8px #654321,
+        0 10px 30px rgba(0, 0, 0, 0.8),
+        0 0 0 2px #2d1810;
+      overflow: hidden;
+    }
+    
+    .game-frame::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      border: 2px solid rgba(139, 90, 43, 0.6);
+      border-radius: 8px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    .game-frame::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        repeating-linear-gradient(0deg,
+          transparent 0px,
+          rgba(0, 0, 0, 0.03) 1px,
+          transparent 2px,
+          transparent 4px
+        );
+      pointer-events: none;
+      border-radius: 15px;
+      z-index: 1;
+    }
+    
+    /* Decorative wooden frame corners */
+    .frame-corner {
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background: radial-gradient(circle at 30% 30%, #8B5A2B, #4a3219);
+      border: 2px solid #2d1810;
+      z-index: 2;
+    }
+    
+    .frame-corner::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      background: #2d1810;
+      border-radius: 50%;
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    }
+    
+    .corner-tl { 
+      top: 5px; 
+      left: 5px; 
+      border-radius: 50% 15% 50% 50%;
+    }
+    .corner-tr { 
+      top: 5px; 
+      right: 5px; 
+      border-radius: 15% 50% 50% 50%;
+    }
+    .corner-bl { 
+      bottom: 5px; 
+      left: 5px; 
+      border-radius: 50% 50% 50% 15%;
+    }
+    .corner-br { 
+      bottom: 5px; 
+      right: 5px; 
+      border-radius: 50% 50% 15% 50%;
     }
     
     .footer {
@@ -288,12 +381,12 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     .game-iframe {
       width: 100%;
       height: 100%;
-      flex: 1;
       border: none;
       display: block;
       position: relative;
-      z-index: 1;
+      z-index: 0;
       background: transparent;
+      border-radius: 8px;
     }
     
     /* Win Modal Styles */
@@ -563,6 +656,25 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         margin: 0;
       }
       
+      .game-container {
+        padding: 15px;
+      }
+      
+      .game-frame {
+        padding: 12px;
+        border-radius: 12px;
+      }
+      
+      .frame-corner {
+        width: 20px;
+        height: 20px;
+      }
+      
+      .frame-corner::after {
+        width: 6px;
+        height: 6px;
+      }
+      
       .game-title {
         flex-direction: row;
         gap: 12px;
@@ -644,6 +756,25 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     @media (max-width: 480px) {
+      .game-container {
+        padding: 10px;
+      }
+      
+      .game-frame {
+        padding: 8px;
+        border-radius: 8px;
+      }
+      
+      .frame-corner {
+        width: 15px;
+        height: 15px;
+      }
+      
+      .frame-corner::after {
+        width: 4px;
+        height: 4px;
+      }
+      
       .game-title {
         padding: 8px 12px;
         min-height: 45px;
@@ -688,14 +819,20 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     </div>
 
     <div class="game-container">
-      
-      <iframe 
-        src="/FisherMan Slot/index.html"
-        title="Fisherman Slot Game"
-        class="game-iframe"
-        frameborder="0"
-        allowfullscreen
-      ></iframe>
+      <div class="game-frame">
+        <div class="frame-corner corner-tl"></div>
+        <div class="frame-corner corner-tr"></div>
+        <div class="frame-corner corner-bl"></div>
+        <div class="frame-corner corner-br"></div>
+        
+        <iframe 
+          src="/FisherMan Slot/index.html"
+          title="Fisherman Slot Game"
+          class="game-iframe"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+      </div>
     </div>
     
     <div class="footer">
