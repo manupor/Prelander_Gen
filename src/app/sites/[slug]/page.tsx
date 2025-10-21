@@ -6,7 +6,6 @@ import { renderTemplate as renderT9 } from '@/templates/t9/server'
 import { renderTemplate as renderT10 } from '@/templates/t10/server'
 import { renderTemplate as renderT11 } from '@/templates/t11/server'
 import { renderTemplate as renderT12 } from '@/templates/t12/server'
-import { renderTemplate as renderT13 } from '@/templates/t13/server'
 
 interface SitePageParams {
   slug: string
@@ -103,9 +102,6 @@ export default async function SitePage({
         break;
       case 't12':
         rendered = renderT12(brandConfig);
-        break;
-      case 't13':
-        rendered = renderT13(brandConfig);
         break;
       default:
         // Fallback to site's stored HTML if template not found

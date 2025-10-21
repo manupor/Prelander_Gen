@@ -53,12 +53,11 @@ export default function SiteEditorPage() {
   const [popupMessage, setPopupMessage] = useState('Congratulations! You\'ve won!')
   const [popupPrize, setPopupPrize] = useState('$1,000 + 50 FREE SPINS')
   const [gameBalance, setGameBalance] = useState(1000)
-  const [customLogo, setCustomLogo] = useState('')
   const [gameLogo, setGameLogo] = useState('')
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [uploadingLogo, setUploadingLogo] = useState(false)
   const [vertical, setVertical] = useState('casino')
-  const [templateId, setTemplateId] = useState('t13')
+  const [templateId, setTemplateId] = useState('t6')
   const [termsUrl, setTermsUrl] = useState('')
   const [privacyUrl, setPrivacyUrl] = useState('')
   const [responsibleGamingUrl, setResponsibleGamingUrl] = useState('')
@@ -236,9 +235,8 @@ export default function SiteEditorPage() {
       setPopupMessage(data.popup_message || 'Congratulations! You\'ve won!')
       setPopupPrize(data.popup_prize || '$1,000 + 50 FREE SPINS')
       setGameBalance(data.game_balance || 1000)
-      setCustomLogo(data.custom_logo || '')
       setVertical(data.vertical || 'casino')
-      setTemplateId(data.template_id || 't13')
+      setTemplateId(data.template_id || 't6')
       setTermsUrl(data.terms_url || '')
       setPrivacyUrl(data.privacy_url || '')
       setResponsibleGamingUrl(data.responsible_gaming_url || '')
@@ -313,7 +311,6 @@ export default function SiteEditorPage() {
     if (changes.popupMessage) setPopupMessage(changes.popupMessage)
     if (changes.popupPrize) setPopupPrize(changes.popupPrize)
     if (changes.gameBalance) setGameBalance(changes.gameBalance)
-    if (changes.customLogo) setCustomLogo(changes.customLogo)
     if (changes.templateId) setTemplateId(changes.templateId)
   }
 
@@ -330,7 +327,6 @@ export default function SiteEditorPage() {
     popupMessage,
     popupPrize,
     gameBalance,
-    customLogo,
     templateId,
     vertical
   })
@@ -359,7 +355,6 @@ export default function SiteEditorPage() {
         updateData.popup_message = popupMessage
         updateData.popup_prize = popupPrize
         updateData.game_balance = gameBalance
-        updateData.custom_logo = customLogo
       } catch (e) {
         console.warn('Popup fields, game_balance, or custom_logo not available in database yet')
       }
@@ -628,7 +623,6 @@ export default function SiteEditorPage() {
       popupMessage,
       popupPrize,
       gameBalance: gameBalance.toString(),
-      customLogo: customLogo || ''
     })
     
     return `/sites/${slug}?${params.toString()}`
@@ -823,7 +817,6 @@ export default function SiteEditorPage() {
                   <div className="space-y-2">
                     {/* Template Options - Compact List */}
                     {[
-                      { id: 't13', name: 'Castle Slot', desc: 'Medieval castle slot game', preview: '/templates/t13-preview.svg' },
                       { id: 't6', name: 'Classic Overlay', desc: 'Traditional popup overlay', preview: '/templates/t6-preview.svg' },
                       { id: 't7', name: 'Sweet Bonanza', desc: 'Colorful slot theme', preview: '/templates/t7-preview.svg' },
                       { id: 't9', name: 'Pirate Slots', desc: 'Adventure pirate theme', preview: '/templates/t9-preview.png' },
@@ -1148,27 +1141,6 @@ export default function SiteEditorPage() {
                       </div>
                     )}
 
-                    {/* Custom Logo */}
-                    {fields.customLogo && (
-                      <div>
-                        <label className="block text-xs font-medium text-gray-300 mb-2 flex items-center gap-1">
-                          <ImageIcon size={12} />
-                          {fields.customLogo.label}
-                          {fields.customLogo.required && <span className="text-red-400 ml-1">*</span>}
-                        </label>
-                        <input
-                          type="url"
-                          value={customLogo}
-                          onChange={(e) => setCustomLogo(e.target.value)}
-                          className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                          placeholder={fields.customLogo.placeholder}
-                          required={fields.customLogo.required}
-                        />
-                        {fields.customLogo.description && (
-                          <p className="text-xs text-gray-500 mt-1">{fields.customLogo.description}</p>
-                        )}
-                      </div>
-                    )}
 
                     {/* CTA URL */}
                     {fields.ctaUrl && (
