@@ -15,6 +15,7 @@ interface SiteWithVisits extends Site {
 
 export default function DashboardPage() {
   const [user, setUser] = useState<any>(null)
+  const [organization, setOrganization] = useState<any>(null)
   const [sites, setSites] = useState<SiteWithVisits[]>([])
   const [loading, setLoading] = useState(true)
   const [deletingId, setDeletingId] = useState<string | null>(null)
@@ -54,6 +55,8 @@ export default function DashboardPage() {
         setLoading(false)
         return
       }
+
+      setOrganization(org)
 
       // Get user's sites
       const { data: sitesData, error: sitesError } = await supabase
@@ -281,7 +284,15 @@ export default function DashboardPage() {
                 <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-neon-primary to-neon-secondary font-inter">
                   Dashboard
                 </h2>
-                <p className="text-sm text-text-muted font-inter">Welcome back, {user.email}</p>
+                <div className="flex items-center gap-4">
+                  <p className="text-sm text-text-muted font-inter">Welcome back, {user.email}</p>
+                  {organization?.user_code && (
+                    <div className="flex items-center gap-2 px-3 py-1 bg-neon-primary/20 border border-neon-primary/40 rounded-lg backdrop-blur-sm">
+                      <span className="text-xs text-neon-primary font-medium">User Code:</span>
+                      <span className="text-sm font-bold text-neon-primary font-mono">{organization.user_code}</span>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -430,37 +441,33 @@ export default function DashboardPage() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div className="flex items-center justify-end space-x-3">
-                              {!site.archived && (
-                                <>
-                                  <Link
-                                    href={`/sites/${site.slug}`}
-                                    className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors duration-200"
-                                    target="_blank"
-                                  >
-                                    Preview
-                                  </Link>
-                                  <Link
-                                    href={`/dashboard/site/${site.id}`}
-                                    className="text-purple-400 hover:text-purple-300 font-medium transition-colors duration-200"
-                                  >
-                                    Edit
-                                  </Link>
-                                </>
-                              )}
+                              <Link
+                                href={`/sites/${site.slug}`}
+                                className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors duration-200"
+                                target="_blank"
+                              >
+                                👁️ Preview
+                              </Link>
+                              <Link
+                                href={`/sites/${site.slug}/edit`}
+                                className="text-purple-400 hover:text-purple-300 font-medium transition-colors duration-200"
+                              >
+                                ✏️ Edit
+                              </Link>
                               <button
                                 onClick={() => handleArchiveToggle(site)}
                                 disabled={archivingId === site.id}
                                 className="text-yellow-400 hover:text-yellow-300 font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                               >
-                                {archivingId === site.id ? 'Processing...' : (site.archived ? 'Unarchive' : 'Archive')}
+                                {archivingId === site.id ? 'Processing...' : (site.status === 'draft' ? '📂 Activate' : '🗄️ Archive')}
                               </button>
-                              {site.archived && (
+                              {site.status === 'draft' && (
                                 <button
                                   onClick={() => handleDeleteClick(site)}
                                   disabled={deletingId === site.id}
                                   className="text-red-400 hover:text-red-300 font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                  {deletingId === site.id ? 'Deleting...' : 'Delete'}
+                                  {deletingId === site.id ? 'Deleting...' : '🗑️ Delete'}
                                 </button>
                               )}
                             </div>

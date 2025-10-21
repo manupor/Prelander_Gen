@@ -383,7 +383,7 @@ export default function SiteEditorPage() {
         console.warn('Failed to regenerate HTML, but data was saved')
       }
 
-      alert('Changes saved successfully!')
+      alert('✅ Changes Saved Successfully!\n\n🎉 Your template has been updated and published.\n\n✨ What\'s next?\n• Preview your changes\n• Download your template\n• Share with your audience\n\nYour landing page is now live and ready!')
       await loadSite() // Reload to get updated HTML
       
       // Show download modal after successful save
@@ -695,11 +695,10 @@ export default function SiteEditorPage() {
               data-tour="save-btn"
               onClick={handleSave}
               disabled={saving}
-              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-neon-primary to-neon-secondary hover:from-neon-secondary hover:to-neon-primary text-black rounded-lg transition-all duration-300 disabled:opacity-50 shadow-lg shadow-neon-primary/40 hover:shadow-xl hover:shadow-neon-primary/60 font-bold text-base border-2 border-transparent hover:scale-105 transform"
+              className="flex items-center gap-2 px-6 py-3 bg-gray-800/70 hover:bg-neon-primary/10 text-neon-primary hover:text-white rounded-lg transition-all duration-300 border-2 border-neon-primary/40 hover:border-neon-primary hover:shadow-lg hover:shadow-neon-primary/30 backdrop-blur-sm font-medium disabled:opacity-50"
             >
               {saving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
               <span className="hidden sm:inline">{saving ? 'Saving...' : 'Save Changes'}</span>
-              <span className="sm:hidden">{saving ? '💾' : '💾'}</span>
             </button>
           </div>
         </div>
