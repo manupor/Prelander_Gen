@@ -63,7 +63,7 @@ export default function DashboardPage() {
 
       // Get user's sites - try multiple strategies
       let sitesData = null
-      let sitesError = null
+      const sitesError = null
 
       // Strategy 1: Try with user_id column
       const result1 = await supabase
