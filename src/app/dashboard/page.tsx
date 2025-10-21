@@ -264,7 +264,8 @@ export default function DashboardPage() {
     
     switch (viewMode) {
       case 'published':
-        return filtered.filter(site => site.is_published)
+        // Consider a site published if status is 'published' OR is_published is true
+        return filtered.filter(site => site.status === 'published' || site.is_published)
       case 'downloaded':
         return filtered.filter(site => site.is_downloaded)
       default:
@@ -276,7 +277,7 @@ export default function DashboardPage() {
     const allSites = sites.filter(site => showArchived ? site.status === 'draft' : site.status === 'published')
     return {
       all: allSites.length,
-      published: allSites.filter(site => site.is_published).length,
+      published: allSites.filter(site => site.status === 'published' || site.is_published).length,
       downloaded: allSites.filter(site => site.is_downloaded).length
     }
   }
