@@ -47,36 +47,59 @@ export default function DashboardPage() {
 
       setUser(user)
 
-      // Get user's organization
-      const { data: org, error: orgError } = await supabase
+      // Try to get user's organization (optional)
+      const { data: org } = await supabase
         .from('organizations')
         .select('*')
         .eq('owner_user_id', user.id)
-        .single()
+        .maybeSingle()
 
-      if (orgError) {
-        console.error('Error fetching organization:', orgError)
-        console.log('User ID:', user.id)
-        // If no organization exists, we might need to create one or handle this case
-        setSites([])
-        setLoading(false)
-        return
+      if (org) {
+        console.log('Organization found:', org)
+        setOrganization(org)
+      } else {
+        console.log('No organization found, will query sites by user_id only')
       }
 
-      console.log('Organization found:', org)
-      setOrganization(org)
+      // Get user's sites - try multiple strategies
+      let sitesData = null
+      let sitesError = null
 
-      // Get user's sites (by org_id OR user_id for backward compatibility)
-      const { data: sitesData, error: sitesError } = await supabase
+      // Strategy 1: Try with user_id column
+      const result1 = await supabase
         .from('sites')
         .select(`
           *,
           visits(count)
         `)
-        .or(`org_id.eq.${org?.id},user_id.eq.${user.id}`)
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false })
 
-      console.log('Sites query result:', { sitesData, sitesError, orgId: org?.id, userId: user.id })
+      if (!result1.error && result1.data && result1.data.length > 0) {
+        sitesData = result1.data
+        console.log('Sites found by user_id:', sitesData.length)
+      } else {
+        console.log('No sites found by user_id, trying org_id...')
+        
+        // Strategy 2: Try with org_id if organization exists
+        if (org) {
+          const result2 = await supabase
+            .from('sites')
+            .select(`
+              *,
+              visits(count)
+            `)
+            .eq('org_id', org.id)
+            .order('created_at', { ascending: false })
+
+          if (!result2.error && result2.data) {
+            sitesData = result2.data
+            console.log('Sites found by org_id:', sitesData.length)
+          }
+        }
+      }
+
+      console.log('Final sites data:', sitesData)
 
       if (sitesError) {
         console.error('Error fetching sites:', sitesError)
