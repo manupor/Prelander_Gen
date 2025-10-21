@@ -4,6 +4,7 @@ import { renderTemplate as renderT6 } from '@/templates/t6/server'
 import { renderTemplate as renderT7 } from '@/templates/t7/server'
 import { renderTemplate as renderT9 } from '@/templates/t9/server'
 import { renderTemplate as renderT10 } from '@/templates/t10/server'
+import { injectProtection, addProtectionStyles } from '@/lib/site-protection'
 
 interface SitePageParams {
   slug: string
@@ -113,6 +114,10 @@ export default async function SitePage({
         source: 'direct',
         user_agent: 'server-side-render'
       })
+    
+    // Apply anti-cloning protection for published sites
+    html = injectProtection(html)
+    css = addProtectionStyles(css)
   }
 
   // Si el HTML contiene DOCTYPE, extraer solo el contenido del body y estilos
