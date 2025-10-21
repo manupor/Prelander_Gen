@@ -821,7 +821,6 @@ export default function SiteEditorPage() {
                       { id: 't7', name: 'Sweet Bonanza', desc: 'Colorful slot theme', preview: '/templates/t7-preview.svg' },
                       { id: 't9', name: 'Pirate Slots', desc: 'Adventure pirate theme', preview: '/templates/t9-preview.png' },
                       { id: 't11', name: 'Scratch & Win', desc: 'Interactive scratch card game', preview: '/templates/t11-preview.svg' },
-                      { id: 't12', name: 'Aviator Crash', desc: 'Airplane crash game with video', preview: '/templates/t12-preview.svg' }
                     ].map((template) => (
                       <button
                         key={template.id}

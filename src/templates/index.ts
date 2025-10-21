@@ -3,10 +3,9 @@ import { Template7, renderTemplate as renderT7 } from './t7'
 import { Template9, renderTemplate as renderT9 } from './t9'
 import { Template10, renderTemplate as renderT10 } from './t10'
 import { Template11, renderTemplate as renderT11 } from './t11'
-import { Template12, renderTemplate as renderT12 } from './t12'
 import { TemplateDefinition } from '@/lib/types'
 
-export const templates: Record<'t6' | 't7' | 't9' | 't10' | 't11' | 't12', TemplateDefinition> = {
+export const templates: Record<'t6' | 't7' | 't9' | 't10' | 't11', TemplateDefinition> = {
   t6: {
     id: 't6',
     name: 'Cyber Casino',
@@ -47,14 +46,6 @@ export const templates: Record<'t6' | 't7' | 't9' | 't10' | 't11' | 't12', Templ
     component: Template11,
     renderTemplate: renderT11,
   },
-  t12: {
-    id: 't12',
-    name: 'Aviator Crash',
-    description: 'Exciting airplane crash game with auto-play, live video winner, and synchronized 13-second gameplay',
-    preview: '/templates/t12-preview.svg',
-    component: Template12,
-    renderTemplate: renderT12,
-  },
 }
 
 export { 
@@ -63,11 +54,9 @@ export {
   Template9,
   Template10,
   Template11,
-  Template12,
   renderT6,
   renderT7,
   renderT9,
   renderT10,
-  renderT11,
-  renderT12
+  renderT11
 }

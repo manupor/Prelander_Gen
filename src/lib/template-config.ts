@@ -260,36 +260,6 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
     }
   },
 
-  t12: {
-    id: 't12',
-    name: 'Scratch & Win',
-    fields: {
-      headline: {
-        id: 'headline',
-        label: 'Game Title',
-        type: 'text',
-        placeholder: 'SCRATCH & WIN',
-        description: 'Main game title',
-        required: true
-      },
-      cta: {
-        id: 'cta',
-        label: 'Button Text',
-        type: 'text',
-        placeholder: 'SCRATCH NOW',
-        description: 'Main action button text',
-        required: true
-      },
-      ctaUrl: {
-        id: 'ctaUrl',
-        label: 'Destination URL',
-        type: 'url',
-        placeholder: 'https://your-casino.com/signup',
-        description: 'Where users go when they click',
-        required: true
-      }
-    }
-  },
 
 }
 

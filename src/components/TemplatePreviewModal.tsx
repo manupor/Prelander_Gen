@@ -7,7 +7,6 @@ import { Template7 } from '@/templates/t7'
 import { Template9 } from '@/templates/t9'
 import { Template10 } from '@/templates/t10'
 import { Template11 } from '@/templates/t11'
-import { Template12 } from '@/templates/t12'
 
 interface TemplatePreviewModalProps {
   templateId: TemplateId | null
@@ -71,7 +70,6 @@ const templateComponents = {
   t9: Template9,
   t10: Template10,
   t11: Template11,
-  t12: Template12,
 }
 
 export function TemplatePreviewModal({ templateId, isOpen, onClose, onSelect }: TemplatePreviewModalProps) {

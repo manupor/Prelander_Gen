@@ -5,7 +5,6 @@ import { renderTemplate as renderT7 } from '@/templates/t7/server'
 import { renderTemplate as renderT9 } from '@/templates/t9/server'
 import { renderTemplate as renderT10 } from '@/templates/t10/server'
 import { renderTemplate as renderT11 } from '@/templates/t11/server'
-import { renderTemplate as renderT12 } from '@/templates/t12/server'
 
 export async function POST(request: NextRequest) {
   try {
@@ -72,9 +71,6 @@ export async function POST(request: NextRequest) {
         break
       case 't11':
         rendered = renderT11(brandConfig)
-        break
-      case 't12':
-        rendered = renderT12(brandConfig)
         break
       default:
         return NextResponse.json(
