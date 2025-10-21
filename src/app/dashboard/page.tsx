@@ -11,6 +11,11 @@ import { Site } from '@/lib/types'
 
 interface SiteWithVisits extends Site {
   visits?: { count: number }[]
+  is_downloaded?: boolean
+  is_published?: boolean
+  downloaded_at?: string
+  published_at?: string
+  download_count?: number
 }
 
 export default function DashboardPage() {
@@ -23,6 +28,7 @@ export default function DashboardPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [siteToDelete, setSiteToDelete] = useState<SiteWithVisits | null>(null)
   const [showArchived, setShowArchived] = useState(false)
+  const [viewMode, setViewMode] = useState<'all' | 'published' | 'downloaded'>('all')
   const router = useRouter()
   const supabase = createClient()
 
@@ -223,6 +229,28 @@ export default function DashboardPage() {
     }
   }
 
+  const getFilteredSites = () => {
+    let filtered = sites.filter(site => showArchived ? site.status === 'draft' : site.status === 'published')
+    
+    switch (viewMode) {
+      case 'published':
+        return filtered.filter(site => site.is_published)
+      case 'downloaded':
+        return filtered.filter(site => site.is_downloaded)
+      default:
+        return filtered
+    }
+  }
+
+  const getViewModeStats = () => {
+    const allSites = sites.filter(site => showArchived ? site.status === 'draft' : site.status === 'published')
+    return {
+      all: allSites.length,
+      published: allSites.filter(site => site.is_published).length,
+      downloaded: allSites.filter(site => site.is_downloaded).length
+    }
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-black via-neon-accent to-black text-white flex items-center justify-center font-inter">
@@ -296,15 +324,6 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Button 
-                onClick={handleQuickCreate}
-                className="bg-gradient-to-r from-neon-primary to-neon-secondary hover:from-neon-secondary hover:to-neon-primary text-black border-0 shadow-neon hover:shadow-neon-lg transition-all duration-300 hover:scale-105 font-inter font-semibold"
-              >
-                <span className="flex items-center">
-                  <span className="mr-2">⚡</span>
-                  Forge New Site
-                </span>
-              </Button>
               <form action="/auth/signout" method="post">
                 <Button variant="outline" type="submit" className="border-neon-primary/50 bg-dark-surface/50 text-neon-primary hover:bg-neon-primary hover:text-black hover:border-neon-primary backdrop-blur-sm transition-all duration-300 font-inter">
                   Sign Out
@@ -349,7 +368,34 @@ export default function DashboardPage() {
                   Manage your forged digital experiences
                 </p>
               </div>
-              <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none flex items-center space-x-4">
+              <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none flex flex-col items-end space-y-4">
+                {/* View Mode Filters */}
+                <div className="flex items-center space-x-2">
+                  {(['all', 'published', 'downloaded'] as const).map((mode) => {
+                    const stats = getViewModeStats()
+                    const count = stats[mode]
+                    const labels = {
+                      all: '📊 All Sites',
+                      published: '🚀 Published',
+                      downloaded: '📥 Downloaded'
+                    }
+                    
+                    return (
+                      <Button
+                        key={mode}
+                        onClick={() => setViewMode(mode)}
+                        variant="outline"
+                        className={`border-slate-600 bg-slate-800/50 text-slate-300 hover:bg-slate-700 hover:text-white hover:border-slate-500 backdrop-blur-sm transition-all duration-300 ${
+                          viewMode === mode ? 'bg-slate-700 text-white border-slate-500' : ''
+                        }`}
+                      >
+                        {labels[mode]} ({count})
+                      </Button>
+                    )
+                  })}
+                </div>
+                
+                {/* Archive Toggle */}
                 <Button
                   onClick={() => setShowArchived(!showArchived)}
                   variant="outline"
@@ -385,6 +431,12 @@ export default function DashboardPage() {
                           Status
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-cyan-300 uppercase tracking-wide">
+                          Published
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs font-medium text-cyan-300 uppercase tracking-wide">
+                          Downloads
+                        </th>
+                        <th className="px-6 py-4 text-left text-xs font-medium text-cyan-300 uppercase tracking-wide">
                           Visits
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-medium text-cyan-300 uppercase tracking-wide">
@@ -396,7 +448,7 @@ export default function DashboardPage() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-700/30">
-                      {sites.filter(site => showArchived ? site.status === 'draft' : site.status === 'published').map((site) => (
+                      {getFilteredSites().map((site) => (
                         <tr key={site.id} className="hover:bg-slate-800/30 transition-colors duration-200">
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
@@ -432,6 +484,26 @@ export default function DashboardPage() {
                             >
                               {site.status}
                             </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {site.is_published ? (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 border border-green-500/30">
+                                🚀 Yes
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-gray-500/20 to-slate-500/20 text-gray-300 border border-gray-500/30">
+                                📝 Draft
+                              </span>
+                            )}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
+                            {site.is_downloaded ? (
+                              <span className="flex items-center gap-1">
+                                📥 {site.download_count || 1}
+                              </span>
+                            ) : (
+                              <span className="text-gray-500">-</span>
+                            )}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                             {site.visits?.[0]?.count || 0}

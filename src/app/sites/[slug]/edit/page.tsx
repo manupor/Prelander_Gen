@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { Loader2, Save, Eye, ArrowLeft, Palette, Type, Image as ImageIcon, Link as LinkIcon, ChevronDown, ChevronUp, Layers, FileText, Scale, Download, Mail } from 'lucide-react'
+import { Loader2, Save, Eye, ArrowLeft, Palette, Type, Image as ImageIcon, Link as LinkIcon, ChevronDown, ChevronUp, Layers, FileText, Scale, Download, Mail, Globe } from 'lucide-react'
 import { EditorTour } from '@/components/EditorTour'
 import { getTemplateConfig, templateSupportsField } from '@/lib/template-config'
 
@@ -21,12 +21,21 @@ interface SiteData {
   logo_url: string | null
   cta_url: string | null
   generated_html: string
+  is_downloaded?: boolean
+  is_published?: boolean
+  downloaded_at?: string
+  published_at?: string
+  download_count?: number
 }
 
 export default function SiteEditorPage() {
   const params = useParams()
   const router = useRouter()
   const slug = params.slug as string
+  
+  const [showArchived, setShowArchived] = useState(false)
+  const [publishing, setPublishing] = useState(false)
+  const supabase = createClient()
   
   const [site, setSite] = useState<SiteData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -431,6 +440,16 @@ export default function SiteEditorPage() {
 
       setShowDownloadModal(false)
       
+      // Mark site as downloaded
+      await supabase
+        .from('sites')
+        .update({ 
+          is_downloaded: true, 
+          downloaded_at: new Date().toISOString(),
+          download_count: site?.download_count ? site.download_count + 1 : 1
+        })
+        .eq('slug', slug)
+
       alert(`✅ ¡Descarga Completa!\n\n📦 Tu landing page protegida está lista\n\n¿Qué contiene?\n• 📄 index.html - Página completa con código encriptado\n• 🎨 style.css - Estilos responsivos\n• 📋 README.md - Instrucciones simples\n\n✨ CÓMO USAR:\n1. Extrae el ZIP\n2. Doble clic en index.html para probar\n3. O sube a tu hosting web\n\n🔒 Tu código está ofuscado para prevenir clonación\n🚀 Funciona localmente Y en hosting\n\n¡Listo para usar!`)
       
     } catch (error: any) {
@@ -438,6 +457,42 @@ export default function SiteEditorPage() {
       alert(`Error al descargar: ${error.message}`)
     } finally {
       setDownloading(false)
+    }
+  }
+
+  const handlePublish = async () => {
+    if (!site) return
+    
+    setPublishing(true)
+    
+    try {
+      // First save any pending changes
+      await handleSave()
+      
+      // Mark site as published
+      const { error } = await supabase
+        .from('sites')
+        .update({ 
+          is_published: true, 
+          published_at: new Date().toISOString(),
+          status: 'published' 
+        })
+        .eq('slug', slug)
+
+      if (error) {
+        throw error
+      }
+
+      alert('🚀 Site Published Successfully!\n\n✅ Your site is now live and accessible.\n\n🌐 What\'s next?\n• Share your site URL\n• Monitor performance in dashboard\n• Make updates anytime\n\nYour site is ready for the world!')
+      
+      // Reload site data
+      await loadSite()
+      
+    } catch (error: any) {
+      console.error('Error publishing site:', error)
+      alert(`Failed to publish site: ${error.message || 'Unknown error'}`)
+    } finally {
+      setPublishing(false)
     }
   }
 
@@ -699,6 +754,14 @@ export default function SiteEditorPage() {
             >
               {saving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
               <span className="hidden sm:inline">{saving ? 'Saving...' : 'Save Changes'}</span>
+            </button>
+            <button
+              onClick={handlePublish}
+              disabled={publishing}
+              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white rounded-lg transition-all duration-300 border-2 border-green-500/40 hover:border-green-400 hover:shadow-lg hover:shadow-green-500/30 backdrop-blur-sm font-medium disabled:opacity-50"
+            >
+              {publishing ? <Loader2 size={18} className="animate-spin" /> : <Globe size={18} />}
+              <span className="hidden sm:inline">{publishing ? 'Publishing...' : 'Publish Site'}</span>
             </button>
           </div>
         </div>
