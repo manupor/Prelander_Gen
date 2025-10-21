@@ -18,6 +18,18 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      // Game files and third-party scripts
+      "public/CastleSlot/**",
+      "src/CastleSlot-1/**",
+      "**/c3runtime.js",
+      "**/main.js",
+      "**/scripts/**",
+      "**/opus.wasm.js",
+      "**/bootstrap.min.js",
+      "**/*.min.js",
+      "**/*.bundle.js",
+      // Debug files
+      "src/app/api/debug-env/**",
     ],
   },
 ];
