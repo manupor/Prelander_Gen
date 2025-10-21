@@ -23,20 +23,51 @@
 <body> 
 	<div id="fb-root"></div>
 	
-
-	
 	<noscript>
 		<div id="notSupportedWrap">
 			<h2 id="notSupportedTitle">This content requires JavaScript</h2>
 			<p class="notSupportedMessage">JavaScript appears to be disabled. Please enable it to view this content.</p>
 		</div>
 	</noscript>
+	
+	<!-- Load game scripts in correct order -->
 	<script src="scripts/supportcheck.js"></script>
 	<script src="scripts/offlineclient.js" type="module"></script>
 	<script src="scripts/main.js" type="module"></script>
 	<script src="scripts/register-sw.js" type="module"></script>
 	
-	<!-- Castle Slot Game Wrapper - Minimal version to avoid interference -->
-	<script src="game-wrapper-minimal.js"></script>
+	<!-- Simple click tracking without interfering with game -->
+	<script>
+		console.log('🏰 Castle Slot Clean Version Loading...');
+		
+		let clickCount = 0;
+		
+		// Wait for game to load completely
+		window.addEventListener('load', function() {
+			console.log('📄 Game page loaded');
+			
+			// Add simple click tracking after game loads
+			setTimeout(() => {
+				document.addEventListener('click', function(event) {
+					clickCount++;
+					console.log('🖱️ Click #' + clickCount);
+					
+					// On second click, send win message
+					if (clickCount === 2) {
+						setTimeout(() => {
+							console.log('🏆 Sending win popup message');
+							if (window.parent && window.parent !== window) {
+								window.parent.postMessage({
+									type: "showWinPopup",
+									spinCount: clickCount
+								}, "*");
+							}
+						}, 2000);
+					}
+				});
+				console.log('✅ Click tracking ready');
+			}, 5000); // Wait 5 seconds for game to fully initialize
+		});
+	</script>
 </body> 
 </html>

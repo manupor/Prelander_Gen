@@ -356,10 +356,9 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     <!-- Castle Slot game iframe with proper configuration -->
     <iframe 
       id="castleSlotFrame" 
-      src="/CastleSlot/index.html?balance=${gameBalance}&logo=${encodeURIComponent(customLogo || '')}&cta=${encodeURIComponent(ctaUrl)}" 
+      src="/CastleSlot/index-basic.html" 
       allowfullscreen
       allow="autoplay; fullscreen; gamepad; gyroscope; accelerometer"
-      sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"
       style="width: 100%; height: 100%; border: none; position: absolute; top: 0; left: 0; z-index: 1;"
     ></iframe>
     

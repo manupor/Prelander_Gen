@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Castle Slot Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        <h1>🏰 Castle Slot Loading...</h1>
+        <p>Please wait while the game loads</p>
+    </div>
+    
+    <script>
+        console.log('🏰 Castle Slot Test Page Loading...');
+        
+        // Simple loading test
+        window.addEventListener('load', function() {
+            console.log('📄 Page loaded successfully');
+            
+            // Hide loading after 2 seconds
+            setTimeout(() => {
+                const loading = document.getElementById('loading');
+                if (loading) {
+                    loading.innerHTML = '<h1>✅ Test Successful!</h1><p>The page loaded correctly. Now testing game files...</p>';
+                }
+            }, 2000);
+        });
+        
+        // Test if we can load the main game script
+        setTimeout(() => {
+            const script = document.createElement('script');
+            script.src = 'scripts/supportcheck.js';
+            script.onload = function() {
+                console.log('✅ Support check loaded successfully');
+                document.getElementById('loading').innerHTML += '<br>✅ Support check: OK';
+            };
+            script.onerror = function() {
+                console.error('❌ Failed to load support check');
+                document.getElementById('loading').innerHTML += '<br>❌ Support check: FAILED';
+            };
+            document.head.appendChild(script);
+        }, 3000);
+    </script>
+</body>
+</html>
