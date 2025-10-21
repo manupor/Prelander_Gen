@@ -72,7 +72,7 @@ export default async function SitePage({
       },
       industry: site.industry || 'Casino & Gaming',
       description: site.description || '',
-      ctaUrl: query.ctaUrl || site.cta_url || 'https://example.com',
+      ctaUrl: query.ctaUrl || site.cta_url || '#',
       popupTitle: query.popupTitle || site.popup_title || 'WINNER!',
       popupMessage: query.popupMessage || site.popup_message || 'Congratulations! You\'ve won!',
       popupPrize: query.popupPrize || site.popup_prize || '$1,000 + 50 FREE SPINS',

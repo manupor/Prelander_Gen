@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
       },
       industry: validatedData.industry,
       description: validatedData.description,
-      ctaUrl: validatedData.ctaUrl,
+      ctaUrl: validatedData.ctaUrl || 'https://example.com/signup',
     }
 
     // Render template based on selected templateId
@@ -150,7 +150,7 @@ export async function POST(request: NextRequest) {
       headline: copy.headline,
       subheadline: copy.subheadline,
       cta: copy.cta,
-      cta_url: validatedData.ctaUrl,
+      cta_url: validatedData.ctaUrl || 'https://example.com/signup',
       generated_html: html,
       generated_css: css,
       status: 'published' // Set as published by default
