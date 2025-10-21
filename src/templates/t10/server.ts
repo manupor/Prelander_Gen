@@ -100,7 +100,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     .logo-header {
       position: relative;
       width: 100%;
-      height: 160px;
+      height: 220px;
       background: 
         repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(0,0,0,0.05) 50px, rgba(0,0,0,0.05) 51px),
         repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(0,0,0,0.03) 30px, rgba(0,0,0,0.03) 31px),
@@ -108,7 +108,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px 40px;
+      padding: 35px 60px;
       margin-bottom: 0;
       border-radius: 8px 8px 0 0;
       box-shadow: 
@@ -118,8 +118,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         inset -4px 0 8px rgba(0, 0, 0, 0.3),
         0 4px 15px rgba(0, 0, 0, 0.5);
       z-index: 100;
-      border: 4px solid #2a2a2a;
-      border-bottom: 2px solid #1a1a1a;
+      border: 8px solid #2a2a2a;
+      border-bottom: 4px solid #1a1a1a;
       border-top-color: #555;
       border-left-color: #444;
     }
@@ -129,12 +129,12 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     .logo-header::after {
       content: '';
       position: absolute;
-      width: 50px;
-      height: 50px;
+      width: 70px;
+      height: 70px;
       background: 
         repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(0,0,0,0.1) 3px, rgba(0,0,0,0.1) 4px),
         linear-gradient(135deg, #808080 0%, #606060 50%, #505050 100%);
-      border: 3px solid #2a2a2a;
+      border: 4px solid #2a2a2a;
       box-shadow: 
         inset 0 2px 5px rgba(255, 255, 255, 0.2),
         inset 0 -2px 5px rgba(0, 0, 0, 0.6),
@@ -142,28 +142,29 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     .logo-header::before {
-      top: -15px;
-      left: -15px;
-      border-radius: 6px 0 6px 0;
+      top: -20px;
+      left: -20px;
+      border-radius: 8px 0 8px 0;
       transform: rotate(-2deg);
     }
     
     .logo-header::after {
-      top: -15px;
-      right: -15px;
-      border-radius: 0 6px 0 6px;
+      top: -20px;
+      right: -20px;
+      border-radius: 0 8px 0 8px;
       transform: rotate(2deg);
     }
     
     .logo-header img {
-      max-height: 130px;
-      max-width: 500px;
+      max-height: 180px;
+      max-width: 700px;
       width: auto;
       height: auto;
       object-fit: contain;
       filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.8));
       position: relative;
       z-index: 2;
+      transform: scale(1.1);
     }
     
     .game-title {
@@ -226,7 +227,9 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
       min-height: 500px;
       margin-top: 0;
-      border-top: 2px solid #1a1a1a;
+      border: 8px solid #2a2a2a;
+      border-top: 4px solid #1a1a1a;
+      border-bottom-color: #1a1a1a;
     }
     
     .game-iframe {
