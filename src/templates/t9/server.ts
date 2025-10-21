@@ -70,10 +70,10 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       display: flex;
       flex-direction: column;
       height: 100vh;
-      width: 100%;
+      width: 960px; /* Fixed width to match game */
       max-width: 100%;
       padding: 0;
-      margin: 0;
+      margin: 0 auto; /* Center the wrapper */
       gap: 0;
       position: relative;
       z-index: 1;
@@ -549,7 +549,20 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       to { transform: rotate(360deg); }
     }
     
+    /* Desktop - maintain exact game width */
+    @media (min-width: 1024px) {
+      .wrapper {
+        width: 960px; /* Exact game width */
+        margin: 0 auto;
+      }
+    }
+    
     @media (max-width: 768px) {
+      .wrapper {
+        width: 100%;
+        margin: 0;
+      }
+      
       .game-title {
         flex-direction: row;
         gap: 12px;
