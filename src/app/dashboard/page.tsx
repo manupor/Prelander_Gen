@@ -214,11 +214,13 @@ export default function DashboardPage() {
       })
 
       if (!response.ok) {
-        const errorData = await response.json()
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
+        console.error('API Error:', errorData)
         throw new Error(errorData.error || 'Failed to generate site')
       }
 
       const result = await response.json()
+      console.log('API Result:', result)
 
       if (!result.success) {
         throw new Error('Site generation failed')
@@ -227,8 +229,8 @@ export default function DashboardPage() {
       // Redirect to editor
       router.push(`/sites/${result.data.slug}/edit`)
     } catch (error: any) {
-      console.error('Error:', error)
-      alert(`Error creating site: ${error?.message || 'Unknown error'}`)
+      console.error('Error creating site:', error)
+      alert(`Error creating site: ${error?.message || 'Unknown error'}\n\nCheck console for details.`)
     } finally {
       setLoading(false)
     }

@@ -136,34 +136,44 @@ export async function POST(request: NextRequest) {
     }
     const dbTemplateId = templateMapping[validatedData.templateId] || 't6'
     
+    // Build insert data conditionally
+    const insertData: any = {
+      slug,
+      template_id: dbTemplateId,
+      logo_url: validatedData.logoUrl,
+      primary_color: colors.primary,
+      secondary_color: colors.secondary,
+      accent_color: colors.accent,
+      brand_name: validatedData.brandName,
+      industry: validatedData.industry,
+      description: validatedData.description,
+      headline: copy.headline,
+      subheadline: copy.subheadline,
+      cta: copy.cta,
+      cta_url: validatedData.ctaUrl,
+      generated_html: html,
+      generated_css: css,
+      status: 'published' // Set as published by default
+    }
+    
+    // Add user_id and org_id if available
+    if (user.id) insertData.user_id = user.id
+    if (orgId) insertData.org_id = orgId
+    
+    console.log('Inserting site with data:', insertData)
+    
     const { data: site, error: siteError} = await supabase
       .from('sites')
-      .insert({
-        user_id: user.id,
-        org_id: orgId,
-        slug,
-        template_id: dbTemplateId,
-        logo_url: validatedData.logoUrl,
-        primary_color: colors.primary,
-        secondary_color: colors.secondary,
-        accent_color: colors.accent,
-        brand_name: validatedData.brandName,
-        industry: validatedData.industry,
-        description: validatedData.description,
-        headline: copy.headline,
-        subheadline: copy.subheadline,
-        cta: copy.cta,
-        cta_url: validatedData.ctaUrl,
-        generated_html: html,
-        generated_css: css,
-        status: 'draft'
-      })
+      .insert(insertData)
       .select()
       .single()
 
     if (siteError) {
       console.error('Site creation error:', siteError)
-      return NextResponse.json({ error: 'Failed to create site' }, { status: 500 })
+      return NextResponse.json({ 
+        error: 'Failed to create site', 
+        details: siteError.message 
+      }, { status: 500 })
     }
 
     return NextResponse.json({
