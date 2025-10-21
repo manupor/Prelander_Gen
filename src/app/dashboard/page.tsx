@@ -66,17 +66,17 @@ export default function DashboardPage() {
       console.log('Organization found:', org)
       setOrganization(org)
 
-      // Get user's sites
+      // Get user's sites (by org_id OR user_id for backward compatibility)
       const { data: sitesData, error: sitesError } = await supabase
         .from('sites')
         .select(`
           *,
           visits(count)
         `)
-        .eq('org_id', org?.id)
+        .or(`org_id.eq.${org?.id},user_id.eq.${user.id}`)
         .order('created_at', { ascending: false })
 
-      console.log('Sites query result:', { sitesData, sitesError, orgId: org?.id })
+      console.log('Sites query result:', { sitesData, sitesError, orgId: org?.id, userId: user.id })
 
       if (sitesError) {
         console.error('Error fetching sites:', sitesError)
