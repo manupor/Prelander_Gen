@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { Loader2, Save, Eye, ArrowLeft, Palette, Type, Image as ImageIcon, Link as LinkIcon, ChevronDown, ChevronUp, Layers, FileText, Scale, Download, Mail, Globe } from 'lucide-react'
+import { Loader2, Save, Eye, ArrowLeft, Palette, Type, Image as ImageIcon, Link as LinkIcon, ChevronDown, ChevronUp, Layers, FileText, Scale, Download, Mail, Globe, Monitor, Smartphone } from 'lucide-react'
 import { EditorTour } from '@/components/EditorTour'
 import { getTemplateConfig, templateSupportsField } from '@/lib/template-config'
 
@@ -71,6 +71,7 @@ export default function SiteEditorPage() {
   const [privacyUrl, setPrivacyUrl] = useState('')
   const [responsibleGamingUrl, setResponsibleGamingUrl] = useState('')
   const [previewMode, setPreviewMode] = useState<'live' | 'template'>('live')
+  const [viewMode, setViewMode] = useState<'desktop' | 'mobile'>('desktop')
   const [showTour, setShowTour] = useState(false)
   const [showDownloadModal, setShowDownloadModal] = useState(false)
   const [downloadEmail, setDownloadEmail] = useState('')
@@ -1526,11 +1527,42 @@ export default function SiteEditorPage() {
         {/* Right Panel - Preview */}
         <div data-tour="preview" className="flex-1 bg-gray-950 p-6 overflow-auto">
           <div className="max-w-7xl mx-auto">
+            {/* View Mode Toggle */}
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <button
+                onClick={() => setViewMode('desktop')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                  viewMode === 'desktop'
+                    ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white shadow-lg'
+                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                }`}
+              >
+                <Monitor size={18} />
+                <span className="font-semibold">Desktop</span>
+              </button>
+              <button
+                onClick={() => setViewMode('mobile')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                  viewMode === 'mobile'
+                    ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white shadow-lg'
+                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                }`}
+              >
+                <Smartphone size={18} />
+                <span className="font-semibold">Mobile</span>
+              </button>
+            </div>
+
             {previewMode === 'live' ? (
               // Live Preview with iframe
-              <div className="bg-white rounded-lg shadow-2xl overflow-hidden" style={{ height: '90vh' }}>
+              <div 
+                className={`bg-white rounded-lg shadow-2xl overflow-hidden mx-auto transition-all ${
+                  viewMode === 'mobile' ? 'max-w-[375px]' : 'w-full'
+                }`} 
+                style={{ height: '90vh' }}
+              >
                 <iframe
-                  key={`live-${templateId}`}
+                  key={`live-${templateId}-${viewMode}`}
                   src={getPreviewUrl()}
                   className="w-full h-full border-0"
                   title="Live Preview"
@@ -1555,9 +1587,14 @@ export default function SiteEditorPage() {
 
                 {/* Large Template Preview - Live with customizations */}
                 <div className="bg-gray-900 rounded-lg p-6 border border-gray-700">
-                  <div className="relative w-full bg-white rounded-lg overflow-hidden shadow-2xl" style={{ height: '70vh' }}>
+                  <div 
+                    className={`relative bg-white rounded-lg overflow-hidden shadow-2xl mx-auto transition-all ${
+                      viewMode === 'mobile' ? 'max-w-[375px]' : 'w-full'
+                    }`} 
+                    style={{ height: '70vh' }}
+                  >
                     <iframe
-                      key={`template-${templateId}`}
+                      key={`template-${templateId}-${viewMode}`}
                       src={getPreviewUrl()}
                       className="w-full h-full border-0"
                       title="Template Preview"
