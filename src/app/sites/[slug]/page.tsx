@@ -26,6 +26,7 @@ interface SearchParams {
   popupMessage?: string
   popupPrize?: string
   gameBalance?: string
+  customLogo?: string
 }
 
 export default async function SitePage({ 
@@ -77,7 +78,8 @@ export default async function SitePage({
       popupTitle: query.popupTitle || site.popup_title || 'WINNER!',
       popupMessage: query.popupMessage || site.popup_message || 'Congratulations! You\'ve won!',
       popupPrize: query.popupPrize || site.popup_prize || '$1,000 + 50 FREE SPINS',
-      gameBalance: query.gameBalance ? parseInt(query.gameBalance) : (site.game_balance || 1000)
+      gameBalance: query.gameBalance ? parseInt(query.gameBalance) : (site.game_balance || 1000),
+      customLogo: query.customLogo || site.custom_logo || null
     } as any
 
     // Render based on template ID

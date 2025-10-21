@@ -31,6 +31,9 @@ export interface TemplateConfig {
     gameTotalBet?: TemplateField
     totalWin?: TemplateField
     
+    // Customization fields
+    customLogo?: TemplateField
+    
     // Popup/Win modal fields
     popupTitle?: TemplateField
     popupMessage?: TemplateField
@@ -290,13 +293,13 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
 
   t13: {
     id: 't13',
-    name: 'Pirate\'s Treasures Slot',
+    name: 'Castle Slot',
     fields: {
       headline: {
         id: 'headline',
         label: 'Game Title',
         type: 'text',
-        placeholder: 'PIRATE\'S TREASURES',
+        placeholder: 'CASTLE SLOT',
         description: 'Main game title displayed at top',
         required: true
       },
@@ -308,12 +311,20 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
         description: 'Starting balance shown in coins',
         required: false
       },
+      customLogo: {
+        id: 'customLogo',
+        label: '🖼️ Custom Logo',
+        type: 'url',
+        placeholder: 'https://your-site.com/logo.png',
+        description: 'URL of your custom logo to display in the game',
+        required: false
+      },
       cta: {
         id: 'cta',
-        label: 'Spin Button Text',
+        label: 'Claim Button Text',
         type: 'text',
-        placeholder: 'SPIN',
-        description: 'Main spin button text',
+        placeholder: 'CLAIM PRIZE',
+        description: 'Text for the claim prize button',
         required: true
       },
       ctaUrl: {

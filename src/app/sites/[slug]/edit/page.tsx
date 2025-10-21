@@ -53,6 +53,7 @@ export default function SiteEditorPage() {
   const [popupMessage, setPopupMessage] = useState('Congratulations! You\'ve won!')
   const [popupPrize, setPopupPrize] = useState('$1,000 + 50 FREE SPINS')
   const [gameBalance, setGameBalance] = useState(1000)
+  const [customLogo, setCustomLogo] = useState('')
   const [gameLogo, setGameLogo] = useState('')
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [uploadingLogo, setUploadingLogo] = useState(false)
@@ -235,6 +236,7 @@ export default function SiteEditorPage() {
       setPopupMessage(data.popup_message || 'Congratulations! You\'ve won!')
       setPopupPrize(data.popup_prize || '$1,000 + 50 FREE SPINS')
       setGameBalance(data.game_balance || 1000)
+      setCustomLogo(data.custom_logo || '')
       setVertical(data.vertical || 'casino')
       setTemplateId(data.template_id || 't10')
       setTermsUrl(data.terms_url || '')
@@ -311,6 +313,7 @@ export default function SiteEditorPage() {
     if (changes.popupMessage) setPopupMessage(changes.popupMessage)
     if (changes.popupPrize) setPopupPrize(changes.popupPrize)
     if (changes.gameBalance) setGameBalance(changes.gameBalance)
+    if (changes.customLogo) setCustomLogo(changes.customLogo)
     if (changes.templateId) setTemplateId(changes.templateId)
   }
 
@@ -327,6 +330,7 @@ export default function SiteEditorPage() {
     popupMessage,
     popupPrize,
     gameBalance,
+    customLogo,
     templateId,
     vertical
   })
@@ -355,8 +359,9 @@ export default function SiteEditorPage() {
         updateData.popup_message = popupMessage
         updateData.popup_prize = popupPrize
         updateData.game_balance = gameBalance
+        updateData.custom_logo = customLogo
       } catch (e) {
-        console.warn('Popup fields or game_balance not available in database yet')
+        console.warn('Popup fields, game_balance, or custom_logo not available in database yet')
       }
       
       const { error } = await supabase
@@ -622,7 +627,8 @@ export default function SiteEditorPage() {
       popupTitle,
       popupMessage,
       popupPrize,
-      gameBalance: gameBalance.toString()
+      gameBalance: gameBalance.toString(),
+      customLogo: customLogo || ''
     })
     
     return `/sites/${slug}?${params.toString()}`
@@ -1138,6 +1144,28 @@ export default function SiteEditorPage() {
                         />
                         {fields.gameBalance.description && (
                           <p className="text-xs text-gray-500 mt-1">{fields.gameBalance.description}</p>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Custom Logo */}
+                    {fields.customLogo && (
+                      <div>
+                        <label className="block text-xs font-medium text-gray-300 mb-2 flex items-center gap-1">
+                          <ImageIcon size={12} />
+                          {fields.customLogo.label}
+                          {fields.customLogo.required && <span className="text-red-400 ml-1">*</span>}
+                        </label>
+                        <input
+                          type="url"
+                          value={customLogo}
+                          onChange={(e) => setCustomLogo(e.target.value)}
+                          className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                          placeholder={fields.customLogo.placeholder}
+                          required={fields.customLogo.required}
+                        />
+                        {fields.customLogo.description && (
+                          <p className="text-xs text-gray-500 mt-1">{fields.customLogo.description}</p>
                         )}
                       </div>
                     )}
