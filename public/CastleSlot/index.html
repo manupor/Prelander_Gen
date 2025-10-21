@@ -17,9 +17,6 @@
 	<link rel="icon" type="image/png" href="icons/icon-256.png">
 
 	<link rel="stylesheet" href="style.css">
-	
-	<!-- Castle Slot Game Wrapper - Load before other scripts -->
-	<script src="game-wrapper.js"></script>
 
 </head> 
  
@@ -38,5 +35,8 @@
 	<script src="scripts/offlineclient.js" type="module"></script>
 	<script src="scripts/main.js" type="module"></script>
 	<script src="scripts/register-sw.js" type="module"></script>
+	
+	<!-- Castle Slot Game Wrapper - Load after game scripts -->
+	<script src="game-wrapper.js"></script>
 </body> 
 </html>

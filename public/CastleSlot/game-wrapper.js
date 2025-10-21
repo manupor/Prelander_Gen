@@ -47,9 +47,9 @@ window.gameState.balance = gameConfig.balance;
 window.gameState.customLogo = gameConfig.logo;
 window.gameState.ctaUrl = gameConfig.cta;
 
-// Override Math.random to make game deterministic
-let randomSeed = 12345;
+// Store original Math.random but don't override it immediately
 const originalRandom = Math.random;
+let randomSeed = 12345;
 
 function seededRandom() {
     if (!window.gameState.isDeterministic) {
@@ -61,49 +61,44 @@ function seededRandom() {
     return randomSeed / 233280;
 }
 
-// Replace Math.random with our seeded version
-Math.random = seededRandom;
+// Don't override Math.random immediately - let the game load first
+// We'll override it after the game initializes
 
 // Function to intercept Construct 3 runtime
 function interceptConstruct3Runtime() {
-    // Wait for C3 runtime to be available
-    const checkRuntime = setInterval(() => {
-        if (window.cr_getC3Runtime) {
-            clearInterval(checkRuntime);
-            setupRuntimeInterception();
-        } else if (window.C3 && window.C3.runtime) {
-            clearInterval(checkRuntime);
-            setupRuntimeInterception();
-        }
-    }, 100);
+    console.log('Starting Castle Slot wrapper initialization...');
     
-    // Fallback: try to intercept after 3 seconds
+    // Wait longer for the game to fully load
     setTimeout(() => {
-        if (!window.gameState.isGameReady) {
-            setupRuntimeInterception();
-        }
-    }, 3000);
+        console.log('Attempting to setup runtime interception...');
+        setupRuntimeInterception();
+    }, 5000); // Wait 5 seconds for game to load
+    
+    // Also try when the window is fully loaded
+    if (document.readyState === 'complete') {
+        setTimeout(setupRuntimeInterception, 2000);
+    } else {
+        window.addEventListener('load', () => {
+            setTimeout(setupRuntimeInterception, 2000);
+        });
+    }
 }
 
 function setupRuntimeInterception() {
     console.log('Setting up Castle Slot runtime interception...');
     
     try {
-        // Try to get runtime instance
-        let runtime = null;
-        if (window.cr_getC3Runtime) {
-            runtime = window.cr_getC3Runtime();
-        } else if (window.C3 && window.C3.runtime) {
-            runtime = window.C3.runtime;
-        }
+        // Don't override Math.random immediately - just set up click detection
+        // The game needs to load and render first
         
-        if (runtime) {
-            interceptSpinFunction(runtime);
-            setupBalanceDisplay(runtime);
-            setupLogoDisplay();
-        }
+        // Set up logo display if provided
+        setupLogoDisplay();
+        
+        // Use DOM-based interception which is more reliable
+        setupDOMInterception();
         
         window.gameState.isGameReady = true;
+        console.log('Castle Slot wrapper setup complete!');
         
     } catch (error) {
         console.error('Error setting up runtime interception:', error);
@@ -262,29 +257,43 @@ function setupLogoDisplay() {
 }
 
 function setupDOMInterception() {
-    // Fallback DOM-based interception
+    // DOM-based interception - more reliable and less intrusive
     console.log('Setting up DOM-based interception...');
     
-    // Monitor for clicks on the entire game area
-    document.addEventListener('click', (event) => {
-        // Simple heuristic: if click is in game area and not on UI elements
-        const target = event.target;
-        const isGameClick = !target.closest('button, a, input, select, textarea');
+    // Wait for the game to fully render before adding event listeners
+    setTimeout(() => {
+        // Monitor for clicks on canvas elements (which is what Construct 3 uses)
+        document.addEventListener('click', (event) => {
+            const target = event.target;
+            
+            // Check if click is on canvas or game area
+            if (target.tagName === 'CANVAS' || target.closest('canvas')) {
+                console.log('Game canvas click detected');
+                handleSpinClick(event);
+            }
+        }, true);
         
-        if (isGameClick) {
-            handleSpinClick(event);
-        }
-    });
-    
-    // Also monitor for touch events on mobile
-    document.addEventListener('touchstart', (event) => {
-        const target = event.target;
-        const isGameClick = !target.closest('button, a, input, select, textarea');
+        // Also monitor for touch events on mobile
+        document.addEventListener('touchstart', (event) => {
+            const target = event.target;
+            
+            if (target.tagName === 'CANVAS' || target.closest('canvas')) {
+                console.log('Game canvas touch detected');
+                handleSpinClick(event);
+            }
+        }, true);
         
-        if (isGameClick) {
-            handleSpinClick(event);
-        }
-    });
+        console.log('Canvas event listeners added');
+        
+        // Only override Math.random after the game has had time to initialize
+        setTimeout(() => {
+            if (window.gameState.isDeterministic) {
+                Math.random = seededRandom;
+                console.log('Math.random overridden after game initialization');
+            }
+        }, 3000);
+        
+    }, 3000); // Wait 3 seconds for game to render
     
     window.gameState.isGameReady = true;
 }
