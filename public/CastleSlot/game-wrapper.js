@@ -68,18 +68,18 @@ function seededRandom() {
 function interceptConstruct3Runtime() {
     console.log('Starting Castle Slot wrapper initialization...');
     
-    // Wait longer for the game to fully load
-    setTimeout(() => {
-        console.log('Attempting to setup runtime interception...');
-        setupRuntimeInterception();
-    }, 5000); // Wait 5 seconds for game to load
-    
-    // Also try when the window is fully loaded
+    // Wait for the window to be fully loaded first
     if (document.readyState === 'complete') {
-        setTimeout(setupRuntimeInterception, 2000);
+        setTimeout(() => {
+            console.log('Document ready, setting up wrapper...');
+            setupRuntimeInterception();
+        }, 8000); // Wait 8 seconds for game to fully load
     } else {
         window.addEventListener('load', () => {
-            setTimeout(setupRuntimeInterception, 2000);
+            setTimeout(() => {
+                console.log('Window loaded, setting up wrapper...');
+                setupRuntimeInterception();
+            }, 8000); // Wait 8 seconds after window load
         });
     }
 }
