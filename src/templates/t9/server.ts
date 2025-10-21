@@ -667,7 +667,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       to { transform: rotate(360deg); }
     }
     
-    /* Smooth responsive scaling for all screen sizes */
+    /* Optimized mobile-first responsive scaling */
     @media (max-width: 1200px) {
       .game-frame {
         transform: scale(0.95);
@@ -676,13 +676,13 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     
     @media (max-width: 1024px) {
       .game-frame {
-        transform: scale(0.85);
+        transform: scale(0.9);
       }
     }
     
     @media (max-width: 900px) {
       .game-frame {
-        transform: scale(0.75);
+        transform: scale(0.85);
       }
     }
     
@@ -692,27 +692,31 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         margin: 0;
       }
       
+      .game-container {
+        padding: 10px; /* Reduce padding for more space */
+      }
+      
       .game-frame {
-        transform: scale(0.65);
-        padding: 12px;
+        transform: scale(0.8); /* Larger scale for mobile */
+        padding: 10px;
         border-radius: 12px;
       }
       
       .frame-corner {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
       }
       
       .frame-corner::after {
-        width: 6px;
-        height: 6px;
+        width: 5px;
+        height: 5px;
       }
       
       .game-title {
         flex-direction: row;
-        gap: 12px;
-        padding: 12px 16px;
-        min-height: 55px;
+        gap: 8px;
+        padding: 8px 12px; /* Reduce header padding */
+        min-height: 45px; /* Reduce header height */
       }
       
       .game-title-logo {
@@ -778,11 +782,12 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     
     @media (max-width: 768px) {
       .footer {
-        padding: 10px 16px;
+        padding: 6px 12px; /* Reduce footer padding */
       }
       
       .footer-content p {
-        font-size: 0.7rem;
+        font-size: 0.65rem; /* Smaller footer text */
+        line-height: 1.2;
       }
       
       .footer .nail {
@@ -797,14 +802,22 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     @media (max-width: 600px) {
+      .game-container {
+        padding: 8px; /* Even less padding */
+      }
+      
       .game-frame {
-        transform: scale(0.55);
+        transform: scale(0.75); /* Larger for small screens */
       }
     }
     
     @media (max-width: 480px) {
+      .game-container {
+        padding: 5px; /* Minimal padding */
+      }
+      
       .game-frame {
-        transform: scale(0.5);
+        transform: scale(0.7); /* Much larger than before */
         padding: 8px;
         border-radius: 8px;
       }
@@ -818,11 +831,36 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         width: 4px;
         height: 4px;
       }
+      
+      /* Ultra compact header and footer for small screens */
+      .game-title {
+        padding: 6px 8px;
+        min-height: 35px;
+        gap: 6px;
+      }
+      
+      .game-title h1 {
+        font-size: 1rem;
+        letter-spacing: 1px;
+      }
+      
+      .footer {
+        padding: 4px 8px;
+      }
+      
+      .footer-content p {
+        font-size: 0.6rem;
+        line-height: 1.1;
+      }
     }
     
     @media (max-width: 360px) {
+      .game-container {
+        padding: 3px; /* Almost no padding */
+      }
+      
       .game-frame {
-        transform: scale(0.45);
+        transform: scale(0.65); /* Still reasonable size */
       }
     }
       
