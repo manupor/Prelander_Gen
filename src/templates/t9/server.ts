@@ -32,15 +32,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     
     body {
       font-family: Arial, sans-serif;
-      background: 
-        repeating-linear-gradient(90deg, 
-          #8B5A2B 0px, 
-          #654321 2px, 
-          #8B5A2B 4px, 
-          #654321 6px
-        ),
-        #4a3219;
-      background-size: 6px 100%, 100%;
+      background: #000;
       min-height: 100vh;
       width: 100vw;
       margin: 0;
@@ -49,47 +41,28 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       position: relative;
     }
     
-    body::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: 
-        repeating-linear-gradient(0deg,
-          transparent 0px,
-          rgba(0, 0, 0, 0.03) 1px,
-          transparent 2px,
-          transparent 4px
-        );
-      pointer-events: none;
-    }
     
     .wrapper {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      width: 960px; /* Fixed width to match game */
-      max-width: 100%;
-      padding: 0;
-      margin: 0 auto; /* Center the wrapper */
-      gap: 0;
       position: relative;
-      z-index: 1;
+      height: 100vh;
+      width: 100vw;
       overflow: hidden;
     }
     
     .game-title {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 8px;
       width: 100%;
-      padding: 50px 40px; /* Even more padding for huge title */
+      padding: 30px 40px;
       background: 
-        linear-gradient(90deg, rgba(139, 90, 43, 0.95), rgba(101, 67, 33, 0.95)),
+        linear-gradient(90deg, rgba(139, 90, 43, 0.98), rgba(101, 67, 33, 0.98)),
         repeating-linear-gradient(90deg, 
           #8B5A2B 0px, 
           #654321 2px, 
@@ -100,13 +73,12 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       box-shadow: 
         inset 0 2px 4px rgba(255, 255, 255, 0.1),
         inset 0 -2px 4px rgba(0, 0, 0, 0.3),
-        0 4px 12px rgba(0, 0, 0, 0.4); /* Added external shadow */
-      border-bottom: 6px solid #4a3219; /* Thicker border */
+        0 4px 12px rgba(0, 0, 0, 0.6);
+      border-bottom: 6px solid #4a3219;
       border-radius: 0;
-      flex-shrink: 0;
-      min-height: 140px; /* Much bigger height */
-      position: relative;
+      min-height: 120px;
       z-index: 1000;
+      pointer-events: none;
     }
     
     .game-title::before {
@@ -140,16 +112,17 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     .game-title-logo {
-      max-height: 60px; /* Slightly smaller to fit new layout */
+      max-height: 60px;
       max-width: 200px; 
       cursor: pointer;
-      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.7)); /* Stronger shadow */
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.7));
       flex-shrink: 0;
       position: absolute;
       top: 20px;
       right: 20px;
       z-index: 2;
-      transition: transform 0.3s ease; /* Smooth hover effect */
+      transition: transform 0.3s ease;
+      pointer-events: auto;
     }
     
     .game-title-logo:hover {
@@ -176,24 +149,25 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     
     .game-title h1 {
       margin: 0;
-      font-size: 5rem; /* MUCH bigger title */
+      font-size: 4rem;
       font-weight: 900;
       color: #FFD700;
       text-transform: uppercase;
-      letter-spacing: 8px; /* More spacing */
+      letter-spacing: 6px;
       text-shadow: 
         0 4px 0 #654321,
         0 8px 0 #4a3219,
         0 12px 0 #3d2914,
-        0 16px 30px rgba(0, 0, 0, 0.9), /* Stronger shadow */
-        0 0 60px rgba(255, 215, 0, 1), /* Brighter glow */
-        0 0 120px rgba(255, 215, 0, 0.7); /* Extended glow */
+        0 16px 30px rgba(0, 0, 0, 0.9),
+        0 0 60px rgba(255, 215, 0, 1),
+        0 0 120px rgba(255, 215, 0, 0.7);
       text-align: center;
       position: relative;
       z-index: 1;
       font-family: 'Arial Black', sans-serif;
       line-height: 1.1;
-      animation: titleGlow 3s ease-in-out infinite alternate; /* Add animation */
+      animation: titleGlow 3s ease-in-out infinite alternate;
+      pointer-events: auto;
     }
     
     .game-subtitle {
@@ -218,131 +192,36 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     .game-container {
-      flex: 1;
-      width: 100%;
-      background: #000; /* Pure black background */
-      border-radius: 0;
-      overflow: hidden;
-      box-shadow: none;
-      border: none;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 0;
-      margin-bottom: 0;
-      padding: 0; /* No padding - frame is part of iframe */
-    }
-    
-    .game-frame {
-      position: relative;
-      width: 960px; /* Fixed game width */
-      height: 540px; /* Fixed game height (16:9 ratio) */
-      max-width: 100%;
-      max-height: 100%;
-      background: 
-        repeating-linear-gradient(90deg, 
-          #8B5A2B 0px, 
-          #654321 2px, 
-          #8B5A2B 4px, 
-          #654321 6px
-        ),
-        #4a3219;
-      background-size: 6px 100%, 100%;
-      border-radius: 15px;
-      padding: 15px;
-      box-shadow: 
-        inset 0 0 0 3px #654321,
-        inset 0 0 0 6px #8B5A2B,
-        inset 0 0 0 8px #654321,
-        0 10px 30px rgba(0, 0, 0, 0.8),
-        0 0 0 2px #2d1810;
-      overflow: hidden;
-      transform-origin: center;
-      transition: transform 0.3s ease-out; /* Smooth scaling transition */
-    }
-    
-    .game-frame::before {
-      content: '';
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      right: 8px;
-      bottom: 8px;
-      border: 2px solid rgba(139, 90, 43, 0.6);
-      border-radius: 8px;
-      pointer-events: none;
-      z-index: 1;
-    }
-    
-    .game-frame::after {
-      content: '';
       position: absolute;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
-      background: 
-        repeating-linear-gradient(0deg,
-          transparent 0px,
-          rgba(0, 0, 0, 0.03) 1px,
-          transparent 2px,
-          transparent 4px
-        );
-      pointer-events: none;
-      border-radius: 15px;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
       z-index: 1;
     }
     
-    /* Decorative wooden frame corners */
-    .frame-corner {
+    .game-frame {
       position: absolute;
-      width: 25px;
-      height: 25px;
-      background: radial-gradient(circle at 30% 30%, #8B5A2B, #4a3219);
-      border: 2px solid #2d1810;
-      z-index: 2;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
     }
     
-    .frame-corner::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 8px;
-      height: 8px;
-      background: #2d1810;
-      border-radius: 50%;
-      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2);
-    }
-    
-    .corner-tl { 
-      top: 5px; 
-      left: 5px; 
-      border-radius: 50% 15% 50% 50%;
-    }
-    .corner-tr { 
-      top: 5px; 
-      right: 5px; 
-      border-radius: 15% 50% 50% 50%;
-    }
-    .corner-bl { 
-      bottom: 5px; 
-      left: 5px; 
-      border-radius: 50% 50% 50% 15%;
-    }
-    .corner-br { 
-      bottom: 5px; 
-      right: 5px; 
-      border-radius: 50% 50% 15% 50%;
-    }
     
     .footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
       width: 100%;
-      padding: 12px 20px;
+      padding: 8px 20px;
       background: 
-        linear-gradient(90deg, rgba(139, 90, 43, 0.95), rgba(101, 67, 33, 0.95)),
+        linear-gradient(90deg, rgba(139, 90, 43, 0.98), rgba(101, 67, 33, 0.98)),
         repeating-linear-gradient(90deg, 
           #8B5A2B 0px, 
           #654321 2px, 
@@ -354,10 +233,9 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         inset 0 2px 4px rgba(255, 255, 255, 0.1),
         inset 0 -2px 4px rgba(0, 0, 0, 0.3);
       border-top: 4px solid #4a3219;
-      flex-shrink: 0;
-      position: relative;
       z-index: 1000;
       text-align: center;
+      pointer-events: none;
     }
     
     .footer::before {
@@ -390,6 +268,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       text-decoration: none;
       font-weight: bold;
       transition: color 0.3s ease;
+      pointer-events: auto;
     }
     
     .footer-content a:hover {
@@ -419,10 +298,11 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       height: 100%;
       border: none;
       display: block;
-      position: relative;
+      position: absolute;
+      top: 0;
+      left: 0;
       z-index: 0;
-      background: transparent;
-      border-radius: 8px;
+      background: #000;
     }
     
     /* Win Modal Styles */
@@ -720,60 +600,16 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       }
     }
     
-    /* Optimized mobile-first responsive scaling */
-    @media (max-width: 1200px) {
-      .game-frame {
-        transform: scale(0.95);
-      }
-    }
-    
-    @media (max-width: 1024px) {
-      .game-frame {
-        transform: scale(0.9);
-      }
-    }
-    
-    @media (max-width: 900px) {
-      .game-frame {
-        transform: scale(0.85);
-      }
-    }
     
     @media (max-width: 768px) {
-      .wrapper {
-        width: 100%;
-        margin: 0;
-      }
-      
-      .game-container {
-        padding: 10px; /* Reduce padding for more space */
-      }
-      
-      .game-frame {
-        transform: scale(0.8); /* Larger scale for mobile */
-        padding: 10px;
-        border-radius: 12px;
-      }
-      
-      .frame-corner {
-        width: 18px;
-        height: 18px;
-      }
-      
-      .frame-corner::after {
-        width: 5px;
-        height: 5px;
-      }
       
       .game-title {
-        flex-direction: column;
-        gap: 6px;
-        padding: 24px 20px; /* Keep substantial padding */
-        min-height: 100px; /* Keep good height */
+        padding: 20px 16px;
+        min-height: 90px;
       }
       
       .game-title h1 {
-        font-size: 2.2rem; /* Smaller on tablets */
+        font-size: 2.5rem;
         letter-spacing: 4px;
       }
       
@@ -789,7 +625,6 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         top: 15px;
         right: 15px;
       }
-      }
       
       .game-title .nail {
         width: 10px;
@@ -800,13 +635,6 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       .game-title .nail-tr { top: 8px; right: 8px; }
       .game-title .nail-bl { bottom: 8px; left: 8px; }
       .game-title .nail-br { bottom: 8px; right: 8px; }
-      
-      .floating-cta {
-        bottom: 15px;
-        right: 15px;
-        padding: 12px 24px;
-        font-size: 0.9rem;
-      }
       
       .win-modal-content {
         padding: 20px;
@@ -842,13 +670,12 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       }
     }
     
-    @media (max-width: 768px) {
       .footer {
-        padding: 6px 12px; /* Reduce footer padding */
+        padding: 6px 12px;
       }
       
       .footer-content p {
-        font-size: 0.65rem; /* Smaller footer text */
+        font-size: 0.65rem;
         line-height: 1.2;
       }
       
@@ -863,46 +690,15 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       .footer .nail-br { bottom: 6px; right: 6px; }
     }
     
-    @media (max-width: 600px) {
-      .game-container {
-        padding: 8px; /* Even less padding */
-      }
-      
-      .game-frame {
-        transform: scale(0.75); /* Larger for small screens */
-      }
-    }
     
     @media (max-width: 480px) {
-      .game-container {
-        padding: 5px; /* Minimal padding */
-      }
-      
-      .game-frame {
-        transform: scale(0.7); /* Much larger than before */
-        padding: 8px;
-        border-radius: 8px;
-      }
-      
-      .frame-corner {
-        width: 15px;
-        height: 15px;
-      }
-      
-      .frame-corner::after {
-        width: 4px;
-        height: 4px;
-      }
-      
-      /* Balanced header for small screens - still prominent */
       .game-title {
-        padding: 20px 16px; /* Keep reasonable padding */
-        min-height: 80px; /* Keep decent height */
-        gap: 4px;
+        padding: 16px 12px;
+        min-height: 70px;
       }
       
       .game-title h1 {
-        font-size: 1.8rem; /* Larger than before */
+        font-size: 1.8rem;
         letter-spacing: 2px;
       }
       
@@ -930,23 +726,13 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     @media (max-width: 360px) {
-      .game-container {
-        padding: 3px; /* Almost no padding */
-      }
-      
-      .game-frame {
-        transform: scale(0.65); /* Still reasonable size */
-      }
-    }
-      
       .game-title {
-        padding: 8px 12px;
-        min-height: 45px;
-        gap: 8px;
+        padding: 12px 10px;
+        min-height: 60px;
       }
       
       .game-title h1 {
-        font-size: 1rem;
+        font-size: 1.4rem;
         letter-spacing: 1px;
       }
       
@@ -985,11 +771,6 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
 
     <div class="game-container">
       <div class="game-frame">
-        <div class="frame-corner corner-tl"></div>
-        <div class="frame-corner corner-tr"></div>
-        <div class="frame-corner corner-bl"></div>
-        <div class="frame-corner corner-br"></div>
-        
         <iframe 
           src="/FisherMan Slot/index.html"
           title="Fisherman Slot Game"
