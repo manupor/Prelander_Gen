@@ -38,29 +38,32 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       margin: 0;
       padding: 0;
       overflow: hidden;
-      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    
     
     .wrapper {
       position: relative;
-      height: 100vh;
-      width: 100vw;
-      overflow: hidden;
+      width: 100%;
+      max-width: 1024px;
+      aspect-ratio: 16 / 10;
+      max-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #000;
     }
     
     .game-title {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
       width: 100%;
-      padding: 30px 40px;
+      height: 10%;
+      min-height: 80px;
+      padding: 20px 40px;
       background: 
         linear-gradient(90deg, rgba(139, 90, 43, 0.98), rgba(101, 67, 33, 0.98)),
         repeating-linear-gradient(90deg, 
@@ -75,10 +78,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         inset 0 -2px 4px rgba(0, 0, 0, 0.3),
         0 4px 12px rgba(0, 0, 0, 0.6);
       border-bottom: 6px solid #4a3219;
-      border-radius: 0;
-      min-height: 120px;
-      z-index: 1000;
-      pointer-events: none;
+      flex-shrink: 0;
+      z-index: 10;
     }
     
     .game-title::before {
@@ -112,17 +113,16 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     .game-title-logo {
-      max-height: 60px;
-      max-width: 200px; 
+      max-height: 50px;
+      max-width: 150px; 
       cursor: pointer;
       filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.7));
       flex-shrink: 0;
       position: absolute;
-      top: 20px;
+      top: 15px;
       right: 20px;
       z-index: 2;
       transition: transform 0.3s ease;
-      pointer-events: auto;
     }
     
     .game-title-logo:hover {
@@ -149,11 +149,11 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     
     .game-title h1 {
       margin: 0;
-      font-size: 4rem;
+      font-size: clamp(1.5rem, 4vw, 3.5rem);
       font-weight: 900;
       color: #FFD700;
       text-transform: uppercase;
-      letter-spacing: 6px;
+      letter-spacing: clamp(2px, 0.5vw, 6px);
       text-shadow: 
         0 4px 0 #654321,
         0 8px 0 #4a3219,
@@ -167,7 +167,6 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       font-family: 'Arial Black', sans-serif;
       line-height: 1.1;
       animation: titleGlow 3s ease-in-out infinite alternate;
-      pointer-events: auto;
     }
     
     .game-subtitle {
@@ -192,36 +191,31 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     .game-container {
-      position: fixed;
-      top: 0;
-      left: 0;
+      position: relative;
       width: 100%;
-      height: 100%;
+      height: 80%;
+      flex: 1;
       background: #000;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      z-index: 0;
     }
     
     .game-frame {
       position: relative;
-      width: 960px;
-      height: 540px;
-      max-width: 100vw;
-      max-height: 100vh;
+      width: 100%;
+      height: 100%;
       background: #000;
       overflow: hidden;
     }
     
     
     .footer {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      position: relative;
       width: 100%;
+      height: 10%;
+      min-height: 40px;
       padding: 8px 20px;
       background: 
         linear-gradient(90deg, rgba(139, 90, 43, 0.98), rgba(101, 67, 33, 0.98)),
@@ -236,9 +230,12 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         inset 0 2px 4px rgba(255, 255, 255, 0.1),
         inset 0 -2px 4px rgba(0, 0, 0, 0.3);
       border-top: 4px solid #4a3219;
-      z-index: 1000;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      pointer-events: none;
+      z-index: 10;
     }
     
     .footer::before {
@@ -260,7 +257,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     
     .footer-content p {
       margin: 0;
-      font-size: 0.75rem;
+      font-size: clamp(0.6rem, 1.2vw, 0.85rem);
       color: rgba(255, 215, 0, 0.9);
       line-height: 1.4;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -271,7 +268,6 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       text-decoration: none;
       font-weight: bold;
       transition: color 0.3s ease;
-      pointer-events: auto;
     }
     
     .footer-content a:hover {
@@ -302,7 +298,6 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       border: none;
       display: block;
       background: #000;
-      transform-origin: center center;
     }
     
     /* Win Modal Styles */
@@ -601,27 +596,17 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     
-    /* Responsive scaling for different screen sizes */
-    @media (max-width: 1024px) and (min-width: 769px) {
-      .game-frame {
-        transform: scale(0.9);
-      }
-    }
-    
+    /* Responsive adjustments */
     @media (max-width: 768px) {
-      
-      .game-frame {
-        transform: scale(0.75);
+      .wrapper {
+        max-width: 100%;
+        aspect-ratio: 16 / 11;
       }
       
       .game-title {
-        padding: 20px 16px;
-        min-height: 90px;
-      }
-      
-      .game-title h1 {
-        font-size: 2.5rem;
-        letter-spacing: 4px;
+        padding: 15px 20px;
+        min-height: 60px;
+        height: 12%;
       }
       
       .game-subtitle {
@@ -703,18 +688,14 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     
     
     @media (max-width: 480px) {
-      .game-frame {
-        transform: scale(0.6);
+      .wrapper {
+        aspect-ratio: 16 / 12;
       }
       
       .game-title {
-        padding: 16px 12px;
-        min-height: 70px;
-      }
-      
-      .game-title h1 {
-        font-size: 1.8rem;
-        letter-spacing: 2px;
+        padding: 12px 15px;
+        min-height: 50px;
+        height: 12%;
       }
       
       .game-subtitle {
@@ -741,18 +722,9 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     @media (max-width: 360px) {
-      .game-frame {
-        transform: scale(0.5);
-      }
-      
       .game-title {
-        padding: 12px 10px;
-        min-height: 60px;
-      }
-      
-      .game-title h1 {
-        font-size: 1.4rem;
-        letter-spacing: 1px;
+        padding: 10px 12px;
+        min-height: 45px;
       }
       
       .game-title-logo {
