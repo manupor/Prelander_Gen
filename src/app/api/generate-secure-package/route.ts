@@ -109,12 +109,15 @@ The real security comes from the obfuscated code, not the ZIP password.
       }
     }
 
-    // Return ZIP file
+    // EMERGENCY: Use hardcoded simple filename
+    const finalFilename = 'secure.zip'
+
+    // Return encrypted ZIP with ultra-simple filename
     return new NextResponse(Buffer.from(zipBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/zip',
-        'Content-Disposition': 'attachment',
+        'Content-Disposition': 'attachment; filename=secure.zip',
         'X-Download-Password': password,
       },
     })

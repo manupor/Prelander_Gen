@@ -35,6 +35,42 @@ export async function POST(request: NextRequest) {
     Object.entries(protectedPackage).forEach(([filename, content]) => {
       zip.file(filename, content)
     })
+
+    // If template uses iframe for games (t9, t10), include game files
+    if (site.template_id === 't9' || site.template_id === 't10') {
+      const fs = await import('fs/promises')
+      const path = await import('path')
+      
+      try {
+        // Determine which game folder to use
+        const gameFolder = site.template_id === 't9' ? 'FisherMan Slot' : 'fisherman-slot'
+        const gamePath = path.join(process.cwd(), 'public', gameFolder)
+        
+        // Check if game folder exists
+        const folderExists = await fs.access(gamePath).then(() => true).catch(() => false)
+        
+        if (folderExists) {
+          // Read all files from game folder
+          const gameFiles = await fs.readdir(gamePath, { recursive: true, withFileTypes: true })
+          
+          for (const file of gameFiles) {
+            if (file.isFile()) {
+              const filePath = path.join(file.path, file.name)
+              const fileContent = await fs.readFile(filePath)
+              const relativePath = path.relative(gamePath, filePath)
+              
+              // Add to ZIP under game folder
+              zip.file(`game/${relativePath}`, fileContent)
+            }
+          }
+          
+          console.log(`[DOWNLOAD] Included game files from ${gameFolder}`)
+        }
+      } catch (error) {
+        console.warn('[DOWNLOAD] Could not include game files:', error)
+        // Continue without game files
+      }
+    }
     
     // Generate ZIP buffer
     const zipBuffer = await zip.generateAsync({ 
@@ -43,12 +79,15 @@ export async function POST(request: NextRequest) {
       compressionOptions: { level: 9 }
     })
 
-    // Return ZIP file
+    // EMERGENCY: Use hardcoded simple filename
+    const finalFilename = 'download.zip'
+
+    // Return ZIP with ultra-simple filename
     return new NextResponse(Buffer.from(zipBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/zip',
-        'Content-Disposition': 'attachment',
+        'Content-Disposition': 'attachment; filename=download.zip',
       },
     })
 
@@ -63,8 +102,23 @@ export async function POST(request: NextRequest) {
 
 async function generateSimpleProtectedPage(site: any) {
   // Get the original HTML and CSS
-  const originalHTML = site.generated_html || generateDefaultHTML(site)
+  let originalHTML = site.generated_html || generateDefaultHTML(site)
   const originalCSS = site.generated_css || generateSimpleCSS()
+
+  // Fix iframe paths for downloaded templates with games
+  if (site.template_id === 't9' || site.template_id === 't10') {
+    // Replace iframe src to point to local game folder
+    originalHTML = originalHTML.replace(
+      /src="\/FisherMan Slot\/index\.html/g,
+      'src="game/index.html'
+    ).replace(
+      /src="\/fisherman-slot\/index\.html/g,
+      'src="game/index.html'
+    ).replace(
+      /src="\/CastleSlot\/index\.html/g,
+      'src="game/index.html'
+    )
+  }
 
   // Configure anti-clone protection
   const protectionConfig: ProtectionConfig = {
@@ -160,12 +214,14 @@ This landing page includes advanced protection against unauthorized copying and 
 ### ✅ What's Included:
 - **index.html** - Your complete landing page with protection
 - **style.css** - Responsive styles and security CSS
+- **game/** folder - Interactive game files (if applicable)
 - **SECURITY.txt** - Security features documentation
 
 ### 🚀 How to Use:
-1. **Local Testing**: Double-click \`index.html\` to open in your browser
-2. **Web Hosting**: Upload all files to your web server
+1. **Local Testing**: Extract ALL files and double-click \`index.html\`
+2. **Web Hosting**: Upload ALL files (including game folder) to your web server
 3. **Domain Setup**: Works on any domain (protection adapts automatically)
+4. **Game Files**: The game/ folder contains the interactive slot game - DO NOT modify these files
 
 ### 🛡️ Security Features:
 - ✅ Screenshot blocking

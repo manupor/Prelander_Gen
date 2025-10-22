@@ -134,7 +134,8 @@ export default async function SitePage({
     }
   }
 
-  // Apply protections to ALL sites (published AND preview)
+  // Apply anti-DevTools protection to ALL sites (preview AND published)
+  // This blocks inspect element without interfering with content visibility
   html = injectProtection(html)
   css = addProtectionStyles(css)
 

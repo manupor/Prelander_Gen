@@ -19,15 +19,15 @@ export interface ProtectionConfig {
 }
 
 export const defaultProtectionConfig: ProtectionConfig = {
-  enableScreenshotBlocking: false, // Menos intrusivo
-  enableDevToolsBlocking: true, // ✅ BLOQUEA INSPECT ELEMENT
-  enableRightClickBlocking: true, // ✅ BLOQUEA RIGHT-CLICK
-  enableTextSelectionBlocking: false, // Permitir selección de texto
-  enablePrintBlocking: false, // Permitir imprimir
-  enableKeyboardShortcutBlocking: false, // Permitir shortcuts normales
-  enableInspectBlocking: true, // ✅ BLOQUEA INSPECT
-  enableConsoleBlocking: false, // No bloquear console (puede interferir)
-  obfuscateCode: true // ✅ Ofuscar código
+  enableScreenshotBlocking: true,
+  enableDevToolsBlocking: true,
+  enableRightClickBlocking: true,
+  enableTextSelectionBlocking: true,
+  enablePrintBlocking: true,
+  enableKeyboardShortcutBlocking: true,
+  enableInspectBlocking: true,
+  enableConsoleBlocking: true,
+  obfuscateCode: true
 }
 
 /**
@@ -41,20 +41,28 @@ export function generateProtectionScript(config: ProtectionConfig = defaultProte
   // Configuration
   const CONFIG = ${JSON.stringify(config)};
   
-  // User fingerprint para tracking (no bloquea)
+  // Fingerprint validation
   ${config.userFingerprint ? `
-  const USER_FINGERPRINT = '${config.userFingerprint}';
-  // Fingerprint embebido para tracking, no afecta la visualización
+  const EXPECTED_FINGERPRINT = '${config.userFingerprint}';
+  function validateFingerprint() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.textBaseline = 'top';
+    ctx.font = '14px Arial';
+    ctx.fillText('Anti-clone protection', 2, 2);
+    const fingerprint = canvas.toDataURL();
+    return btoa(fingerprint).substring(0, 20);
+  }
   ` : ''}
   
-  // Domain validation (opcional - solo warning, no bloquea)
+  // Domain validation
   ${config.domainLock ? `
   const ALLOWED_DOMAIN = '${config.domainLock}';
   function validateDomain() {
     const currentDomain = window.location.hostname;
     if (currentDomain !== ALLOWED_DOMAIN && currentDomain !== 'localhost' && currentDomain !== '127.0.0.1') {
-      console.warn('🔒 This prelander is intended for domain: ' + ALLOWED_DOMAIN);
-      // Solo warning, no bloquear el contenido
+      document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Arial;z-index:999999;"><h1>🔒 Domain Restricted</h1></div>';
+      return false;
     }
     return true;
   }
@@ -97,27 +105,36 @@ export function generateProtectionScript(config: ProtectionConfig = defaultProte
     });
   }
   
-  // Developer tools detection - SIN BLOQUEAR LA VISTA DEL PRELANDER
+  // Developer tools detection
   if (CONFIG.enableDevToolsBlocking) {
-    // Bloquear atajos de teclado para abrir DevTools
+    let devtools = {
+      open: false,
+      orientation: null
+    };
+    
+    const threshold = 160;
+    setInterval(function() {
+      if (window.outerHeight - window.innerHeight > threshold || 
+          window.outerWidth - window.innerWidth > threshold) {
+        if (!devtools.open) {
+          devtools.open = true;
+          document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Arial;z-index:999999;"><h1>🔒 Developer Tools Detected</h1><p>Please close developer tools to continue</p></div>';
+        }
+      } else {
+        devtools.open = false;
+      }
+    }, 500);
+    
+    // Detect F12, Ctrl+Shift+I, Ctrl+U, etc.
     document.addEventListener('keydown', function(e) {
       if (e.keyCode === 123 || // F12
           (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
           (e.ctrlKey && e.shiftKey && e.keyCode === 74) || // Ctrl+Shift+J
-          (e.ctrlKey && e.keyCode === 85) || // Ctrl+U (View Source)
-          (e.ctrlKey && e.shiftKey && e.keyCode === 67)) { // Ctrl+Shift+C (Inspect)
+          (e.ctrlKey && e.keyCode === 85) || // Ctrl+U
+          (e.ctrlKey && e.shiftKey && e.keyCode === 67)) { // Ctrl+Shift+C
         e.preventDefault();
         e.stopPropagation();
-        showWarning('🔒 Inspect Element is disabled');
-        return false;
-      }
-    });
-    
-    // Deshabilitar clic derecho "Inspect" y "Inspect Element"
-    document.addEventListener('mousedown', function(e) {
-      if (e.button === 2) { // Right click
-        e.preventDefault();
-        e.stopPropagation();
+        showWarning('Developer tools are not allowed');
         return false;
       }
     });
@@ -276,11 +293,44 @@ export function generateProtectionScript(config: ProtectionConfig = defaultProte
     }
   }
   
-  // Validación de dominio (si está configurado)
-  ${config.domainLock ? 'if (!validateDomain()) return;' : ''}
+  // Self-protection: Prevent script removal
+  const scripts = document.querySelectorAll('script');
+  const protectionScript = scripts[scripts.length - 1];
   
-  // Log de protección activa
-  console.log('🔒 Inspect Element protection active');
+  const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      if (mutation.type === 'childList') {
+        mutation.removedNodes.forEach(function(node) {
+          if (node === protectionScript) {
+            // Script was removed, reload page or show error
+            document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Arial;z-index:999999;"><h1>🔒 Protection Tampered</h1></div>';
+          }
+        });
+      }
+    });
+  });
+  
+  observer.observe(document.head, { childList: true });
+  observer.observe(document.body, { childList: true });
+  
+  // Initialize protections
+  ${config.domainLock ? 'if (!validateDomain()) return;' : ''}
+  ${config.userFingerprint ? `
+  if (validateFingerprint() !== EXPECTED_FINGERPRINT) {
+    document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Arial;z-index:999999;"><h1>🔒 Unauthorized Access</h1></div>';
+    return;
+  }
+  ` : ''}
+  
+  // Periodic integrity check
+  setInterval(function() {
+    // Check if protection is still active
+    if (!document.querySelector('script[data-protection="true"]')) {
+      document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Arial;z-index:999999;"><h1>🔒 Security Check Failed</h1></div>';
+    }
+  }, 5000);
+  
+  console.log('🔒 Anti-clone protection active');
 })();
 `;
 
