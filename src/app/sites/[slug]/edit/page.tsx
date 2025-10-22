@@ -1680,22 +1680,22 @@ export default function SiteEditorPage() {
                 {/* NEW: Simple Protected Package */}
                 <div className="bg-gradient-to-r from-green-800/50 to-emerald-700/50 rounded-lg p-4 border border-green-500/40 backdrop-blur-sm relative">
                   <div className="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                    ⭐ RECOMENDADO
+                    ⭐ RECOMMENDED
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="p-2 bg-green-500/20 rounded-lg">
                       <Download className="w-5 h-5 text-green-400" />
                     </div>
                     <div>
-                      <p className="text-sm text-white font-semibold">✨ Descarga Simple</p>
+                      <p className="text-sm text-white font-semibold">✨ Simple Download</p>
                       <p className="text-xs text-gray-300 mt-1 leading-relaxed">
-                        ¡Fácil y rápido! Código protegido, funciona en local.
+                        Easy and fast! Protected code, works locally.
                       </p>
                       <ul className="text-xs text-gray-400 mt-2 space-y-1">
-                        <li>✅ Sin contraseñas</li>
-                        <li>✅ Código ofuscado</li>
-                        <li>✅ Abre en navegador</li>
-                        <li>✅ Listo para usar</li>
+                        <li>✅ No passwords</li>
+                        <li>✅ Obfuscated code</li>
+                        <li>✅ Opens in browser</li>
+                        <li>✅ Ready to use</li>
                       </ul>
                     </div>
                   </div>
@@ -1704,7 +1704,7 @@ export default function SiteEditorPage() {
                 {/* AWS Hosted Package - NEW! */}
                 <div className="bg-gradient-to-r from-purple-800/50 to-indigo-700/50 rounded-lg p-4 border border-purple-500/40 backdrop-blur-sm relative">
                   <div className="absolute -top-2 -right-2 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                    🚀 NUEVO
+                    🚀 NEW
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="p-2 bg-purple-500/20 rounded-lg">
@@ -1715,13 +1715,13 @@ export default function SiteEditorPage() {
                     <div>
                       <p className="text-sm text-white font-semibold">☁️ AWS Hosted</p>
                       <p className="text-xs text-gray-300 mt-1 leading-relaxed">
-                        Hosting automático en Amazon S3 con CDN global.
+                        Automatic hosting on Amazon S3 with global CDN.
                       </p>
                       <ul className="text-xs text-gray-400 mt-2 space-y-1">
-                        <li>✅ URL pública instantánea</li>
-                        <li>✅ Código protegido</li>
+                        <li>✅ Instant public URL</li>
+                        <li>✅ Protected code</li>
                         <li>✅ CDN delivery</li>
-                        <li>✅ Email con link</li>
+                        <li>✅ Email with link</li>
                       </ul>
                     </div>
                   </div>
@@ -1736,12 +1736,12 @@ export default function SiteEditorPage() {
                     <div>
                       <p className="text-sm text-white font-semibold">🔐 Standard Package</p>
                       <p className="text-xs text-gray-300 mt-1 leading-relaxed">
-                        ZIP protegido con contraseña por email.
+                        Password-protected ZIP via email.
                       </p>
                       <ul className="text-xs text-gray-400 mt-2 space-y-1">
                         <li>• ZIP encryption</li>
-                        <li>• Password por email</li>
-                        <li>• HTML listo</li>
+                        <li>• Password via email</li>
+                        <li>• Ready HTML</li>
                       </ul>
                     </div>
                   </div>
@@ -1756,10 +1756,10 @@ export default function SiteEditorPage() {
                     <div>
                       <p className="text-sm text-white font-semibold">🛡️ SECURE Package</p>
                       <p className="text-xs text-gray-300 mt-1 leading-relaxed">
-                        Protección máxima con tracking de afiliado.
+                        Maximum protection with affiliate tracking.
                       </p>
                       <ul className="text-xs text-gray-400 mt-2 space-y-1">
-                        <li>• Ofuscación avanzada</li>
+                        <li>• Advanced obfuscation</li>
                         <li>• Domain locking</li>
                         <li>• Anti-debugging</li>
                         <li>• Affiliate tracking</li>
@@ -1836,12 +1836,12 @@ export default function SiteEditorPage() {
                   {downloading ? (
                     <>
                       <Loader2 className="w-6 h-6 animate-spin" />
-                      Generando...
+                      Generating...
                     </>
                   ) : (
                     <>
                       <Download className="w-6 h-6" />
-                      ⚡ DESCARGA RÁPIDA (Recomendado)
+                      ⚡ QUICK DOWNLOAD (Recommended)
                     </>
                   )}
                 </button>
@@ -1862,7 +1862,7 @@ export default function SiteEditorPage() {
                       <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 0L1.608 6v12L12 24l10.392-6V6L12 0zm0 2.5l8.892 5.136v10.728L12 23.5l-8.892-5.136V7.636L12 2.5z"/>
                       </svg>
-                      🚀 HOSTING EN AWS (Nuevo)
+                      🚀 AWS HOSTING (New)
                     </>
                   )}
                 </button>
@@ -1877,7 +1877,7 @@ export default function SiteEditorPage() {
                     {downloading ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin" />
-                        Generando...
+                        Generating...
                       </>
                     ) : (
                       <>
