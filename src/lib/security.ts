@@ -386,9 +386,8 @@ export function verify2FACode(secret: string, code: string): boolean {
  */
 export function secureDelete(data: string): string {
   // Overwrite with random data multiple times
-  let overwritten = data;
   for (let i = 0; i < 3; i++) {
-    overwritten = crypto.randomBytes(data.length).toString('hex');
+    crypto.randomBytes(data.length).toString('hex');
   }
   return '';
 }

@@ -256,7 +256,6 @@ export function generateEncryptedHTML(
 export function obfuscateJS(code: string): string {
   // Simple obfuscation - replace variable names with random strings
   const varMap = new Map<string, string>();
-  let counter = 0;
   
   // Generate random variable names
   const generateVarName = () => {
