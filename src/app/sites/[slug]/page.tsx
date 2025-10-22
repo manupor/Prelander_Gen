@@ -134,11 +134,9 @@ export default async function SitePage({
     }
   }
 
-  // For draft/preview sites, use standard protection
-  if (site.status === 'published') {
-    html = injectProtection(html)
-    css = addProtectionStyles(css)
-  }
+  // Apply protections to ALL sites (published AND preview)
+  html = injectProtection(html)
+  css = addProtectionStyles(css)
 
   // Si el HTML contiene DOCTYPE, extraer solo el contenido del body y estilos
   let bodyContent = html

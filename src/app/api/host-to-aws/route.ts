@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 // @ts-ignore - javascript-obfuscator doesn't have perfect types
 import JavaScriptObfuscator from 'javascript-obfuscator'
+import { generateProtectionScript, defaultProtectionConfig } from '@/lib/anti-clone-protection'
 
 // Initialize S3 Client
 const s3Client = new S3Client({
@@ -155,6 +156,13 @@ async function generateSecurePrelanderWithFingerprint(
   userId: string,
   domainLock?: string
 ) {
+  // Generate anti-clone protection script
+  const protectionScript = generateProtectionScript({
+    ...defaultProtectionConfig,
+    domainLock,
+    userFingerprint: `${site.id}-${userId}`.substring(0, 16)
+  })
+
   // Prepare content with user fingerprint
   const contentData = {
     brandName: site.brand_name,
@@ -199,8 +207,8 @@ async function generateSecurePrelanderWithFingerprint(
     disableConsoleOutput: false,
   }).getObfuscatedCode()
 
-  // Generate HTML with obfuscated JS
-  const html = generateSecureHTML(obfuscatedJS, site.brand_name)
+  // Generate HTML with obfuscated JS AND protection script
+  const html = generateSecureHTML(obfuscatedJS, protectionScript, site.brand_name)
   const css = generateCSS()
 
   return { html, css }
@@ -370,7 +378,7 @@ function generateFingerprintedJS(
   `.trim()
 }
 
-function generateSecureHTML(obfuscatedJS: string, brandName: string): string {
+function generateSecureHTML(obfuscatedJS: string, protectionScript: string, brandName: string): string {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -428,6 +436,11 @@ function generateSecureHTML(obfuscatedJS: string, brandName: string): string {
     <!-- Protected script -->
     <script>
 ${obfuscatedJS}
+    </script>
+    
+    <!-- 🔒 Anti-Clone Protection -->
+    <script>
+${protectionScript}
     </script>
 </body>
 </html>`

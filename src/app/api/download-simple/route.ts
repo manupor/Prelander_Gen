@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import JSZip from 'jszip'
+import { generateProtectionScript, defaultProtectionConfig } from '@/lib/anti-clone-protection'
 
 export async function POST(request: NextRequest) {
   try {
@@ -27,11 +28,17 @@ export async function POST(request: NextRequest) {
 
     console.log('[API] Site found:', site.brand_name)
 
+    // Generate protection script
+    const protectionScript = generateProtectionScript({
+      ...defaultProtectionConfig,
+      userFingerprint: `${site.id}-${site.user_id}`.substring(0, 16)
+    })
+
     // Create simple ZIP
     const zip = new JSZip()
     
     // Add HTML file
-    const html = site.generated_html || `
+    const baseHtml = site.generated_html || `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,9 +84,17 @@ export async function POST(request: NextRequest) {
         <p>${site.description || 'Welcome to our landing page'}</p>
         <a href="${site.cta_url || '#'}" class="cta">${site.cta || 'Get Started'}</a>
     </div>
+    
+    <!-- 🔒 Anti-Clone Protection -->
+    <script>${protectionScript}</script>
 </body>
 </html>
     `.trim()
+
+    // Inject protection script into existing HTML if it has one
+    const html = site.generated_html ? 
+      site.generated_html.replace('</body>', `<script>${protectionScript}</script></body>`) :
+      baseHtml
 
     zip.file('index.html', html)
     
