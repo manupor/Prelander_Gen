@@ -229,7 +229,67 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
     }
   },
 
-
+  t14: {
+    id: 't14',
+    name: 'Pirates Wheel Fortune',
+    fields: {
+      headline: {
+        id: 'headline',
+        label: 'Main Title',
+        type: 'text',
+        placeholder: 'SPIN THE WHEEL & WIN BIG!',
+        description: 'Main headline displayed at the top',
+        required: true
+      },
+      subheadline: {
+        id: 'subheadline',
+        label: 'Subtitle',
+        type: 'text',
+        placeholder: 'Last winner 17 minutes ago',
+        description: 'Subtitle below the main title'
+      },
+      cta: {
+        id: 'cta',
+        label: 'Button Text',
+        type: 'text',
+        placeholder: 'PLAY NOW',
+        description: 'Main action button text',
+        required: true
+      },
+      ctaUrl: {
+        id: 'ctaUrl',
+        label: 'Destination URL',
+        type: 'url',
+        placeholder: 'https://your-casino.com/signup',
+        description: 'Where users go when they click',
+        required: true
+      },
+      popupTitle: {
+        id: 'popupTitle',
+        label: 'Win Popup Title',
+        type: 'text',
+        placeholder: 'CONGRATULATIONS!',
+        description: 'Title shown in the win popup',
+        required: false
+      },
+      popupMessage: {
+        id: 'popupMessage',
+        label: 'Win Popup Message',
+        type: 'textarea',
+        placeholder: 'You just won "80 FREE SPINS"...',
+        description: 'Message shown in the win popup',
+        required: false
+      },
+      popupPrize: {
+        id: 'popupPrize',
+        label: 'Prize Display',
+        type: 'text',
+        placeholder: '200 FREE SPINS',
+        description: 'Prize amount shown in popup',
+        required: false
+      }
+    }
+  }
 
 }
 
