@@ -194,7 +194,7 @@ export default function Home() {
                 {/* NetFusion Logo Icon */}
                 <div className="relative">
                   <div className="w-12 h-12 bg-gradient-to-br from-neon-primary via-neon-secondary to-neon-primary rounded-lg flex items-center justify-center transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 shadow-neon">
-                    <div className="text-black font-black text-xl">⚡</div>
+                    <div className="text-black font-black text-2xl">N</div>
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-br from-neon-primary via-neon-secondary to-neon-primary rounded-lg blur-md opacity-50 group-hover:opacity-75 transition-opacity duration-300"></div>
                 </div>
@@ -300,10 +300,8 @@ export default function Home() {
           <div className="flex justify-center items-center mb-16">
             <Link href="/signup">
               <Button className="relative bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white font-black py-6 px-12 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 text-xl font-inter group overflow-hidden">
-                <span className="relative z-10 flex items-center gap-3">
-                  <span className="text-2xl animate-bounce">⚡</span>
+                <span className="relative z-10">
                   START CREATING NOW
-                  <span className="text-2xl animate-bounce" style={{animationDelay: '0.5s'}}>⚡</span>
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </Button>
