@@ -1756,28 +1756,6 @@ export default function SiteEditorPage() {
 
             {/* Fixed Footer with Buttons */}
             <div className="relative z-10 p-4 pt-3 border-t border-neon-primary/20 flex-shrink-0 bg-gray-900/50">
-              {/* TEST Button */}
-              <button
-                onClick={async () => {
-                  try {
-                    const response = await fetch('/api/test-download')
-                    const blob = await response.blob()
-                    const url = window.URL.createObjectURL(blob)
-                    const a = document.createElement('a')
-                    a.href = url
-                    a.download = 'test.zip'
-                    a.click()
-                    window.URL.revokeObjectURL(url)
-                    alert('✅ TEST Download Successful! The system works.')
-                  } catch (e) {
-                    alert('❌ TEST Failed: ' + (e as Error).message)
-                  }
-                }}
-                className="w-full mb-3 px-3 py-2 bg-yellow-600 hover:bg-yellow-500 text-white text-xs rounded transition"
-              >
-                🧪 TEST DOWNLOAD (Click aquí primero)
-              </button>
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {/* Download ZIP Button */}
                 <button
