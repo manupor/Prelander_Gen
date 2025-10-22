@@ -2,6 +2,7 @@ import { renderTemplate as renderT6 } from '@/templates/t6/server'
 import { renderTemplate as renderT7 } from '@/templates/t7/server'
 import { renderTemplate as renderT9 } from '@/templates/t9/server'
 import { renderTemplate as renderT10 } from '@/templates/t10/server'
+import { renderTemplate as renderT14 } from '@/templates/t14/server'
 import { TemplateId, BrandConfig } from '@/lib/types'
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
@@ -11,6 +12,7 @@ const templateRenderers: Record<TemplateId, typeof renderT7> = {
   t7: renderT7,
   t9: renderT9,
   t10: renderT10,
+  t14: renderT14,
 }
 
 export async function GET(
@@ -176,6 +178,7 @@ export async function PUT(
         t7: renderT7,
         t9: renderT9,
         t10: renderT10,
+        t14: renderT14,
       }
 
       const renderer = rendererMap[actualTemplateId] ?? renderT7
