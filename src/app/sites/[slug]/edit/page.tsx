@@ -444,23 +444,37 @@ export default function SiteEditorPage() {
         throw new Error(errorMessage)
       }
 
-      // EMERGENCY FIX: Use hardcoded safe filename to bypass header issues
+      // ULTRA SAFE: Use only lowercase alphanumeric + timestamp
       const timestamp = Date.now()
-      const safeSlug = slug.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 20)
-      const filename = `prelander_${safeSlug}_${timestamp}.zip`
+      const safeSlug = slug.replace(/[^a-z0-9]/gi, '').toLowerCase().substring(0, 15) || 'prelander'
+      const filename = `${safeSlug}_${timestamp}.zip`
       
-      console.log('[DOWNLOAD] Using safe filename:', filename)
+      console.log('[DOWNLOAD] Slug:', slug)
+      console.log('[DOWNLOAD] Safe slug:', safeSlug)
+      console.log('[DOWNLOAD] Final filename:', filename)
 
       // Create blob and download
       const blob = await response.blob()
+      console.log('[DOWNLOAD] Blob size:', blob.size, 'bytes')
+      
       const url = window.URL.createObjectURL(blob)
+      console.log('[DOWNLOAD] Blob URL created:', url)
+      
       const a = document.createElement('a')
       a.href = url
       a.download = filename
+      a.style.display = 'none'
       document.body.appendChild(a)
+      
+      console.log('[DOWNLOAD] Triggering download...')
       a.click()
-      window.URL.revokeObjectURL(url)
-      document.body.removeChild(a)
+      
+      // Clean up after a delay
+      setTimeout(() => {
+        window.URL.revokeObjectURL(url)
+        document.body.removeChild(a)
+        console.log('[DOWNLOAD] Cleanup complete')
+      }, 100)
 
       setShowDownloadModal(false)
       
@@ -590,12 +604,12 @@ export default function SiteEditorPage() {
         throw new Error(errorMessage)
       }
 
-      // EMERGENCY FIX: Use hardcoded safe filename to bypass header issues
+      // ULTRA SAFE: Use only lowercase alphanumeric + timestamp
       const timestamp = Date.now()
-      const safeSlug = slug.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 20)
-      const filename = `prelander_standard_${safeSlug}_${timestamp}.zip`
+      const safeSlug = slug.replace(/[^a-z0-9]/gi, '').toLowerCase().substring(0, 15) || 'prelander'
+      const filename = `${safeSlug}_std_${timestamp}.zip`
       
-      console.log('[DOWNLOAD STANDARD] Using safe filename:', filename)
+      console.log('[STANDARD] Final filename:', filename)
 
       // Create blob and download
       const blob = await response.blob()
@@ -603,10 +617,14 @@ export default function SiteEditorPage() {
       const a = document.createElement('a')
       a.href = url
       a.download = filename
+      a.style.display = 'none'
       document.body.appendChild(a)
       a.click()
-      window.URL.revokeObjectURL(url)
-      document.body.removeChild(a)
+      
+      setTimeout(() => {
+        window.URL.revokeObjectURL(url)
+        document.body.removeChild(a)
+      }, 100)
 
       // Get password from header (development only)
       const password = response.headers.get('X-Download-Password')
@@ -656,13 +674,13 @@ export default function SiteEditorPage() {
         throw new Error(errorMessage)
       }
 
-      // EMERGENCY FIX: Use hardcoded safe filename to bypass header issues
+      // ULTRA SAFE: Use only lowercase alphanumeric + timestamp
       const timestamp = Date.now()
-      const safeSlug = slug.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 20)
-      const safeAffCode = affiliateCode.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 10)
-      const filename = `prelander_secure_${safeSlug}_${safeAffCode}_${timestamp}.zip`
+      const safeSlug = slug.replace(/[^a-z0-9]/gi, '').toLowerCase().substring(0, 15) || 'prelander'
+      const safeAffCode = affiliateCode.replace(/[^a-z0-9]/gi, '').toLowerCase().substring(0, 8) || 'aff'
+      const filename = `${safeSlug}_${safeAffCode}_${timestamp}.zip`
       
-      console.log('[DOWNLOAD SECURE] Using safe filename:', filename)
+      console.log('[SECURE] Final filename:', filename)
 
       // Create blob and download
       const blob = await response.blob()
@@ -670,10 +688,14 @@ export default function SiteEditorPage() {
       const a = document.createElement('a')
       a.href = url
       a.download = filename
+      a.style.display = 'none'
       document.body.appendChild(a)
       a.click()
-      window.URL.revokeObjectURL(url)
-      document.body.removeChild(a)
+      
+      setTimeout(() => {
+        window.URL.revokeObjectURL(url)
+        document.body.removeChild(a)
+      }, 100)
 
       // Get password from header (development only)
       const password = response.headers.get('X-Download-Password')
