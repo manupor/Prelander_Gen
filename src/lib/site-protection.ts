@@ -1,7 +1,10 @@
 /**
  * Site Protection System
  * Prevents cloning, copying, and unauthorized access to published sites
+ * Now with advanced encryption and obfuscation
  */
+
+import { createSecurePackage } from './encryption';
 
 export function generateProtectionScript(): string {
   return `
@@ -198,4 +201,30 @@ img {
 `.trim();
 
   return css + '\n\n' + protectionCSS;
+}
+
+/**
+ * Apply full encryption to HTML and CSS
+ * This creates a self-decrypting package with maximum protection
+ */
+export function applyFullEncryption(
+  html: string,
+  css: string,
+  userId: string,
+  domainLock?: string
+): string {
+  // First add protection script and styles
+  const protectedHTML = injectProtection(html);
+  const protectedCSS = addProtectionStyles(css);
+  
+  // Then encrypt everything
+  return createSecurePackage(protectedHTML, protectedCSS, userId, domainLock);
+}
+
+/**
+ * Check if encryption should be applied
+ * Apply to all published sites by default
+ */
+export function shouldEncrypt(status: string): boolean {
+  return status === 'published';
 }

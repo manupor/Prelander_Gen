@@ -4,7 +4,7 @@ import { renderTemplate as renderT6 } from '@/templates/t6/server'
 import { renderTemplate as renderT7 } from '@/templates/t7/server'
 import { renderTemplate as renderT9 } from '@/templates/t9/server'
 import { renderTemplate as renderT10 } from '@/templates/t10/server'
-import { injectProtection, addProtectionStyles } from '@/lib/site-protection'
+import { injectProtection, addProtectionStyles, applyFullEncryption, shouldEncrypt } from '@/lib/site-protection'
 
 interface SitePageParams {
   slug: string
@@ -115,7 +115,24 @@ export default async function SitePage({
         user_agent: 'server-side-render'
       })
     
-    // Apply anti-cloning protection for published sites
+    // Apply FULL ENCRYPTION for published sites
+    if (shouldEncrypt(site.status)) {
+      const encryptedHTML = applyFullEncryption(
+        html,
+        css,
+        site.user_id || 'anonymous',
+        undefined // No domain lock by default
+      );
+      
+      // Return encrypted self-decrypting HTML
+      return (
+        <div dangerouslySetInnerHTML={{ __html: encryptedHTML }} suppressHydrationWarning />
+      );
+    }
+  }
+
+  // For draft/preview sites, use standard protection
+  if (site.status === 'published') {
     html = injectProtection(html)
     css = addProtectionStyles(css)
   }
