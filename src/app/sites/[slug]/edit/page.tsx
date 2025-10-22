@@ -426,11 +426,13 @@ export default function SiteEditorPage() {
     }
   }
 
-  // Simple protected download - VOLVER AL SISTEMA ORIGINAL
+  // Simple download - EXACTAMENTE COMO EL TEST QUE FUNCIONÓ
   const handleSimpleDownload = async () => {
     setDownloading(true)
     try {
-      const response = await fetch('/api/download-simple-protected', {
+      console.log('[DOWNLOAD] Starting download for slug:', slug)
+      
+      const response = await fetch('/api/download-simple', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -438,27 +440,40 @@ export default function SiteEditorPage() {
         body: JSON.stringify({ slug }),
       })
 
+      console.log('[DOWNLOAD] Response status:', response.status)
+      console.log('[DOWNLOAD] Response ok:', response.ok)
+
       if (!response.ok) {
-        throw new Error('Failed to generate download')
+        const errorText = await response.text()
+        console.error('[DOWNLOAD] Error response:', errorText)
+        throw new Error('Failed to generate download: ' + errorText)
       }
 
-      // Create blob and download
+      // IGUAL QUE EL TEST QUE FUNCIONÓ
       const blob = await response.blob()
+      console.log('[DOWNLOAD] Blob created, size:', blob.size, 'type:', blob.type)
+      
       const url = window.URL.createObjectURL(blob)
+      console.log('[DOWNLOAD] URL created:', url)
+      
       const a = document.createElement('a')
       a.href = url
       a.download = `${site?.brand_name || 'prelander'}.zip`
       document.body.appendChild(a)
+      console.log('[DOWNLOAD] Clicking download link...')
       a.click()
+      
+      // Cleanup
       window.URL.revokeObjectURL(url)
       document.body.removeChild(a)
+      console.log('[DOWNLOAD] Download complete!')
 
       setShowDownloadModal(false)
-      alert('✅ Download Complete!\n\nYour protected prelander has been downloaded successfully.')
+      alert('✅ Download Complete!')
       
     } catch (error: any) {
-      console.error('Download error:', error)
-      alert('Failed to download. Please try again.')
+      console.error('[DOWNLOAD] ERROR:', error)
+      alert('❌ Download Failed: ' + error.message)
     } finally {
       setDownloading(false)
     }
