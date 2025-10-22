@@ -444,13 +444,10 @@ export default function SiteEditorPage() {
         throw new Error(errorMessage)
       }
 
-      // ULTRA SAFE: Use only lowercase alphanumeric + timestamp
-      const timestamp = Date.now()
-      const safeSlug = slug.replace(/[^a-z0-9]/gi, '').toLowerCase().substring(0, 15) || 'prelander'
-      const filename = `${safeSlug}${timestamp}.zip`  // NO underscores at all!
+      // EMERGENCY: Use completely hardcoded simple name
+      const filename = 'download.zip'  // HARDCODED - simplest possible
       
       console.log('[DOWNLOAD] Slug:', slug)
-      console.log('[DOWNLOAD] Safe slug:', safeSlug)
       console.log('[DOWNLOAD] Final filename:', filename)
 
       // Create blob and download
@@ -629,10 +626,8 @@ export default function SiteEditorPage() {
         throw new Error(errorMessage)
       }
 
-      // ULTRA SAFE: Use only lowercase alphanumeric + timestamp
-      const timestamp = Date.now()
-      const safeSlug = slug.replace(/[^a-z0-9]/gi, '').toLowerCase().substring(0, 15) || 'prelander'
-      const filename = `${safeSlug}std${timestamp}.zip`  // NO underscores!
+      // EMERGENCY: Use completely hardcoded simple name
+      const filename = 'standard.zip'  // HARDCODED
       
       console.log('[STANDARD] Final filename:', filename)
 
@@ -712,11 +707,8 @@ export default function SiteEditorPage() {
         throw new Error(errorMessage)
       }
 
-      // ULTRA SAFE: Use only lowercase alphanumeric + timestamp
-      const timestamp = Date.now()
-      const safeSlug = slug.replace(/[^a-z0-9]/gi, '').toLowerCase().substring(0, 15) || 'prelander'
-      const safeAffCode = affiliateCode.replace(/[^a-z0-9]/gi, '').toLowerCase().substring(0, 8) || 'aff'
-      const filename = `${safeSlug}${safeAffCode}${timestamp}.zip`  // NO underscores!
+      // EMERGENCY: Use completely hardcoded simple name
+      const filename = 'secure.zip'  // HARDCODED
       
       console.log('[SECURE] Final filename:', filename)
 

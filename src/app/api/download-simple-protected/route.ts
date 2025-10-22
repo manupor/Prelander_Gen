@@ -43,29 +43,15 @@ export async function POST(request: NextRequest) {
       compressionOptions: { level: 9 }
     })
 
-    // Sanitize filename properly - remove ALL special characters
-    const sanitizeFilename = (name: string) => {
-      if (!name || typeof name !== 'string') return 'prelander'
-      
-      return name
-        .normalize('NFD')                      // Normalize unicode
-        .replace(/[\u0300-\u036f]/g, '')      // Remove accents
-        .replace(/[^a-zA-Z0-9]/g, '_')        // Keep ONLY alphanumeric (remove - too)
-        .replace(/_+/g, '_')                   // Replace multiple underscores
-        .replace(/^_+|_+$/g, '')               // Trim underscores
-        .toLowerCase()                         // Lowercase
-        .substring(0, 50) || 'prelander'       // Limit length + fallback
-    }
-    
-    const safeFilename = sanitizeFilename(site.brand_name)
-    const finalFilename = `${safeFilename}_protected.zip`
+    // EMERGENCY: Use hardcoded simple filename
+    const finalFilename = 'download.zip'
 
-    // Return ZIP with ASCII-safe filename
+    // Return ZIP with ultra-simple filename
     return new NextResponse(Buffer.from(zipBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/zip',
-        'Content-Disposition': `attachment; filename=${finalFilename}`,  // No quotes for max compatibility
+        'Content-Disposition': 'attachment; filename=download.zip',
       },
     })
 
