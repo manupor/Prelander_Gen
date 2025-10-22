@@ -1562,7 +1562,7 @@ export default function SiteEditorPage() {
 
             {previewMode === 'live' ? (
               // Live Preview with iframe
-              <ScreenshotProtection showWatermark={true}>
+              <ScreenshotProtection>
                 <div 
                   className={`bg-white rounded-lg shadow-2xl overflow-hidden mx-auto transition-all ${
                     viewMode === 'mobile' ? 'max-w-[375px]' : 'max-w-full'
@@ -1595,7 +1595,7 @@ export default function SiteEditorPage() {
                 </div>
 
                 {/* Large Template Preview - Live with customizations */}
-                <ScreenshotProtection showWatermark={true}>
+                <ScreenshotProtection>
                   <div className="bg-gray-900 rounded-lg p-3 border border-gray-700">
                     <div 
                       className={`relative bg-white rounded-lg overflow-hidden shadow-2xl mx-auto transition-all ${

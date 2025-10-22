@@ -5,117 +5,199 @@ import { createClient } from '@/lib/supabase/client'
 
 interface ScreenshotProtectionProps {
   children: React.ReactNode
-  showWatermark?: boolean
 }
 
 export default function ScreenshotProtection({ 
-  children, 
-  showWatermark = true 
+  children
 }: ScreenshotProtectionProps) {
-  const [userEmail, setUserEmail] = useState<string>('Protected')
-  const watermarkRef = useRef<HTMLDivElement>(null)
-  const supabase = createClient()
+  const [isBlocked, setIsBlocked] = useState(false)
+  const blockOverlayRef = useRef<HTMLDivElement>(null)
 
+  // Disable console methods to prevent code inspection
   useEffect(() => {
-    // Get user email from Supabase
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (user?.email) {
-        setUserEmail(user.email)
-      }
+    if (typeof window !== 'undefined') {
+      // Disable console in production
+      const noop = () => {}
+      ;['log', 'debug', 'info', 'warn', 'error'].forEach(method => {
+        (console as any)[method] = noop
+      })
     }
-    getUser()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
-    // 1. Detect PrintScreen key
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // PrintScreen detection
-      if (e.key === 'PrintScreen' || e.keyCode === 44) {
-        e.preventDefault()
-        navigator.clipboard.writeText('')
-        blurScreen()
-        return false
-      }
-
-      // Prevent common screenshot shortcuts
-      if (
-        (e.metaKey && e.shiftKey && (e.key === '3' || e.key === '4' || e.key === '5')) || // Mac
-        (e.key === 'PrintScreen') || // Windows
-        (e.metaKey && e.shiftKey && e.key === 's') // Some Linux
-      ) {
-        e.preventDefault()
-        blurScreen()
-        return false
-      }
-    }
-
-    // 2. Detect DevTools
+    // 1. AGGRESSIVE DevTools/Inspect Element Detection
     const detectDevTools = () => {
       const threshold = 160
       const widthThreshold = window.outerWidth - window.innerWidth > threshold
       const heightThreshold = window.outerHeight - window.innerHeight > threshold
       
+      // Check if devtools are open
       if (widthThreshold || heightThreshold) {
-        blurScreen()
+        blockScreen()
+        return true
+      }
+      
+      // Alternative detection methods
+      const devtools = /./
+      devtools.toString = function() {
+        blockScreen()
+        return 'DevTools detected'
+      }
+      
+      return false
+    }
+
+    // 2. Block ALL inspection shortcuts
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // F12 - DevTools
+      if (e.key === 'F12' || e.keyCode === 123) {
+        e.preventDefault()
+        blockScreen()
+        return false
+      }
+
+      // Ctrl+Shift+I / Cmd+Option+I - Inspect Element
+      if ((e.ctrlKey && e.shiftKey && e.key === 'I') || 
+          (e.metaKey && e.altKey && e.key === 'i')) {
+        e.preventDefault()
+        blockScreen()
+        return false
+      }
+
+      // Ctrl+Shift+J / Cmd+Option+J - Console
+      if ((e.ctrlKey && e.shiftKey && e.key === 'J') || 
+          (e.metaKey && e.altKey && e.key === 'j')) {
+        e.preventDefault()
+        blockScreen()
+        return false
+      }
+
+      // Ctrl+Shift+C / Cmd+Option+C - Element Selector
+      if ((e.ctrlKey && e.shiftKey && e.key === 'C') || 
+          (e.metaKey && e.altKey && e.key === 'c')) {
+        e.preventDefault()
+        blockScreen()
+        return false
+      }
+
+      // Ctrl+U / Cmd+Option+U - View Source
+      if ((e.ctrlKey && e.key === 'u') || 
+          (e.metaKey && e.altKey && e.key === 'u')) {
+        e.preventDefault()
+        blockScreen()
+        return false
+      }
+
+      // PrintScreen detection
+      if (e.key === 'PrintScreen' || e.keyCode === 44) {
+        e.preventDefault()
+        navigator.clipboard.writeText('')
+        blockScreen()
+        return false
+      }
+
+      // Mac screenshot shortcuts
+      if (e.metaKey && e.shiftKey && (e.key === '3' || e.key === '4' || e.key === '5')) {
+        e.preventDefault()
+        blockScreen()
+        return false
+      }
+
+      // Ctrl+S / Cmd+S - Save page
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault()
+        return false
+      }
+
+      // Ctrl+P / Cmd+P - Print
+      if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+        e.preventDefault()
+        return false
       }
     }
 
-    // 3. Detect window blur (possible screen recording)
+    // 3. Block screen permanently when detected
+    const blockScreen = () => {
+      setIsBlocked(true)
+      if (blockOverlayRef.current) {
+        blockOverlayRef.current.style.display = 'flex'
+      }
+      // Reload page after 3 seconds
+      setTimeout(() => {
+        window.location.reload()
+      }, 3000)
+    }
+
+    // 4. Prevent right-click and show warning
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault()
+      blockScreen()
+      return false
+    }
+
+    // 5. Detect window blur (possible screen recording)
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        blurScreen()
+        // Page is hidden, possible recording
       }
     }
 
-    // 4. Blur screen temporarily
-    const blurScreen = () => {
-      if (watermarkRef.current) {
-        watermarkRef.current.style.backdropFilter = 'blur(20px)'
-        watermarkRef.current.style.background = 'rgba(0, 0, 0, 0.5)'
-        
-        setTimeout(() => {
-          if (watermarkRef.current) {
-            watermarkRef.current.style.backdropFilter = 'none'
-            watermarkRef.current.style.background = 'transparent'
-          }
-        }, 2000)
-      }
-    }
-
-    // 5. Prevent right-click
-    const handleContextMenu = (e: MouseEvent) => {
+    // 6. Disable drag
+    const handleDragStart = (e: DragEvent) => {
       e.preventDefault()
       return false
     }
 
-    // 6. Detect screenshot extensions
+    // 7. Detect copy attempt
+    const handleCopy = (e: ClipboardEvent) => {
+      e.preventDefault()
+      return false
+    }
+
+    // 8. Continuous DevTools detection
     const detectExtensions = setInterval(() => {
       detectDevTools()
+    }, 500) // Check every 500ms
+
+    // 9. Debugger trap (breaks if DevTools open)
+    const debuggerTrap = setInterval(() => {
+      const start = performance.now()
+      debugger // This pauses if DevTools open
+      const end = performance.now()
+      if (end - start > 100) {
+        blockScreen()
+      }
     }, 1000)
 
     // Add event listeners
-    document.addEventListener('keydown', handleKeyDown)
-    document.addEventListener('keyup', handleKeyDown)
-    document.addEventListener('contextmenu', handleContextMenu)
+    document.addEventListener('keydown', handleKeyDown, true)
+    document.addEventListener('keyup', handleKeyDown, true)
+    document.addEventListener('contextmenu', handleContextMenu, true)
     document.addEventListener('visibilitychange', handleVisibilityChange)
+    document.addEventListener('dragstart', handleDragStart, true)
+    document.addEventListener('copy', handleCopy, true)
+    document.addEventListener('cut', handleCopy, true)
+
+    // Disable paste inspector
+    document.addEventListener('paste', (e) => e.preventDefault(), true)
+
+    // Initial DevTools check
+    detectDevTools()
 
     // Cleanup
     return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-      document.removeEventListener('keyup', handleKeyDown)
-      document.removeEventListener('contextmenu', handleContextMenu)
+      document.removeEventListener('keydown', handleKeyDown, true)
+      document.removeEventListener('keyup', handleKeyDown, true)
+      document.removeEventListener('contextmenu', handleContextMenu, true)
       document.removeEventListener('visibilitychange', handleVisibilityChange)
+      document.removeEventListener('dragstart', handleDragStart, true)
+      document.removeEventListener('copy', handleCopy, true)
+      document.removeEventListener('cut', handleCopy, true)
       clearInterval(detectExtensions)
+      clearInterval(debuggerTrap)
     }
   }, [])
 
-  // Generate dynamic watermark pattern
-  const generateWatermarkText = () => {
-    const timestamp = new Date().toISOString().slice(0, 10)
-    return `${userEmail} • ${timestamp}`
-  }
 
   return (
     <div className="relative select-none" style={{ userSelect: 'none', WebkitUserSelect: 'none' }}>
@@ -129,97 +211,75 @@ export default function ScreenshotProtection({
           pointerEvents: 'auto'
         }}
         onDragStart={(e) => e.preventDefault()}
+        onContextMenu={(e) => e.preventDefault()}
       >
         {children}
       </div>
 
-      {/* Dynamic Watermark Overlay */}
-      {showWatermark && (
-        <div
-          ref={watermarkRef}
-          className="absolute inset-0 pointer-events-none transition-all duration-500"
-          style={{
-            background: 'transparent',
-            zIndex: 9999,
-            mixBlendMode: 'difference'
-          }}
-        >
-          {/* Repeating watermark pattern */}
-          <div className="absolute inset-0 overflow-hidden">
-            {[...Array(20)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute text-white/5 font-mono text-xs whitespace-nowrap transform rotate-[-30deg]"
-                style={{
-                  top: `${(i % 5) * 20}%`,
-                  left: `${Math.floor(i / 5) * 25}%`,
-                  fontSize: '10px',
-                  letterSpacing: '2px',
-                  userSelect: 'none',
-                  pointerEvents: 'none'
-                }}
-              >
-                {generateWatermarkText()}
-              </div>
-            ))}
-          </div>
-
-          {/* Center watermark */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-white/10 font-mono text-sm transform rotate-[-30deg] tracking-wider">
-              {generateWatermarkText()}
-            </div>
-          </div>
-
-          {/* Hidden tracking metadata */}
-          <div 
-            className="hidden"
-            data-email={userEmail}
-            data-timestamp={Date.now()}
-          />
-        </div>
-      )}
-
-      {/* Screenshot Detection Warning */}
+      {/* Block Overlay - Shown when violation detected */}
       <div
-        id="screenshot-warning"
-        className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-6 py-3 rounded-lg shadow-2xl opacity-0 pointer-events-none transition-opacity duration-300 z-[10000]"
+        ref={blockOverlayRef}
+        className="fixed inset-0 bg-black z-[99999] items-center justify-center"
+        style={{ display: isBlocked ? 'flex' : 'none' }}
       >
-        <div className="flex items-center gap-3">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-          </svg>
-          <span className="font-semibold">Screenshot attempt detected</span>
+        <div className="text-center text-white p-8">
+          <div className="mb-6">
+            <svg className="w-20 h-20 mx-auto text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <h2 className="text-3xl font-bold mb-4">Access Denied</h2>
+          <p className="text-xl mb-2">Unauthorized action detected</p>
+          <p className="text-gray-400 mb-6">This content is protected and cannot be inspected or captured</p>
+          <div className="inline-flex items-center gap-2 text-sm text-gray-500">
+            <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>Reloading in 3 seconds...</span>
+          </div>
         </div>
       </div>
 
-      {/* CSS to prevent text selection and dragging */}
-      <style jsx>{`
+      {/* Global CSS protection */}
+      <style jsx global>{`
+        body {
+          -webkit-user-select: none !important;
+          -moz-user-select: none !important;
+          -ms-user-select: none !important;
+          user-select: none !important;
+        }
+        
         * {
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
+          -webkit-user-select: none !important;
+          -moz-user-select: none !important;
+          -ms-user-select: none !important;
+          user-select: none !important;
         }
         
         img {
-          -webkit-user-drag: none;
-          -khtml-user-drag: none;
-          -moz-user-drag: none;
-          -o-user-drag: none;
-          user-drag: none;
-          pointer-events: none;
+          -webkit-user-drag: none !important;
+          -khtml-user-drag: none !important;
+          -moz-user-drag: none !important;
+          -o-user-drag: none !important;
+          user-drag: none !important;
+          pointer-events: none !important;
         }
 
-        /* Prevent screenshot extensions from highlighting */
         ::selection {
-          background: transparent;
-          color: inherit;
+          background: transparent !important;
+          color: inherit !important;
         }
 
         ::-moz-selection {
+          background: transparent !important;
+          color: inherit !important;
+        }
+
+        /* Hide scrollbars to prevent iframe detection */
+        ::-webkit-scrollbar {
+          width: 0px;
           background: transparent;
-          color: inherit;
         }
       `}</style>
     </div>
