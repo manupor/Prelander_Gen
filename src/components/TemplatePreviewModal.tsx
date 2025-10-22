@@ -6,7 +6,6 @@ import { Template6 } from '@/templates/t6'
 import { Template7 } from '@/templates/t7'
 import { Template9 } from '@/templates/t9'
 import { Template10 } from '@/templates/t10'
-import { Template14 } from '@/templates/t14'
 
 interface TemplatePreviewModalProps {
   templateId: TemplateId | null
@@ -16,27 +15,6 @@ interface TemplatePreviewModalProps {
 }
 
 const getSampleBrandConfig = (templateId: TemplateId) => {
-  // Pirates Wheel Fortune specific config (t14)
-  if (templateId === 't14') {
-    return {
-      brandName: 'Pirates Treasure Casino',
-      logoUrl: 'https://via.placeholder.com/150x60/FFD700/000000?text=PIRATES',
-      colors: {
-        primary: '#FFD700',
-        secondary: '#8B4513',
-        accent: '#FF6B35'
-      },
-      copy: {
-        headline: 'SPIN THE WHEEL & WIN BIG!',
-        subheadline: 'Last winner 17 minutes ago',
-        cta: 'PLAY NOW'
-      },
-      industry: 'Casino & Gaming',
-      description: 'Spin the wheel of fortune with pirate treasures',
-      ctaUrl: 'https://example.com'
-    }
-  }
-  
   // Fisherman Slot specific config (t9 and t10)
   if (templateId === 't9' || templateId === 't10') {
     return {
@@ -90,7 +68,6 @@ const templateComponents = {
   t7: Template7,
   t9: Template9,
   t10: Template10,
-  t14: Template14,
 }
 
 export function TemplatePreviewModal({ templateId, isOpen, onClose, onSelect }: TemplatePreviewModalProps) {
