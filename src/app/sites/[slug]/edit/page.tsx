@@ -394,11 +394,30 @@ export default function SiteEditorPage() {
         console.warn('Failed to regenerate HTML, but data was saved')
       }
 
-      alert('✅ Changes Saved Successfully!\n\n🎉 Your template has been updated and published.\n\n✨ What\'s next?\n• Preview your changes\n• Download your template\n• Share with your audience\n\nYour landing page is now live and ready!')
-      await loadSite() // Reload to get updated HTML
+      // Auto-generate and send protected prelander to email
+      try {
+        const autoSendResponse = await fetch('/api/auto-send-prelander', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ slug }),
+        })
+
+        if (autoSendResponse.ok) {
+          const result = await autoSendResponse.json()
+          alert(`✅ Changes Saved Successfully!\n\n📧 Protected prelander sent to: ${result.email}\n\n🔒 Your secure prelander has been automatically generated and sent to your email with maximum protection:\n• Anti-screenshot\n• Code obfuscation\n• DevTools blocking\n• Anti-clone protection\n\n✨ Check your email for the download link!\n\nYour landing page is now live and ready!`)
+        } else {
+          alert('✅ Changes Saved Successfully!\n\n🎉 Your template has been updated.\n\n⚠️ Note: Could not send prelander automatically. You can download it manually from the download button.')
+          setShowDownloadModal(true)
+        }
+      } catch (emailError) {
+        console.error('Auto-send error:', emailError)
+        alert('✅ Changes Saved Successfully!\n\n🎉 Your template has been updated.\n\n⚠️ Note: Could not send prelander automatically. You can download it manually from the download button.')
+        setShowDownloadModal(true)
+      }
       
-      // Show download modal after successful save
-      setShowDownloadModal(true)
+      await loadSite() // Reload to get updated HTML
     } catch (error: any) {
       console.error('Error saving:', error)
       alert(`Failed to save changes: ${error.message || 'Unknown error'}`)
@@ -514,7 +533,26 @@ export default function SiteEditorPage() {
         }
       }
 
-      alert('🚀 Site Published Successfully!\n\n✅ Your site is now live and accessible.\n\n🌐 What\'s next?\n• Share your site URL\n• Monitor performance in dashboard\n• Make updates anytime\n\nYour site is ready for the world!')
+      // Auto-generate and send protected prelander to email on publish
+      try {
+        const autoSendResponse = await fetch('/api/auto-send-prelander', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ slug }),
+        })
+
+        if (autoSendResponse.ok) {
+          const result = await autoSendResponse.json()
+          alert(`🚀 Site Published Successfully!\n\n📧 Protected prelander sent to: ${result.email}\n\n🔒 Your fully secured prelander has been automatically sent to your email with:\n• Maximum encryption\n• Anti-clone protection\n• Code obfuscation\n• DevTools blocking\n\n✨ Check your email for the download link!\n\n🌐 Your site is now live and ready for the world!`)
+        } else {
+          alert('🚀 Site Published Successfully!\n\n✅ Your site is now live and accessible.\n\n⚠️ Note: Could not send prelander automatically. You can download it manually.')
+        }
+      } catch (emailError) {
+        console.error('Auto-send on publish error:', emailError)
+        alert('🚀 Site Published Successfully!\n\n✅ Your site is now live and accessible.')
+      }
       
       // Reload site data
       await loadSite()
