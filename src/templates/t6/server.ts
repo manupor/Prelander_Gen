@@ -67,24 +67,6 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       z-index: 2;
     }
     
-    .floating-symbols {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 3;
-    }
-    
-    .floating-symbol {
-      position: absolute;
-      font-size: 2.5rem;
-    }
-    
-    .floating-symbol:nth-child(1) { top: 10%; left: 5%; color: cyan; animation: float-1 6s ease-in-out infinite; text-shadow: 0 0 10px cyan, 0 0 20px cyan, 0 0 30px cyan; }
-    .floating-symbol:nth-child(2) { top: 20%; right: 10%; color: #ff1493; animation: float-2 8s ease-in-out infinite; text-shadow: 0 0 10px #ff1493, 0 0 20px #ff1493, 0 0 30px #ff1493; }
-    .floating-symbol:nth-child(3) { bottom: 30%; left: 8%; color: yellow; animation: float-3 7s ease-in-out infinite; text-shadow: 0 0 10px yellow, 0 0 20px yellow, 0 0 30px yellow; }
-    .floating-symbol:nth-child(4) { bottom: 15%; right: 15%; color: #00ff00; animation: float-4 9s ease-in-out infinite; text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00; }
-    .floating-symbol:nth-child(5) { top: 50%; left: 3%; color: #8a2be2; animation: float-5 5s ease-in-out infinite; text-shadow: 0 0 10px #8a2be2, 0 0 20px #8a2be2, 0 0 30px #8a2be2; }
-    .floating-symbol:nth-child(6) { top: 70%; right: 5%; color: #ff4500; animation: float-6 10s ease-in-out infinite; text-shadow: 0 0 10px #ff4500, 0 0 20px #ff4500, 0 0 30px #ff4500; }
     
     .container {
       position: relative;
@@ -600,35 +582,6 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       50% { box-shadow: 0 0 25px rgba(0, 255, 255, 0.6); }
     }
     
-    @keyframes float-1 {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(180deg); }
-    }
-    
-    @keyframes float-2 {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-25px) rotate(-180deg); }
-    }
-    
-    @keyframes float-3 {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-15px) rotate(360deg); }
-    }
-    
-    @keyframes float-4 {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-30px) rotate(-360deg); }
-    }
-    
-    @keyframes float-5 {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-18px) rotate(180deg); }
-    }
-    
-    @keyframes float-6 {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-22px) rotate(-180deg); }
-    }
     
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.9); }
@@ -647,7 +600,6 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       .rollover-icon { font-size: 1.125rem; }
       .features { gap: 0.75rem; flex-wrap: wrap; }
       .feature-item { min-width: 120px; padding: 0.75rem; }
-      .floating-symbol { font-size: 2rem; }
       .container { padding: 1rem; }
     }
     
@@ -664,7 +616,6 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       .rollover-symbol { width: 3rem; height: 3rem; }
       .rollover-icon { font-size: 0.9rem; }
       .container { padding: 0.75rem; }
-      .floating-symbol { font-size: 1.5rem; }
       .features { gap: 0.5rem; }
       .feature-item { min-width: 80px; padding: 0.4rem; font-size: 0.7rem; }
     }
@@ -690,14 +641,6 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     <div class="synth-container">
         <div class="synth-grid"></div>
         <div class="scan-lines"></div>
-        <div class="floating-symbols">
-            <div class="floating-symbol">◆</div>
-            <div class="floating-symbol">▲</div>
-            <div class="floating-symbol">●</div>
-            <div class="floating-symbol">★</div>
-            <div class="floating-symbol">◇</div>
-            <div class="floating-symbol">▼</div>
-        </div>
         <div class="container">
             <header class="header">
                 ${logoUrl ? `
