@@ -19,15 +19,15 @@ export interface ProtectionConfig {
 }
 
 export const defaultProtectionConfig: ProtectionConfig = {
-  enableScreenshotBlocking: true,
-  enableDevToolsBlocking: true,
-  enableRightClickBlocking: true,
-  enableTextSelectionBlocking: true,
-  enablePrintBlocking: true,
-  enableKeyboardShortcutBlocking: true,
-  enableInspectBlocking: true,
-  enableConsoleBlocking: true,
-  obfuscateCode: true
+  enableScreenshotBlocking: false, // Menos intrusivo
+  enableDevToolsBlocking: true, // ✅ BLOQUEA INSPECT ELEMENT
+  enableRightClickBlocking: true, // ✅ BLOQUEA RIGHT-CLICK
+  enableTextSelectionBlocking: false, // Permitir selección de texto
+  enablePrintBlocking: false, // Permitir imprimir
+  enableKeyboardShortcutBlocking: false, // Permitir shortcuts normales
+  enableInspectBlocking: true, // ✅ BLOQUEA INSPECT
+  enableConsoleBlocking: false, // No bloquear console (puede interferir)
+  obfuscateCode: true // ✅ Ofuscar código
 }
 
 /**
@@ -105,36 +105,27 @@ export function generateProtectionScript(config: ProtectionConfig = defaultProte
     });
   }
   
-  // Developer tools detection
+  // Developer tools detection - SIN BLOQUEAR LA VISTA DEL PRELANDER
   if (CONFIG.enableDevToolsBlocking) {
-    let devtools = {
-      open: false,
-      orientation: null
-    };
-    
-    const threshold = 160;
-    setInterval(function() {
-      if (window.outerHeight - window.innerHeight > threshold || 
-          window.outerWidth - window.innerWidth > threshold) {
-        if (!devtools.open) {
-          devtools.open = true;
-          document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Arial;z-index:999999;"><h1>🔒 Developer Tools Detected</h1><p>Please close developer tools to continue</p></div>';
-        }
-      } else {
-        devtools.open = false;
-      }
-    }, 500);
-    
-    // Detect F12, Ctrl+Shift+I, Ctrl+U, etc.
+    // Bloquear atajos de teclado para abrir DevTools
     document.addEventListener('keydown', function(e) {
       if (e.keyCode === 123 || // F12
           (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
           (e.ctrlKey && e.shiftKey && e.keyCode === 74) || // Ctrl+Shift+J
-          (e.ctrlKey && e.keyCode === 85) || // Ctrl+U
-          (e.ctrlKey && e.shiftKey && e.keyCode === 67)) { // Ctrl+Shift+C
+          (e.ctrlKey && e.keyCode === 85) || // Ctrl+U (View Source)
+          (e.ctrlKey && e.shiftKey && e.keyCode === 67)) { // Ctrl+Shift+C (Inspect)
         e.preventDefault();
         e.stopPropagation();
-        showWarning('Developer tools are not allowed');
+        showWarning('🔒 Inspect Element is disabled');
+        return false;
+      }
+    });
+    
+    // Deshabilitar clic derecho "Inspect" y "Inspect Element"
+    document.addEventListener('mousedown', function(e) {
+      if (e.button === 2) { // Right click
+        e.preventDefault();
+        e.stopPropagation();
         return false;
       }
     });
