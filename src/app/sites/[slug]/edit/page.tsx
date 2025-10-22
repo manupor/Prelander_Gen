@@ -426,11 +426,13 @@ export default function SiteEditorPage() {
     }
   }
 
-  // Simple protected download - No email or passwords needed!
+  // Simple protected download with SINGLE-USE TOKEN
   const handleSimpleDownload = async () => {
     setDownloading(true)
     try {
-      const response = await fetch('/api/download-simple-protected', {
+      // Step 1: Generate single-use download token
+      console.log('[DOWNLOAD] Generating single-use token...')
+      const tokenResponse = await fetch('/api/generate-download-token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -438,14 +440,27 @@ export default function SiteEditorPage() {
         body: JSON.stringify({ slug }),
       })
 
+      if (!tokenResponse.ok) {
+        const errorData = await tokenResponse.json().catch(() => ({}))
+        throw new Error(errorData.error || 'Failed to generate download token')
+      }
+
+      const { token, downloadUrl } = await tokenResponse.json()
+      console.log('[DOWNLOAD] Token generated successfully')
+      console.log('[DOWNLOAD] Downloading from:', downloadUrl)
+
+      // Step 2: Download using the token
+      const response = await fetch(downloadUrl, {
+        method: 'GET',
+      })
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
-        const errorMessage = errorData.details || errorData.error || 'Failed to generate download'
+        const errorMessage = errorData.error || 'Failed to download'
         throw new Error(errorMessage)
       }
 
-      // EMERGENCY: Use completely hardcoded simple name
-      const filename = 'download.zip'  // HARDCODED - simplest possible
+      const filename = 'download.zip'
       
       console.log('[DOWNLOAD] Slug:', slug)
       console.log('[DOWNLOAD] Final filename:', filename)
@@ -454,6 +469,7 @@ export default function SiteEditorPage() {
       const blob = await response.blob()
       console.log('[DOWNLOAD] Blob size:', blob.size, 'bytes')
       console.log('[DOWNLOAD] Blob type:', blob.type)
+      console.log('[DOWNLOAD] ⚠️  This is a SINGLE-USE download - token now invalid')
       
       // Method 1: Try blob URL
       try {
@@ -515,15 +531,24 @@ export default function SiteEditorPage() {
         if (columnError.message?.includes('is_downloaded') || columnError.message?.includes('column')) {
           console.log('Download tracking columns not available, skipping tracking')
         } else {
-          console.error('Error updating download tracking:', columnError)
+          throw columnError
         }
       }
 
-      alert(`✅ ¡Descarga Completa!\n\n📦 Tu landing page protegida está lista\n\n¿Qué contiene?\n• 📄 index.html - Página completa con código encriptado\n• 🎨 style.css - Estilos responsivos\n• 📋 README.md - Instrucciones simples\n\n✨ CÓMO USAR:\n1. Extrae el ZIP\n2. Doble clic en index.html para probar\n3. O sube a tu hosting web\n\n🔒 Tu código está ofuscado para prevenir clonación\n🚀 Funciona localmente Y en hosting\n\n¡Listo para usar!`)
+      // Show success message with single-use warning
+      alert('✅ Download Successful!\n\n⚠️ IMPORTANT: This was a SINGLE-USE download.\n\nThe download link has expired and cannot be used again.\n\nIf you need to download again, you must generate a new download link.\n\n🔒 This security measure ensures your prelander remains protected.')
       
     } catch (error: any) {
       console.error('Download error:', error)
-      alert(`Error al descargar: ${error.message}`)
+      
+      // Provide specific error messages
+      if (error.message.includes('Token already used')) {
+        alert('❌ Download Failed\n\n⚠️ This download link has already been used.\n\nEach download link can only be used ONCE for security.\n\nPlease generate a new download link.')
+      } else if (error.message.includes('Token expired')) {
+        alert('❌ Download Failed\n\n⏰ This download link has expired.\n\nDownload links are valid for 5 minutes only.\n\nPlease generate a new download link.')
+      } else {
+        alert(`❌ Download Failed\n\n${error.message || 'Unknown error'}\n\nPlease try again or contact support.`)
+      }
     } finally {
       setDownloading(false)
     }

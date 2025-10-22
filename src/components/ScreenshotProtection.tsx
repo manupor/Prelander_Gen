@@ -13,10 +13,10 @@ export default function ScreenshotProtection({
   const [isBlocked, setIsBlocked] = useState(false)
   const blockOverlayRef = useRef<HTMLDivElement>(null)
 
-  // Disable console methods to prevent code inspection
+  // Disable console methods to prevent code inspection (ONLY IN PRODUCTION)
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Disable console in production
+    if (typeof window !== 'undefined' && process.env.NODE_ENV === 'production') {
+      // Disable console ONLY in production
       const noop = () => {}
       ;['log', 'debug', 'info', 'warn', 'error'].forEach(method => {
         (console as any)[method] = noop
@@ -25,6 +25,12 @@ export default function ScreenshotProtection({
   }, [])
 
   useEffect(() => {
+    // Skip all protections in development mode
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('[DEV MODE] Screenshot protection disabled for debugging')
+      return
+    }
+
     // 1. AGGRESSIVE DevTools/Inspect Element Detection
     const detectDevTools = () => {
       const threshold = 160
