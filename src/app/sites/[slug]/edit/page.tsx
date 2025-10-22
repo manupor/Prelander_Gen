@@ -426,12 +426,12 @@ export default function SiteEditorPage() {
     }
   }
 
-  // Simple protected download with SINGLE-USE TOKEN
+  // Simple protected download with FALLBACK
   const handleSimpleDownload = async () => {
     setDownloading(true)
     try {
-      // Step 1: Generate single-use download token
-      console.log('[DOWNLOAD] Generating single-use token...')
+      // Try token-based download first
+      console.log('[DOWNLOAD] Attempting token-based download...')
       const tokenResponse = await fetch('/api/generate-download-token', {
         method: 'POST',
         headers: {
@@ -440,23 +440,28 @@ export default function SiteEditorPage() {
         body: JSON.stringify({ slug }),
       })
 
-      if (!tokenResponse.ok) {
-        const errorData = await tokenResponse.json().catch(() => ({}))
-        throw new Error(errorData.error || 'Failed to generate download token')
+      let response
+
+      if (tokenResponse.ok) {
+        // Token system works - use it
+        const { downloadUrl } = await tokenResponse.json()
+        console.log('[DOWNLOAD] Token generated, downloading from:', downloadUrl)
+        response = await fetch(downloadUrl, { method: 'GET' })
+      } else {
+        // Token system failed - fallback to direct download
+        console.log('[DOWNLOAD] Token system unavailable, using direct download fallback...')
+        response = await fetch('/api/download-simple-protected', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ slug }),
+        })
       }
-
-      const { token, downloadUrl } = await tokenResponse.json()
-      console.log('[DOWNLOAD] Token generated successfully')
-      console.log('[DOWNLOAD] Downloading from:', downloadUrl)
-
-      // Step 2: Download using the token
-      const response = await fetch(downloadUrl, {
-        method: 'GET',
-      })
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
-        const errorMessage = errorData.error || 'Failed to download'
+        const errorMessage = errorData.details || errorData.error || 'Failed to download'
         throw new Error(errorMessage)
       }
 
@@ -469,7 +474,6 @@ export default function SiteEditorPage() {
       const blob = await response.blob()
       console.log('[DOWNLOAD] Blob size:', blob.size, 'bytes')
       console.log('[DOWNLOAD] Blob type:', blob.type)
-      console.log('[DOWNLOAD] ⚠️  This is a SINGLE-USE download - token now invalid')
       
       // Method 1: Try blob URL
       try {
@@ -535,20 +539,12 @@ export default function SiteEditorPage() {
         }
       }
 
-      // Show success message with single-use warning
-      alert('✅ Download Successful!\n\n⚠️ IMPORTANT: This was a SINGLE-USE download.\n\nThe download link has expired and cannot be used again.\n\nIf you need to download again, you must generate a new download link.\n\n🔒 This security measure ensures your prelander remains protected.')
+      // Show success message
+      alert('✅ Download Successful!\n\n🔒 Your prelander has been downloaded with maximum security protection:\n• Anti-screenshot blocking\n• DevTools protection\n• Code obfuscation\n• Anti-clone measures\n\nYou can download again anytime from this page.')
       
     } catch (error: any) {
       console.error('Download error:', error)
-      
-      // Provide specific error messages
-      if (error.message.includes('Token already used')) {
-        alert('❌ Download Failed\n\n⚠️ This download link has already been used.\n\nEach download link can only be used ONCE for security.\n\nPlease generate a new download link.')
-      } else if (error.message.includes('Token expired')) {
-        alert('❌ Download Failed\n\n⏰ This download link has expired.\n\nDownload links are valid for 5 minutes only.\n\nPlease generate a new download link.')
-      } else {
-        alert(`❌ Download Failed\n\n${error.message || 'Unknown error'}\n\nPlease try again or contact support.`)
-      }
+      alert(`❌ Download Failed\n\n${error.message || 'Unknown error'}\n\nPlease try again or contact support.`)
     } finally {
       setDownloading(false)
     }

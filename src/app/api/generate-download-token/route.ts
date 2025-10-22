@@ -48,7 +48,14 @@ export async function POST(request: NextRequest) {
 
     if (tokenError) {
       console.error('Token creation error:', tokenError)
-      return NextResponse.json({ error: 'Failed to create download token' }, { status: 500 })
+      console.error('Error details:', JSON.stringify(tokenError, null, 2))
+      console.error('User ID:', user.id)
+      console.error('Site ID:', site.id)
+      return NextResponse.json({ 
+        error: 'Failed to create download token',
+        details: tokenError.message || 'Database error',
+        hint: 'Please ensure the download_tokens table exists in Supabase'
+      }, { status: 500 })
     }
 
     return NextResponse.json({ 
