@@ -1531,8 +1531,8 @@ export default function SiteEditorPage() {
         </div>
 
         {/* Right Panel - Preview */}
-        <div data-tour="preview" className="flex-1 bg-gray-950 p-6 overflow-auto">
-          <div className="max-w-7xl mx-auto">
+        <div data-tour="preview" className="flex-1 bg-gray-950 p-3 overflow-auto">
+          <div className="max-w-full mx-auto">
             {/* View Mode Toggle */}
             <div className="flex items-center justify-center gap-2 mb-4">
               <button
@@ -1563,7 +1563,7 @@ export default function SiteEditorPage() {
               // Live Preview with iframe
               <div 
                 className={`bg-white rounded-lg shadow-2xl overflow-hidden mx-auto transition-all ${
-                  viewMode === 'mobile' ? 'max-w-[375px]' : 'w-full'
+                  viewMode === 'mobile' ? 'max-w-[375px]' : 'max-w-full'
                 }`} 
                 style={{ height: '90vh' }}
               >
@@ -1592,12 +1592,12 @@ export default function SiteEditorPage() {
                 </div>
 
                 {/* Large Template Preview - Live with customizations */}
-                <div className="bg-gray-900 rounded-lg p-6 border border-gray-700">
+                <div className="bg-gray-900 rounded-lg p-3 border border-gray-700">
                   <div 
                     className={`relative bg-white rounded-lg overflow-hidden shadow-2xl mx-auto transition-all ${
-                      viewMode === 'mobile' ? 'max-w-[375px]' : 'w-full'
+                      viewMode === 'mobile' ? 'max-w-[375px]' : 'max-w-full'
                     }`} 
-                    style={{ height: '70vh' }}
+                    style={{ height: '82vh' }}
                   >
                     <iframe
                       key={`template-${templateId}-${viewMode}`}
