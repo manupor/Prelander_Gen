@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { Loader2, Save, Eye, ArrowLeft, Palette, Type, Image as ImageIcon, Link as LinkIcon, ChevronDown, ChevronUp, Layers, FileText, Scale, Download, Mail, Globe, Monitor, Smartphone } from 'lucide-react'
 import { EditorTour } from '@/components/EditorTour'
 import { getTemplateConfig, templateSupportsField } from '@/lib/template-config'
+import ScreenshotProtection from '@/components/ScreenshotProtection'
 
 interface SiteData {
   id: string
@@ -1561,19 +1562,21 @@ export default function SiteEditorPage() {
 
             {previewMode === 'live' ? (
               // Live Preview with iframe
-              <div 
-                className={`bg-white rounded-lg shadow-2xl overflow-hidden mx-auto transition-all ${
-                  viewMode === 'mobile' ? 'max-w-[375px]' : 'max-w-full'
-                }`} 
-                style={{ height: '90vh' }}
-              >
-                <iframe
-                  key={`live-${templateId}-${viewMode}`}
-                  src={getPreviewUrl()}
-                  className="w-full h-full border-0"
-                  title="Live Preview"
-                />
-              </div>
+              <ScreenshotProtection showWatermark={true}>
+                <div 
+                  className={`bg-white rounded-lg shadow-2xl overflow-hidden mx-auto transition-all ${
+                    viewMode === 'mobile' ? 'max-w-[375px]' : 'max-w-full'
+                  }`} 
+                  style={{ height: '90vh' }}
+                >
+                  <iframe
+                    key={`live-${templateId}-${viewMode}`}
+                    src={getPreviewUrl()}
+                    className="w-full h-full border-0"
+                    title="Live Preview"
+                  />
+                </div>
+              </ScreenshotProtection>
             ) : (
               // Template Preview Mode
               <div className="space-y-4">
@@ -1592,21 +1595,23 @@ export default function SiteEditorPage() {
                 </div>
 
                 {/* Large Template Preview - Live with customizations */}
-                <div className="bg-gray-900 rounded-lg p-3 border border-gray-700">
-                  <div 
-                    className={`relative bg-white rounded-lg overflow-hidden shadow-2xl mx-auto transition-all ${
-                      viewMode === 'mobile' ? 'max-w-[375px]' : 'max-w-full'
-                    }`} 
-                    style={{ height: '82vh' }}
-                  >
-                    <iframe
-                      key={`template-${templateId}-${viewMode}`}
-                      src={getPreviewUrl()}
-                      className="w-full h-full border-0"
-                      title="Template Preview"
-                    />
+                <ScreenshotProtection showWatermark={true}>
+                  <div className="bg-gray-900 rounded-lg p-3 border border-gray-700">
+                    <div 
+                      className={`relative bg-white rounded-lg overflow-hidden shadow-2xl mx-auto transition-all ${
+                        viewMode === 'mobile' ? 'max-w-[375px]' : 'max-w-full'
+                      }`} 
+                      style={{ height: '82vh' }}
+                    >
+                      <iframe
+                        key={`template-${templateId}-${viewMode}`}
+                        src={getPreviewUrl()}
+                        className="w-full h-full border-0"
+                        title="Template Preview"
+                      />
+                    </div>
                   </div>
-                </div>
+                </ScreenshotProtection>
 
                 {/* Customization Info */}
                 <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-700/50 rounded-lg p-4">
