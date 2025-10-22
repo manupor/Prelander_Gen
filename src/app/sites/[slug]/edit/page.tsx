@@ -447,7 +447,7 @@ export default function SiteEditorPage() {
       // ULTRA SAFE: Use only lowercase alphanumeric + timestamp
       const timestamp = Date.now()
       const safeSlug = slug.replace(/[^a-z0-9]/gi, '').toLowerCase().substring(0, 15) || 'prelander'
-      const filename = `${safeSlug}_${timestamp}.zip`
+      const filename = `${safeSlug}${timestamp}.zip`  // NO underscores at all!
       
       console.log('[DOWNLOAD] Slug:', slug)
       console.log('[DOWNLOAD] Safe slug:', safeSlug)
@@ -456,25 +456,50 @@ export default function SiteEditorPage() {
       // Create blob and download
       const blob = await response.blob()
       console.log('[DOWNLOAD] Blob size:', blob.size, 'bytes')
+      console.log('[DOWNLOAD] Blob type:', blob.type)
       
-      const url = window.URL.createObjectURL(blob)
-      console.log('[DOWNLOAD] Blob URL created:', url)
-      
-      const a = document.createElement('a')
-      a.href = url
-      a.download = filename
-      a.style.display = 'none'
-      document.body.appendChild(a)
-      
-      console.log('[DOWNLOAD] Triggering download...')
-      a.click()
-      
-      // Clean up after a delay
-      setTimeout(() => {
-        window.URL.revokeObjectURL(url)
-        document.body.removeChild(a)
-        console.log('[DOWNLOAD] Cleanup complete')
-      }, 100)
+      // Method 1: Try blob URL
+      try {
+        const url = window.URL.createObjectURL(blob)
+        console.log('[DOWNLOAD] Blob URL created:', url)
+        
+        const a = document.createElement('a')
+        a.href = url
+        a.download = filename
+        a.style.display = 'none'
+        document.body.appendChild(a)
+        
+        console.log('[DOWNLOAD] Triggering download via blob URL...')
+        a.click()
+        
+        // Clean up after a delay
+        setTimeout(() => {
+          window.URL.revokeObjectURL(url)
+          document.body.removeChild(a)
+          console.log('[DOWNLOAD] Cleanup complete')
+        }, 100)
+      } catch (blobError) {
+        console.error('[DOWNLOAD] Blob URL method failed:', blobError)
+        
+        // Method 2: Fallback to data URL for small files
+        console.log('[DOWNLOAD] Trying data URL fallback...')
+        const reader = new FileReader()
+        reader.onload = () => {
+          const a = document.createElement('a')
+          a.href = reader.result as string
+          a.download = filename
+          a.style.display = 'none'
+          document.body.appendChild(a)
+          a.click()
+          document.body.removeChild(a)
+          console.log('[DOWNLOAD] Downloaded via data URL')
+        }
+        reader.onerror = () => {
+          console.error('[DOWNLOAD] All download methods failed')
+          alert('Download failed. Please try again or contact support.')
+        }
+        reader.readAsDataURL(blob)
+      }
 
       setShowDownloadModal(false)
       
@@ -607,24 +632,37 @@ export default function SiteEditorPage() {
       // ULTRA SAFE: Use only lowercase alphanumeric + timestamp
       const timestamp = Date.now()
       const safeSlug = slug.replace(/[^a-z0-9]/gi, '').toLowerCase().substring(0, 15) || 'prelander'
-      const filename = `${safeSlug}_std_${timestamp}.zip`
+      const filename = `${safeSlug}std${timestamp}.zip`  // NO underscores!
       
       console.log('[STANDARD] Final filename:', filename)
 
-      // Create blob and download
+      // Create blob and download with fallback
       const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = filename
-      a.style.display = 'none'
-      document.body.appendChild(a)
-      a.click()
-      
-      setTimeout(() => {
-        window.URL.revokeObjectURL(url)
-        document.body.removeChild(a)
-      }, 100)
+      try {
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = filename
+        a.style.display = 'none'
+        document.body.appendChild(a)
+        a.click()
+        setTimeout(() => {
+          window.URL.revokeObjectURL(url)
+          document.body.removeChild(a)
+        }, 100)
+      } catch (err) {
+        // Fallback method
+        const reader = new FileReader()
+        reader.onload = () => {
+          const a = document.createElement('a')
+          a.href = reader.result as string
+          a.download = filename
+          document.body.appendChild(a)
+          a.click()
+          document.body.removeChild(a)
+        }
+        reader.readAsDataURL(blob)
+      }
 
       // Get password from header (development only)
       const password = response.headers.get('X-Download-Password')
@@ -678,24 +716,37 @@ export default function SiteEditorPage() {
       const timestamp = Date.now()
       const safeSlug = slug.replace(/[^a-z0-9]/gi, '').toLowerCase().substring(0, 15) || 'prelander'
       const safeAffCode = affiliateCode.replace(/[^a-z0-9]/gi, '').toLowerCase().substring(0, 8) || 'aff'
-      const filename = `${safeSlug}_${safeAffCode}_${timestamp}.zip`
+      const filename = `${safeSlug}${safeAffCode}${timestamp}.zip`  // NO underscores!
       
       console.log('[SECURE] Final filename:', filename)
 
-      // Create blob and download
+      // Create blob and download with fallback
       const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = filename
-      a.style.display = 'none'
-      document.body.appendChild(a)
-      a.click()
-      
-      setTimeout(() => {
-        window.URL.revokeObjectURL(url)
-        document.body.removeChild(a)
-      }, 100)
+      try {
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = filename
+        a.style.display = 'none'
+        document.body.appendChild(a)
+        a.click()
+        setTimeout(() => {
+          window.URL.revokeObjectURL(url)
+          document.body.removeChild(a)
+        }, 100)
+      } catch (err) {
+        // Fallback method
+        const reader = new FileReader()
+        reader.onload = () => {
+          const a = document.createElement('a')
+          a.href = reader.result as string
+          a.download = filename
+          document.body.appendChild(a)
+          a.click()
+          document.body.removeChild(a)
+        }
+        reader.readAsDataURL(blob)
+      }
 
       // Get password from header (development only)
       const password = response.headers.get('X-Download-Password')
