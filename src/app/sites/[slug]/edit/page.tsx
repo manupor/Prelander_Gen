@@ -441,7 +441,13 @@ export default function SiteEditorPage() {
       }
       const safeBrandName = site?.brand_name ? sanitizeBrandName(site.brand_name) : 'prelander'
       // Try to extract filename from header (without quotes), fallback to generated name
-      const filename = contentDisposition?.match(/filename=([^\s;]+)/)?.[1] || `${safeBrandName}_protected.zip`
+      let filename = contentDisposition?.match(/filename=([^\s;]+)/)?.[1] || `${safeBrandName}_protected.zip`
+      
+      // CRITICAL: Sanitize filename again on client side to ensure it's safe
+      filename = filename
+        .replace(/[^a-zA-Z0-9._-]/g, '_')  // Keep only safe chars
+        .replace(/_+/g, '_')                // Remove multiple underscores
+        .toLowerCase()                      // Normalize case
 
       // Create blob and download
       const blob = await response.blob()
@@ -577,7 +583,13 @@ export default function SiteEditorPage() {
           .substring(0, 50) || 'prelander'
       }
       const safeBrandName = site?.brand_name ? sanitizeBrandName(site.brand_name) : 'prelander'
-      const filename = contentDisposition?.match(/filename=([^\s;]+)/)?.[1] || `${safeBrandName}_${slug}.zip`
+      let filename = contentDisposition?.match(/filename=([^\s;]+)/)?.[1] || `${safeBrandName}_${slug}.zip`
+      
+      // CRITICAL: Sanitize filename again on client side to ensure it's safe
+      filename = filename
+        .replace(/[^a-zA-Z0-9._-]/g, '_')  // Keep only safe chars
+        .replace(/_+/g, '_')                // Remove multiple underscores
+        .toLowerCase()                      // Normalize case
 
       // Create blob and download
       const blob = await response.blob()
@@ -652,7 +664,13 @@ export default function SiteEditorPage() {
           .substring(0, 50) || 'prelander'
       }
       const safeBrandName = site?.brand_name ? sanitizeBrandName(site.brand_name) : 'prelander'
-      const filename = contentDisposition?.match(/filename=([^\s;]+)/)?.[1] || `secure_${safeBrandName}_${affiliateCode}.zip`
+      let filename = contentDisposition?.match(/filename=([^\s;]+)/)?.[1] || `secure_${safeBrandName}_${affiliateCode}.zip`
+      
+      // CRITICAL: Sanitize filename again on client side to ensure it's safe
+      filename = filename
+        .replace(/[^a-zA-Z0-9._-]/g, '_')  // Keep only safe chars
+        .replace(/_+/g, '_')                // Remove multiple underscores
+        .toLowerCase()                      // Normalize case
 
       // Create blob and download
       const blob = await response.blob()
