@@ -427,18 +427,21 @@ export default function SiteEditorPage() {
 
       // Get the filename from the response headers
       const contentDisposition = response.headers.get('content-disposition')
-      // Sanitize filename: remove invalid characters and normalize
+      // Sanitize filename: remove ALL special characters - STRICT
       const sanitizeBrandName = (name: string) => {
+        if (!name || typeof name !== 'string') return 'prelander'
         return name
-          .normalize('NFD') // Normalize unicode
-          .replace(/[\u0300-\u036f]/g, '') // Remove accents
-          .replace(/[^a-zA-Z0-9-_]/g, '_') // Replace invalid chars with underscore
-          .replace(/_+/g, '_') // Replace multiple underscores with single
-          .replace(/^_|_$/g, '') // Remove leading/trailing underscores
-          .toLowerCase()
+          .normalize('NFD')                    // Normalize unicode
+          .replace(/[\u0300-\u036f]/g, '')    // Remove accents
+          .replace(/[^a-zA-Z0-9]/g, '_')      // Keep ONLY alphanumeric
+          .replace(/_+/g, '_')                 // Replace multiple underscores
+          .replace(/^_+|_+$/g, '')             // Trim underscores
+          .toLowerCase()                       // Lowercase
+          .substring(0, 50) || 'prelander'     // Limit length + fallback
       }
       const safeBrandName = site?.brand_name ? sanitizeBrandName(site.brand_name) : 'prelander'
-      const filename = contentDisposition?.match(/filename="(.+)"/)?.[1] || `${safeBrandName}_protected.zip`
+      // Try to extract filename from header (without quotes), fallback to generated name
+      const filename = contentDisposition?.match(/filename=([^\s;]+)/)?.[1] || `${safeBrandName}_protected.zip`
 
       // Create blob and download
       const blob = await response.blob()
@@ -560,19 +563,21 @@ export default function SiteEditorPage() {
         throw new Error(errorMessage)
       }
 
-      // Get the filename from the response headers and sanitize
+      // Get the filename from the response headers and sanitize - STRICT
       const contentDisposition = response.headers.get('content-disposition')
       const sanitizeBrandName = (name: string) => {
+        if (!name || typeof name !== 'string') return 'prelander'
         return name
           .normalize('NFD')
           .replace(/[\u0300-\u036f]/g, '')
-          .replace(/[^a-zA-Z0-9-_]/g, '_')
+          .replace(/[^a-zA-Z0-9]/g, '_')
           .replace(/_+/g, '_')
-          .replace(/^_|_$/g, '')
+          .replace(/^_+|_+$/g, '')
           .toLowerCase()
+          .substring(0, 50) || 'prelander'
       }
       const safeBrandName = site?.brand_name ? sanitizeBrandName(site.brand_name) : 'prelander'
-      const filename = contentDisposition?.match(/filename="(.+)"/)?.[1] || `${safeBrandName}_${slug}.zip`
+      const filename = contentDisposition?.match(/filename=([^\s;]+)/)?.[1] || `${safeBrandName}_${slug}.zip`
 
       // Create blob and download
       const blob = await response.blob()
@@ -633,19 +638,21 @@ export default function SiteEditorPage() {
         throw new Error(errorMessage)
       }
 
-      // Get the filename from the response headers and sanitize
+      // Get the filename from the response headers and sanitize - STRICT
       const contentDisposition = response.headers.get('content-disposition')
       const sanitizeBrandName = (name: string) => {
+        if (!name || typeof name !== 'string') return 'prelander'
         return name
           .normalize('NFD')
           .replace(/[\u0300-\u036f]/g, '')
-          .replace(/[^a-zA-Z0-9-_]/g, '_')
+          .replace(/[^a-zA-Z0-9]/g, '_')
           .replace(/_+/g, '_')
-          .replace(/^_|_$/g, '')
+          .replace(/^_+|_+$/g, '')
           .toLowerCase()
+          .substring(0, 50) || 'prelander'
       }
       const safeBrandName = site?.brand_name ? sanitizeBrandName(site.brand_name) : 'prelander'
-      const filename = contentDisposition?.match(/filename="(.+)"/)?.[1] || `secure_${safeBrandName}_${affiliateCode}.zip`
+      const filename = contentDisposition?.match(/filename=([^\s;]+)/)?.[1] || `secure_${safeBrandName}_${affiliateCode}.zip`
 
       // Create blob and download
       const blob = await response.blob()

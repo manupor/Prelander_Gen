@@ -109,25 +109,29 @@ The real security comes from the obfuscated code, not the ZIP password.
       }
     }
 
-    // Sanitize filename properly
+    // Sanitize filename properly - remove ALL special characters
     const sanitizeFilename = (name: string) => {
+      if (!name || typeof name !== 'string') return 'prelander'
+      
       return name
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-zA-Z0-9-_]/g, '_')
-        .replace(/_+/g, '_')
-        .replace(/^_|_$/g, '')
-        .toLowerCase() || 'prelander'
+        .normalize('NFD')                      // Normalize unicode
+        .replace(/[\u0300-\u036f]/g, '')      // Remove accents
+        .replace(/[^a-zA-Z0-9]/g, '_')        // Keep ONLY alphanumeric
+        .replace(/_+/g, '_')                   // Replace multiple underscores
+        .replace(/^_+|_+$/g, '')               // Trim underscores
+        .toLowerCase()                         // Lowercase
+        .substring(0, 50) || 'prelander'       // Limit length + fallback
     }
     
     const safeFilename = sanitizeFilename(site.brand_name)
+    const finalFilename = `secure_${safeFilename}_${affiliateCode}.zip`
 
-    // Return encrypted ZIP
+    // Return encrypted ZIP with ASCII-safe filename
     return new NextResponse(Buffer.from(zipBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/zip',
-        'Content-Disposition': `attachment; filename="secure_${safeFilename}_${affiliateCode}.zip"`,
+        'Content-Disposition': `attachment; filename=${finalFilename}`,  // No quotes
         'X-Download-Password': password,
       },
     })
