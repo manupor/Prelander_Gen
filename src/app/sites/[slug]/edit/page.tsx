@@ -425,29 +425,12 @@ export default function SiteEditorPage() {
         throw new Error(errorMessage)
       }
 
-      // Get the filename from the response headers
-      const contentDisposition = response.headers.get('content-disposition')
-      // Sanitize filename: remove ALL special characters - STRICT
-      const sanitizeBrandName = (name: string) => {
-        if (!name || typeof name !== 'string') return 'prelander'
-        return name
-          .normalize('NFD')                    // Normalize unicode
-          .replace(/[\u0300-\u036f]/g, '')    // Remove accents
-          .replace(/[^a-zA-Z0-9]/g, '_')      // Keep ONLY alphanumeric
-          .replace(/_+/g, '_')                 // Replace multiple underscores
-          .replace(/^_+|_+$/g, '')             // Trim underscores
-          .toLowerCase()                       // Lowercase
-          .substring(0, 50) || 'prelander'     // Limit length + fallback
-      }
-      const safeBrandName = site?.brand_name ? sanitizeBrandName(site.brand_name) : 'prelander'
-      // Try to extract filename from header (without quotes), fallback to generated name
-      let filename = contentDisposition?.match(/filename=([^\s;]+)/)?.[1] || `${safeBrandName}_protected.zip`
+      // EMERGENCY FIX: Use hardcoded safe filename to bypass header issues
+      const timestamp = Date.now()
+      const safeSlug = slug.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 20)
+      const filename = `prelander_${safeSlug}_${timestamp}.zip`
       
-      // CRITICAL: Sanitize filename again on client side to ensure it's safe
-      filename = filename
-        .replace(/[^a-zA-Z0-9._-]/g, '_')  // Keep only safe chars
-        .replace(/_+/g, '_')                // Remove multiple underscores
-        .toLowerCase()                      // Normalize case
+      console.log('[DOWNLOAD] Using safe filename:', filename)
 
       // Create blob and download
       const blob = await response.blob()
@@ -569,27 +552,12 @@ export default function SiteEditorPage() {
         throw new Error(errorMessage)
       }
 
-      // Get the filename from the response headers and sanitize - STRICT
-      const contentDisposition = response.headers.get('content-disposition')
-      const sanitizeBrandName = (name: string) => {
-        if (!name || typeof name !== 'string') return 'prelander'
-        return name
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .replace(/[^a-zA-Z0-9]/g, '_')
-          .replace(/_+/g, '_')
-          .replace(/^_+|_+$/g, '')
-          .toLowerCase()
-          .substring(0, 50) || 'prelander'
-      }
-      const safeBrandName = site?.brand_name ? sanitizeBrandName(site.brand_name) : 'prelander'
-      let filename = contentDisposition?.match(/filename=([^\s;]+)/)?.[1] || `${safeBrandName}_${slug}.zip`
+      // EMERGENCY FIX: Use hardcoded safe filename to bypass header issues
+      const timestamp = Date.now()
+      const safeSlug = slug.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 20)
+      const filename = `prelander_standard_${safeSlug}_${timestamp}.zip`
       
-      // CRITICAL: Sanitize filename again on client side to ensure it's safe
-      filename = filename
-        .replace(/[^a-zA-Z0-9._-]/g, '_')  // Keep only safe chars
-        .replace(/_+/g, '_')                // Remove multiple underscores
-        .toLowerCase()                      // Normalize case
+      console.log('[DOWNLOAD STANDARD] Using safe filename:', filename)
 
       // Create blob and download
       const blob = await response.blob()
@@ -650,27 +618,13 @@ export default function SiteEditorPage() {
         throw new Error(errorMessage)
       }
 
-      // Get the filename from the response headers and sanitize - STRICT
-      const contentDisposition = response.headers.get('content-disposition')
-      const sanitizeBrandName = (name: string) => {
-        if (!name || typeof name !== 'string') return 'prelander'
-        return name
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .replace(/[^a-zA-Z0-9]/g, '_')
-          .replace(/_+/g, '_')
-          .replace(/^_+|_+$/g, '')
-          .toLowerCase()
-          .substring(0, 50) || 'prelander'
-      }
-      const safeBrandName = site?.brand_name ? sanitizeBrandName(site.brand_name) : 'prelander'
-      let filename = contentDisposition?.match(/filename=([^\s;]+)/)?.[1] || `secure_${safeBrandName}_${affiliateCode}.zip`
+      // EMERGENCY FIX: Use hardcoded safe filename to bypass header issues
+      const timestamp = Date.now()
+      const safeSlug = slug.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 20)
+      const safeAffCode = affiliateCode.replace(/[^a-zA-Z0-9]/g, '_').substring(0, 10)
+      const filename = `prelander_secure_${safeSlug}_${safeAffCode}_${timestamp}.zip`
       
-      // CRITICAL: Sanitize filename again on client side to ensure it's safe
-      filename = filename
-        .replace(/[^a-zA-Z0-9._-]/g, '_')  // Keep only safe chars
-        .replace(/_+/g, '_')                // Remove multiple underscores
-        .toLowerCase()                      // Normalize case
+      console.log('[DOWNLOAD SECURE] Using safe filename:', filename)
 
       // Create blob and download
       const blob = await response.blob()
