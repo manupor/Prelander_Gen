@@ -8,9 +8,9 @@ export async function GET() {
     zip.file('test.txt', 'This is a test file. If you can download this, the system works.')
     zip.file('index.html', '<html><body><h1>Test Success!</h1></body></html>')
     
-    const zipBuffer = await zip.generateAsync({ type: 'nodebuffer' })
+    const zipBuffer = await zip.generateAsync({ type: 'uint8array' })
 
-    return new NextResponse(zipBuffer, {
+    return new NextResponse(Buffer.from(zipBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/zip',
