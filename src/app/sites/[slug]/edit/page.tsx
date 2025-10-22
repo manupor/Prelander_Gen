@@ -427,7 +427,18 @@ export default function SiteEditorPage() {
 
       // Get the filename from the response headers
       const contentDisposition = response.headers.get('content-disposition')
-      const filename = contentDisposition?.match(/filename="(.+)"/)?.[1] || `${site?.brand_name}_protected.zip`
+      // Sanitize filename: remove invalid characters and normalize
+      const sanitizeBrandName = (name: string) => {
+        return name
+          .normalize('NFD') // Normalize unicode
+          .replace(/[\u0300-\u036f]/g, '') // Remove accents
+          .replace(/[^a-zA-Z0-9-_]/g, '_') // Replace invalid chars with underscore
+          .replace(/_+/g, '_') // Replace multiple underscores with single
+          .replace(/^_|_$/g, '') // Remove leading/trailing underscores
+          .toLowerCase()
+      }
+      const safeBrandName = site?.brand_name ? sanitizeBrandName(site.brand_name) : 'prelander'
+      const filename = contentDisposition?.match(/filename="(.+)"/)?.[1] || `${safeBrandName}_protected.zip`
 
       // Create blob and download
       const blob = await response.blob()
@@ -549,9 +560,19 @@ export default function SiteEditorPage() {
         throw new Error(errorMessage)
       }
 
-      // Get the filename from the response headers
+      // Get the filename from the response headers and sanitize
       const contentDisposition = response.headers.get('content-disposition')
-      const filename = contentDisposition?.match(/filename="(.+)"/)?.[1] || `${site?.brand_name}_${slug}.zip`
+      const sanitizeBrandName = (name: string) => {
+        return name
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-zA-Z0-9-_]/g, '_')
+          .replace(/_+/g, '_')
+          .replace(/^_|_$/g, '')
+          .toLowerCase()
+      }
+      const safeBrandName = site?.brand_name ? sanitizeBrandName(site.brand_name) : 'prelander'
+      const filename = contentDisposition?.match(/filename="(.+)"/)?.[1] || `${safeBrandName}_${slug}.zip`
 
       // Create blob and download
       const blob = await response.blob()
@@ -612,9 +633,19 @@ export default function SiteEditorPage() {
         throw new Error(errorMessage)
       }
 
-      // Get the filename from the response headers
+      // Get the filename from the response headers and sanitize
       const contentDisposition = response.headers.get('content-disposition')
-      const filename = contentDisposition?.match(/filename="(.+)"/)?.[1] || `secure_${site?.brand_name}_${affiliateCode}.zip`
+      const sanitizeBrandName = (name: string) => {
+        return name
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-zA-Z0-9-_]/g, '_')
+          .replace(/_+/g, '_')
+          .replace(/^_|_$/g, '')
+          .toLowerCase()
+      }
+      const safeBrandName = site?.brand_name ? sanitizeBrandName(site.brand_name) : 'prelander'
+      const filename = contentDisposition?.match(/filename="(.+)"/)?.[1] || `secure_${safeBrandName}_${affiliateCode}.zip`
 
       // Create blob and download
       const blob = await response.blob()
@@ -1691,233 +1722,108 @@ export default function SiteEditorPage() {
             {/* Scrollable Content */}
             <div className="relative z-10 p-4 overflow-y-auto flex-1">
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-                {/* NEW: Simple Protected Package */}
-                <div className="bg-gradient-to-r from-green-800/50 to-emerald-700/50 rounded-lg p-3 border border-green-500/40 backdrop-blur-sm relative">
-                  <div className="absolute -top-1.5 -right-1.5 bg-green-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-                    ⭐ RECOMMENDED
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="p-1.5 bg-green-500/20 rounded-md flex-shrink-0">
-                      <Download className="w-4 h-4 text-green-400" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                {/* Option 1: Download ZIP */}
+                <div className="bg-gradient-to-r from-blue-800/50 to-cyan-700/50 rounded-lg p-4 border border-cyan-500/40 backdrop-blur-sm hover:border-cyan-400/60 transition-all cursor-pointer group">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-cyan-500/20 rounded-lg flex-shrink-0 group-hover:bg-cyan-500/30 transition-all">
+                      <Download className="w-6 h-6 text-cyan-400" />
                     </div>
                     <div>
-                      <p className="text-sm text-white font-semibold">Simple Download</p>
-                      <p className="text-[11px] text-gray-300 mt-0.5 leading-tight">
-                        Easy and fast! Protected code, works locally.
+                      <p className="text-base text-white font-bold mb-1">Download ZIP File</p>
+                      <p className="text-xs text-gray-300 leading-relaxed">
+                        Download your prelander as a protected ZIP file. Upload to any hosting service.
                       </p>
-                      <ul className="text-[10px] text-gray-400 mt-1.5 space-y-0.5">
-                        <li>✅ No passwords</li>
-                        <li>✅ Obfuscated code</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                {/* AWS Hosted Package - NEW! */}
-                <div className="bg-gradient-to-r from-purple-800/50 to-indigo-700/50 rounded-lg p-3 border border-purple-500/40 backdrop-blur-sm relative">
-                  <div className="absolute -top-1.5 -right-1.5 bg-purple-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-                    🚀 NEW
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="p-1.5 bg-purple-500/20 rounded-md flex-shrink-0">
-                      <svg className="w-4 h-4 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 0L1.608 6v12L12 24l10.392-6V6L12 0zm0 2.5l8.892 5.136v10.728L12 23.5l-8.892-5.136V7.636L12 2.5z"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="text-sm text-white font-semibold">AWS Hosted</p>
-                      <p className="text-[11px] text-gray-300 mt-0.5 leading-tight">
-                        Automatic hosting on Amazon S3 with global CDN.
-                      </p>
-                      <ul className="text-[10px] text-gray-400 mt-1.5 space-y-0.5">
-                        <li>✅ Instant public URL</li>
+                      <ul className="text-xs text-gray-400 mt-2 space-y-1">
+                        <li>✅ Works on any hosting</li>
                         <li>✅ Protected code</li>
+                        <li>✅ No setup needed</li>
                       </ul>
                     </div>
                   </div>
                 </div>
 
-                {/* Standard Package */}
-                <div className="bg-gradient-to-r from-gray-800/50 to-gray-700/50 rounded-lg p-3 border border-neon-primary/20 backdrop-blur-sm">
-                  <div className="flex items-start gap-2">
-                    <div className="p-1.5 bg-blue-500/20 rounded-md flex-shrink-0">
-                      <Mail className="w-4 h-4 text-blue-400" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-white font-semibold">Standard</p>
-                      <p className="text-[11px] text-gray-300 mt-0.5 leading-tight">
-                        Password-protected ZIP via email.
-                      </p>
-                      <ul className="text-[10px] text-gray-400 mt-1.5 space-y-0.5">
-                        <li>• ZIP encryption</li>
-                        <li>• Password via email</li>
-                      </ul>
-                    </div>
+                {/* Option 2: Host with Forge */}
+                <div className="bg-gradient-to-r from-purple-800/50 to-indigo-700/50 rounded-lg p-4 border border-purple-500/40 backdrop-blur-sm hover:border-purple-400/60 transition-all cursor-pointer group relative">
+                  <div className="absolute -top-2 -right-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg">
+                    🚀 RECOMMENDED
                   </div>
-                </div>
-
-                {/* Secure Package */}
-                <div className="bg-gradient-to-r from-red-900/30 to-orange-900/30 rounded-lg p-3 border border-red-500/30 backdrop-blur-sm">
-                  <div className="flex items-start gap-2">
-                    <div className="p-1.5 bg-red-500/20 rounded-md flex-shrink-0">
-                      <Layers className="w-4 h-4 text-red-400" />
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-purple-500/20 rounded-lg flex-shrink-0 group-hover:bg-purple-500/30 transition-all">
+                      <Globe className="w-6 h-6 text-purple-400" />
                     </div>
                     <div>
-                      <p className="text-sm text-white font-semibold">SECURE</p>
-                      <p className="text-[11px] text-gray-300 mt-0.5 leading-tight">
-                        Maximum protection with affiliate tracking.
+                      <p className="text-base text-white font-bold mb-1">Host with Forge</p>
+                      <p className="text-xs text-gray-300 leading-relaxed">
+                        Instant hosting on AWS S3 with global CDN. Get your live URL immediately.
                       </p>
-                      <ul className="text-[10px] text-gray-400 mt-1.5 space-y-0.5">
-                        <li>• Advanced obfuscation</li>
-                        <li>• Domain locking</li>
+                      <ul className="text-xs text-gray-400 mt-2 space-y-1">
+                        <li>✅ Instant live URL</li>
+                        <li>✅ Global CDN delivery</li>
+                        <li>✅ Automatic setup</li>
                       </ul>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-xs font-medium text-white mb-1.5">
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    value={downloadEmail}
-                    onChange={(e) => setDownloadEmail(e.target.value)}
-                    className="w-full px-3 py-2 text-sm bg-darker-surface border border-neon-primary/30 rounded-lg text-white focus:outline-none focus:border-neon-primary"
-                    placeholder="your@email.com"
-                    disabled={downloading}
-                  />
-                </div>
-
-                {/* Secure Package Options */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs font-medium text-white mb-1.5">
-                      Affiliate Code (for secure)
-                    </label>
-                    <input
-                      type="text"
-                      value={affiliateCode}
-                      onChange={(e) => setAffiliateCode(e.target.value.toUpperCase())}
-                      className="w-full px-3 py-2 text-sm bg-darker-surface border border-neon-primary/30 rounded-lg text-white focus:outline-none focus:border-neon-primary"
-                      placeholder="e.g. AFF001"
-                      disabled={downloading}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-medium text-white mb-1.5">
-                      Domain Lock (optional)
-                    </label>
-                    <input
-                      type="text"
-                      value={domainLock}
-                      onChange={(e) => setDomainLock(e.target.value)}
-                      className="w-full px-3 py-2 text-sm bg-darker-surface border border-neon-primary/30 rounded-lg text-white focus:outline-none focus:border-neon-primary"
-                      placeholder="example.com"
-                      disabled={downloading}
-                    />
-                  </div>
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  value={downloadEmail}
+                  onChange={(e) => setDownloadEmail(e.target.value)}
+                  className="w-full px-4 py-2.5 text-sm bg-darker-surface border border-neon-primary/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-neon-primary focus:border-transparent"
+                  placeholder="your@email.com"
+                  disabled={downloading}
+                />
+                <p className="text-xs text-gray-400 mt-1.5">
+                  We'll send your download link or hosted URL to this email
+                </p>
               </div>
             </div>
 
             {/* Fixed Footer with Buttons */}
             <div className="relative z-10 p-4 pt-3 border-t border-neon-primary/20 flex-shrink-0 bg-gray-900/50">
-              <div className="flex flex-col gap-2">
-                {/* Primary action - Simple Download */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {/* Download ZIP Button */}
                 <button
                   onClick={handleSimpleDownload}
                   disabled={downloading}
-                  className="w-full px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-2 shadow-lg shadow-green-500/40 text-sm"
+                  className="px-5 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/30"
                 >
                   {downloading ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <Loader2 className="w-5 h-5 animate-spin" />
                       Generating...
                     </>
                   ) : (
                     <>
-                      <Download className="w-4 h-4" />
-                      ⚡ QUICK DOWNLOAD (Recommended)
+                      <Download className="w-5 h-5" />
+                      Download ZIP
                     </>
                   )}
                 </button>
 
-                {/* NEW: AWS Hosting Button */}
+                {/* Host with Forge Button */}
                 <button
                   onClick={handleAWSHosting}
                   disabled={downloading || !downloadEmail}
-                  className="w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-2 shadow-lg shadow-purple-500/40 text-sm"
+                  className="px-5 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-2 shadow-lg shadow-purple-500/30"
                 >
                   {downloading ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <Loader2 className="w-5 h-5 animate-spin" />
                       Hosting...
                     </>
                   ) : (
                     <>
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 0L1.608 6v12L12 24l10.392-6V6L12 0zm0 2.5l8.892 5.136v10.728L12 23.5l-8.892-5.136V7.636L12 2.5z"/>
-                      </svg>
-                      🚀 AWS HOSTING (New)
+                      <Globe className="w-5 h-5" />
+                      Host with Forge
                     </>
                   )}
-                </button>
-
-                {/* Secondary actions */}
-                <div className="flex gap-2">
-                  <button
-                    onClick={handleDownload}
-                    disabled={downloading || !downloadEmail}
-                    className="flex-1 px-3 py-2 text-xs bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-medium flex items-center justify-center gap-1.5"
-                  >
-                    {downloading ? (
-                      <>
-                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                        Generating...
-                      </>
-                    ) : (
-                      <>
-                        <Mail className="w-3.5 h-3.5" />
-                        Standard
-                      </>
-                    )}
-                  </button>
-
-                  <button
-                    onClick={handleSecureDownload}
-                    disabled={downloading || !downloadEmail || !affiliateCode}
-                    className="flex-1 px-3 py-2 text-xs bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-red-500/30"
-                  >
-                    {downloading ? (
-                      <>
-                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                        Securing...
-                      </>
-                    ) : (
-                      <>
-                        <Layers className="w-3.5 h-3.5" />
-                        SECURE
-                      </>
-                    )}
-                  </button>
-                </div>
-
-                <button
-                  onClick={() => {
-                    setShowDownloadModal(false)
-                    setDownloadEmail('')
-                    setAffiliateCode('')
-                    setDomainLock('')
-                  }}
-                  disabled={downloading}
-                  className="px-4 py-2 bg-gray-700/50 hover:bg-gray-600/50 text-gray-300 hover:text-white rounded-lg transition-all duration-300 disabled:opacity-50 border border-gray-600 hover:border-gray-500 text-sm"
-                >
-                  Cancelar
                 </button>
               </div>
             </div>
