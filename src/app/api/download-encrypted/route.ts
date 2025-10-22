@@ -182,12 +182,25 @@ Protected with password: Check your email for access details
       }
     }
 
+    // Sanitize filename properly
+    const sanitizeFilename = (name: string) => {
+      return name
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-zA-Z0-9-_]/g, '_')
+        .replace(/_+/g, '_')
+        .replace(/^_|_$/g, '')
+        .toLowerCase() || 'prelander'
+    }
+    
+    const safeFilename = sanitizeFilename(site.brand_name)
+
     // Return the ZIP file
     return new NextResponse(Buffer.from(zipBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/zip',
-        'Content-Disposition': `attachment; filename="${site.brand_name.replace(/[^a-zA-Z0-9]/g, '_')}_${slug}.zip"`,
+        'Content-Disposition': `attachment; filename="${safeFilename}_${slug}.zip"`,
         'X-Download-Password': password, // Include password in header for development
       },
     })

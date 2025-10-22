@@ -1724,43 +1724,40 @@ export default function SiteEditorPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 {/* Option 1: Download ZIP */}
-                <div className="bg-gradient-to-r from-blue-800/50 to-cyan-700/50 rounded-lg p-4 border border-cyan-500/40 backdrop-blur-sm hover:border-cyan-400/60 transition-all cursor-pointer group">
+                <div className="bg-gradient-to-r from-blue-800/50 to-cyan-700/50 rounded-lg p-4 border border-cyan-500/40 backdrop-blur-sm hover:border-cyan-400/60 transition-all">
                   <div className="flex items-start gap-3">
-                    <div className="p-2 bg-cyan-500/20 rounded-lg flex-shrink-0 group-hover:bg-cyan-500/30 transition-all">
+                    <div className="p-2 bg-cyan-500/20 rounded-lg flex-shrink-0">
                       <Download className="w-6 h-6 text-cyan-400" />
                     </div>
                     <div>
-                      <p className="text-base text-white font-bold mb-1">Download ZIP File</p>
-                      <p className="text-xs text-gray-300 leading-relaxed">
-                        Download your prelander as a protected ZIP file. Upload to any hosting service.
+                      <p className="text-base text-white font-bold mb-1.5">Download ZIP</p>
+                      <p className="text-sm text-gray-200 leading-relaxed mb-2">
+                        Secure, protected prelander ready to deploy on any hosting platform.
                       </p>
-                      <ul className="text-xs text-gray-400 mt-2 space-y-1">
-                        <li>✅ Works on any hosting</li>
-                        <li>✅ Protected code</li>
-                        <li>✅ No setup needed</li>
+                      <ul className="text-xs text-cyan-200/80 space-y-1">
+                        <li>🔒 Code obfuscation & anti-clone protection</li>
+                        <li>📦 Works on any hosting service</li>
+                        <li>⚡ No setup required - upload and go</li>
                       </ul>
                     </div>
                   </div>
                 </div>
 
-                {/* Option 2: Host with Forge */}
-                <div className="bg-gradient-to-r from-purple-800/50 to-indigo-700/50 rounded-lg p-4 border border-purple-500/40 backdrop-blur-sm hover:border-purple-400/60 transition-all cursor-pointer group relative">
-                  <div className="absolute -top-2 -right-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg">
-                    🚀 RECOMMENDED
-                  </div>
+                {/* Option 2: Host with Us */}
+                <div className="bg-gradient-to-r from-purple-800/50 to-indigo-700/50 rounded-lg p-4 border border-purple-500/40 backdrop-blur-sm hover:border-purple-400/60 transition-all">
                   <div className="flex items-start gap-3">
-                    <div className="p-2 bg-purple-500/20 rounded-lg flex-shrink-0 group-hover:bg-purple-500/30 transition-all">
+                    <div className="p-2 bg-purple-500/20 rounded-lg flex-shrink-0">
                       <Globe className="w-6 h-6 text-purple-400" />
                     </div>
                     <div>
-                      <p className="text-base text-white font-bold mb-1">Host with Forge</p>
-                      <p className="text-xs text-gray-300 leading-relaxed">
-                        Instant hosting on AWS S3 with global CDN. Get your live URL immediately.
+                      <p className="text-base text-white font-bold mb-1.5">Host with Us</p>
+                      <p className="text-sm text-gray-200 leading-relaxed mb-2">
+                        We host your prelander on AWS with global CDN for instant worldwide access.
                       </p>
-                      <ul className="text-xs text-gray-400 mt-2 space-y-1">
-                        <li>✅ Instant live URL</li>
-                        <li>✅ Global CDN delivery</li>
-                        <li>✅ Automatic setup</li>
+                      <ul className="text-xs text-purple-200/80 space-y-1">
+                        <li>🌐 Instant live URL in seconds</li>
+                        <li>⚡ Fast global CDN delivery</li>
+                        <li>🔐 Automatic security & protection</li>
                       </ul>
                     </div>
                   </div>
@@ -1807,7 +1804,7 @@ export default function SiteEditorPage() {
                   )}
                 </button>
 
-                {/* Host with Forge Button */}
+                {/* Host with Us Button */}
                 <button
                   onClick={handleAWSHosting}
                   disabled={downloading || !downloadEmail}
@@ -1821,7 +1818,7 @@ export default function SiteEditorPage() {
                   ) : (
                     <>
                       <Globe className="w-5 h-5" />
-                      Host with Forge
+                      Host with Us
                     </>
                   )}
                 </button>

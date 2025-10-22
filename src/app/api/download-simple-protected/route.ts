@@ -43,12 +43,25 @@ export async function POST(request: NextRequest) {
       compressionOptions: { level: 9 }
     })
 
+    // Sanitize filename properly
+    const sanitizeFilename = (name: string) => {
+      return name
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-zA-Z0-9-_]/g, '_')
+        .replace(/_+/g, '_')
+        .replace(/^_|_$/g, '')
+        .toLowerCase() || 'prelander'
+    }
+    
+    const safeFilename = sanitizeFilename(site.brand_name)
+
     // Return ZIP
     return new NextResponse(Buffer.from(zipBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/zip',
-        'Content-Disposition': `attachment; filename="${site.brand_name.replace(/[^a-zA-Z0-9]/g, '_')}_protected.zip"`,
+        'Content-Disposition': `attachment; filename="${safeFilename}_protected.zip"`,
       },
     })
 

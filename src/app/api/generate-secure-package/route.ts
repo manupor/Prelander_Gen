@@ -109,12 +109,25 @@ The real security comes from the obfuscated code, not the ZIP password.
       }
     }
 
+    // Sanitize filename properly
+    const sanitizeFilename = (name: string) => {
+      return name
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-zA-Z0-9-_]/g, '_')
+        .replace(/_+/g, '_')
+        .replace(/^_|_$/g, '')
+        .toLowerCase() || 'prelander'
+    }
+    
+    const safeFilename = sanitizeFilename(site.brand_name)
+
     // Return encrypted ZIP
     return new NextResponse(Buffer.from(zipBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/zip',
-        'Content-Disposition': `attachment; filename="secure_${site.brand_name.replace(/[^a-zA-Z0-9]/g, '_')}_${affiliateCode}.zip"`,
+        'Content-Disposition': `attachment; filename="secure_${safeFilename}_${affiliateCode}.zip"`,
         'X-Download-Password': password,
       },
     })
