@@ -1660,187 +1660,188 @@ export default function SiteEditorPage() {
 
       {/* Enhanced Download Modal */}
       {showDownloadModal && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-in fade-in duration-300">
-          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-xl p-6 max-w-2xl w-full mx-4 border-2 border-neon-primary/30 shadow-2xl shadow-neon-primary/20 relative overflow-hidden">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-in fade-in duration-300 p-4">
+          <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-xl max-w-3xl w-full max-h-[90vh] border-2 border-neon-primary/30 shadow-2xl shadow-neon-primary/20 relative overflow-hidden flex flex-col">
             {/* Animated background */}
             <div className="absolute inset-0 bg-gradient-to-r from-neon-primary/5 via-transparent to-neon-secondary/5 animate-pulse"></div>
             
-            <div className="relative z-10">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="p-3 bg-gradient-to-br from-neon-primary/20 to-neon-secondary/20 rounded-xl border border-neon-primary/30">
-                  <Download className="w-8 h-8 text-neon-primary" />
+            {/* Fixed Header */}
+            <div className="relative z-10 p-4 pb-3 border-b border-neon-primary/20 flex-shrink-0">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-gradient-to-br from-neon-primary/20 to-neon-secondary/20 rounded-lg border border-neon-primary/30">
+                    <Download className="w-5 h-5 text-neon-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white">Download Prelander</h3>
+                    <p className="text-xs text-neon-primary/80">Choose your security level</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white">Download Prelander</h3>
-                  <p className="text-sm text-neon-primary/80">Choose your security level</p>
-                </div>
+                <button
+                  onClick={() => setShowDownloadModal(false)}
+                  className="p-2 hover:bg-red-500/20 rounded-lg transition-colors text-gray-400 hover:text-white"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
               </div>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            {/* Scrollable Content */}
+            <div className="relative z-10 p-4 overflow-y-auto flex-1">
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
                 {/* NEW: Simple Protected Package */}
-                <div className="bg-gradient-to-r from-green-800/50 to-emerald-700/50 rounded-lg p-4 border border-green-500/40 backdrop-blur-sm relative">
-                  <div className="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                <div className="bg-gradient-to-r from-green-800/50 to-emerald-700/50 rounded-lg p-3 border border-green-500/40 backdrop-blur-sm relative">
+                  <div className="absolute -top-1.5 -right-1.5 bg-green-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                     ⭐ RECOMMENDED
                   </div>
-                  <div className="flex items-start gap-3">
-                    <div className="p-2 bg-green-500/20 rounded-lg">
-                      <Download className="w-5 h-5 text-green-400" />
+                  <div className="flex items-start gap-2">
+                    <div className="p-1.5 bg-green-500/20 rounded-md flex-shrink-0">
+                      <Download className="w-4 h-4 text-green-400" />
                     </div>
                     <div>
-                      <p className="text-sm text-white font-semibold">✨ Simple Download</p>
-                      <p className="text-xs text-gray-300 mt-1 leading-relaxed">
+                      <p className="text-sm text-white font-semibold">Simple Download</p>
+                      <p className="text-[11px] text-gray-300 mt-0.5 leading-tight">
                         Easy and fast! Protected code, works locally.
                       </p>
-                      <ul className="text-xs text-gray-400 mt-2 space-y-1">
+                      <ul className="text-[10px] text-gray-400 mt-1.5 space-y-0.5">
                         <li>✅ No passwords</li>
                         <li>✅ Obfuscated code</li>
-                        <li>✅ Opens in browser</li>
-                        <li>✅ Ready to use</li>
                       </ul>
                     </div>
                   </div>
                 </div>
 
                 {/* AWS Hosted Package - NEW! */}
-                <div className="bg-gradient-to-r from-purple-800/50 to-indigo-700/50 rounded-lg p-4 border border-purple-500/40 backdrop-blur-sm relative">
-                  <div className="absolute -top-2 -right-2 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                <div className="bg-gradient-to-r from-purple-800/50 to-indigo-700/50 rounded-lg p-3 border border-purple-500/40 backdrop-blur-sm relative">
+                  <div className="absolute -top-1.5 -right-1.5 bg-purple-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                     🚀 NEW
                   </div>
-                  <div className="flex items-start gap-3">
-                    <div className="p-2 bg-purple-500/20 rounded-lg">
-                      <svg className="w-5 h-5 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-start gap-2">
+                    <div className="p-1.5 bg-purple-500/20 rounded-md flex-shrink-0">
+                      <svg className="w-4 h-4 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 0L1.608 6v12L12 24l10.392-6V6L12 0zm0 2.5l8.892 5.136v10.728L12 23.5l-8.892-5.136V7.636L12 2.5z"/>
                       </svg>
                     </div>
                     <div>
-                      <p className="text-sm text-white font-semibold">☁️ AWS Hosted</p>
-                      <p className="text-xs text-gray-300 mt-1 leading-relaxed">
+                      <p className="text-sm text-white font-semibold">AWS Hosted</p>
+                      <p className="text-[11px] text-gray-300 mt-0.5 leading-tight">
                         Automatic hosting on Amazon S3 with global CDN.
                       </p>
-                      <ul className="text-xs text-gray-400 mt-2 space-y-1">
+                      <ul className="text-[10px] text-gray-400 mt-1.5 space-y-0.5">
                         <li>✅ Instant public URL</li>
                         <li>✅ Protected code</li>
-                        <li>✅ CDN delivery</li>
-                        <li>✅ Email with link</li>
                       </ul>
                     </div>
                   </div>
                 </div>
 
                 {/* Standard Package */}
-                <div className="bg-gradient-to-r from-gray-800/50 to-gray-700/50 rounded-lg p-4 border border-neon-primary/20 backdrop-blur-sm">
-                  <div className="flex items-start gap-3">
-                    <div className="p-2 bg-blue-500/20 rounded-lg">
-                      <Mail className="w-5 h-5 text-blue-400" />
+                <div className="bg-gradient-to-r from-gray-800/50 to-gray-700/50 rounded-lg p-3 border border-neon-primary/20 backdrop-blur-sm">
+                  <div className="flex items-start gap-2">
+                    <div className="p-1.5 bg-blue-500/20 rounded-md flex-shrink-0">
+                      <Mail className="w-4 h-4 text-blue-400" />
                     </div>
                     <div>
-                      <p className="text-sm text-white font-semibold">🔐 Standard Package</p>
-                      <p className="text-xs text-gray-300 mt-1 leading-relaxed">
+                      <p className="text-sm text-white font-semibold">Standard</p>
+                      <p className="text-[11px] text-gray-300 mt-0.5 leading-tight">
                         Password-protected ZIP via email.
                       </p>
-                      <ul className="text-xs text-gray-400 mt-2 space-y-1">
+                      <ul className="text-[10px] text-gray-400 mt-1.5 space-y-0.5">
                         <li>• ZIP encryption</li>
                         <li>• Password via email</li>
-                        <li>• Ready HTML</li>
                       </ul>
                     </div>
                   </div>
                 </div>
 
                 {/* Secure Package */}
-                <div className="bg-gradient-to-r from-red-900/30 to-orange-900/30 rounded-lg p-4 border border-red-500/30 backdrop-blur-sm">
-                  <div className="flex items-start gap-3">
-                    <div className="p-2 bg-red-500/20 rounded-lg">
-                      <Layers className="w-5 h-5 text-red-400" />
+                <div className="bg-gradient-to-r from-red-900/30 to-orange-900/30 rounded-lg p-3 border border-red-500/30 backdrop-blur-sm">
+                  <div className="flex items-start gap-2">
+                    <div className="p-1.5 bg-red-500/20 rounded-md flex-shrink-0">
+                      <Layers className="w-4 h-4 text-red-400" />
                     </div>
                     <div>
-                      <p className="text-sm text-white font-semibold">🛡️ SECURE Package</p>
-                      <p className="text-xs text-gray-300 mt-1 leading-relaxed">
+                      <p className="text-sm text-white font-semibold">SECURE</p>
+                      <p className="text-[11px] text-gray-300 mt-0.5 leading-tight">
                         Maximum protection with affiliate tracking.
                       </p>
-                      <ul className="text-xs text-gray-400 mt-2 space-y-1">
+                      <ul className="text-[10px] text-gray-400 mt-1.5 space-y-0.5">
                         <li>• Advanced obfuscation</li>
                         <li>• Domain locking</li>
-                        <li>• Anti-debugging</li>
-                        <li>• Affiliate tracking</li>
                       </ul>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div>
-                  <label className="block text-sm font-medium text-white mb-2">
+                  <label className="block text-xs font-medium text-white mb-1.5">
                     Email Address *
                   </label>
                   <input
                     type="email"
                     value={downloadEmail}
                     onChange={(e) => setDownloadEmail(e.target.value)}
-                    className="w-full px-3 py-2 bg-darker-surface border border-neon-primary/30 rounded-lg text-white focus:outline-none focus:border-neon-primary"
+                    className="w-full px-3 py-2 text-sm bg-darker-surface border border-neon-primary/30 rounded-lg text-white focus:outline-none focus:border-neon-primary"
                     placeholder="your@email.com"
                     disabled={downloading}
                   />
                 </div>
 
                 {/* Secure Package Options */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">
-                      Affiliate Code (for secure package)
+                    <label className="block text-xs font-medium text-white mb-1.5">
+                      Affiliate Code (for secure)
                     </label>
                     <input
                       type="text"
                       value={affiliateCode}
                       onChange={(e) => setAffiliateCode(e.target.value.toUpperCase())}
-                      className="w-full px-3 py-2 bg-darker-surface border border-neon-primary/30 rounded-lg text-white focus:outline-none focus:border-neon-primary"
+                      className="w-full px-3 py-2 text-sm bg-darker-surface border border-neon-primary/30 rounded-lg text-white focus:outline-none focus:border-neon-primary"
                       placeholder="e.g. AFF001"
                       disabled={downloading}
                     />
-                    <p className="text-xs text-gray-400 mt-1">
-                      Hidden tracking identifier
-                    </p>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">
+                    <label className="block text-xs font-medium text-white mb-1.5">
                       Domain Lock (optional)
                     </label>
                     <input
                       type="text"
                       value={domainLock}
                       onChange={(e) => setDomainLock(e.target.value)}
-                      className="w-full px-3 py-2 bg-darker-surface border border-neon-primary/30 rounded-lg text-white focus:outline-none focus:border-neon-primary"
+                      className="w-full px-3 py-2 text-sm bg-darker-surface border border-neon-primary/30 rounded-lg text-white focus:outline-none focus:border-neon-primary"
                       placeholder="example.com"
                       disabled={downloading}
                     />
-                    <p className="text-xs text-gray-400 mt-1">
-                      Restrict to specific domain
-                    </p>
                   </div>
                 </div>
-
-                <p className="text-xs text-gray-400">
-                  Access codes will be sent to your email address
-                </p>
               </div>
+            </div>
 
-              <div className="flex flex-col gap-3 pt-6">
+            {/* Fixed Footer with Buttons */}
+            <div className="relative z-10 p-4 pt-3 border-t border-neon-primary/20 flex-shrink-0 bg-gray-900/50">
+              <div className="flex flex-col gap-2">
                 {/* Primary action - Simple Download */}
                 <button
                   onClick={handleSimpleDownload}
                   disabled={downloading}
-                  className="w-full px-6 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-3 shadow-lg shadow-green-500/40 text-lg"
+                  className="w-full px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-2 shadow-lg shadow-green-500/40 text-sm"
                 >
                   {downloading ? (
                     <>
-                      <Loader2 className="w-6 h-6 animate-spin" />
+                      <Loader2 className="w-4 h-4 animate-spin" />
                       Generating...
                     </>
                   ) : (
                     <>
-                      <Download className="w-6 h-6" />
+                      <Download className="w-4 h-4" />
                       ⚡ QUICK DOWNLOAD (Recommended)
                     </>
                   )}
@@ -1850,16 +1851,16 @@ export default function SiteEditorPage() {
                 <button
                   onClick={handleAWSHosting}
                   disabled={downloading || !downloadEmail}
-                  className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-3 shadow-lg shadow-purple-500/40 text-lg"
+                  className="w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-2 shadow-lg shadow-purple-500/40 text-sm"
                 >
                   {downloading ? (
                     <>
-                      <Loader2 className="w-6 h-6 animate-spin" />
+                      <Loader2 className="w-4 h-4 animate-spin" />
                       Hosting...
                     </>
                   ) : (
                     <>
-                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 0L1.608 6v12L12 24l10.392-6V6L12 0zm0 2.5l8.892 5.136v10.728L12 23.5l-8.892-5.136V7.636L12 2.5z"/>
                       </svg>
                       🚀 AWS HOSTING (New)
@@ -1868,20 +1869,20 @@ export default function SiteEditorPage() {
                 </button>
 
                 {/* Secondary actions */}
-                <div className="flex gap-3">
+                <div className="flex gap-2">
                   <button
                     onClick={handleDownload}
                     disabled={downloading || !downloadEmail}
-                    className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-medium flex items-center justify-center gap-2"
+                    className="flex-1 px-3 py-2 text-xs bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-medium flex items-center justify-center gap-1.5"
                   >
                     {downloading ? (
                       <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
                         Generating...
                       </>
                     ) : (
                       <>
-                        <Mail className="w-5 h-5" />
+                        <Mail className="w-3.5 h-3.5" />
                         Standard
                       </>
                     )}
@@ -1890,16 +1891,16 @@ export default function SiteEditorPage() {
                   <button
                     onClick={handleSecureDownload}
                     disabled={downloading || !downloadEmail || !affiliateCode}
-                    className="flex-1 px-4 py-3 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-2 shadow-lg shadow-red-500/30"
+                    className="flex-1 px-3 py-2 text-xs bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white rounded-lg transition-all duration-300 disabled:opacity-50 font-bold flex items-center justify-center gap-1.5 shadow-lg shadow-red-500/30"
                   >
                     {downloading ? (
                       <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
                         Securing...
                       </>
                     ) : (
                       <>
-                        <Layers className="w-5 h-5" />
+                        <Layers className="w-3.5 h-3.5" />
                         SECURE
                       </>
                     )}
