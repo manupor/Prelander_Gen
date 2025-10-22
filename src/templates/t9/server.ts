@@ -32,7 +32,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     
     body {
       font-family: Arial, sans-serif;
-      background: #000;
+      background: #1a1a1a;
       min-height: 100vh;
       width: 100vw;
       margin: 0;
@@ -45,13 +45,14 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     
     .wrapper {
       position: relative;
-      width: 100%;
-      max-width: 1024px;
-      aspect-ratio: 16 / 10;
+      width: 960px;
+      max-width: 100vw;
+      aspect-ratio: 960 / 640;
       max-height: 100vh;
       display: flex;
       flex-direction: column;
-      background: #000;
+      background: transparent;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
     }
     
     .game-title {
@@ -61,9 +62,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       align-items: center;
       justify-content: center;
       width: 100%;
-      height: 10%;
-      min-height: 80px;
-      padding: 20px 40px;
+      height: 100px;
+      padding: 15px 30px;
       background: 
         linear-gradient(90deg, rgba(139, 90, 43, 0.98), rgba(101, 67, 33, 0.98)),
         repeating-linear-gradient(90deg, 
@@ -149,11 +149,11 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     
     .game-title h1 {
       margin: 0;
-      font-size: clamp(1.5rem, 4vw, 3.5rem);
+      font-size: clamp(1.2rem, 2.5vw, 2rem);
       font-weight: 900;
       color: #FFD700;
       text-transform: uppercase;
-      letter-spacing: clamp(2px, 0.5vw, 6px);
+      letter-spacing: clamp(1px, 0.3vw, 3px);
       text-shadow: 
         0 4px 0 #654321,
         0 8px 0 #4a3219,
@@ -193,11 +193,10 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     .game-container {
       position: relative;
       width: 100%;
-      height: 80%;
       flex: 1;
-      background: #000;
+      background: transparent;
       display: flex;
-      align-items: center;
+      align-items: stretch;
       justify-content: center;
       overflow: hidden;
     }
@@ -206,7 +205,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       position: relative;
       width: 100%;
       height: 100%;
-      background: #000;
+      background: transparent;
       overflow: hidden;
     }
     
@@ -214,9 +213,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     .footer {
       position: relative;
       width: 100%;
-      height: 10%;
-      min-height: 40px;
-      padding: 8px 20px;
+      height: 50px;
+      padding: 10px 20px;
       background: 
         linear-gradient(90deg, rgba(139, 90, 43, 0.98), rgba(101, 67, 33, 0.98)),
         repeating-linear-gradient(90deg, 
@@ -297,7 +295,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       height: 100%;
       border: none;
       display: block;
-      background: #000;
+      background: transparent;
     }
     
     /* Win Modal Styles */
@@ -599,14 +597,13 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     /* Responsive adjustments */
     @media (max-width: 768px) {
       .wrapper {
-        max-width: 100%;
-        aspect-ratio: 16 / 11;
+        width: 100vw;
+        aspect-ratio: 960 / 680;
       }
       
       .game-title {
-        padding: 15px 20px;
-        min-height: 60px;
-        height: 12%;
+        padding: 12px 20px;
+        height: 80px;
       }
       
       .game-subtitle {
@@ -689,13 +686,13 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     
     @media (max-width: 480px) {
       .wrapper {
-        aspect-ratio: 16 / 12;
+        width: 100vw;
+        aspect-ratio: 960 / 720;
       }
       
       .game-title {
-        padding: 12px 15px;
-        min-height: 50px;
-        height: 12%;
+        padding: 10px 15px;
+        height: 70px;
       }
       
       .game-subtitle {
@@ -723,8 +720,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     
     @media (max-width: 360px) {
       .game-title {
-        padding: 10px 12px;
-        min-height: 45px;
+        padding: 8px 12px;
+        height: 60px;
       }
       
       .game-title-logo {
