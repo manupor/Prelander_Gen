@@ -192,22 +192,25 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     .game-container {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
-      z-index: 1;
+      z-index: 0;
     }
     
     .game-frame {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      position: relative;
+      width: 960px;
+      height: 540px;
+      max-width: 100vw;
+      max-height: 100vh;
       background: #000;
       overflow: hidden;
     }
@@ -298,11 +301,8 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
       height: 100%;
       border: none;
       display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 0;
       background: #000;
+      transform-origin: center center;
     }
     
     /* Win Modal Styles */
@@ -601,7 +601,18 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     
+    /* Responsive scaling for different screen sizes */
+    @media (max-width: 1024px) and (min-width: 769px) {
+      .game-frame {
+        transform: scale(0.9);
+      }
+    }
+    
     @media (max-width: 768px) {
+      
+      .game-frame {
+        transform: scale(0.75);
+      }
       
       .game-title {
         padding: 20px 16px;
@@ -692,6 +703,10 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     
     
     @media (max-width: 480px) {
+      .game-frame {
+        transform: scale(0.6);
+      }
+      
       .game-title {
         padding: 16px 12px;
         min-height: 70px;
@@ -726,6 +741,10 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
     }
     
     @media (max-width: 360px) {
+      .game-frame {
+        transform: scale(0.5);
+      }
+      
       .game-title {
         padding: 12px 10px;
         min-height: 60px;
