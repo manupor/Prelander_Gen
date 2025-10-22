@@ -182,15 +182,12 @@ Protected with password: Check your email for access details
       }
     }
 
-    // EMERGENCY: Use hardcoded simple filename
-    const finalFilename = 'standard.zip'
-
-    // Return the ZIP file with ultra-simple filename
+    // Return ZIP file
     return new NextResponse(Buffer.from(zipBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/zip',
-        'Content-Disposition': 'attachment; filename=standard.zip',
+        'Content-Disposition': 'attachment',
         'X-Download-Password': password,
       },
     })

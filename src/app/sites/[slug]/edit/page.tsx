@@ -426,13 +426,11 @@ export default function SiteEditorPage() {
     }
   }
 
-  // Simple protected download with FALLBACK
+  // Simple protected download - VOLVER AL SISTEMA ORIGINAL
   const handleSimpleDownload = async () => {
     setDownloading(true)
     try {
-      // Try token-based download first
-      console.log('[DOWNLOAD] Attempting token-based download...')
-      const tokenResponse = await fetch('/api/generate-download-token', {
+      const response = await fetch('/api/download-simple-protected', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -440,137 +438,27 @@ export default function SiteEditorPage() {
         body: JSON.stringify({ slug }),
       })
 
-      let response
-
-      if (tokenResponse.ok) {
-        // Token system works - use it
-        const { downloadUrl } = await tokenResponse.json()
-        console.log('[DOWNLOAD] Token generated, downloading from:', downloadUrl)
-        response = await fetch(downloadUrl, { method: 'GET' })
-      } else {
-        // Token system failed - fallback to direct download
-        console.log('[DOWNLOAD] Token system unavailable, using direct download fallback...')
-        response = await fetch('/api/download-simple-protected', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ slug }),
-        })
-      }
-
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}))
-        const errorMessage = errorData.details || errorData.error || 'Failed to download'
-        throw new Error(errorMessage)
+        throw new Error('Failed to generate download')
       }
-
-      const filename = 'download.zip'
-      
-      console.log('[DOWNLOAD] Slug:', slug)
-      console.log('[DOWNLOAD] Final filename:', filename)
 
       // Create blob and download
       const blob = await response.blob()
-      console.log('[DOWNLOAD] Blob size:', blob.size, 'bytes')
-      console.log('[DOWNLOAD] Blob type:', blob.type)
-      
-      // Check if blob type suggests an error
-      if (blob.type.includes('text') || blob.type.includes('html') || blob.type.includes('json')) {
-        console.error('[DOWNLOAD] ❌ Blob type suggests error page:', blob.type)
-        const text = await blob.text()
-        console.error('[DOWNLOAD] Response content:', text.substring(0, 500))
-        throw new Error(`Server error: ${text.substring(0, 200)}`)
-      }
-      
-      // Check minimum size
-      if (blob.size < 100) {
-        console.error('[DOWNLOAD] ❌ Blob too small to be valid ZIP:', blob.size, 'bytes')
-        throw new Error('Server returned invalid ZIP file (too small).')
-      }
-      
-      // ULTRA DETAILED ERROR TRACKING
-      console.log('[DOWNLOAD] ===== STARTING DOWNLOAD PROCESS =====')
-      console.log('[DOWNLOAD] Filename to use:', filename)
-      console.log('[DOWNLOAD] Filename length:', filename.length)
-      console.log('[DOWNLOAD] Filename chars:', filename.split('').map((c, i) => `${i}:${c}(${c.charCodeAt(0)})`).join(' '))
-      
-      // Verify blob is valid ZIP
-      const arrayBuffer = await blob.arrayBuffer()
-      const bytes = new Uint8Array(arrayBuffer)
-      console.log('[DOWNLOAD] First 4 bytes (should be ZIP signature):', Array.from(bytes.slice(0, 4)).map(b => b.toString(16)).join(' '))
-      console.log('[DOWNLOAD] Expected ZIP signature: 50 4b 03 04')
-      
-      // Recreate blob from arrayBuffer (blob was consumed)
-      const downloadBlob = new Blob([arrayBuffer], { type: 'application/zip' })
-      
-      // Method 1: Try blob URL with error capture
-      try {
-        console.log('[DOWNLOAD] Creating Blob URL...')
-        const url = window.URL.createObjectURL(downloadBlob)
-        console.log('[DOWNLOAD] Blob URL created successfully:', url)
-        
-        const a = document.createElement('a')
-        console.log('[DOWNLOAD] Created anchor element')
-        
-        a.href = url
-        console.log('[DOWNLOAD] Set href to:', a.href)
-        
-        a.download = filename
-        console.log('[DOWNLOAD] Set download attribute to:', a.download)
-        
-        a.style.display = 'none'
-        document.body.appendChild(a)
-        console.log('[DOWNLOAD] Appended to DOM')
-        
-        console.log('[DOWNLOAD] About to trigger click...')
-        a.click()
-        console.log('[DOWNLOAD] Click triggered')
-        
-        // Clean up after a delay
-        setTimeout(() => {
-          window.URL.revokeObjectURL(url)
-          document.body.removeChild(a)
-          console.log('[DOWNLOAD] Cleanup complete')
-        }, 100)
-      } catch (blobError: any) {
-        console.error('[DOWNLOAD] ❌ Blob URL method FAILED')
-        console.error('[DOWNLOAD] Error name:', blobError?.name)
-        console.error('[DOWNLOAD] Error message:', blobError?.message)
-        console.error('[DOWNLOAD] Error stack:', blobError?.stack)
-        console.error('[DOWNLOAD] Full error object:', blobError)
-        
-        // Show error to user with details
-        throw new Error(`Download failed at blob creation: ${blobError?.message || 'Unknown error'}. Please screenshot this and contact support.`)
-      }
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${site?.brand_name || 'prelander'}.zip`
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
 
       setShowDownloadModal(false)
-      
-      // Mark site as downloaded (with fallback if columns don't exist)
-      try {
-        await supabase
-          .from('sites')
-          .update({ 
-            is_downloaded: true, 
-            downloaded_at: new Date().toISOString(),
-            download_count: site?.download_count ? site.download_count + 1 : 1
-          })
-          .eq('slug', slug)
-      } catch (columnError: any) {
-        // If the new columns don't exist, skip the tracking for now
-        if (columnError.message?.includes('is_downloaded') || columnError.message?.includes('column')) {
-          console.log('Download tracking columns not available, skipping tracking')
-        } else {
-          throw columnError
-        }
-      }
-
-      // Show success message
-      alert('✅ Download Successful!\n\n🔒 Your prelander has been downloaded with maximum security protection:\n• Anti-screenshot blocking\n• DevTools protection\n• Code obfuscation\n• Anti-clone measures\n\nYou can download again anytime from this page.')
+      alert('✅ Download Complete!\n\nYour protected prelander has been downloaded successfully.')
       
     } catch (error: any) {
       console.error('Download error:', error)
-      alert(`❌ Download Failed\n\n${error.message || 'Unknown error'}\n\nPlease try again or contact support.`)
+      alert('Failed to download. Please try again.')
     } finally {
       setDownloading(false)
     }
@@ -673,38 +561,16 @@ export default function SiteEditorPage() {
         throw new Error(errorMessage)
       }
 
-      // EMERGENCY: Use completely hardcoded simple name
-      const filename = 'standard.zip'  // HARDCODED
-      
-      console.log('[STANDARD] Final filename:', filename)
-
-      // Create blob and download with fallback
+      // Create blob and download
       const blob = await response.blob()
-      try {
-        const url = window.URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = filename
-        a.style.display = 'none'
-        document.body.appendChild(a)
-        a.click()
-        setTimeout(() => {
-          window.URL.revokeObjectURL(url)
-          document.body.removeChild(a)
-        }, 100)
-      } catch (err) {
-        // Fallback method
-        const reader = new FileReader()
-        reader.onload = () => {
-          const a = document.createElement('a')
-          a.href = reader.result as string
-          a.download = filename
-          document.body.appendChild(a)
-          a.click()
-          document.body.removeChild(a)
-        }
-        reader.readAsDataURL(blob)
-      }
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${site?.brand_name || 'prelander'}_standard.zip`
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
 
       // Get password from header (development only)
       const password = response.headers.get('X-Download-Password')
@@ -712,7 +578,7 @@ export default function SiteEditorPage() {
       setShowDownloadModal(false)
       setDownloadEmail('')
       
-      alert(`🔐 Encrypted Package Downloaded!\n\n${password ? `ZIP Password: ${password}` : 'Check your email for the ZIP password.'}\n\nThe encrypted ZIP contains:\n• 📄 index.html - Your complete landing page\n• ⚙️ config.json - Site configuration\n• 📋 README.md - Deployment instructions\n\nTO USE:\n1. Extract the ZIP file using the password\n2. Upload index.html to your web hosting service\n3. Test your landing page\n\n🔒 Your files are now properly encrypted!\nPassword sent to your email for security.`)
+      alert(`✅ Download Complete!\n\n${password ? `Password: ${password}` : 'Check your email for the password.'}\n\nYour protected prelander has been downloaded.`)
       
     } catch (error: any) {
       console.error('Download error:', error)
@@ -754,40 +620,17 @@ export default function SiteEditorPage() {
         throw new Error(errorMessage)
       }
 
-      // EMERGENCY: Use completely hardcoded simple name
-      const filename = 'secure.zip'  // HARDCODED
-      
-      console.log('[SECURE] Final filename:', filename)
-
-      // Create blob and download with fallback
+      // Create blob and download
       const blob = await response.blob()
-      try {
-        const url = window.URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = filename
-        a.style.display = 'none'
-        document.body.appendChild(a)
-        a.click()
-        setTimeout(() => {
-          window.URL.revokeObjectURL(url)
-          document.body.removeChild(a)
-        }, 100)
-      } catch (err) {
-        // Fallback method
-        const reader = new FileReader()
-        reader.onload = () => {
-          const a = document.createElement('a')
-          a.href = reader.result as string
-          a.download = filename
-          document.body.appendChild(a)
-          a.click()
-          document.body.removeChild(a)
-        }
-        reader.readAsDataURL(blob)
-      }
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${site?.brand_name || 'prelander'}_secure.zip`
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
 
-      // Get password from header (development only)
       const password = response.headers.get('X-Download-Password')
       
       setShowDownloadModal(false)
@@ -795,7 +638,7 @@ export default function SiteEditorPage() {
       setAffiliateCode('')
       setDomainLock('')
       
-      alert(`🛡️ SECURE Package Downloaded!\n\n🔑 PACKAGE PASSWORD: ${password || 'Check README.md file'}\n\nThe SECURE ZIP contains:\n• 📄 index.html - Protected shell page\n• 🔒 script.js - Obfuscated JavaScript with encrypted content\n• 🎨 style.css - Responsive styling\n• 📋 README.md - Security guide WITH PASSWORD\n\nSECURITY FEATURES:\n✅ JavaScript obfuscation & encryption\n✅ Anti-debugging protection\n✅ Domain locking${domainLock ? ` (${domainLock})` : ' (disabled)'}\n✅ Hidden affiliate tracking (${affiliateCode})\n✅ File:// protocol blocking\n✅ Right-click protection\n\nDEPLOYMENT:\n1. Extract ZIP (no password needed)\n2. Check README.md for package password\n3. Upload ALL files to web hosting\n4. Access via your domain (not locally)\n5. Do NOT modify files\n\n🛡️ Maximum security protection active!\n📧 Password also in README.md file for reference.`)
+      alert(`✅ Secure Package Downloaded!\n\n${password ? `Password: ${password}` : 'Check README.md'}\n\nYour secure prelander with affiliate tracking has been downloaded.`)
       
     } catch (error: any) {
       console.error('Secure download error:', error)

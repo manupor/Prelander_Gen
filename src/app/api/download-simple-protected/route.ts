@@ -43,15 +43,12 @@ export async function POST(request: NextRequest) {
       compressionOptions: { level: 9 }
     })
 
-    // EMERGENCY: Use hardcoded simple filename
-    const finalFilename = 'download.zip'
-
-    // Return ZIP with ultra-simple filename
+    // Return ZIP file
     return new NextResponse(Buffer.from(zipBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/zip',
-        'Content-Disposition': 'attachment; filename=download.zip',
+        'Content-Disposition': 'attachment',
       },
     })
 
