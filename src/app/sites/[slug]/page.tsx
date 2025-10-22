@@ -105,8 +105,11 @@ export default async function SitePage({
     css = rendered.css
   }
 
+  // Check if this is editor preview mode (has query params)
+  const isEditorPreview = Object.keys(query).length > 0;
+  
   // Record visit (analytics) - only for published sites
-  if (site.status === 'published') {
+  if (site.status === 'published' && !isEditorPreview) {
     await supabase
       .from('visits')
       .insert({
@@ -115,7 +118,7 @@ export default async function SitePage({
         user_agent: 'server-side-render'
       })
     
-    // Apply FULL ENCRYPTION for published sites
+    // Apply FULL ENCRYPTION for published sites (NOT in editor preview)
     if (shouldEncrypt(site.status)) {
       const encryptedHTML = applyFullEncryption(
         html,
