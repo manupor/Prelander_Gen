@@ -475,19 +475,57 @@ export default function SiteEditorPage() {
       console.log('[DOWNLOAD] Blob size:', blob.size, 'bytes')
       console.log('[DOWNLOAD] Blob type:', blob.type)
       
-      // Method 1: Try blob URL
+      // Check if blob type suggests an error
+      if (blob.type.includes('text') || blob.type.includes('html') || blob.type.includes('json')) {
+        console.error('[DOWNLOAD] ❌ Blob type suggests error page:', blob.type)
+        const text = await blob.text()
+        console.error('[DOWNLOAD] Response content:', text.substring(0, 500))
+        throw new Error(`Server error: ${text.substring(0, 200)}`)
+      }
+      
+      // Check minimum size
+      if (blob.size < 100) {
+        console.error('[DOWNLOAD] ❌ Blob too small to be valid ZIP:', blob.size, 'bytes')
+        throw new Error('Server returned invalid ZIP file (too small).')
+      }
+      
+      // ULTRA DETAILED ERROR TRACKING
+      console.log('[DOWNLOAD] ===== STARTING DOWNLOAD PROCESS =====')
+      console.log('[DOWNLOAD] Filename to use:', filename)
+      console.log('[DOWNLOAD] Filename length:', filename.length)
+      console.log('[DOWNLOAD] Filename chars:', filename.split('').map((c, i) => `${i}:${c}(${c.charCodeAt(0)})`).join(' '))
+      
+      // Verify blob is valid ZIP
+      const arrayBuffer = await blob.arrayBuffer()
+      const bytes = new Uint8Array(arrayBuffer)
+      console.log('[DOWNLOAD] First 4 bytes (should be ZIP signature):', Array.from(bytes.slice(0, 4)).map(b => b.toString(16)).join(' '))
+      console.log('[DOWNLOAD] Expected ZIP signature: 50 4b 03 04')
+      
+      // Recreate blob from arrayBuffer (blob was consumed)
+      const downloadBlob = new Blob([arrayBuffer], { type: 'application/zip' })
+      
+      // Method 1: Try blob URL with error capture
       try {
-        const url = window.URL.createObjectURL(blob)
-        console.log('[DOWNLOAD] Blob URL created:', url)
+        console.log('[DOWNLOAD] Creating Blob URL...')
+        const url = window.URL.createObjectURL(downloadBlob)
+        console.log('[DOWNLOAD] Blob URL created successfully:', url)
         
         const a = document.createElement('a')
+        console.log('[DOWNLOAD] Created anchor element')
+        
         a.href = url
+        console.log('[DOWNLOAD] Set href to:', a.href)
+        
         a.download = filename
+        console.log('[DOWNLOAD] Set download attribute to:', a.download)
+        
         a.style.display = 'none'
         document.body.appendChild(a)
+        console.log('[DOWNLOAD] Appended to DOM')
         
-        console.log('[DOWNLOAD] Triggering download via blob URL...')
+        console.log('[DOWNLOAD] About to trigger click...')
         a.click()
+        console.log('[DOWNLOAD] Click triggered')
         
         // Clean up after a delay
         setTimeout(() => {
@@ -495,27 +533,15 @@ export default function SiteEditorPage() {
           document.body.removeChild(a)
           console.log('[DOWNLOAD] Cleanup complete')
         }, 100)
-      } catch (blobError) {
-        console.error('[DOWNLOAD] Blob URL method failed:', blobError)
+      } catch (blobError: any) {
+        console.error('[DOWNLOAD] ❌ Blob URL method FAILED')
+        console.error('[DOWNLOAD] Error name:', blobError?.name)
+        console.error('[DOWNLOAD] Error message:', blobError?.message)
+        console.error('[DOWNLOAD] Error stack:', blobError?.stack)
+        console.error('[DOWNLOAD] Full error object:', blobError)
         
-        // Method 2: Fallback to data URL for small files
-        console.log('[DOWNLOAD] Trying data URL fallback...')
-        const reader = new FileReader()
-        reader.onload = () => {
-          const a = document.createElement('a')
-          a.href = reader.result as string
-          a.download = filename
-          a.style.display = 'none'
-          document.body.appendChild(a)
-          a.click()
-          document.body.removeChild(a)
-          console.log('[DOWNLOAD] Downloaded via data URL')
-        }
-        reader.onerror = () => {
-          console.error('[DOWNLOAD] All download methods failed')
-          alert('Download failed. Please try again or contact support.')
-        }
-        reader.readAsDataURL(blob)
+        // Show error to user with details
+        throw new Error(`Download failed at blob creation: ${blobError?.message || 'Unknown error'}. Please screenshot this and contact support.`)
       }
 
       setShowDownloadModal(false)
