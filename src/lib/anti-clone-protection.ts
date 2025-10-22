@@ -41,28 +41,20 @@ export function generateProtectionScript(config: ProtectionConfig = defaultProte
   // Configuration
   const CONFIG = ${JSON.stringify(config)};
   
-  // Fingerprint validation
+  // User fingerprint para tracking (no bloquea)
   ${config.userFingerprint ? `
-  const EXPECTED_FINGERPRINT = '${config.userFingerprint}';
-  function validateFingerprint() {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.textBaseline = 'top';
-    ctx.font = '14px Arial';
-    ctx.fillText('Anti-clone protection', 2, 2);
-    const fingerprint = canvas.toDataURL();
-    return btoa(fingerprint).substring(0, 20);
-  }
+  const USER_FINGERPRINT = '${config.userFingerprint}';
+  // Fingerprint embebido para tracking, no afecta la visualización
   ` : ''}
   
-  // Domain validation
+  // Domain validation (opcional - solo warning, no bloquea)
   ${config.domainLock ? `
   const ALLOWED_DOMAIN = '${config.domainLock}';
   function validateDomain() {
     const currentDomain = window.location.hostname;
     if (currentDomain !== ALLOWED_DOMAIN && currentDomain !== 'localhost' && currentDomain !== '127.0.0.1') {
-      document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Arial;z-index:999999;"><h1>🔒 Domain Restricted</h1></div>';
-      return false;
+      console.warn('🔒 This prelander is intended for domain: ' + ALLOWED_DOMAIN);
+      // Solo warning, no bloquear el contenido
     }
     return true;
   }
@@ -284,44 +276,11 @@ export function generateProtectionScript(config: ProtectionConfig = defaultProte
     }
   }
   
-  // Self-protection: Prevent script removal
-  const scripts = document.querySelectorAll('script');
-  const protectionScript = scripts[scripts.length - 1];
-  
-  const observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
-      if (mutation.type === 'childList') {
-        mutation.removedNodes.forEach(function(node) {
-          if (node === protectionScript) {
-            // Script was removed, reload page or show error
-            document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Arial;z-index:999999;"><h1>🔒 Protection Tampered</h1></div>';
-          }
-        });
-      }
-    });
-  });
-  
-  observer.observe(document.head, { childList: true });
-  observer.observe(document.body, { childList: true });
-  
-  // Initialize protections
+  // Validación de dominio (si está configurado)
   ${config.domainLock ? 'if (!validateDomain()) return;' : ''}
-  ${config.userFingerprint ? `
-  if (validateFingerprint() !== EXPECTED_FINGERPRINT) {
-    document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Arial;z-index:999999;"><h1>🔒 Unauthorized Access</h1></div>';
-    return;
-  }
-  ` : ''}
   
-  // Periodic integrity check
-  setInterval(function() {
-    // Check if protection is still active
-    if (!document.querySelector('script[data-protection="true"]')) {
-      document.body.innerHTML = '<div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Arial;z-index:999999;"><h1>🔒 Security Check Failed</h1></div>';
-    }
-  }, 5000);
-  
-  console.log('🔒 Anti-clone protection active');
+  // Log de protección activa
+  console.log('🔒 Inspect Element protection active');
 })();
 `;
 
