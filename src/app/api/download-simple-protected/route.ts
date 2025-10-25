@@ -36,48 +36,97 @@ export async function POST(request: NextRequest) {
       zip.file(filename, content)
     })
 
-    // If template uses iframe for games (t9, t10), include game files
-    if (site.template_id === 't9' || site.template_id === 't10') {
+    // Map template IDs to their game folders
+    const templateGameMap: Record<string, string> = {
+      't9': 'FisherMan Slot',   // Fisherman themed slot game
+      't10': 'CastleSlot',       // Castle themed slot game
+      // Add other templates with games here
+    }
+
+    // If template uses iframe for games, include game files
+    if (site.template_id in templateGameMap) {
       const fs = await import('fs/promises')
       const path = await import('path')
       
       try {
-        // Determine which game folder to use
-        const gameFolder = site.template_id === 't9' ? 'FisherMan Slot' : 'fisherman-slot'
+        // Determine which game folder to use  
+        const gameFolder = templateGameMap[site.template_id]
         const gamePath = path.join(process.cwd(), 'public', gameFolder)
+        
+        console.log('[DOWNLOAD] Looking for game folder:', gamePath)
         
         // Check if game folder exists
         const folderExists = await fs.access(gamePath).then(() => true).catch(() => false)
         
         if (folderExists) {
-          // Read all files from game folder
-          const gameFiles = await fs.readdir(gamePath, { recursive: true, withFileTypes: true })
+          console.log('[DOWNLOAD] Game folder found, reading files...')
           
-          for (const file of gameFiles) {
-            if (file.isFile()) {
-              const filePath = path.join(file.path, file.name)
-              const fileContent = await fs.readFile(filePath)
-              const relativePath = path.relative(gamePath, filePath)
+          // Recursive function to read all files
+          async function readDirRecursive(dir: string, baseDir: string = dir) {
+            const entries = await fs.readdir(dir, { withFileTypes: true })
+            
+            for (const entry of entries) {
+              const fullPath = path.join(dir, entry.name)
               
-              // Add to ZIP under game folder
-              zip.file(`game/${relativePath}`, fileContent)
+              if (entry.isDirectory()) {
+                // Recurse into subdirectory
+                await readDirRecursive(fullPath, baseDir)
+              } else if (entry.isFile()) {
+                try {
+                  // Read file content
+                  const fileContent = await fs.readFile(fullPath)
+                  
+                  // Get relative path from base directory
+                  const relativePath = path.relative(baseDir, fullPath)
+                  
+                  // Normalize path separators for ZIP (always use forward slash)
+                  // Also sanitize filename to avoid issues with special characters
+                  const zipPath = `game/${relativePath}`
+                    .replace(/\\/g, '/')  // Windows path separator
+                    .replace(/[<>:"|?*]/g, '_')  // Invalid filename characters
+                  
+                  // Validate that the path is safe
+                  if (zipPath.includes('..')) {
+                    console.warn(`[DOWNLOAD] Skipping unsafe path: ${zipPath}`)
+                    return
+                  }
+                  
+                  // Add to ZIP
+                  zip.file(zipPath, fileContent)
+                  
+                  console.log(`[DOWNLOAD] Added: ${zipPath}`)
+                } catch (fileError) {
+                  console.error(`[DOWNLOAD] Error reading file ${fullPath}:`, fileError)
+                  // Continue with other files even if one fails
+                }
+              }
             }
           }
           
-          console.log(`[DOWNLOAD] Included game files from ${gameFolder}`)
+          // Start recursive read from game folder
+          await readDirRecursive(gamePath)
+          
+          console.log(`[DOWNLOAD] Successfully included game files from ${gameFolder}`)
+        } else {
+          console.warn('[DOWNLOAD] Game folder not found:', gamePath)
         }
       } catch (error) {
-        console.warn('[DOWNLOAD] Could not include game files:', error)
-        // Continue without game files
+        console.error('[DOWNLOAD] Error including game files:', error)
+        // Continue without game files to avoid breaking the download
       }
     }
     
-    // Generate ZIP buffer
+    // Generate ZIP buffer with error handling
+    console.log('[DOWNLOAD] Generating ZIP file...')
     const zipBuffer = await zip.generateAsync({ 
       type: 'uint8array',
       compression: 'DEFLATE',
       compressionOptions: { level: 9 }
+    }).catch(zipError => {
+      console.error('[DOWNLOAD] ZIP generation error:', zipError)
+      throw new Error(`Failed to generate ZIP: ${zipError.message}`)
     })
+    console.log(`[DOWNLOAD] ZIP generated successfully (${zipBuffer.length} bytes)`)
 
     // EMERGENCY: Use hardcoded simple filename
     const finalFilename = 'download.zip'
@@ -106,18 +155,27 @@ async function generateSimpleProtectedPage(site: any) {
   const originalCSS = site.generated_css || generateSimpleCSS()
 
   // Fix iframe paths for downloaded templates with games
-  if (site.template_id === 't9' || site.template_id === 't10') {
-    // Replace iframe src to point to local game folder
-    originalHTML = originalHTML.replace(
+  const templateGameMap: Record<string, string> = {
+    't9': 'FisherMan Slot',   // Fisherman themed slot game
+    't10': 'CastleSlot',       // Castle themed slot game
+  }
+  
+  if (site.template_id in templateGameMap) {
+    // Replace ALL possible iframe src paths to point to local game folder
+    const gamePatterns = [
       /src="\/FisherMan Slot\/index\.html/g,
-      'src="game/index.html'
-    ).replace(
       /src="\/fisherman-slot\/index\.html/g,
-      'src="game/index.html'
-    ).replace(
+      /src="\/Pirates Slot\/index\.html/g,
       /src="\/CastleSlot\/index\.html/g,
-      'src="game/index.html'
-    )
+      // URL encoded versions
+      /src="\/FisherMan%20Slot\/index\.html/g,
+      /src="\/Pirates%20Slot\/index\.html/g,
+      /src="\/CastleSlot\/index\.html/g,
+    ]
+    
+    gamePatterns.forEach(pattern => {
+      originalHTML = originalHTML.replace(pattern, 'src="game/index.html')
+    })
   }
 
   // Configure anti-clone protection
@@ -168,35 +226,44 @@ function obfuscateHTMLContent(html: string, site: any): string {
   return html.replace(scriptRegex, (match, scriptContent) => {
     if (scriptContent.trim()) {
       try {
+        // Use safer obfuscation settings to avoid "Invalid character" errors
         const obfuscated = JavaScriptObfuscator.obfuscate(scriptContent, {
           compact: true,
           controlFlowFlattening: true,
-          controlFlowFlatteningThreshold: 0.8,
+          controlFlowFlatteningThreshold: 0.5,
           numbersToExpressions: true,
           simplify: true,
           stringArrayShuffle: true,
           splitStrings: true,
-          stringArrayThreshold: 0.9,
-          transformObjectKeys: true,
-          unicodeEscapeSequence: true,
+          stringArrayThreshold: 0.7,
+          transformObjectKeys: false, // Disable to avoid encoding issues
+          unicodeEscapeSequence: false, // Disable to avoid unicode issues
           identifierNamesGenerator: 'hexadecimal',
           renameGlobals: false,
-          selfDefending: true,
+          selfDefending: false, // Disable to avoid issues
           stringArray: true,
           rotateStringArray: true,
-          deadCodeInjection: true,
-          deadCodeInjectionThreshold: 0.5,
-          debugProtection: true,
-          debugProtectionInterval: 2000,
+          deadCodeInjection: false, // Disable to reduce complexity
+          deadCodeInjectionThreshold: 0,
+          debugProtection: false, // Disable to avoid issues
+          debugProtectionInterval: 0,
           disableConsoleOutput: true,
           domainLock: [], // Will be filled by protection script
           reservedNames: [],
-          seed: Math.floor(Math.random() * 1000000)
+          seed: Math.floor(Math.random() * 1000000),
+          target: 'browser'
         }).getObfuscatedCode()
         
-        return match.replace(scriptContent, obfuscated)
+        // Validate the obfuscated code doesn't contain invalid characters
+        if (obfuscated && obfuscated.length > 0) {
+          return match.replace(scriptContent, obfuscated)
+        } else {
+          console.warn('[OBFUSCATE] Empty result, using original')
+          return match
+        }
       } catch (e) {
-        console.warn('Failed to obfuscate script:', e)
+        console.error('[OBFUSCATE] Failed to obfuscate script:', e)
+        // Return original script if obfuscation fails
         return match
       }
     }
@@ -219,9 +286,10 @@ This landing page includes advanced protection against unauthorized copying and 
 
 ### 🚀 How to Use:
 1. **Local Testing**: Extract ALL files and double-click \`index.html\`
-2. **Web Hosting**: Upload ALL files (including game folder) to your web server
+2. **Web Hosting**: Upload ALL files (including game folder if present) to your web server
 3. **Domain Setup**: Works on any domain (protection adapts automatically)
-4. **Game Files**: The game/ folder contains the interactive slot game - DO NOT modify these files
+4. **Game Files**: If present, the game/ folder contains the interactive slot game - DO NOT modify these files
+5. **Important**: Keep ALL files together - the game requires all assets to function properly
 
 ### 🛡️ Security Features:
 - ✅ Screenshot blocking
