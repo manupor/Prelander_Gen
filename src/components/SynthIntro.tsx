@@ -136,8 +136,8 @@ export function SynthIntro() {
             <Image
               src="/images/nano-kit-logo.png"
               alt="Nano Kit"
-              width={500}
-              height={167}
+              width={600}
+              height={450}
               className="object-contain"
               style={{
                 filter: 'drop-shadow(0 0 30px rgba(255, 0, 255, 0.8)) drop-shadow(0 0 60px rgba(0, 255, 255, 0.6))',
