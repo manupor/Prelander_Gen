@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nexus Forge - AI-Powered Digital Experiences",
-  description: "Forge stunning, high-converting landing pages in seconds with Nexus Forge. No coding required, infinite possibilities unleashed.",
+  title: "Nano Kit - Synth-Powered Landing Page Builder",
+  description: "Create stunning, high-converting landing pages with Nano Kit. Retro-futuristic design meets modern technology. No coding required.",
 };
 
 export default function RootLayout({

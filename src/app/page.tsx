@@ -1,9 +1,13 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { SynthIntro } from '@/components/SynthIntro'
+import { NanoKitLogo } from '@/components/NanoKitLogo'
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 text-white overflow-hidden relative font-inter">
+    <>
+      <SynthIntro />
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 text-white overflow-hidden relative font-inter">
       {/* Purple Synthwave Background */}
       <div className="fixed inset-0 z-0 overflow-hidden">
         {/* WebGL Canvas Container */}
@@ -190,25 +194,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
-              <Link href="/" className="flex items-center space-x-3 group">
-                {/* NetFusion Logo Icon */}
-                <div className="relative">
-                  <div className="w-12 h-12 bg-gradient-to-br from-neon-primary via-neon-secondary to-neon-primary rounded-lg flex items-center justify-center transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 shadow-neon">
-                    <div className="text-black font-black text-2xl">N</div>
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-br from-neon-primary via-neon-secondary to-neon-primary rounded-lg blur-md opacity-50 group-hover:opacity-75 transition-opacity duration-300"></div>
-                </div>
-                
-                {/* Creative App Name */}
-                <div className="flex flex-col">
-                  <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neon-primary via-neon-secondary to-neon-primary transition-all duration-300 hover:from-neon-secondary hover:to-neon-primary tracking-tight font-inter">
-                    NEXUS
-                  </h1>
-                  <span className="text-xs font-mono text-neon-primary tracking-widest -mt-1">
-                    FORGE
-                  </span>
-                </div>
-              </Link>
+              <NanoKitLogo size="md" href="/" />
             </div>
             <div className="flex items-center gap-3">
               <Link href="/login">
@@ -237,13 +223,13 @@ export default function Home() {
           </div>
           
           {/* Purple Gradient Headlines */}
-          <h1 className="text-6xl md:text-7xl font-black mb-8 leading-tight font-inter">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-300 hover:from-cyan-400 hover:to-white transition-all duration-500">
-              Forge Stunning
+          <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight tracking-tight text-center font-inter drop-shadow-2xl">
+            <span className="text-white">
+              Build Retro-Future
             </span>
             <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-cyan-400 animate-gradient-x">
-              Digital Experiences
+              Landing Pages
             </span>
             <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 hover:from-cyan-400 hover:to-purple-400 transition-all duration-500">
@@ -256,19 +242,23 @@ export default function Home() {
             {/* Clean background without blur */}
             <div className="absolute inset-0 bg-gradient-to-r from-neon-primary/5 via-transparent to-neon-secondary/5 rounded-2xl"></div>
             <div className="relative z-10 p-6">
-              <span className="text-white">Connect ideas to reality with </span>
+              <span className="text-white">Synth-powered design meets </span>
               <span className="text-white font-bold">
-                high-converting landing pages
+                modern technology
               </span>
-              <span className="text-white"> forged by </span>
+              <span className="text-white">. Create </span>
               <span className="text-white font-bold">
-                cutting-edge AI
+                high-converting pages
+              </span>
+              <span className="text-white"> with </span>
+              <span className="text-white font-bold">
+                90's aesthetics
               </span>
               <span className="text-white">. </span>
               <span className="text-white font-semibold">No coding required</span>
-              <span className="text-white">, </span>
+              <span className="text-white">, just pure </span>
               <span className="text-white font-bold">
-                infinite possibilities unleashed
+                retro-futuristic magic
               </span>
               <span className="text-white">.</span>
             </div>
@@ -919,5 +909,6 @@ export default function Home() {
         }
       `}</style>
     </div>
+    </>
   )
 }

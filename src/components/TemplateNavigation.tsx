@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { NexusLogo } from '@/components/NexusLogo'
+import { NanoKitLogo } from '@/components/NanoKitLogo'
 
 interface TemplateNavigationProps {
   brandName?: string
@@ -17,7 +17,7 @@ export function TemplateNavigation({ brandName, showDashboard = true }: Template
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center space-x-4">
-            <NexusLogo size="sm" href="/" />
+            <NanoKitLogo size="sm" href="/" />
             {brandName && (
               <div className="hidden sm:block border-l border-slate-600 pl-4">
                 <span className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
