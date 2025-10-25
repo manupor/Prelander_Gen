@@ -189,22 +189,55 @@ export default function Home() {
         </div>
       </div>
 
-      {/* NetFusion Neon Header */}
-      <header className="relative z-10 bg-dark-surface/80 backdrop-blur-xl border-b border-neon-primary/20 shadow-neon">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
+      {/* Synth-Styled Header with better contrast */}
+      <header className="relative z-10 backdrop-blur-xl border-b border-cyan-400/20 shadow-2xl">
+        {/* Header gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/95 via-purple-950/40 to-black/80"></div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-5">
             <div className="flex items-center">
-              <NanoKitLogo size="md" href="/" />
+              {/* Logo with enhanced glow */}
+              <div className="relative">
+                <div 
+                  className="absolute inset-0 blur-2xl opacity-60"
+                  style={{
+                    background: 'radial-gradient(circle, rgba(255,0,255,0.4) 0%, transparent 70%)',
+                    transform: 'scale(1.5)'
+                  }}
+                />
+                <NanoKitLogo size="md" href="/" />
+              </div>
             </div>
             <div className="flex items-center gap-3">
               <Link href="/login">
-                <Button variant="outline" className="border-2 border-cyan-400/60 bg-slate-900/80 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300 backdrop-blur-xl font-inter font-semibold px-6 py-2 shadow-lg hover:shadow-cyan-400/25">
+                <Button 
+                  variant="outline" 
+                  className="border-2 border-cyan-400/70 bg-black/50 text-cyan-300 hover:bg-cyan-400/20 hover:border-cyan-300 hover:text-cyan-100 transition-all duration-300 backdrop-blur-xl font-inter font-semibold px-6 py-2.5 shadow-lg hover:shadow-cyan-400/40"
+                  style={{
+                    boxShadow: '0 0 20px rgba(0,255,255,0.2)',
+                  }}
+                >
                   Sign In
                 </Button>
               </Link>
               <Link href="/signup">
-                <Button className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white font-bold px-8 py-2.5 rounded-xl shadow-lg hover:shadow-xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105 font-inter">
-                  Get Started
+                <Button 
+                  className="relative overflow-hidden font-bold px-8 py-3 rounded-xl transition-all duration-300 hover:scale-105 font-inter group"
+                  style={{
+                    background: 'linear-gradient(135deg, #FF00FF 0%, #00FFFF 100%)',
+                    boxShadow: '0 0 30px rgba(255,0,255,0.4), 0 10px 30px rgba(0,0,0,0.3)',
+                  }}
+                >
+                  <span className="relative z-10 text-white drop-shadow-lg">Get Started</span>
+                  {/* Shine effect */}
+                  <div 
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent group-hover:animate-pulse"
+                    style={{
+                      transform: 'translateX(-100%)',
+                      animation: 'shine 3s ease-in-out infinite'
+                    }}
+                  />
                 </Button>
               </Link>
             </div>
