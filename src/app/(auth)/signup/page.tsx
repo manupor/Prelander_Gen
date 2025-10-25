@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ConfigurationNotice } from '@/components/ConfigurationNotice'
 import { Button } from '@/components/ui/button'
-import { NexusLogo } from '@/components/NexusLogo'
+import { NanoKitLogo } from '@/components/NanoKitLogo'
 
 export default function SignupPage() {
   const [email, setEmail] = useState('')
@@ -95,7 +95,7 @@ export default function SignupPage() {
         <header className="relative z-10 bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center py-4">
-              <NexusLogo size="md" />
+              <NanoKitLogo size="header" />
             </div>
           </div>
         </header>
@@ -178,7 +178,7 @@ export default function SignupPage() {
       <header className="relative z-10 bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
-            <NexusLogo size="md" />
+            <NanoKitLogo size="header" />
             <Link href="/login" className="text-sm text-slate-400 hover:text-cyan-400 transition-colors duration-300">
               Already have an account? →
             </Link>

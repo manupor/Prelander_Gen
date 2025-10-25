@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { formatDate } from '@/lib/utils'
-import { NexusLogo } from '@/components/NexusLogo'
+import { NanoKitLogo } from '@/components/NanoKitLogo'
 import { Site } from '@/lib/types'
 
 interface SiteWithVisits extends Site {
@@ -338,7 +338,7 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center space-x-6">
-              <NexusLogo size="md" href="/" />
+              <NanoKitLogo size="header" href="/" />
               <div className="border-l border-neon-primary/30 pl-6">
                 <h2 className="text-2xl font-bold text-white font-inter">
                   Dashboard

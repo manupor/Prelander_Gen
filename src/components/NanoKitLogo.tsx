@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 interface NanoKitLogoProps {
-  size?: 'sm' | 'md' | 'lg'
+  size?: 'sm' | 'md' | 'lg' | 'header'
   href?: string
   className?: string
 }
@@ -14,7 +14,8 @@ export function NanoKitLogo({ size = 'md', href, className = '' }: NanoKitLogoPr
   const dimensions = {
     sm: { width: 160, height: 120 },
     md: { width: 240, height: 180 },
-    lg: { width: 400, height: 300 }
+    lg: { width: 400, height: 300 },
+    header: { width: 80, height: 60 }  // Consistent header height
   }
 
   const logoElement = (
