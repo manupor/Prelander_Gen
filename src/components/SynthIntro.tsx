@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { NanoKitLogo } from './NanoKitLogo'
+import Image from 'next/image'
 
 export function SynthIntro() {
   const [isVisible, setIsVisible] = useState(true)
@@ -132,8 +132,18 @@ export function SynthIntro() {
           />
           
           {/* Main Logo */}
-          <div className="relative z-10 transform scale-150">
-            <NanoKitLogo size="lg" />
+          <div className="relative z-10">
+            <Image
+              src="/images/nano-kit-logo.png"
+              alt="Nano Kit"
+              width={500}
+              height={167}
+              className="object-contain"
+              style={{
+                filter: 'drop-shadow(0 0 30px rgba(255, 0, 255, 0.8)) drop-shadow(0 0 60px rgba(0, 255, 255, 0.6))',
+              }}
+              priority
+            />
           </div>
 
           {/* Subtitle */}
