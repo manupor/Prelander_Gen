@@ -39,7 +39,7 @@ export default function Home() {
       <header className="sticky top-0 z-50 backdrop-blur-2xl bg-black/40 border-b border-[#B94AFF]/20">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            <NanoKitLogo size="md" href="/" />
+            <NanoKitLogo size="header" href="/" />
             <nav className="hidden md:flex items-center gap-8 text-sm">
               <a href="#features" className="text-white/70 hover:text-white transition-colors">Features</a>
               <a href="#templates" className="text-white/70 hover:text-white transition-colors">Templates</a>
@@ -338,7 +338,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="flex flex-col items-center md:items-start gap-4">
-              <NanoKitLogo size="md" />
+              <NanoKitLogo size="sm" />
               <p className="text-white/40 text-sm text-center md:text-left max-w-xs">
                 AI-powered landing page builder for every style and industry
               </p>

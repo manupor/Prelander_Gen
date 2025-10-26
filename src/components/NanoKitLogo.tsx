@@ -11,11 +11,12 @@ interface NanoKitLogoProps {
 
 export function NanoKitLogo({ size = 'md', href, className = '' }: NanoKitLogoProps) {
   // Logo real es 4000x3000 (ratio 4:3)
+  // Tamaños optimizados para visibilidad consistente
   const dimensions = {
-    sm: { width: 160, height: 120 },
-    md: { width: 240, height: 180 },
-    lg: { width: 400, height: 300 },
-    header: { width: 80, height: 60 }  // Consistent header height
+    sm: { width: 160, height: 120 },      // Small - Footer/Secondary
+    md: { width: 200, height: 150 },      // Medium - General use
+    lg: { width: 280, height: 210 },      // Large - Hero/Emphasis
+    header: { width: 160, height: 120 }   // Header - Navbar (same as sm for consistency)
   }
 
   const logoElement = (
