@@ -193,7 +193,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/95 via-purple-950/40 to-black/80"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-5">
+          <div className="flex justify-between items-center py-2.5">
             <div className="flex items-center">
               {/* Logo with enhanced glow */}
               <div className="relative">
@@ -204,14 +204,14 @@ export default function Home() {
                     transform: 'scale(1.5)'
                   }}
                 />
-                <NanoKitLogo size="md" href="/" />
+                <NanoKitLogo size="header" href="/" />
               </div>
             </div>
             <div className="flex items-center gap-3">
               <Link href="/login">
                 <Button 
                   variant="outline" 
-                  className="border-2 border-cyan-400/70 bg-black/50 text-cyan-300 hover:bg-cyan-400/20 hover:border-cyan-300 hover:text-cyan-100 transition-all duration-300 backdrop-blur-xl font-inter font-semibold px-6 py-2.5 shadow-lg hover:shadow-cyan-400/40"
+                  className="border-2 border-cyan-400/70 bg-black/50 text-cyan-300 hover:bg-cyan-400/20 hover:border-cyan-300 hover:text-cyan-100 transition-all duration-300 backdrop-blur-xl font-inter font-semibold px-5 py-1.5 text-sm shadow-lg hover:shadow-cyan-400/40"
                   style={{
                     boxShadow: '0 0 20px rgba(0,255,255,0.2)',
                   }}
@@ -221,7 +221,7 @@ export default function Home() {
               </Link>
               <Link href="/signup">
                 <Button 
-                  className="relative overflow-hidden font-bold px-8 py-3 rounded-xl transition-all duration-300 hover:scale-105 font-inter group"
+                  className="relative overflow-hidden font-bold px-6 py-2 text-sm rounded-xl transition-all duration-300 hover:scale-105 font-inter group"
                   style={{
                     background: 'linear-gradient(135deg, #FF00FF 0%, #00FFFF 100%)',
                     boxShadow: '0 0 30px rgba(255,0,255,0.4), 0 10px 30px rgba(0,0,0,0.3)',
