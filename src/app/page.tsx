@@ -217,56 +217,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Template Gallery */}
-      <section id="templates" className="relative z-10 py-32 px-6 bg-gradient-to-b from-transparent via-[#4FC3FF]/5 to-transparent">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-24">
-            <h2 className="text-6xl md:text-7xl font-black mb-6" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-              <span className="bg-gradient-to-r from-[#B94AFF] via-[#4FC3FF] to-[#FF76FF] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(185,74,255,0.4)]">
-                Every Style, Every Industry
-              </span>
-            </h2>
-            <p className="text-2xl text-[#EAF1FF]/80 max-w-4xl mx-auto leading-relaxed" style={{ fontFamily: 'Inter, sans-serif' }}>
-              Choose from <span className="text-[#4FC3FF] font-bold">12+ template styles</span>—Corporate, Lifestyle, Tech, Gaming, and more
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            {[
-              { name: 'Corporate', desc: 'Clean & Professional', color: '#3B82F6', styles: 'Minimal, Modern' },
-              { name: 'Lifestyle', desc: 'Bold & Vibrant', color: '#EC4899', styles: 'Editorial, Rich' },
-              { name: 'Tech', desc: 'Futuristic & Sleek', color: '#8B5CF6', styles: 'Neon, Gradient' },
-              { name: 'Gaming', desc: 'Dynamic & Energetic', color: '#EF4444', styles: 'Intense, Animated' },
-            ].map((template, i) => (
-              <div
-                key={i}
-                className="group relative aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 hover:border-white/30 transition-all cursor-pointer"
-                style={{ 
-                  background: `linear-gradient(135deg, ${template.color}20 0%, transparent 100%)`,
-                }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <div className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-2" style={{ backgroundColor: `${template.color}40`, color: template.color }}>
-                    {template.styles}
-                  </div>
-                  <h3 className="text-2xl font-bold text-white mb-1">{template.name}</h3>
-                  <p className="text-white/60 text-sm">{template.desc}</p>
-                </div>
-                <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors" />
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <Link href="/dashboard">
-              <Button className="px-10 py-6 rounded-2xl text-lg font-bold bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 transition-all backdrop-blur-xl text-white">
-                Browse All 12+ Templates →
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* Host With Us */}
       <section className="relative z-10 py-32 px-6">
