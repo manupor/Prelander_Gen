@@ -204,7 +204,7 @@ export default function Home() {
                     transform: 'scale(1.5)'
                   }}
                 />
-                <NanoKitLogo size="header" href="/" />
+                <NanoKitLogo size="sm" href="/" />
               </div>
             </div>
             <div className="flex items-center gap-3">
