@@ -15,10 +15,10 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0C0A24] via-[#1A0F40] to-[#0C0A24] text-white overflow-x-hidden" style={{ fontFamily: 'Outfit, system-ui, sans-serif' }}>
+    <div className="min-h-screen bg-gradient-to-br from-[#0C0A24] via-[#1A0F40] to-[#0C0A24] text-white overflow-x-hidden" style={{ fontFamily: 'Space Grotesk, system-ui, sans-serif' }}>
       
-      {/* Animated Star Field */}
-      <div className="fixed inset-0 z-0 overflow-hidden">
+      {/* Animated Star Field with Parallax */}
+      <div className="fixed inset-0 z-0 overflow-hidden" style={{ transform: `translateY(${scrollY * 0.3}px)` }}>
         {[...Array(100)].map((_, i) => (
           <div
             key={i}
@@ -64,45 +64,44 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative z-10 pt-24 pb-32 px-6">
+      <section className="relative z-10 pt-32 pb-40 px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-[#B94AFF]/10 to-[#4FC3FF]/10 border border-[#4FC3FF]/30 mb-8 backdrop-blur-sm animate-fadeIn">
+          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-[#B94AFF]/10 to-[#4FC3FF]/10 border border-[#4FC3FF]/30 mb-10 backdrop-blur-sm animate-fadeIn shadow-[0_0_20px_rgba(79,195,255,0.2)]">
             <div className="w-2 h-2 rounded-full bg-[#4FC3FF] animate-pulse" />
-            <span className="text-sm font-semibold tracking-wide">AI-POWERED LANDING PAGE BUILDER</span>
+            <span className="text-sm font-bold tracking-wider text-[#EAF1FF]">AI-POWERED LANDING PAGE BUILDER</span>
             <div className="w-2 h-2 rounded-full bg-[#B94AFF] animate-pulse" />
           </div>
 
-          <h1 className="text-6xl md:text-8xl font-black leading-[1.1] mb-8 animate-fadeInUp">
-            <span className="block text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+          <h1 className="text-7xl md:text-9xl font-black leading-[0.95] mb-10 animate-fadeInUp" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+            <span className="block text-[#EAF1FF] drop-shadow-[0_0_40px_rgba(234,241,255,0.4)]">
               Create Any Style
             </span>
-            <span className="block bg-gradient-to-r from-[#B94AFF] via-[#4FC3FF] to-[#B94AFF] bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient drop-shadow-[0_0_50px_rgba(185,74,255,0.5)]">
+            <span className="block bg-gradient-to-r from-[#B94AFF] via-[#4FC3FF] to-[#FF76FF] bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient drop-shadow-[0_0_60px_rgba(185,74,255,0.6)]">
               Landing Page
             </span>
-            <span className="block text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
-              With AI
+            <span className="block text-[#EAF1FF] drop-shadow-[0_0_40px_rgba(234,241,255,0.4)]">
+              — Instantly.
             </span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-white/70 max-w-3xl mx-auto mb-12 leading-relaxed animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
-            From <span className="text-[#4FC3FF] font-semibold">minimal corporate</span> to{' '}
-            <span className="text-[#B94AFF] font-semibold">bold lifestyle</span>—our AI adapts to any design style.{' '}
-            <span className="text-white font-semibold">No coding. Pure creativity.</span>
+          <p className="text-2xl md:text-3xl text-[#EAF1FF]/80 max-w-4xl mx-auto mb-14 leading-relaxed animate-fadeInUp" style={{ animationDelay: '0.2s', fontFamily: 'Inter, sans-serif' }}>
+            From minimal corporate to bold lifestyle, <span className="text-[#4FC3FF] font-semibold text-shadow-glow">NANO KIT adapts to your aesthetic</span>.{' '}
+            <span className="text-[#EAF1FF] font-semibold">No coding. Pure creativity.</span>
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-20 animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
             <Link href="/signup">
-              <Button className="relative group overflow-hidden px-12 py-7 rounded-2xl text-lg font-bold transition-all hover:scale-105 shadow-[0_0_60px_rgba(185,74,255,0.4)]">
+              <Button className="group relative overflow-hidden px-14 py-7 rounded-2xl text-xl font-black transition-all duration-300 hover:scale-105 hover:-translate-y-1 shadow-[0_0_60px_rgba(185,74,255,0.5)] hover:shadow-[0_0_80px_rgba(79,195,255,0.6)]">
                 <div className="absolute inset-0 bg-gradient-to-r from-[#B94AFF] to-[#4FC3FF]" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#4FC3FF] to-[#B94AFF] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <span className="relative text-white flex items-center gap-3">
-                  START CREATING FREE
-                  <span className="text-2xl group-hover:translate-x-1 transition-transform">→</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#4FC3FF] to-[#FF76FF] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <span className="relative text-white flex items-center gap-3 drop-shadow-lg">
+                  Start Creating Free
+                  <span className="text-2xl group-hover:translate-x-2 transition-transform duration-300">→</span>
                 </span>
               </Button>
             </Link>
             <a href="#templates">
-              <Button variant="ghost" className="text-white hover:text-[#4FC3FF] border-2 border-white/20 hover:border-[#4FC3FF] px-10 py-7 rounded-2xl text-lg transition-all backdrop-blur-sm">
+              <Button variant="ghost" className="text-[#EAF1FF] hover:text-[#4FC3FF] border-2 border-[#4FC3FF]/30 hover:border-[#4FC3FF] px-12 py-7 rounded-2xl text-xl font-bold transition-all duration-300 backdrop-blur-sm hover:bg-[#4FC3FF]/10">
                 Browse Templates
               </Button>
             </a>
@@ -124,49 +123,56 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="relative z-10 py-24 px-6 bg-gradient-to-b from-transparent via-[#B94AFF]/5 to-transparent">
+      <section id="features" className="relative z-10 py-32 px-6 bg-gradient-to-b from-transparent via-[#B94AFF]/5 to-transparent">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-black mb-6">
-              <span className="bg-gradient-to-r from-[#B94AFF] to-[#4FC3FF] bg-clip-text text-transparent">
-                Powerful Creative Engine
+          <div className="text-center mb-24">
+            <h2 className="text-6xl md:text-7xl font-black mb-6" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+              <span className="bg-gradient-to-r from-[#B94AFF] via-[#4FC3FF] to-[#FF76FF] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(185,74,255,0.4)]">
+                Creative Engine
               </span>
             </h2>
-            <p className="text-xl text-white/60 max-w-2xl mx-auto">
-              AI that understands design, aesthetics, and conversion optimization
+            <p className="text-2xl text-[#EAF1FF]/70 max-w-3xl mx-auto leading-relaxed" style={{ fontFamily: 'Inter, sans-serif' }}>
+              AI that understands design, aesthetics, and conversion
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-10">
             {[
               {
                 icon: '✨',
                 title: 'AI Generate',
-                desc: 'Describe your vision—AI creates a complete, styled landing page in seconds. From minimal to maximal.',
+                desc: 'Describe your idea and get a full landing page instantly.',
                 gradient: 'from-[#B94AFF] to-[#B94AFF]/50',
+                glow: 'rgba(185,74,255,0.4)',
               },
               {
                 icon: '⚡',
-                title: 'Real-Time Edit',
-                desc: 'See every change instantly. Edit colors, text, images, and layout with live preview.',
+                title: 'Live Edit',
+                desc: 'See every change in real time. Edit anything, anywhere.',
                 gradient: 'from-[#4FC3FF] to-[#4FC3FF]/50',
+                glow: 'rgba(79,195,255,0.4)',
               },
               {
                 icon: '📦',
                 title: 'Export Clean Code',
-                desc: 'Download production-ready HTML/CSS. No frameworks, no dependencies—just clean code.',
-                gradient: 'from-[#B94AFF] to-[#B94AFF]/50',
+                desc: 'Download production-ready HTML/CSS. Zero dependencies.',
+                gradient: 'from-[#FF76FF] to-[#FF76FF]/50',
+                glow: 'rgba(255,118,255,0.4)',
               },
             ].map((feature, i) => (
               <div
                 key={i}
-                className="group relative p-10 rounded-3xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 hover:border-white/30 transition-all hover:-translate-y-2 backdrop-blur-xl"
+                className="group relative p-12 rounded-3xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 hover:border-[#4FC3FF]/50 transition-all duration-300 hover:-translate-y-3 hover:rotate-1 backdrop-blur-xl cursor-pointer"
+                style={{
+                  boxShadow: `0 0 40px ${feature.glow}`,
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                }}
               >
-                <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-6 shadow-[0_0_40px_rgba(185,74,255,0.3)] group-hover:shadow-[0_0_60px_rgba(185,74,255,0.5)] transition-shadow`}>
-                  <span className="text-4xl">{feature.icon}</span>
+                <div className={`w-24 h-24 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-8 shadow-[0_0_40px] group-hover:shadow-[0_0_80px] transition-all duration-300 group-hover:scale-110`} style={{ boxShadow: `0 0 40px ${feature.glow}` }}>
+                  <span className="text-5xl">{feature.icon}</span>
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4">{feature.title}</h3>
-                <p className="text-white/60 leading-relaxed text-lg">{feature.desc}</p>
+                <h3 className="text-3xl font-black text-[#EAF1FF] mb-5" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>{feature.title}</h3>
+                <p className="text-[#EAF1FF]/70 leading-relaxed text-xl" style={{ fontFamily: 'Inter, sans-serif' }}>{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -174,15 +180,15 @@ export default function Home() {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="relative z-10 py-24 px-6">
+      <section id="how-it-works" className="relative z-10 py-32 px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-black mb-6">
-              <span className="bg-gradient-to-r from-[#4FC3FF] to-[#B94AFF] bg-clip-text text-transparent">
-                Three Simple Steps
+          <div className="text-center mb-24">
+            <h2 className="text-6xl md:text-7xl font-black mb-6" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+              <span className="bg-gradient-to-r from-[#4FC3FF] via-[#B94AFF] to-[#FF76FF] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(79,195,255,0.4)]">
+                From Idea to Live Page
               </span>
             </h2>
-            <p className="text-xl text-white/60">From idea to deployed landing page in minutes</p>
+            <p className="text-2xl text-[#EAF1FF]/70" style={{ fontFamily: 'Inter, sans-serif' }}>In minutes, not hours</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-12 relative">
@@ -212,16 +218,16 @@ export default function Home() {
       </section>
 
       {/* Template Gallery */}
-      <section id="templates" className="relative z-10 py-24 px-6 bg-gradient-to-b from-transparent via-[#4FC3FF]/5 to-transparent">
+      <section id="templates" className="relative z-10 py-32 px-6 bg-gradient-to-b from-transparent via-[#4FC3FF]/5 to-transparent">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-black mb-6">
-              <span className="bg-gradient-to-r from-[#B94AFF] to-[#4FC3FF] bg-clip-text text-transparent">
+          <div className="text-center mb-24">
+            <h2 className="text-6xl md:text-7xl font-black mb-6" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+              <span className="bg-gradient-to-r from-[#B94AFF] via-[#4FC3FF] to-[#FF76FF] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(185,74,255,0.4)]">
                 Every Style, Every Industry
               </span>
             </h2>
-            <p className="text-xl text-white/60 max-w-3xl mx-auto">
-              Our AI creates landing pages in <span className="text-white font-semibold">any aesthetic</span>—from clean corporate to bold 90's synth
+            <p className="text-2xl text-[#EAF1FF]/80 max-w-4xl mx-auto leading-relaxed" style={{ fontFamily: 'Inter, sans-serif' }}>
+              Choose from <span className="text-[#4FC3FF] font-bold">12+ template styles</span>—Corporate, Lifestyle, Tech, Gaming, and more
             </p>
           </div>
 
@@ -263,26 +269,26 @@ export default function Home() {
       </section>
 
       {/* Host With Us */}
-      <section className="relative z-10 py-24 px-6">
+      <section className="relative z-10 py-32 px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="relative p-16 rounded-3xl bg-gradient-to-br from-[#4FC3FF]/20 via-[#B94AFF]/20 to-[#4FC3FF]/20 border border-[#4FC3FF]/30 backdrop-blur-2xl overflow-hidden">
+          <div className="relative p-20 rounded-3xl bg-gradient-to-br from-[#4FC3FF]/20 via-[#B94AFF]/20 to-[#4FC3FF]/20 border border-[#4FC3FF]/30 backdrop-blur-2xl overflow-hidden shadow-[0_0_80px_rgba(79,195,255,0.3)]">
             <div className="absolute inset-0">
               <div className="absolute top-1/3 left-1/3 w-40 h-40 bg-[#4FC3FF]/20 rounded-full blur-3xl animate-pulse" />
               <div className="absolute bottom-1/3 right-1/3 w-48 h-48 bg-[#B94AFF]/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
             </div>
 
-            <div className="relative grid md:grid-cols-2 gap-12 items-center">
+            <div className="relative grid md:grid-cols-2 gap-16 items-center">
               <div>
-                <div className="inline-block px-4 py-2 rounded-full bg-[#4FC3FF]/20 border border-[#4FC3FF]/40 text-[#4FC3FF] text-sm font-bold mb-6">
+                <div className="inline-block px-5 py-2 rounded-full bg-[#4FC3FF]/20 border border-[#4FC3FF]/50 text-[#4FC3FF] text-sm font-black mb-8 shadow-[0_0_20px_rgba(79,195,255,0.3)]">
                   ⚡ INSTANT HOSTING
                 </div>
-                <h2 className="text-4xl md:text-5xl font-black mb-6">
-                  <span className="bg-gradient-to-r from-[#4FC3FF] to-[#B94AFF] bg-clip-text text-transparent">
-                    Host With Us!
+                <h2 className="text-5xl md:text-6xl font-black mb-8" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                  <span className="bg-gradient-to-r from-[#4FC3FF] via-[#B94AFF] to-[#FF76FF] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(79,195,255,0.5)]">
+                    Instant Hosting.<br/>Global Reach.
                   </span>
                 </h2>
-                <p className="text-xl text-white/70 mb-8 leading-relaxed">
-                  Deploy your landing page instantly to our <span className="text-white font-semibold">blazing-fast global CDN</span>. No servers, no hassle—just one click.
+                <p className="text-2xl text-[#EAF1FF]/80 mb-10 leading-relaxed" style={{ fontFamily: 'Inter, sans-serif' }}>
+                  Host your page instantly with our global CDN. <span className="text-[#EAF1FF] font-bold">No setup. Just one click.</span>
                 </p>
                 <div className="space-y-4">
                   {[
