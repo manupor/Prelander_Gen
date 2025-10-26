@@ -294,11 +294,11 @@ export default function Home() {
                       <span className="font-bold text-[#4FC3FF]">99.9%</span>
                     </div>
                   </div>
-                  <Link href="/signup">
+                  <Link href="/try-editor">
                     <Button className="w-full relative group overflow-hidden py-4 rounded-xl text-lg font-bold transition-all hover:scale-105">
                       <div className="absolute inset-0 bg-gradient-to-r from-[#B94AFF] to-[#4FC3FF]" />
                       <div className="absolute inset-0 bg-gradient-to-r from-[#4FC3FF] to-[#B94AFF] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      <span className="relative text-white">Get Started Free →</span>
+                      <span className="relative text-white">Try Editor Free →</span>
                     </Button>
                   </Link>
                 </div>
