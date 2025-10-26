@@ -1,12 +1,10 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { SynthIntro } from '@/components/SynthIntro'
 import { NanoKitLogo } from '@/components/NanoKitLogo'
 
 export default function Home() {
   return (
     <>
-      <SynthIntro />
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 text-white overflow-hidden relative font-inter">
       {/* Purple Synthwave Background */}
       <div className="fixed inset-0 z-0 overflow-hidden">
