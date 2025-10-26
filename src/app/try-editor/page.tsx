@@ -7,13 +7,13 @@ import Link from 'next/link'
 
 // Demo template data
 const DEMO_TEMPLATE = {
-  id: 't6',
-  name: 'Classic Overlay',
-  preview: '/templates/t6-preview.png'
+  id: 't7',
+  name: 'Sweet Bonanza',
+  preview: '/templates/t7-preview.png'
 }
 
 const LOCKED_TEMPLATES = [
-  { id: 't7', name: 'Sweet Bonanza', preview: '/templates/t7-preview.png' },
+  { id: 't6', name: 'Classic Overlay', preview: '/templates/t6-preview.png' },
   { id: 't9', name: 'FisherMan Slot', preview: '/templates/t9-preview.png' },
   { id: 't10', name: 'FisherMan Slot 2', preview: '/templates/t10-preview.png' },
   { id: 't11', name: 'Aviator Crash', preview: '/templates/t11-preview.png' },
@@ -30,9 +30,9 @@ export default function TryEditorPage() {
   })
   
   // Demo fields
-  const [headline, setHeadline] = useState('WIN BIG TODAY!')
-  const [subheadline, setSubheadline] = useState('Get your welcome bonus now')
-  const [cta, setCta] = useState('CLAIM BONUS')
+  const [headline, setHeadline] = useState('WIN BIG WITH BONANZA BILLION SLOTS!')
+  const [subheadline, setSubheadline] = useState('Premium 3x3 slot machine with life-changing prizes')
+  const [cta, setCta] = useState('SPIN TO WIN')
   const [ctaUrl, setCtaUrl] = useState('https://example.com')
   const [primaryColor, setPrimaryColor] = useState('#4a90e2')
   const [secondaryColor, setSecondaryColor] = useState('#7b68ee')
