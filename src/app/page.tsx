@@ -262,29 +262,79 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Social Proof */}
+      {/* Host With Us */}
       <section className="relative z-10 py-24 px-6">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black mb-4 text-white">
-              Trusted by Creators
-            </h2>
-            <p className="text-white/60 text-lg">Join thousands building stunning landing pages</p>
-          </div>
+        <div className="max-w-6xl mx-auto">
+          <div className="relative p-16 rounded-3xl bg-gradient-to-br from-[#4FC3FF]/20 via-[#B94AFF]/20 to-[#4FC3FF]/20 border border-[#4FC3FF]/30 backdrop-blur-2xl overflow-hidden">
+            <div className="absolute inset-0">
+              <div className="absolute top-1/3 left-1/3 w-40 h-40 bg-[#4FC3FF]/20 rounded-full blur-3xl animate-pulse" />
+              <div className="absolute bottom-1/3 right-1/3 w-48 h-48 bg-[#B94AFF]/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+            </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { stat: '10,000+', label: 'Pages Created' },
-              { stat: '99%', label: 'Uptime' },
-              { stat: '4.9/5', label: 'User Rating' },
-            ].map((item, i) => (
-              <div key={i} className="text-center p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all">
-                <div className="text-5xl font-black bg-gradient-to-r from-[#B94AFF] to-[#4FC3FF] bg-clip-text text-transparent mb-2">
-                  {item.stat}
+            <div className="relative grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <div className="inline-block px-4 py-2 rounded-full bg-[#4FC3FF]/20 border border-[#4FC3FF]/40 text-[#4FC3FF] text-sm font-bold mb-6">
+                  ⚡ INSTANT HOSTING
                 </div>
-                <div className="text-white/60">{item.label}</div>
+                <h2 className="text-4xl md:text-5xl font-black mb-6">
+                  <span className="bg-gradient-to-r from-[#4FC3FF] to-[#B94AFF] bg-clip-text text-transparent">
+                    Host With Us!
+                  </span>
+                </h2>
+                <p className="text-xl text-white/70 mb-8 leading-relaxed">
+                  Deploy your landing page instantly to our <span className="text-white font-semibold">blazing-fast global CDN</span>. No servers, no hassle—just one click.
+                </p>
+                <div className="space-y-4">
+                  {[
+                    { icon: '🚀', text: 'One-click deployment to AWS S3' },
+                    { icon: '⚡', text: 'Global CDN for instant loading' },
+                    { icon: '🔒', text: 'SSL certificate included' },
+                    { icon: '📊', text: 'Built-in analytics dashboard' },
+                  ].map((feature, i) => (
+                    <div key={i} className="flex items-center gap-3 text-white/80">
+                      <span className="text-2xl">{feature.icon}</span>
+                      <span className="text-lg">{feature.text}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
+
+              <div className="relative">
+                <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/20">
+                  <div className="text-center mb-6">
+                    <div className="text-6xl font-black bg-gradient-to-r from-[#B94AFF] to-[#4FC3FF] bg-clip-text text-transparent mb-2">
+                      FREE
+                    </div>
+                    <div className="text-white/60">Forever hosting included</div>
+                  </div>
+                  <div className="space-y-3 mb-6">
+                    <div className="flex justify-between text-white/70">
+                      <span>Bandwidth</span>
+                      <span className="font-bold text-white">Unlimited</span>
+                    </div>
+                    <div className="flex justify-between text-white/70">
+                      <span>SSL Certificate</span>
+                      <span className="font-bold text-white">✓ Included</span>
+                    </div>
+                    <div className="flex justify-between text-white/70">
+                      <span>Custom Domain</span>
+                      <span className="font-bold text-white">✓ Supported</span>
+                    </div>
+                    <div className="flex justify-between text-white/70">
+                      <span>Uptime</span>
+                      <span className="font-bold text-[#4FC3FF]">99.9%</span>
+                    </div>
+                  </div>
+                  <Link href="/signup">
+                    <Button className="w-full relative group overflow-hidden py-4 rounded-xl text-lg font-bold transition-all hover:scale-105">
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#B94AFF] to-[#4FC3FF]" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#4FC3FF] to-[#B94AFF] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <span className="relative text-white">Get Started Free →</span>
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
