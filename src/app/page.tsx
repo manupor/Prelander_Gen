@@ -1,241 +1,61 @@
+'use client'
+
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { NanoKitLogo } from '@/components/NanoKitLogo'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
+  const [scrollY, setScrollY] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
-    <>
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 text-white overflow-hidden relative font-inter">
-      {/* Purple Synthwave Background */}
+    <div className="min-h-screen bg-gradient-to-br from-[#0C0A24] via-[#1A0F40] to-[#0C0A24] text-white overflow-x-hidden" style={{ fontFamily: 'Outfit, system-ui, sans-serif' }}>
+      
+      {/* Animated Star Field */}
       <div className="fixed inset-0 z-0 overflow-hidden">
-        {/* WebGL Canvas Container */}
-        <div id="synth-canyon-container" className="absolute inset-0"></div>
-        
-        {/* Purple Gradient Background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-950/30 to-black">
-          {/* Animated Grid Floor */}
-          <div className="absolute inset-0 perspective-[1000px]">
-            {/* Vertical Grid Lines - Animated */}
-            {[...Array(20)].map((_, i) => (
-              <div
-                key={`vline-${i}`}
-                className="absolute h-full w-[1px] bg-gradient-to-b from-transparent via-cyan-400/30 to-transparent animate-pulse"
-                style={{
-                  left: `${5 + i * 5}%`,
-                  animationDelay: `${i * 0.2}s`,
-                  animationDuration: `${2 + (i % 3)}s`,
-                  opacity: 0.3 + (i % 3) * 0.2
-                } as React.CSSProperties}
-              />
-            ))}
-            
-            {/* Horizontal Grid Lines - Animated with glow */}
-            {[...Array(15)].map((_, i) => (
-              <div
-                key={`hline-${i}`}
-                className="absolute w-full h-[1px] bg-gradient-to-r from-transparent via-purple-400/30 to-transparent animate-pulse"
-                style={{
-                  top: `${10 + i * 6}%`,
-                  animationDelay: `${i * 0.15}s`,
-                  animationDuration: `${2.5 + (i % 4) * 0.5}s`,
-                  opacity: 0.2 + (i % 4) * 0.15,
-                  boxShadow: i % 3 === 0 ? '0 0 10px rgba(168, 85, 247, 0.3)' : 'none'
-                } as React.CSSProperties}
-              />
-            ))}
-            
-            {/* Moving particles along vertical grid lines */}
-            {[...Array(8)].map((_, i) => (
-              <div
-                key={`grid-particle-v-${i}`}
-                className="absolute w-2 h-2 bg-cyan-400 rounded-full blur-sm"
-                style={{
-                  left: `${5 + (i * 12)}%`,
-                  top: '0',
-                  animation: `moveVertical ${3 + i}s ease-in-out infinite`,
-                  animationDelay: `${i * 0.5}s`,
-                  boxShadow: '0 0 15px rgba(34, 211, 238, 0.8)'
-                } as React.CSSProperties}
-              />
-            ))}
-            
-            {/* Moving particles along horizontal grid lines */}
-            {[...Array(6)].map((_, i) => (
-              <div
-                key={`grid-particle-h-${i}`}
-                className="absolute w-2 h-2 bg-purple-400 rounded-full blur-sm"
-                style={{
-                  left: '0',
-                  top: `${15 + (i * 15)}%`,
-                  animation: `moveHorizontal ${4 + i * 0.5}s ease-in-out infinite`,
-                  animationDelay: `${i * 0.7}s`,
-                  boxShadow: '0 0 15px rgba(168, 85, 247, 0.8)'
-                } as React.CSSProperties}
-              />
-            ))}
-            
-            {/* Intersection glow points */}
-            {[...Array(12)].map((_, i) => (
-              <div
-                key={`intersection-${i}`}
-                className="absolute w-1 h-1 bg-white rounded-full"
-                style={{
-                  left: `${10 + (i * 8)}%`,
-                  top: `${20 + ((i * 7) % 60)}%`,
-                  animation: 'gridPulse 2s ease-in-out infinite',
-                  animationDelay: `${i * 0.3}s`,
-                  boxShadow: '0 0 10px rgba(255, 255, 255, 0.6)'
-                } as React.CSSProperties}
-              />
-            ))}
-          </div>
-          
-          {/* Subtle Mountain Horizon */}
-          <div className="mountain-horizon">
-            <svg className="horizon-svg" viewBox="0 0 1200 200" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="subtleMountainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="rgba(2, 193, 115, 0.15)" />
-                  <stop offset="40%" stopColor="rgba(114, 220, 96, 0.1)" />
-                  <stop offset="100%" stopColor="transparent" />
-                </linearGradient>
-              </defs>
-              
-              {/* Subtle Mountain Silhouette */}
-              <path
-                d="M0,200 L0,120 L100,100 L200,130 L300,90 L400,110 L500,80 L600,105 L700,75 L800,95 L900,70 L1000,85 L1100,65 L1200,90 L1200,200 Z"
-                fill="url(#subtleMountainGradient)"
-                className="subtle-mountain"
-              />
-            </svg>
-            
-            {/* Connection Lines to Grid */}
-            <div className="mountain-grid-connections">
-              {[5, 11, 17, 23, 29, 35, 41, 47, 53, 59, 65, 71, 77, 83, 89, 95].map((position, i) => (
-                <div
-                  key={`connection-${i}`}
-                  className="grid-connection-line"
-                  style={{
-                    left: `${position}%`,
-                    animationDelay: `${i * 0.1}s`
-                  } as React.CSSProperties}
-                />
-              ))}
-            </div>
-          </div>
-          
-          {/* Ambient Particles */}
-          <div className="ambient-particles">
-            {[...Array(25)].map((_, i) => (
-              <div
-                key={`particle-${i}`}
-                className={`ambient-particle ${i % 3 === 0 ? 'cyan' : i % 3 === 1 ? 'pink' : 'yellow'}`}
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 4}s`,
-                  animationDuration: `${4 + Math.random() * 3}s`
-                } as React.CSSProperties}
-              />
-            ))}
-          </div>
-          
-          {/* Subtle Starburst Level */}
-          <div className="subtle-starburst-level">
-            {/* Gentle Light Rays */}
-            <div className="gentle-rays">
-              {[...Array(6)].map((_, i) => (
-                <div
-                  key={`gentle-ray-${i}`}
-                  className="gentle-ray"
-                  style={{
-                    transform: `rotate(${i * 60}deg)`,
-                    animationDelay: `${i * 0.5}s`
-                  } as React.CSSProperties}
-                />
-              ))}
-            </div>
-            
-            {/* Soft Twinkling Stars */}
-            <div className="soft-stars">
-              {[...Array(8)].map((_, i) => (
-                <div
-                  key={`soft-star-${i}`}
-                  className="soft-star"
-                  style={{
-                    left: `${20 + Math.random() * 60}%`,
-                    top: `${20 + Math.random() * 60}%`,
-                    animationDelay: `${Math.random() * 4}s`,
-                    animationDuration: `${4 + Math.random() * 2}s`
-                  } as React.CSSProperties}
-                />
-              ))}
-            </div>
-            
-            {/* Subtle Glow Pulse */}
-            <div className="central-glow">
-              <div className="glow-core" />
-            </div>
-          </div>
-          
-          {/* Subtle Glow Effects */}
-          <div className="background-glow">
-            <div className="glow-left" />
-            <div className="glow-right" />
-            <div className="glow-center" />
-          </div>
-        </div>
+        {[...Array(100)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full bg-white"
+            style={{
+              width: Math.random() * 2 + 0.5 + 'px',
+              height: Math.random() * 2 + 0.5 + 'px',
+              left: Math.random() * 100 + '%',
+              top: Math.random() * 100 + '%',
+              opacity: Math.random() * 0.7 + 0.3,
+              animation: `twinkle ${Math.random() * 3 + 2}s infinite ${Math.random() * 2}s`,
+            }}
+          />
+        ))}
       </div>
 
-      {/* Synth-Styled Header with better contrast */}
-      <header className="relative z-10 backdrop-blur-xl border-b border-cyan-400/20 shadow-2xl">
-        {/* Header gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/95 via-purple-950/40 to-black/80"></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-2.5">
-            <div className="flex items-center">
-              {/* Logo with enhanced glow */}
-              <div className="relative">
-                <div 
-                  className="absolute inset-0 blur-2xl opacity-60"
-                  style={{
-                    background: 'radial-gradient(circle, rgba(255,0,255,0.4) 0%, transparent 70%)',
-                    transform: 'scale(1.5)'
-                  }}
-                />
-                <NanoKitLogo size="md" href="/" />
-              </div>
-            </div>
+      {/* Header */}
+      <header className="sticky top-0 z-50 backdrop-blur-2xl bg-black/40 border-b border-[#B94AFF]/20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            <NanoKitLogo size="md" href="/" />
+            <nav className="hidden md:flex items-center gap-8 text-sm">
+              <a href="#features" className="text-white/70 hover:text-white transition-colors">Features</a>
+              <a href="#templates" className="text-white/70 hover:text-white transition-colors">Templates</a>
+              <a href="#how-it-works" className="text-white/70 hover:text-white transition-colors">How It Works</a>
+            </nav>
             <div className="flex items-center gap-3">
               <Link href="/login">
-                <Button 
-                  variant="outline" 
-                  className="border-2 border-cyan-400/70 bg-black/50 text-cyan-300 hover:bg-cyan-400/20 hover:border-cyan-300 hover:text-cyan-100 transition-all duration-300 backdrop-blur-xl font-inter font-semibold px-5 py-1.5 text-sm shadow-lg hover:shadow-cyan-400/40"
-                  style={{
-                    boxShadow: '0 0 20px rgba(0,255,255,0.2)',
-                  }}
-                >
+                <Button variant="ghost" className="text-white hover:text-[#4FC3FF] border border-[#4FC3FF]/30 hover:border-[#4FC3FF] transition-all px-5 py-2 rounded-xl">
                   Sign In
                 </Button>
               </Link>
               <Link href="/signup">
-                <Button 
-                  className="relative overflow-hidden font-bold px-6 py-2 text-sm rounded-xl transition-all duration-300 hover:scale-105 font-inter group"
-                  style={{
-                    background: 'linear-gradient(135deg, #FF00FF 0%, #00FFFF 100%)',
-                    boxShadow: '0 0 30px rgba(255,0,255,0.4), 0 10px 30px rgba(0,0,0,0.3)',
-                  }}
-                >
-                  <span className="relative z-10 text-white drop-shadow-lg">Get Started</span>
-                  {/* Shine effect */}
-                  <div 
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent group-hover:animate-pulse"
-                    style={{
-                      transform: 'translateX(-100%)',
-                      animation: 'shine 3s ease-in-out infinite'
-                    }}
-                  />
+                <Button className="relative overflow-hidden px-6 py-2 rounded-xl font-bold transition-all hover:scale-105 group">
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#B94AFF] to-[#4FC3FF]" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#4FC3FF] to-[#B94AFF] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <span className="relative text-white">Get Started</span>
                 </Button>
               </Link>
             </div>
@@ -243,703 +63,349 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Modern Hero Section */}
-      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center">
-          {/* Purple Badge */}
-          <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 backdrop-blur-sm border border-cyan-400/30 rounded-full mb-8 hover:border-cyan-400/50 transition-all duration-300 group">
-            <span className="w-3 h-3 bg-cyan-400 rounded-full mr-3 animate-pulse group-hover:animate-ping"></span>
-            <span className="text-sm font-medium text-cyan-300 tracking-wide font-inter">AI-Powered Landing Pages</span>
-            <span className="w-3 h-3 bg-purple-400 rounded-full ml-3 animate-pulse group-hover:animate-ping"></span>
+      {/* Hero Section */}
+      <section className="relative z-10 pt-24 pb-32 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-[#B94AFF]/10 to-[#4FC3FF]/10 border border-[#4FC3FF]/30 mb-8 backdrop-blur-sm animate-fadeIn">
+            <div className="w-2 h-2 rounded-full bg-[#4FC3FF] animate-pulse" />
+            <span className="text-sm font-semibold tracking-wide">AI-POWERED LANDING PAGE BUILDER</span>
+            <div className="w-2 h-2 rounded-full bg-[#B94AFF] animate-pulse" />
           </div>
-          
-          {/* Purple Gradient Headlines */}
-          <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight tracking-tight text-center font-inter drop-shadow-2xl">
-            <span className="text-white">
-              Build Retro-Future
+
+          <h1 className="text-6xl md:text-8xl font-black leading-[1.1] mb-8 animate-fadeInUp">
+            <span className="block text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+              Create Any Style
             </span>
-            <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-cyan-400 animate-gradient-x">
-              Landing Pages
+            <span className="block bg-gradient-to-r from-[#B94AFF] via-[#4FC3FF] to-[#B94AFF] bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient drop-shadow-[0_0_50px_rgba(185,74,255,0.5)]">
+              Landing Page
             </span>
-            <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 hover:from-cyan-400 hover:to-purple-400 transition-all duration-500">
-              in Seconds
+            <span className="block text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+              With AI
             </span>
           </h1>
-          
-          {/* Enhanced Animated Subtitle - Clear and Sharp */}
-          <div className="relative text-xl md:text-2xl mb-8 max-w-4xl mx-auto leading-relaxed font-inter text-center">
-            {/* Clean background without blur */}
-            <div className="absolute inset-0 bg-gradient-to-r from-neon-primary/5 via-transparent to-neon-secondary/5 rounded-2xl"></div>
-            <div className="relative z-10 p-6">
-              <span className="text-white">Synth-powered design meets </span>
-              <span className="text-white font-bold">
-                modern technology
-              </span>
-              <span className="text-white">. Create </span>
-              <span className="text-white font-bold">
-                high-converting pages
-              </span>
-              <span className="text-white"> with </span>
-              <span className="text-white font-bold">
-                90's aesthetics
-              </span>
-              <span className="text-white">. </span>
-              <span className="text-white font-semibold">No coding required</span>
-              <span className="text-white">, just pure </span>
-              <span className="text-white font-bold">
-                retro-futuristic magic
-              </span>
-              <span className="text-white">.</span>
-            </div>
-          </div>
-          
-          {/* Animated Stats */}
-          <div className="flex justify-center items-center space-x-8 mb-12 text-sm font-inter">
-            <div className="flex items-center group hover:scale-105 transition-all duration-300">
-              <span className="w-2 h-2 bg-neon-secondary rounded-full mr-2 animate-pulse group-hover:animate-ping"></span>
-              <span className="text-text-muted group-hover:text-neon-secondary transition-colors">
-                <span className="text-neon-secondary font-bold">10,000+</span> Pages Created
-              </span>
-            </div>
-            <div className="flex items-center group hover:scale-105 transition-all duration-300">
-              <span className="w-2 h-2 bg-neon-primary rounded-full mr-2 animate-pulse group-hover:animate-ping" style={{animationDelay: '0.5s'}}></span>
-              <span className="text-text-muted group-hover:text-neon-primary transition-colors">
-                <span className="text-neon-primary font-bold">99%</span> Uptime
-              </span>
-            </div>
-            <div className="flex items-center group hover:scale-105 transition-all duration-300">
-              <span className="w-2 h-2 bg-neon-secondary rounded-full mr-2 animate-pulse group-hover:animate-ping" style={{animationDelay: '1s'}}></span>
-              <span className="text-text-muted group-hover:text-neon-secondary transition-colors">
-                <span className="text-neon-secondary font-bold">AI-Powered</span> Copy
-              </span>
-            </div>
-          </div>
-          
-          {/* Enhanced CTA Button */}
-          <div className="flex justify-center items-center mb-16">
+
+          <p className="text-xl md:text-2xl text-white/70 max-w-3xl mx-auto mb-12 leading-relaxed animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
+            From <span className="text-[#4FC3FF] font-semibold">minimal corporate</span> to{' '}
+            <span className="text-[#B94AFF] font-semibold">bold lifestyle</span>—our AI adapts to any design style.{' '}
+            <span className="text-white font-semibold">No coding. Pure creativity.</span>
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
             <Link href="/signup">
-              <Button className="relative bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white font-black py-6 px-12 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 text-xl font-inter group overflow-hidden">
-                <span className="relative z-10">
-                  START CREATING NOW
+              <Button className="relative group overflow-hidden px-12 py-7 rounded-2xl text-lg font-bold transition-all hover:scale-105 shadow-[0_0_60px_rgba(185,74,255,0.4)]">
+                <div className="absolute inset-0 bg-gradient-to-r from-[#B94AFF] to-[#4FC3FF]" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#4FC3FF] to-[#B94AFF] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <span className="relative text-white flex items-center gap-3">
+                  START CREATING FREE
+                  <span className="text-2xl group-hover:translate-x-1 transition-transform">→</span>
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </Button>
+            </Link>
+            <a href="#templates">
+              <Button variant="ghost" className="text-white hover:text-[#4FC3FF] border-2 border-white/20 hover:border-[#4FC3FF] px-10 py-7 rounded-2xl text-lg transition-all backdrop-blur-sm">
+                Browse Templates
+              </Button>
+            </a>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-8 text-sm text-white/50 animate-fadeInUp" style={{ animationDelay: '0.6s' }}>
+            {[
+              { label: '12+ Template Styles', icon: '✦' },
+              { label: 'AI-Powered Generation', icon: '⚡' },
+              { label: 'Real-Time Editor', icon: '⟡' },
+            ].map((stat, i) => (
+              <div key={i} className="flex items-center gap-2 group hover:text-white transition-colors">
+                <span className="text-[#4FC3FF]">{stat.icon}</span>
+                <span>{stat.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section id="features" className="relative z-10 py-24 px-6 bg-gradient-to-b from-transparent via-[#B94AFF]/5 to-transparent">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-black mb-6">
+              <span className="bg-gradient-to-r from-[#B94AFF] to-[#4FC3FF] bg-clip-text text-transparent">
+                Powerful Creative Engine
+              </span>
+            </h2>
+            <p className="text-xl text-white/60 max-w-2xl mx-auto">
+              AI that understands design, aesthetics, and conversion optimization
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: '✨',
+                title: 'AI Generate',
+                desc: 'Describe your vision—AI creates a complete, styled landing page in seconds. From minimal to maximal.',
+                gradient: 'from-[#B94AFF] to-[#B94AFF]/50',
+              },
+              {
+                icon: '⚡',
+                title: 'Real-Time Edit',
+                desc: 'See every change instantly. Edit colors, text, images, and layout with live preview.',
+                gradient: 'from-[#4FC3FF] to-[#4FC3FF]/50',
+              },
+              {
+                icon: '📦',
+                title: 'Export Clean Code',
+                desc: 'Download production-ready HTML/CSS. No frameworks, no dependencies—just clean code.',
+                gradient: 'from-[#B94AFF] to-[#B94AFF]/50',
+              },
+            ].map((feature, i) => (
+              <div
+                key={i}
+                className="group relative p-10 rounded-3xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 hover:border-white/30 transition-all hover:-translate-y-2 backdrop-blur-xl"
+              >
+                <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-6 shadow-[0_0_40px_rgba(185,74,255,0.3)] group-hover:shadow-[0_0_60px_rgba(185,74,255,0.5)] transition-shadow`}>
+                  <span className="text-4xl">{feature.icon}</span>
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4">{feature.title}</h3>
+                <p className="text-white/60 leading-relaxed text-lg">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section id="how-it-works" className="relative z-10 py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-black mb-6">
+              <span className="bg-gradient-to-r from-[#4FC3FF] to-[#B94AFF] bg-clip-text text-transparent">
+                Three Simple Steps
+              </span>
+            </h2>
+            <p className="text-xl text-white/60">From idea to deployed landing page in minutes</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-12 relative">
+            <div className="hidden md:block absolute top-28 left-1/3 right-1/3 h-1 bg-gradient-to-r from-[#4FC3FF] via-[#B94AFF] to-[#4FC3FF] opacity-30" />
+            
+            {[
+              { step: '1', title: 'Forge', desc: 'Create with AI or choose a template', icon: '◆', color: '#B94AFF' },
+              { step: '2', title: 'Edit', desc: 'Customize in real-time visual editor', icon: '▲', color: '#4FC3FF' },
+              { step: '3', title: 'Export', desc: 'Download or host your page', icon: '●', color: '#B94AFF' },
+            ].map((item, i) => (
+              <div key={i} className="text-center relative group">
+                <div 
+                  className="w-32 h-32 mx-auto mb-6 rounded-3xl bg-gradient-to-br from-[#B94AFF] to-[#4FC3FF] flex items-center justify-center text-5xl font-black text-white shadow-[0_0_60px_rgba(185,74,255,0.4)] hover:scale-110 transition-transform duration-300 cursor-pointer"
+                  style={{ boxShadow: `0 0 80px ${item.color}80` }}
+                >
+                  {item.icon}
+                </div>
+                <div className="inline-block px-4 py-1 rounded-full bg-white/10 text-white/50 text-sm font-bold mb-3">
+                  STEP {item.step}
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-3">{item.title}</h3>
+                <p className="text-white/60 text-lg">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Template Gallery */}
+      <section id="templates" className="relative z-10 py-24 px-6 bg-gradient-to-b from-transparent via-[#4FC3FF]/5 to-transparent">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-black mb-6">
+              <span className="bg-gradient-to-r from-[#B94AFF] to-[#4FC3FF] bg-clip-text text-transparent">
+                Every Style, Every Industry
+              </span>
+            </h2>
+            <p className="text-xl text-white/60 max-w-3xl mx-auto">
+              Our AI creates landing pages in <span className="text-white font-semibold">any aesthetic</span>—from clean corporate to bold 90's synth
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {[
+              { name: 'Corporate', desc: 'Clean & Professional', color: '#3B82F6', styles: 'Minimal, Modern' },
+              { name: 'Lifestyle', desc: 'Bold & Vibrant', color: '#EC4899', styles: 'Editorial, Rich' },
+              { name: 'Tech', desc: 'Futuristic & Sleek', color: '#8B5CF6', styles: 'Neon, Gradient' },
+              { name: 'Gaming', desc: 'Dynamic & Energetic', color: '#EF4444', styles: 'Intense, Animated' },
+            ].map((template, i) => (
+              <div
+                key={i}
+                className="group relative aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 hover:border-white/30 transition-all cursor-pointer"
+                style={{ 
+                  background: `linear-gradient(135deg, ${template.color}20 0%, transparent 100%)`,
+                }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <div className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-2" style={{ backgroundColor: `${template.color}40`, color: template.color }}>
+                    {template.styles}
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-1">{template.name}</h3>
+                  <p className="text-white/60 text-sm">{template.desc}</p>
+                </div>
+                <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors" />
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Link href="/dashboard">
+              <Button className="px-10 py-6 rounded-2xl text-lg font-bold bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 transition-all backdrop-blur-xl text-white">
+                Browse All 12+ Templates →
               </Button>
             </Link>
           </div>
-          
-          {/* Quick Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            <div className="relative bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 transform hover:scale-105 transition-all duration-300 hover:border-cyan-400/50 hover:shadow-xl hover:shadow-cyan-500/10 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-purple-500 rounded-lg flex items-center justify-center mb-4 mx-auto shadow-lg group-hover:shadow-xl group-hover:shadow-purple-500/25 transition-all">
-                <span className="text-2xl text-white font-bold">7</span>
-              </div>
-              <h3 className="text-base font-bold mb-2 text-cyan-300 font-inter text-center">TEMPLATES</h3>
-              <p className="text-slate-300 text-sm font-inter text-center">Professional designs ready to customize</p>
-            </div>
-            <div className="relative bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 transform hover:scale-105 transition-all duration-300 hover:border-purple-400/50 hover:shadow-xl hover:shadow-purple-500/10 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-lg flex items-center justify-center mb-4 mx-auto shadow-lg group-hover:shadow-xl group-hover:shadow-cyan-500/25 transition-all">
-                <span className="text-2xl text-white font-bold">⚡</span>
-              </div>
-              <h3 className="text-base font-bold mb-2 text-purple-300 font-inter text-center">LIVE EDITING</h3>
-              <p className="text-slate-300 text-sm font-inter text-center">See changes in real-time as you edit</p>
-            </div>
-            <div className="relative bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 transform hover:scale-105 transition-all duration-300 hover:border-cyan-400/50 hover:shadow-xl hover:shadow-cyan-500/10 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-purple-500 rounded-lg flex items-center justify-center mb-4 mx-auto shadow-lg group-hover:shadow-xl group-hover:shadow-purple-500/25 transition-all">
-                <span className="text-2xl text-white font-bold">↓</span>
-              </div>
-              <h3 className="text-base font-bold mb-2 text-cyan-300 font-inter text-center">ONE-CLICK EXPORT</h3>
-              <p className="text-slate-300 text-sm font-inter text-center">Download clean code instantly</p>
-            </div>
-          </div>
         </div>
+      </section>
 
-        {/* Key Features */}
-        <div className="mt-20 reveal-on-scroll" data-parallax="0.3">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black mb-4 font-inter">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
-                ▲ POWERFUL FEATURES ▲
-              </span>
+      {/* Social Proof */}
+      <section className="relative z-10 py-24 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-black mb-4 text-white">
+              Trusted by Creators
             </h2>
-            <p className="text-lg text-slate-300 max-w-xl mx-auto font-inter">
-              Everything you need to create stunning landing pages
-            </p>
+            <p className="text-white/60 text-lg">Join thousands building stunning landing pages</p>
           </div>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="group bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 hover:border-cyan-400/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/10">
-              <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-purple-500 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:shadow-xl group-hover:shadow-purple-500/25 transition-all">
-                <span className="text-xl text-white font-bold">◆</span>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { stat: '10,000+', label: 'Pages Created' },
+              { stat: '99%', label: 'Uptime' },
+              { stat: '4.9/5', label: 'User Rating' },
+            ].map((item, i) => (
+              <div key={i} className="text-center p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all">
+                <div className="text-5xl font-black bg-gradient-to-r from-[#B94AFF] to-[#4FC3FF] bg-clip-text text-transparent mb-2">
+                  {item.stat}
+                </div>
+                <div className="text-white/60">{item.label}</div>
               </div>
-              <h3 className="text-lg font-bold mb-3 text-cyan-300 group-hover:text-cyan-400 transition-colors font-inter">AI-POWERED GENERATION</h3>
-              <p className="text-slate-300 text-sm leading-relaxed font-inter">
-                Describe your brand and let AI generate a complete landing page with optimized copy and design.
-              </p>
-            </div>
-            
-            <div className="group bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 hover:border-purple-400/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-500/10">
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:shadow-xl group-hover:shadow-cyan-500/25 transition-all">
-                <span className="text-xl text-white font-bold">▲</span>
-              </div>
-              <h3 className="text-lg font-bold mb-3 text-purple-300 group-hover:text-purple-400 transition-colors font-inter">REAL-TIME EDITOR</h3>
-              <p className="text-slate-300 text-sm leading-relaxed font-inter">
-                Edit colors, text, images, and layout with live preview. See changes instantly as you customize.
-              </p>
-            </div>
-            
-            <div className="group bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 hover:border-cyan-400/50 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/10">
-              <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-purple-500 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:shadow-xl group-hover:shadow-purple-500/25 transition-all">
-                <span className="text-xl text-white font-bold">●</span>
-              </div>
-              <h3 className="text-lg font-bold mb-3 text-cyan-300 group-hover:text-cyan-400 transition-colors font-inter">CLEAN CODE EXPORT</h3>
-              <p className="text-slate-300 text-sm leading-relaxed font-inter">
-                Download production-ready HTML/CSS code. No dependencies, no bloat, just clean code.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
+      </section>
 
-        {/* Simple 3-Step Process Flow */}
-        <div className="mt-20 reveal-on-scroll" data-parallax="0.2">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-black mb-3 font-inter">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
-                ● HOW IT WORKS ●
-              </span>
-            </h2>
-            <p className="text-sm text-slate-300 font-inter">3 simple steps to your perfect landing page</p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto relative">
-            {/* Purple Connection Lines */}
-            <div className="hidden md:block absolute top-8 left-1/3 right-1/3 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-400 opacity-50"></div>
-            
-            <div className="text-center relative">
-              <div className="w-20 h-20 bg-gradient-to-br from-cyan-500 to-purple-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 font-black text-2xl shadow-lg hover:shadow-xl hover:shadow-purple-500/25 transform hover:scale-110 transition-all duration-300">
-                ◆
-              </div>
-              <h3 className="text-lg font-bold mb-2 text-cyan-300 font-inter">FORGE</h3>
-              <p className="text-slate-400 text-sm font-inter">Create a new site with AI-powered generation</p>
+      {/* Final CTA */}
+      <section className="relative z-10 py-32 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="relative p-16 rounded-3xl bg-gradient-to-br from-[#B94AFF]/20 via-[#4FC3FF]/20 to-[#B94AFF]/20 border border-[#4FC3FF]/30 backdrop-blur-2xl overflow-hidden">
+            <div className="absolute inset-0">
+              <div className="absolute top-1/4 left-1/4 w-40 h-40 bg-[#B94AFF]/20 rounded-full blur-3xl animate-pulse" />
+              <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-[#4FC3FF]/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
             </div>
             
-            <div className="text-center relative">
-              <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-cyan-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 font-black text-2xl shadow-lg hover:shadow-xl hover:shadow-cyan-500/25 transform hover:scale-110 transition-all duration-300">
-                ▲
-              </div>
-              <h3 className="text-lg font-bold mb-2 text-purple-300 font-inter">EDIT</h3>
-              <p className="text-slate-400 text-sm font-inter">Customize your template in real-time editor</p>
-            </div>
-            
-            <div className="text-center relative">
-              <div className="w-20 h-20 bg-gradient-to-br from-cyan-500 to-purple-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 font-black text-2xl shadow-lg hover:shadow-xl hover:shadow-purple-500/25 transform hover:scale-110 transition-all duration-300">
-                ●
-              </div>
-              <h3 className="text-lg font-bold mb-2 text-cyan-300 font-inter">EXPORT</h3>
-              <p className="text-slate-400 text-sm font-inter">Download clean HTML/CSS ready to deploy</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Purple CTA Terminal */}
-        <div className="mt-20 relative reveal-on-scroll">
-          <div className="bg-slate-900/80 backdrop-blur-xl border border-cyan-400/30 rounded-2xl p-8 text-center relative overflow-hidden shadow-xl shadow-purple-500/10">
-            {/* Purple Background Effects */}
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5 rounded-2xl"></div>
-            <div className="absolute top-0 left-0 w-full h-full">
-              <div className="absolute top-1/4 left-1/4 w-20 h-20 bg-cyan-400/20 rounded-full blur-xl animate-pulse"></div>
-              <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-purple-400/20 rounded-full blur-xl animate-pulse" style={{animationDelay: '1s'}}></div>
-            </div>
-            
-            <div className="relative z-10">
-              <div className="inline-flex items-center px-4 py-2 bg-cyan-500/20 border border-cyan-400/30 rounded-full mb-6 backdrop-blur-sm">
-                <span className="w-2 h-2 bg-cyan-400 rounded-full mr-2 animate-pulse"></span>
-                <span className="text-cyan-300 font-semibold text-sm font-inter">NEXUS FORGE • READY</span>
-              </div>
-              
-              <h2 className="text-3xl md:text-4xl font-black mb-4 font-inter">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
-                  ▲ START BUILDING TODAY ▲
+            <div className="relative text-center">
+              <h2 className="text-5xl md:text-6xl font-black mb-6">
+                <span className="bg-gradient-to-r from-[#B94AFF] to-[#4FC3FF] bg-clip-text text-transparent">
+                  Start Creating Today
                 </span>
               </h2>
-              
-              <p className="text-lg text-slate-300 mb-8 max-w-2xl mx-auto font-inter">
-                Create professional landing pages in minutes, not hours
+              <p className="text-2xl text-white/80 mb-10 max-w-2xl mx-auto leading-relaxed">
+                From minimal to maximal. Corporate to creative. Your style, powered by AI.
               </p>
-              
-              <div className="flex justify-center">
-                <Link href="/signup">
-                  <Button className="text-lg px-12 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-400 hover:to-purple-400 text-white border-0 shadow-lg hover:shadow-xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 rounded-xl font-black font-inter">
-                    ◆ CREATE YOUR FIRST SITE ◆
-                  </Button>
-                </Link>
-              </div>
-              
-              <div className="mt-6 flex justify-center space-x-6 text-xs text-slate-400 font-inter">
+              <Link href="/signup">
+                <Button className="relative group overflow-hidden px-16 py-8 rounded-2xl text-xl font-black transition-all hover:scale-105 shadow-[0_0_80px_rgba(185,74,255,0.5)]">
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#B94AFF] to-[#4FC3FF]" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#4FC3FF] to-[#B94AFF] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <span className="relative text-white flex items-center gap-3">
+                    CREATE YOUR FIRST PAGE
+                    <span className="text-3xl group-hover:translate-x-2 transition-transform">→</span>
+                  </span>
+                </Button>
+              </Link>
+              <div className="flex flex-wrap justify-center gap-6 mt-8 text-sm text-white/50">
+                <span>✓ No Credit Card Required</span>
+                <span>✓ 12+ Template Styles</span>
                 <span>✓ AI-Powered Generation</span>
-                <span>✓ Real-Time Editor</span>
-                <span>✓ Clean Code Export</span>
               </div>
             </div>
           </div>
         </div>
-      </main>
+      </section>
 
-      {/* NetFusion Footer */}
-      <footer className="relative z-10 bg-dark-surface/80 backdrop-blur-xl border-t border-neon-primary/20 py-12 mt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <div className="flex items-center justify-center space-x-4 mb-6">
-              {/* NetFusion Footer Logo */}
-              <div className="relative">
-                <div className="w-12 h-12 bg-gradient-to-br from-neon-primary via-neon-secondary to-neon-primary rounded-lg flex items-center justify-center shadow-neon">
-                  <div className="text-black font-black text-xl">◆</div>
+      {/* Footer */}
+      <footer className="relative z-10 py-16 px-6 border-t border-white/10 backdrop-blur-2xl bg-black/40">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="flex flex-col items-center md:items-start gap-4">
+              <NanoKitLogo size="md" />
+              <p className="text-white/40 text-sm text-center md:text-left max-w-xs">
+                AI-powered landing page builder for every style and industry
+              </p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
+              <div>
+                <h4 className="font-bold text-white mb-3">Product</h4>
+                <div className="flex flex-col gap-2 text-white/50">
+                  <a href="#features" className="hover:text-white transition-colors">Features</a>
+                  <a href="#templates" className="hover:text-white transition-colors">Templates</a>
+                  <a href="#" className="hover:text-white transition-colors">Pricing</a>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-br from-neon-primary via-neon-secondary to-neon-primary rounded-lg blur-md opacity-50"></div>
               </div>
-              
-              <div className="flex flex-col items-start">
-                <h1 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neon-primary via-neon-secondary to-neon-primary tracking-tight font-inter">
-                  NEXUS
-                </h1>
-                <span className="text-xs font-mono text-neon-primary tracking-widest -mt-1">
-                  FORGE
-                </span>
+              <div>
+                <h4 className="font-bold text-white mb-3">Company</h4>
+                <div className="flex flex-col gap-2 text-white/50">
+                  <a href="#" className="hover:text-white transition-colors">About</a>
+                  <a href="#" className="hover:text-white transition-colors">Blog</a>
+                  <a href="#" className="hover:text-white transition-colors">Careers</a>
+                </div>
+              </div>
+              <div>
+                <h4 className="font-bold text-white mb-3">Resources</h4>
+                <div className="flex flex-col gap-2 text-white/50">
+                  <a href="#" className="hover:text-white transition-colors">Help Center</a>
+                  <a href="#" className="hover:text-white transition-colors">Community</a>
+                  <a href="#" className="hover:text-white transition-colors">Status</a>
+                </div>
+              </div>
+              <div>
+                <h4 className="font-bold text-white mb-3">Legal</h4>
+                <div className="flex flex-col gap-2 text-white/50">
+                  <a href="#" className="hover:text-white transition-colors">Privacy</a>
+                  <a href="#" className="hover:text-white transition-colors">Terms</a>
+                  <a href="#" className="hover:text-white transition-colors">Security</a>
+                </div>
               </div>
             </div>
-            <p className="text-text-muted mb-6 max-w-xl mx-auto text-sm font-inter">
-              Neural AI-powered landing page synthesis. Forge stunning, conversion-optimized pages 
-              with cutting-edge artificial intelligence.
-            </p>
-            <div className="flex justify-center items-center space-x-6 text-xs text-text-muted font-inter">
-              <span>© 2025 Nexus Forge</span>
-              <span>•</span>
-              <span>Built with ◆ for creators</span>
-              <span>•</span>
-              <span>Powered by Neural AI</span>
-            </div>
+          </div>
+          <div className="mt-12 pt-8 border-t border-white/10 text-center text-white/40 text-sm">
+            <p>© 2025 Nano Kit. Built with passion for creators worldwide.</p>
           </div>
         </div>
       </footer>
 
-      {/* Enhanced Synth CSS Animations */}
-      <style>{`
-        /* Synth Floor Grid */
-        .synth-floor {
-          position: absolute;
-          inset: 0;
-          perspective: 1200px;
-          transform-style: preserve-3d;
-          pointer-events: none;
+      <style jsx>{`
+        @keyframes twinkle {
+          0%, 100% { opacity: 0.3; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.2); }
         }
-        
-        /* Vertical Grid Lines */
-        .vertical-grid-line {
-          position: absolute;
-          top: 60%;
-          bottom: 0;
-          width: 1px;
-          background: linear-gradient(to bottom,
-            transparent 0%,
-            rgba(0, 255, 255, 0.2) 20%,
-            rgba(0, 255, 255, 0.6) 60%,
-            rgba(0, 255, 255, 0.8) 100%
-          );
-          box-shadow: 0 0 4px rgba(0, 255, 255, 0.3);
-          transform: rotateX(75deg) translateZ(-50px);
-          animation: vertical-pulse 4s ease-in-out infinite;
+        @keyframes gradient {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
         }
-        
-        /* Horizontal Grid Lines */
-        .horizontal-grid-line {
-          position: absolute;
-          left: 5%;
-          right: 5%;
-          height: 1px;
-          background: linear-gradient(to right,
-            transparent 0%,
-            rgba(0, 255, 255, 0.1) 20%,
-            rgba(0, 255, 255, 0.4) 50%,
-            rgba(0, 255, 255, 0.1) 80%,
-            transparent 100%
-          );
-          box-shadow: 0 0 3px rgba(0, 255, 255, 0.2);
-          transform: rotateX(75deg) translateZ(-30px);
-          animation: horizontal-pulse 5s ease-in-out infinite;
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
-        
-        /* Subtle Mountain Horizon */
-        .mountain-horizon {
-          position: absolute;
-          top: 30%;
-          left: 0;
-          right: 0;
-          height: 25%;
-          pointer-events: none;
-          z-index: 2;
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-        
-        .horizon-svg {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
+        .animate-gradient {
+          animation: gradient 3s ease infinite;
         }
-        
-        .subtle-mountain {
-          animation: subtle-mountain-breathe 10s ease-in-out infinite;
+        .animate-fadeIn {
+          animation: fadeIn 0.8s ease-out;
         }
-        
-        /* Grid Connection Lines */
-        .mountain-grid-connections {
-          position: absolute;
-          top: 70%;
-          left: 0;
-          right: 0;
-          height: 30%;
-          pointer-events: none;
-        }
-        
-        .grid-connection-line {
-          position: absolute;
-          top: 0;
-          width: 1px;
-          height: 100%;
-          background: linear-gradient(to bottom,
-            rgba(0, 255, 255, 0.3) 0%,
-            rgba(0, 255, 255, 0.1) 50%,
-            transparent 100%
-          );
-          box-shadow: 0 0 2px rgba(0, 255, 255, 0.2);
-          animation: connection-pulse 6s ease-in-out infinite;
-        }
-        
-        /* Ambient Particles */
-        .ambient-particles {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-        }
-        
-        .ambient-particle {
-          position: absolute;
-          border-radius: 50%;
-          animation: particle-drift 6s ease-in-out infinite;
-        }
-        
-        .ambient-particle.cyan {
-          width: 2px;
-          height: 2px;
-          background: rgba(0, 255, 255, 0.7);
-          box-shadow: 0 0 6px rgba(0, 255, 255, 0.5);
-        }
-        
-        .ambient-particle.pink {
-          width: 3px;
-          height: 3px;
-          background: rgba(255, 20, 147, 0.6);
-          box-shadow: 0 0 8px rgba(255, 20, 147, 0.4);
-        }
-        
-        .ambient-particle.yellow {
-          width: 1px;
-          height: 1px;
-          background: rgba(255, 215, 0, 0.8);
-          box-shadow: 0 0 4px rgba(255, 215, 0, 0.6);
-        }
-        
-        /* Subtle Starburst Level */
-        .subtle-starburst-level {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          z-index: 1;
-          opacity: 0.6;
-        }
-        
-        /* Gentle Light Rays */
-        .gentle-rays {
-          position: absolute;
-          top: 25%;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 300px;
-          height: 300px;
-        }
-        
-        .gentle-ray {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 1px;
-          height: 120px;
-          background: linear-gradient(to top,
-            transparent 0%,
-            rgba(0, 255, 255, 0.1) 40%,
-            rgba(0, 255, 255, 0.2) 60%,
-            transparent 100%
-          );
-          transform-origin: bottom center;
-          animation: gentle-ray-pulse 8s ease-in-out infinite;
-        }
-        
-        /* Soft Twinkling Stars */
-        .soft-stars {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-        }
-        
-        .soft-star {
-          position: absolute;
-          width: 2px;
-          height: 2px;
-          background: rgba(255, 255, 255, 0.4);
-          border-radius: 50%;
-          box-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
-          animation: soft-twinkle 6s ease-in-out infinite;
-        }
-        
-        /* Central Glow */
-        .central-glow {
-          position: absolute;
-          top: 25%;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 100px;
-          height: 100px;
-        }
-        
-        .glow-core {
-          width: 100%;
-          height: 100%;
-          background: radial-gradient(circle,
-            rgba(0, 255, 255, 0.08) 0%,
-            rgba(0, 255, 255, 0.04) 40%,
-            transparent 70%
-          );
-          border-radius: 50%;
-          animation: core-breathe 10s ease-in-out infinite;
-        }
-        
-        /* Background Glow Effects */
-        .background-glow {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-        }
-        
-        .glow-left {
-          position: absolute;
-          top: 20%;
-          left: 0;
-          width: 300px;
-          height: 400px;
-          background: radial-gradient(ellipse,
-            rgba(255, 20, 147, 0.1) 0%,
-            rgba(255, 20, 147, 0.05) 40%,
-            transparent 70%
-          );
-          animation: glow-pulse-left 8s ease-in-out infinite;
-        }
-        
-        .glow-right {
-          position: absolute;
-          top: 40%;
-          right: 0;
-          width: 250px;
-          height: 300px;
-          background: radial-gradient(ellipse,
-            rgba(0, 255, 255, 0.08) 0%,
-            rgba(0, 255, 255, 0.04) 40%,
-            transparent 70%
-          );
-          animation: glow-pulse-right 10s ease-in-out infinite;
-        }
-        
-        .glow-center {
-          position: absolute;
-          bottom: 10%;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 400px;
-          height: 200px;
-          background: radial-gradient(ellipse,
-            rgba(138, 43, 226, 0.06) 0%,
-            rgba(138, 43, 226, 0.03) 50%,
-            transparent 70%
-          );
-          animation: glow-pulse-center 12s ease-in-out infinite;
-        }
-        
-        /* Keyframe Animations */
-        @keyframes vertical-pulse {
-          0%, 100% { 
-            opacity: 0.3;
-            transform: rotateX(75deg) translateZ(-50px) scaleY(1);
-          }
-          50% { 
-            opacity: 0.7;
-            transform: rotateX(75deg) translateZ(-50px) scaleY(1.1);
-          }
-        }
-        
-        @keyframes horizontal-pulse {
-          0%, 100% { 
-            opacity: 0.2;
-            transform: rotateX(75deg) translateZ(-30px) scaleX(1);
-          }
-          50% { 
-            opacity: 0.5;
-            transform: rotateX(75deg) translateZ(-30px) scaleX(1.05);
-          }
-        }
-        
-        /* Subtle Mountain Animations */
-        @keyframes subtle-mountain-breathe {
-          0%, 100% { 
-            opacity: 0.8;
-            transform: translateY(0px);
-          }
-          50% { 
-            opacity: 1;
-            transform: translateY(-2px);
-          }
-        }
-        
-        @keyframes connection-pulse {
-          0%, 100% { 
-            opacity: 0.3;
-            transform: scaleY(1);
-          }
-          50% { 
-            opacity: 0.6;
-            transform: scaleY(1.1);
-          }
-        }
-        
-        /* Subtle Starburst Animations */
-        @keyframes gentle-ray-pulse {
-          0%, 100% { 
-            opacity: 0.3;
-            transform: scaleY(1);
-          }
-          50% { 
-            opacity: 0.6;
-            transform: scaleY(1.1);
-          }
-        }
-        
-        @keyframes soft-twinkle {
-          0%, 100% { 
-            opacity: 0.2;
-            transform: scale(1);
-          }
-          50% { 
-            opacity: 0.6;
-            transform: scale(1.2);
-          }
-        }
-        
-        @keyframes core-breathe {
-          0%, 100% { 
-            opacity: 0.4;
-            transform: scale(1);
-          }
-          50% { 
-            opacity: 0.8;
-            transform: scale(1.2);
-          }
-        }
-        
-        @keyframes particle-drift {
-          0%, 100% { 
-            transform: translateY(0px) translateX(0px) scale(1);
-            opacity: 0.4;
-          }
-          25% { 
-            transform: translateY(-15px) translateX(8px) scale(1.2);
-            opacity: 0.8;
-          }
-          50% { 
-            transform: translateY(-8px) translateX(-5px) scale(0.9);
-            opacity: 1;
-          }
-          75% { 
-            transform: translateY(-20px) translateX(3px) scale(1.1);
-            opacity: 0.6;
-          }
-        }
-        
-        @keyframes glow-pulse-left {
-          0%, 100% { 
-            opacity: 0.6;
-            transform: scale(1);
-          }
-          50% { 
-            opacity: 1;
-            transform: scale(1.1);
-          }
-        }
-        
-        @keyframes glow-pulse-right {
-          0%, 100% { 
-            opacity: 0.5;
-            transform: scale(1);
-          }
-          50% { 
-            opacity: 0.8;
-            transform: scale(1.15);
-          }
-        }
-        
-        @keyframes glow-pulse-center {
-          0%, 100% { 
-            opacity: 0.4;
-            transform: translateX(-50%) scale(1);
-          }
-          50% { 
-            opacity: 0.7;
-            transform: translateX(-50%) scale(1.2);
-          }
-        }
-        
-        /* Text Gradient Animation */
-        @keyframes gradient-x {
-          0%, 100% {
-            background-size: 200% 200%;
-            background-position: left center;
-          }
-          50% {
-            background-size: 200% 200%;
-            background-position: right center;
-          }
-        }
-        
-        .animate-gradient-x { 
-          animation: gradient-x 3s ease infinite;
-          background-size: 200% 200%;
-        }
-        
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-          .vertical-grid-line {
-            transform: rotateX(60deg) translateZ(-30px);
-          }
-          
-          .horizontal-grid-line {
-            transform: rotateX(60deg) translateZ(-20px);
-          }
-          
-          .glow-left, .glow-right, .glow-center {
-            width: 200px;
-            height: 150px;
-          }
+        .animate-fadeInUp {
+          animation: fadeInUp 0.8s ease-out;
+          animation-fill-mode: both;
         }
       `}</style>
     </div>
-    </>
   )
 }
