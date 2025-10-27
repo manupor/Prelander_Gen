@@ -364,14 +364,15 @@ export default function SiteEditorPage() {
       }
       
       // Try to add popup fields and game balance (they might not exist in DB yet)
-      try {
-        updateData.popup_title = popupTitle
-        updateData.popup_message = popupMessage
-        updateData.popup_prize = popupPrize
+      // Optional fields (may not exist in all database schemas)
+      updateData.popup_title = popupTitle
+      updateData.popup_message = popupMessage
+      updateData.popup_prize = popupPrize
+      updateData.game_balance = gameBalance
+      
+      // Only add wheel_values if it's not empty (column may not exist yet)
+      if (wheelValues && wheelValues.trim() !== '') {
         updateData.wheel_values = wheelValues
-        updateData.game_balance = gameBalance
-      } catch (e) {
-        console.warn('Popup fields, game_balance, or wheel_values not available in database yet')
       }
       
       const { error } = await supabase
