@@ -105,7 +105,7 @@ export interface BrandConfig {
 // Template render result
 export interface TemplateRenderResult {
   html: string
-  css: string
+  css?: string
   data?: Record<string, unknown>
 }
 
