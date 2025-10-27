@@ -29,6 +29,8 @@ interface SearchParams {
   popupPrize?: string
   gameBalance?: string
   customLogo?: string
+  wheelValues?: string
+  preview?: string  // Flag to disable protections in editor preview
 }
 
 export default async function SitePage({ 
@@ -81,7 +83,8 @@ export default async function SitePage({
       popupMessage: query.popupMessage || site.popup_message || 'Congratulations! You\'ve won!',
       popupPrize: query.popupPrize || site.popup_prize || '$1,000 + 50 FREE SPINS',
       gameBalance: query.gameBalance ? parseInt(query.gameBalance) : (site.game_balance || 1000),
-      customLogo: query.customLogo || site.custom_logo || null
+      customLogo: query.customLogo || site.custom_logo || null,
+      wheelValues: query.wheelValues || site.wheel_values || '$100, $200, $500, $1000, $2000, $5000, $800, $1500'
     } as any
 
     // Render based on template ID
@@ -150,10 +153,16 @@ export default async function SitePage({
     }
   }
 
-  // Apply anti-DevTools protection to ALL sites (preview AND published)
-  // This blocks inspect element without interfering with content visibility
-  html = injectProtection(html)
-  css = addProtectionStyles(css)
+  // Apply anti-DevTools protection to ALL sites EXCEPT editor iframe
+  // Editor iframe has ?preview=1 flag - no blur/protections for smooth editing
+  const isEditorIframe = query.preview === '1'
+  
+  if (!isEditorIframe) {
+    // Full protections for standalone preview/published sites
+    html = injectProtection(html)
+    css = addProtectionStyles(css)
+  }
+  // else: NO protections in editor iframe - clear view for editing
 
   // Si el HTML contiene DOCTYPE, extraer solo el contenido del body y estilos
   let bodyContent = html

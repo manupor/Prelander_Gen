@@ -872,6 +872,8 @@ export default function SiteEditorPage() {
       popupMessage,
       popupPrize,
       gameBalance: gameBalance.toString(),
+      wheelValues: wheelValues || '',  // Add wheel values for Fortune Wheel templates
+      preview: '1',  // Flag to disable blur in editor iframe
     })
     
     return `/sites/${slug}?${params.toString()}`
