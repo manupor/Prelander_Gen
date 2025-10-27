@@ -1070,6 +1070,11 @@ export default function SiteEditorPage() {
                       { id: 't6', name: 'Classic Overlay', desc: 'Traditional popup overlay', preview: '/templates/t6-preview.svg' },
                       { id: 't7', name: 'Sweet Bonanza', desc: 'Colorful slot theme', preview: '/templates/t7-preview.svg' },
                       { id: 't9', name: 'Pirate Slots', desc: 'Adventure pirate theme', preview: '/templates/t9-preview.png' },
+                      { id: 't10', name: 'Castle Slot', desc: 'Medieval castle theme', preview: '/templates/t10-preview.png' },
+                      { id: 't14', name: 'Fortune Wheel - Underwater', desc: 'Ocean theme wheel game', preview: '/templates/t14-preview.png' },
+                      { id: 't15', name: 'Fortune Wheel - China', desc: 'Chinese theme wheel game', preview: '/templates/t15-preview.png' },
+                      { id: 't16', name: 'Fortune Wheel - Christmas', desc: 'Holiday theme wheel game', preview: '/templates/t16-preview.png' },
+                      { id: 't17', name: 'Fortune Wheel - Pirates', desc: 'Pirate theme wheel game', preview: '/templates/t17-preview.png' },
                     ].map((template) => (
                       <button
                         key={template.id}
