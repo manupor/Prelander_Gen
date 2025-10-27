@@ -165,8 +165,12 @@ async function generateSimpleProtectedPage(site: any) {
 
   // Fix iframe paths for downloaded templates with games
   const templateGameMap: Record<string, string> = {
-    't9': 'FisherMan Slot',   // Fisherman themed slot game
-    't10': 'CastleSlot',       // Castle themed slot game
+    't9': 'FisherMan Slot',       // Fisherman themed slot game
+    't10': 'CastleSlot',           // Castle themed slot game
+    't14': 'templates/game',       // Fortune Wheel - Underwater
+    't15': 'templates/game',       // Fortune Wheel - China
+    't16': 'templates/game',       // Fortune Wheel - Christmas
+    't17': 'templates/game',       // Fortune Wheel - Pirates
   }
   
   if (site.template_id in templateGameMap) {
@@ -176,6 +180,7 @@ async function generateSimpleProtectedPage(site: any) {
       /src="\/fisherman-slot\/index\.html/g,
       /src="\/Pirates Slot\/index\.html/g,
       /src="\/CastleSlot\/index\.html/g,
+      /src="\/templates\/game\/game\.html[^"]*"/g,
       // URL encoded versions
       /src="\/FisherMan%20Slot\/index\.html/g,
       /src="\/Pirates%20Slot\/index\.html/g,
@@ -183,7 +188,12 @@ async function generateSimpleProtectedPage(site: any) {
     ]
     
     gamePatterns.forEach(pattern => {
-      originalHTML = originalHTML.replace(pattern, 'src="game/index.html')
+      // For fortune wheel templates, keep game.html but make it local
+      if (site.template_id.startsWith('t1')) { // t14-t17
+        originalHTML = originalHTML.replace(pattern, 'src="game/game.html"')
+      } else {
+        originalHTML = originalHTML.replace(pattern, 'src="game/index.html')
+      }
     })
   }
 

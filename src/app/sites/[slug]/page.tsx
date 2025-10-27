@@ -4,6 +4,10 @@ import { renderTemplate as renderT6 } from '@/templates/t6/server'
 import { renderTemplate as renderT7 } from '@/templates/t7/server'
 import { renderTemplate as renderT9 } from '@/templates/t9/server'
 import { renderTemplate as renderT10 } from '@/templates/t10/server'
+import { renderTemplate as renderT14 } from '@/templates/t14/server'
+import { renderTemplate as renderT15 } from '@/templates/t15/server'
+import { renderTemplate as renderT16 } from '@/templates/t16/server'
+import { renderTemplate as renderT17 } from '@/templates/t17/server'
 import { injectProtection, addProtectionStyles, applyFullEncryption, shouldEncrypt } from '@/lib/site-protection'
 
 interface SitePageParams {
@@ -95,6 +99,18 @@ export default async function SitePage({
         break;
       case 't10':
         rendered = renderT10(brandConfig);
+        break;
+      case 't14':
+        rendered = renderT14(brandConfig);
+        break;
+      case 't15':
+        rendered = renderT15(brandConfig);
+        break;
+      case 't16':
+        rendered = renderT16(brandConfig);
+        break;
+      case 't17':
+        rendered = renderT17(brandConfig);
         break;
       default:
         // Fallback to site's stored HTML if template not found

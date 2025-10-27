@@ -227,6 +227,194 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
         required: false
       }
     }
+  },
+
+  t14: {
+    id: 't14',
+    name: 'Fortune Wheel - Underwater',
+    fields: {
+      headline: {
+        id: 'headline',
+        label: 'Game Title',
+        type: 'text',
+        placeholder: 'SPIN THE WHEEL',
+        description: 'Title displayed above the wheel game',
+        required: true
+      },
+      ctaUrl: {
+        id: 'ctaUrl',
+        label: 'Claim Bonus URL',
+        type: 'url',
+        placeholder: 'https://your-casino.com/claim',
+        description: 'Where users go after winning',
+        required: true
+      },
+      popupTitle: {
+        id: 'popupTitle',
+        label: 'Win Modal Title',
+        type: 'text',
+        placeholder: 'WINNER!',
+        description: 'Title in the win popup',
+        required: false
+      },
+      popupMessage: {
+        id: 'popupMessage',
+        label: 'Win Message',
+        type: 'text',
+        placeholder: 'Congratulations! You won',
+        description: 'Message in the win popup',
+        required: false
+      },
+      popupPrize: {
+        id: 'popupPrize',
+        label: 'Prize Amount',
+        type: 'text',
+        placeholder: '$800',
+        description: 'Prize shown in popup (auto from wheel)',
+        required: false
+      }
+    }
+  },
+
+  t15: {
+    id: 't15',
+    name: 'Fortune Wheel - China',
+    fields: {
+      headline: {
+        id: 'headline',
+        label: 'Game Title',
+        type: 'text',
+        placeholder: 'SPIN THE WHEEL',
+        description: 'Title displayed above the wheel game',
+        required: true
+      },
+      ctaUrl: {
+        id: 'ctaUrl',
+        label: 'Claim Bonus URL',
+        type: 'url',
+        placeholder: 'https://your-casino.com/claim',
+        description: 'Where users go after winning',
+        required: true
+      },
+      popupTitle: {
+        id: 'popupTitle',
+        label: 'Win Modal Title',
+        type: 'text',
+        placeholder: 'WINNER!',
+        description: 'Title in the win popup',
+        required: false
+      },
+      popupMessage: {
+        id: 'popupMessage',
+        label: 'Win Message',
+        type: 'text',
+        placeholder: 'Congratulations! You won',
+        description: 'Message in the win popup',
+        required: false
+      },
+      popupPrize: {
+        id: 'popupPrize',
+        label: 'Prize Amount',
+        type: 'text',
+        placeholder: '$800',
+        description: 'Prize shown in popup (auto from wheel)',
+        required: false
+      }
+    }
+  },
+
+  t16: {
+    id: 't16',
+    name: 'Fortune Wheel - Christmas',
+    fields: {
+      headline: {
+        id: 'headline',
+        label: 'Game Title',
+        type: 'text',
+        placeholder: 'SPIN THE WHEEL',
+        description: 'Title displayed above the wheel game',
+        required: true
+      },
+      ctaUrl: {
+        id: 'ctaUrl',
+        label: 'Claim Bonus URL',
+        type: 'url',
+        placeholder: 'https://your-casino.com/claim',
+        description: 'Where users go after winning',
+        required: true
+      },
+      popupTitle: {
+        id: 'popupTitle',
+        label: 'Win Modal Title',
+        type: 'text',
+        placeholder: 'WINNER!',
+        description: 'Title in the win popup',
+        required: false
+      },
+      popupMessage: {
+        id: 'popupMessage',
+        label: 'Win Message',
+        type: 'text',
+        placeholder: 'Congratulations! You won',
+        description: 'Message in the win popup',
+        required: false
+      },
+      popupPrize: {
+        id: 'popupPrize',
+        label: 'Prize Amount',
+        type: 'text',
+        placeholder: '$800',
+        description: 'Prize shown in popup (auto from wheel)',
+        required: false
+      }
+    }
+  },
+
+  t17: {
+    id: 't17',
+    name: 'Fortune Wheel - Pirates',
+    fields: {
+      headline: {
+        id: 'headline',
+        label: 'Game Title',
+        type: 'text',
+        placeholder: 'SPIN THE WHEEL',
+        description: 'Title displayed above the wheel game',
+        required: true
+      },
+      ctaUrl: {
+        id: 'ctaUrl',
+        label: 'Claim Bonus URL',
+        type: 'url',
+        placeholder: 'https://your-casino.com/claim',
+        description: 'Where users go after winning',
+        required: true
+      },
+      popupTitle: {
+        id: 'popupTitle',
+        label: 'Win Modal Title',
+        type: 'text',
+        placeholder: 'WINNER!',
+        description: 'Title in the win popup',
+        required: false
+      },
+      popupMessage: {
+        id: 'popupMessage',
+        label: 'Win Message',
+        type: 'text',
+        placeholder: 'Congratulations! You won',
+        description: 'Message in the win popup',
+        required: false
+      },
+      popupPrize: {
+        id: 'popupPrize',
+        label: 'Prize Amount',
+        type: 'text',
+        placeholder: '$800',
+        description: 'Prize shown in popup (auto from wheel)',
+        required: false
+      }
+    }
   }
 
 }

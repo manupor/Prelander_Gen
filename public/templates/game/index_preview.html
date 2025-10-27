@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortune Wheel - Select Your Theme</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Main Container with Carousel */
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            display: flex;
+            width: 400%; /* 4 themes */
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .theme-slide {
+            width: 25%;
+            height: 100%;
+            position: relative;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Canvas containers for each theme */
+        #game-container-0,
+        #game-container-1,
+        #game-container-2,
+        #game-container-3 {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Navigation Arrows */
+        .nav-arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 2em;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-arrow:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.7);
+        }
+
+        .nav-arrow:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .nav-arrow.left {
+            left: 30px;
+        }
+
+        .nav-arrow.right {
+            right: 30px;
+        }
+
+        .nav-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Theme Indicator */
+        .theme-indicator {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px 30px;
+            border-radius: 50px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .theme-name-display {
+            color: white;
+            font-size: 1.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Dots Indicator */
+        .dots-indicator {
+            position: fixed;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transform: scale(1.4);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.6);
+        }
+
+        .dot:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Start Button */
+        .start-button {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            border: none;
+            padding: 20px 60px;
+            font-size: 1.8em;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .start-button:hover {
+            transform: translateX(-50%) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.7);
+        }
+
+        .start-button:active {
+            transform: translateX(-50%) scale(0.98);
+        }
+
+        @media (max-width: 768px) {
+            .nav-arrow {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5em;
+            }
+
+            .nav-arrow.left {
+                left: 15px;
+            }
+
+            .nav-arrow.right {
+                right: 15px;
+            }
+
+            .theme-name-display {
+                font-size: 1.3em;
+            }
+
+            .start-button {
+                font-size: 1.3em;
+                padding: 15px 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Indicator -->
+    <div class="theme-indicator">
+        <div class="theme-name-display" id="themeNameDisplay">
+            <span id="themeEmoji">🌊</span>
+            <span id="themeName">UNDERWATER</span>
+        </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <button class="nav-arrow left" id="prevBtn">←</button>
+    <button class="nav-arrow right" id="nextBtn">→</button>
+
+    <!-- Carousel Container -->
+    <div class="carousel-wrapper">
+        <div class="carousel-container" id="carouselContainer">
+            <!-- Underwater Theme -->
+            <div class="theme-slide" data-theme="underwater">
+                <div id="game-container-0"></div>
+            </div>
+            
+            <!-- China Theme -->
+            <div class="theme-slide" data-theme="china">
+                <div id="game-container-1"></div>
+            </div>
+            
+            <!-- Christmas Theme -->
+            <div class="theme-slide" data-theme="christmas">
+                <div id="game-container-2"></div>
+            </div>
+            
+            <!-- Pirates Theme -->
+            <div class="theme-slide" data-theme="pirates">
+                <div id="game-container-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dots Indicator -->
+    <div class="dots-indicator" id="dotsIndicator">
+        <div class="dot active" data-index="0"></div>
+        <div class="dot" data-index="1"></div>
+        <div class="dot" data-index="2"></div>
+        <div class="dot" data-index="3"></div>
+    </div>
+
+    <!-- Start Button -->
+    <button class="start-button" id="startButton">🎮 START GAME</button>
+
+    <!-- Load Phaser -->
+    <script src="js/phaser.js"></script>
+    
+    <!-- Load all theme configs -->
+    <script src="underwater/js/wheel_config_8.js"></script>
+    <script>
+        const underwaterConfig = {...wheelConfig};
+        underwaterConfig.originalPath = underwaterConfig.assetPath;
+    </script>
+    
+    <script src="china/js/wheel_config_8.js"></script>
+    <script>
+        const chinaConfig = {...wheelConfig};
+        chinaConfig.originalPath = chinaConfig.assetPath;
+    </script>
+    
+    <script src="christmas/js/wheel_config_8.js"></script>
+    <script>
+        const christmasConfig = {...wheelConfig};
+        christmasConfig.originalPath = christmasConfig.assetPath;
+    </script>
+    
+    <script src="pirates/js/wheel_config_8.js"></script>
+    <script>
+        const piratesConfig = {...wheelConfig};
+        piratesConfig.originalPath = piratesConfig.assetPath;
+    </script>
+
+    <script src="js/animCoins.js"></script>
+
+    <script>
+        // Theme configuration
+        const themes = [
+            { name: 'UNDERWATER', emoji: '🌊', value: 'underwater', config: underwaterConfig },
+            { name: 'CHINA', emoji: '🏮', value: 'china', config: chinaConfig },
+            { name: 'CHRISTMAS', emoji: '🎄', value: 'christmas', config: christmasConfig },
+            { name: 'PIRATES', emoji: '🏴‍☠️', value: 'pirates', config: piratesConfig }
+        ];
+
+        // State
+        let currentIndex = 0;
+        const totalThemes = themes.length;
+
+        // Elements
+        const carouselContainer = document.getElementById('carouselContainer');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dots = document.querySelectorAll('.dot');
+        const themeNameDisplay = document.getElementById('themeName');
+        const themeEmojiDisplay = document.getElementById('themeEmoji');
+        const startButton = document.getElementById('startButton');
+
+        // Games array
+        const games = [];
+
+        // Initialize games for all themes
+        function initializeGames() {
+            themes.forEach((theme, index) => {
+                const config = theme.config;
+                wheelConfig = config; // Set global wheelConfig
+                
+                const gameConfig = {
+                    type: Phaser.WEBGL,
+                    backgroundColor: 0x2c2c2c,
+                    parent: `game-container-${index}`,
+                    scene: [createFortuneWheelScene(config)],
+                    scale: {
+                        width: 1920,
+                        height: 1080,
+                        mode: Phaser.Scale.FIT,
+                        autoCenter: Phaser.Scale.CENTER_BOTH
+                    }
+                };
+                
+                games[index] = new Phaser.Game(gameConfig);
+            });
+        }
+
+        // Create a FortuneWheel scene for a specific config
+        function createFortuneWheelScene(config) {
+            return class FortuneWheelPreview extends Phaser.Scene {
+                constructor() {
+                    super(`FortuneWheel_${config.originalPath}`);
+                    this.wheelConfig = config;
+                }
+
+                preload() {
+                    this.wheelConfig.sprites.forEach((s) => {
+                        if(s.fileName != null) 
+                            this.load.image(s.name + '_' + this.wheelConfig.originalPath, this.wheelConfig.assetPath + "png/" + s.fileName);
+                    });
+                    this.load.spritesheet("coinspin_" + this.wheelConfig.originalPath, this.wheelConfig.assetPath + "png/CoinSheet.png", { frameWidth: 100, frameHeight: 100});
+                    this.load.bitmapFont('gameFont_1_' + this.wheelConfig.originalPath, 'fonts/roboto_72_1.png', 'fonts/roboto_72_1.xml');
+                }
+
+                create() {
+                    this.sectorsCount = this.wheelConfig.sectors.length;
+                    this.sectorsText = [];
+                    
+                    this.gameWidth = 1920;
+                    this.gameHeight = 1080;
+                    this.centerX = (this.gameWidth / 2) + this.wheelConfig.centerOffsetX;
+                    this.centerY = (this.gameHeight / 2) + this.wheelConfig.centerOffsetY;
+                    
+                    // Create simplified wheel (no interaction, just visual)
+                    this.createWheelVisual();
+                }
+
+                createWheelVisual() {
+                    const config = this.wheelConfig;
+                    const suffix = '_' + config.originalPath;
+                    
+                    // Background
+                    if (config.sprites[0].fileName) {
+                        this.add.sprite(this.centerX, this.centerY, 'background' + suffix).setDisplaySize(1920, 1080);
+                    }
+                    
+                    // Wheel border
+                    this.add.sprite(this.centerX, this.centerY + 50, 'wheelborder' + suffix);
+                    
+                    // Wheel
+                    this.add.sprite(this.centerX, this.centerY + 50, 'wheel' + suffix);
+                    
+                    // Pointer
+                    this.add.sprite(this.centerX, this.centerY + 40, 'pointer' + suffix).setOrigin(0.5, 0.35);
+                    
+                    // Spin button
+                    this.add.sprite(this.centerX, this.centerY + 630, 'spinbutton' + suffix);
+                    
+                    // Text
+                    const text = this.add.bitmapText(this.centerX, this.centerY + 520, 'gameFont_1' + suffix, 'SPIN THE WHEEL', 48);
+                    text.setOrigin(0.5);
+                    text.tint = 0xFFFFFF;
+                }
+            };
+        }
+
+        // Update carousel
+        function updateCarousel(index) {
+            currentIndex = index;
+            
+            const offset = -index * 100;
+            carouselContainer.style.transform = `translateX(${offset}%)`;
+            
+            themeNameDisplay.textContent = themes[index].name;
+            themeEmojiDisplay.textContent = themes[index].emoji;
+            
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            
+            prevBtn.disabled = (index === 0);
+            nextBtn.disabled = (index === totalThemes - 1);
+        }
+
+        // Navigation
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) updateCarousel(currentIndex - 1);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < totalThemes - 1) updateCarousel(currentIndex + 1);
+        });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => updateCarousel(index));
+        });
+
+        // Keyboard
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                updateCarousel(currentIndex - 1);
+            } else if (e.key === 'ArrowRight' && currentIndex < totalThemes - 1) {
+                updateCarousel(currentIndex + 1);
+            }
+        });
+
+        // Touch/Swipe
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0 && currentIndex < totalThemes - 1) {
+                    updateCarousel(currentIndex + 1);
+                } else if (diff < 0 && currentIndex > 0) {
+                    updateCarousel(currentIndex - 1);
+                }
+            }
+        });
+
+        // Start button
+        startButton.addEventListener('click', () => {
+            const selectedTheme = themes[currentIndex].value;
+            window.location.href = `game.html?theme=${selectedTheme}`;
+        });
+
+        // Initialize
+        window.addEventListener('load', () => {
+            initializeGames();
+            updateCarousel(0);
+        });
+    </script>
+</body>
+</html>

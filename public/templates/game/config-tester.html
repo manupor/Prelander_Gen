@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortune Wheel - Configuration Tester</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .launch-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            grid-column: span 2;
+        }
+
+        .launch-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .copy-btn {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .copy-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .preview-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .preview-btn:hover {
+            background: #218838;
+        }
+
+        .url-display {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            color: #333;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            color: #333;
+        }
+
+        .info-box strong {
+            color: #1976D2;
+        }
+
+        .preset-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .preset-btn {
+            padding: 10px;
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
+        }
+
+        .preset-btn:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+
+            .launch-btn {
+                grid-column: span 1;
+            }
+
+            .preset-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎰 Configuration Tester</h1>
+        <p class="subtitle">Configure your Fortune Wheel game and test different setups</p>
+
+        <div class="preset-buttons">
+            <button class="preset-btn" onclick="loadPreset('facebook')">Facebook Ads</button>
+            <button class="preset-btn" onclick="loadPreset('google')">Google Ads</button>
+            <button class="preset-btn" onclick="loadPreset('native')">Native Ads</button>
+        </div>
+
+        <form id="configForm">
+            <div class="form-group">
+                <label for="theme">🎨 Theme:</label>
+                <select id="theme" name="theme">
+                    <option value="underwater">🌊 Underwater</option>
+                    <option value="china">🏮 China</option>
+                    <option value="christmas">🎄 Christmas</option>
+                    <option value="pirates">🏴‍☠️ Pirates</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="url">🔗 Offer URL (Your Affiliate Link):</label>
+                <input type="url" id="url" name="url" placeholder="https://your-offer-url.com/claim?aff=123" value="https://example.com/claim-bonus">
+            </div>
+
+            <div class="form-group">
+                <label for="source">📊 Traffic Source (Optional):</label>
+                <input type="text" id="source" name="source" placeholder="e.g., facebook, google, native">
+            </div>
+
+            <div class="form-group">
+                <label for="campaignId">🎯 Campaign ID (Optional):</label>
+                <input type="text" id="campaignId" name="campaignId" placeholder="e.g., camp_12345">
+            </div>
+        </form>
+
+        <div class="button-group">
+            <button class="launch-btn" onclick="launchGame()">🚀 Launch Game</button>
+            <button class="copy-btn" onclick="copyUrl()">📋 Copy URL</button>
+            <button class="preview-btn" onclick="previewUrl()">👁️ Preview</button>
+        </div>
+
+        <div class="url-display" id="urlDisplay">
+            Generated URL will appear here...
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Quick Tips:</strong><br>
+            • Test different themes to see which converts best<br>
+            • Add tracking parameters to monitor campaign performance<br>
+            • Use the Copy URL button to share links<br>
+            • Launch Game opens in a new tab for testing
+        </div>
+    </div>
+
+    <script>
+        // Presets for different traffic sources
+        const presets = {
+            facebook: {
+                theme: 'underwater',
+                url: 'https://your-tracking-url.com/fb',
+                source: 'facebook',
+                campaignId: 'fb_campaign_001'
+            },
+            google: {
+                theme: 'china',
+                url: 'https://your-tracking-url.com/google',
+                source: 'google',
+                campaignId: 'ggl_campaign_001'
+            },
+            native: {
+                theme: 'christmas',
+                url: 'https://your-tracking-url.com/native',
+                source: 'native',
+                campaignId: 'nat_campaign_001'
+            }
+        };
+
+        function loadPreset(presetName) {
+            const preset = presets[presetName];
+            if (preset) {
+                document.getElementById('theme').value = preset.theme;
+                document.getElementById('url').value = preset.url;
+                document.getElementById('source').value = preset.source;
+                document.getElementById('campaignId').value = preset.campaignId;
+                updateUrlDisplay();
+            }
+        }
+
+        function generateUrl() {
+            const theme = document.getElementById('theme').value;
+            const url = document.getElementById('url').value;
+            const source = document.getElementById('source').value;
+            const campaignId = document.getElementById('campaignId').value;
+
+            // Build URL with parameters
+            let gameUrl = `game.html?theme=${encodeURIComponent(theme)}`;
+            
+            if (url) {
+                gameUrl += `&url=${encodeURIComponent(url)}`;
+            }
+            
+            if (source) {
+                gameUrl += `&source=${encodeURIComponent(source)}`;
+            }
+            
+            if (campaignId) {
+                gameUrl += `&campaign_id=${encodeURIComponent(campaignId)}`;
+            }
+
+            return gameUrl;
+        }
+
+        function updateUrlDisplay() {
+            const fullUrl = window.location.origin + window.location.pathname.replace('config-tester.html', '') + generateUrl();
+            document.getElementById('urlDisplay').textContent = fullUrl;
+        }
+
+        function launchGame() {
+            const gameUrl = generateUrl();
+            window.open(gameUrl, '_blank');
+        }
+
+        function copyUrl() {
+            const urlDisplay = document.getElementById('urlDisplay');
+            const url = urlDisplay.textContent;
+            
+            navigator.clipboard.writeText(url).then(() => {
+                const originalText = urlDisplay.textContent;
+                urlDisplay.textContent = '✅ URL Copied to Clipboard!';
+                urlDisplay.style.background = '#d4edda';
+                urlDisplay.style.color = '#155724';
+                
+                setTimeout(() => {
+                    urlDisplay.textContent = originalText;
+                    urlDisplay.style.background = '#f8f9fa';
+                    urlDisplay.style.color = '#333';
+                }, 2000);
+            }).catch(err => {
+                alert('Failed to copy URL. Please copy manually.');
+            });
+        }
+
+        function previewUrl() {
+            const gameUrl = generateUrl();
+            // Open in new window with specific size
+            window.open(gameUrl, 'gamePreview', 'width=1024,height=768,scrollbars=yes,resizable=yes');
+        }
+
+        // Update URL display whenever form changes
+        document.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('change', updateUrlDisplay);
+            element.addEventListener('keyup', updateUrlDisplay);
+        });
+
+        // Initialize URL display
+        updateUrlDisplay();
+    </script>
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortune Wheel - Theme Selector</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            background: #000;
+        }
+
+        /* Full screen container for each game */
+        .game-viewport {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hide all iframes except active */
+        .game-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
+        }
+
+        .game-frame.active {
+            display: block;
+        }
+
+        /* Navigation Arrows */
+        .nav-arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.95), rgba(118, 75, 162, 0.95));
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            color: white;
+            font-size: 2.5em;
+            cursor: pointer;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-arrow:hover {
+            transform: translateY(-50%) scale(1.15);
+            box-shadow: 0 15px 50px rgba(102, 126, 234, 0.8);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 1), rgba(118, 75, 162, 1));
+        }
+
+        .nav-arrow:active {
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .nav-arrow.left {
+            left: 30px;
+        }
+
+        .nav-arrow.right {
+            right: 30px;
+        }
+
+        .nav-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Theme Indicator Badge */
+        .theme-badge {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(30, 30, 30, 0.9));
+            padding: 15px 35px;
+            border-radius: 50px;
+            z-index: 10000;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .theme-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-emoji {
+            font-size: 2em;
+        }
+
+        .theme-name {
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Theme Count */
+        .theme-count {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+
+        /* Dots Navigation */
+        .dots-nav {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 10000;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 12px 25px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transform: scale(1.5);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
+        }
+
+        .dot:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(1.2);
+        }
+
+        /* Start Game Button */
+        .start-game-btn {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.6em;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 10000;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 35px rgba(255, 215, 0, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .start-game-btn:hover {
+            transform: translateX(-50%) scale(1.08);
+            box-shadow: 0 15px 45px rgba(255, 215, 0, 0.8);
+        }
+
+        .start-game-btn:active {
+            transform: translateX(-50%) scale(1.02);
+        }
+
+        /* Loading overlay */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 20000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-icon {
+            font-size: 5em;
+            animation: spin 1.5s linear infinite;
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .nav-arrow {
+                width: 60px;
+                height: 60px;
+                font-size: 2em;
+            }
+
+            .nav-arrow.left {
+                left: 15px;
+            }
+
+            .nav-arrow.right {
+                right: 15px;
+            }
+
+            .theme-badge {
+                padding: 12px 25px;
+            }
+
+            .theme-name {
+                font-size: 1.2em;
+            }
+
+            .theme-emoji {
+                font-size: 1.5em;
+            }
+
+            .start-game-btn {
+                font-size: 1.3em;
+                padding: 15px 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader-icon">🎰</div>
+        <div class="loading-text">Loading themes...</div>
+    </div>
+
+    <!-- Theme Badge -->
+    <div class="theme-badge">
+        <div class="theme-info">
+            <span class="theme-emoji" id="themeEmoji">🌊</span>
+            <span class="theme-name" id="themeName">UNDERWATER</span>
+            <span class="theme-count" id="themeCount">1/4</span>
+        </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <button class="nav-arrow left" id="prevBtn" aria-label="Previous theme">←</button>
+    <button class="nav-arrow right" id="nextBtn" aria-label="Next theme">→</button>
+
+    <!-- Game Viewport -->
+    <div class="game-viewport" id="gameViewport">
+        <iframe class="game-frame active" id="frame-0" src="game.html?theme=underwater&preview=true" loading="eager"></iframe>
+        <iframe class="game-frame" id="frame-1" src="game.html?theme=china&preview=true" loading="lazy"></iframe>
+        <iframe class="game-frame" id="frame-2" src="game.html?theme=christmas&preview=true" loading="lazy"></iframe>
+        <iframe class="game-frame" id="frame-3" src="game.html?theme=pirates&preview=true" loading="lazy"></iframe>
+    </div>
+
+    <!-- Dots Navigation -->
+    <div class="dots-nav" id="dotsNav">
+        <div class="dot active" data-index="0" title="Underwater"></div>
+        <div class="dot" data-index="1" title="China"></div>
+        <div class="dot" data-index="2" title="Christmas"></div>
+        <div class="dot" data-index="3" title="Pirates"></div>
+    </div>
+
+    <!-- Start Game Button -->
+    <button class="start-game-btn" id="startGameBtn">
+        🎮 PLAY NOW
+    </button>
+
+    <script>
+        // Theme Configuration
+        const themes = [
+            { name: 'UNDERWATER', emoji: '🌊', value: 'underwater' },
+            { name: 'CHINA', emoji: '🏮', value: 'china' },
+            { name: 'CHRISTMAS', emoji: '🎄', value: 'christmas' },
+            { name: 'PIRATES', emoji: '🏴‍☠️', value: 'pirates' }
+        ];
+
+        // State
+        let currentIndex = 0;
+        const totalThemes = themes.length;
+
+        // Elements
+        const frames = document.querySelectorAll('.game-frame');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dots = document.querySelectorAll('.dot');
+        const themeEmoji = document.getElementById('themeEmoji');
+        const themeName = document.getElementById('themeName');
+        const themeCount = document.getElementById('themeCount');
+        const startGameBtn = document.getElementById('startGameBtn');
+        const loadingScreen = document.getElementById('loadingScreen');
+
+        // Update display
+        function updateTheme(index) {
+            currentIndex = index;
+
+            // Update frames
+            frames.forEach((frame, i) => {
+                frame.classList.toggle('active', i === index);
+            });
+
+            // Update badge
+            themeEmoji.textContent = themes[index].emoji;
+            themeName.textContent = themes[index].name;
+            themeCount.textContent = `${index + 1}/${totalThemes}`;
+
+            // Update dots
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+
+            // Update arrows
+            prevBtn.disabled = (index === 0);
+            nextBtn.disabled = (index === totalThemes - 1);
+        }
+
+        // Navigate previous
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                updateTheme(currentIndex - 1);
+            }
+        });
+
+        // Navigate next
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < totalThemes - 1) {
+                updateTheme(currentIndex + 1);
+            }
+        });
+
+        // Dots navigation
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                updateTheme(index);
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                updateTheme(currentIndex - 1);
+            } else if (e.key === 'ArrowRight' && currentIndex < totalThemes - 1) {
+                updateTheme(currentIndex + 1);
+            } else if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                startGame();
+            }
+        });
+
+        // Touch/Swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0 && currentIndex < totalThemes - 1) {
+                    // Swipe left - next
+                    updateTheme(currentIndex + 1);
+                } else if (diff < 0 && currentIndex > 0) {
+                    // Swipe right - previous
+                    updateTheme(currentIndex - 1);
+                }
+            }
+        }
+
+        // Start game
+        function startGame() {
+            const selectedTheme = themes[currentIndex].value;
+            const urlParams = new URLSearchParams(window.location.search);
+            const externalUrl = urlParams.get('url') || '';
+
+            let gameUrl = `game.html?theme=${selectedTheme}`;
+            if (externalUrl) {
+                gameUrl += `&url=${encodeURIComponent(externalUrl)}`;
+            }
+
+            window.location.href = gameUrl;
+        }
+
+        startGameBtn.addEventListener('click', startGame);
+
+        // Hide loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+            }, 1000);
+        });
+
+        // Initialize
+        updateTheme(0);
+    </script>
+</body>
+</html>

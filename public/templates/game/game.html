@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortune Wheel Game</title>
+    <style type="text/css">
+        body {
+            background: #000000;
+            padding: 0px;
+            margin: 0px;
+            overflow: hidden;
+        }
+
+        body.underwater-theme {
+            background: #001a33;  /* Dark blue to see if background is loading */
+        }
+
+        body.china-theme {
+            background: transparent;
+        }
+
+        body.christmas-theme {
+            background: transparent;
+        }
+        
+        canvas {
+            display: block;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        /* Winner Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+            70% { transform: translate(-50%, -50%) scale(0.9); }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 50px 60px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);
+            animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-width: 90%;
+        }
+
+        .modal-content h2 {
+            color: #fff;
+            font-size: 3.5em;
+            margin: 0 0 20px 0;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .trophy-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .modal-content p {
+            color: #fff;
+            font-size: 1.5em;
+            margin: 20px 0 30px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-button {
+            background: #FFD700;
+            color: #000;
+            border: none;
+            padding: 20px 60px;
+            font-size: 1.8em;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
+
+        .cta-button:hover {
+            background: #FFC700;
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.7);
+        }
+
+        .cta-button:active {
+            transform: scale(1.05);
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .spin-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .spin-counter.preview-mode {
+            display: none;
+        }
+
+        .spin-counter span {
+            color: #667eea;
+            font-size: 1.5em;
+        }
+
+        /* Underwater animated background */
+        .water-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(180deg, 
+                #001f3f 0%, 
+                #003366 25%, 
+                #004d7a 50%, 
+                #006699 75%, 
+                #0080b3 100%);
+            animation: waterFlow 15s ease-in-out infinite;
+        }
+
+        @keyframes waterFlow {
+            0%, 100% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+        }
+
+        /* Animated light rays */
+        .light-rays {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            z-index: 0;
+            opacity: 0.15;
+            background: 
+                linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+            animation: lightMove 20s linear infinite;
+        }
+
+        @keyframes lightMove {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Water bubbles */
+        .bubble {
+            position: fixed;
+            bottom: -100px;
+            background: radial-gradient(circle at 30% 30%, 
+                rgba(255, 255, 255, 0.8), 
+                rgba(255, 255, 255, 0.3));
+            border-radius: 50%;
+            opacity: 0.7;
+            z-index: 2;  /* Above canvas to be visible */
+            animation: bubbleRise linear infinite;
+            pointer-events: none;  /* Don't block clicks on the game */
+        }
+
+        @keyframes bubbleRise {
+            0% {
+                bottom: -100px;
+                opacity: 0;
+                transform: translateX(0) scale(1);
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                bottom: 110vh;
+                opacity: 0;
+                transform: translateX(var(--drift)) scale(1.2);
+            }
+        }
+
+        .bubble:nth-child(1) { 
+            left: 10%; 
+            width: 30px; 
+            height: 30px; 
+            animation-duration: 12s; 
+            animation-delay: 0s;
+            --drift: 50px;
+        }
+        .bubble:nth-child(2) { 
+            left: 25%; 
+            width: 20px; 
+            height: 20px; 
+            animation-duration: 15s; 
+            animation-delay: 2s;
+            --drift: -30px;
+        }
+        .bubble:nth-child(3) { 
+            left: 40%; 
+            width: 40px; 
+            height: 40px; 
+            animation-duration: 18s; 
+            animation-delay: 4s;
+            --drift: 70px;
+        }
+        .bubble:nth-child(4) { 
+            left: 60%; 
+            width: 25px; 
+            height: 25px; 
+            animation-duration: 14s; 
+            animation-delay: 1s;
+            --drift: -50px;
+        }
+        .bubble:nth-child(5) { 
+            left: 75%; 
+            width: 35px; 
+            height: 35px; 
+            animation-duration: 16s; 
+            animation-delay: 3s;
+            --drift: 40px;
+        }
+        .bubble:nth-child(6) { 
+            left: 90%; 
+            width: 20px; 
+            height: 20px; 
+            animation-duration: 13s; 
+            animation-delay: 5s;
+            --drift: -40px;
+        }
+
+        /* Floating particles */
+        .particle {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            z-index: 0;
+            animation: particleFloat linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(var(--drift-particle));
+                opacity: 0;
+            }
+        }
+
+        .particle:nth-child(1) { 
+            left: 15%; 
+            top: 100vh;
+            width: 3px; 
+            height: 3px; 
+            animation-duration: 25s;
+            --drift-particle: 20px;
+        }
+        .particle:nth-child(2) { 
+            left: 35%; 
+            top: 100vh;
+            width: 2px; 
+            height: 2px; 
+            animation-duration: 30s;
+            animation-delay: 5s;
+            --drift-particle: -15px;
+        }
+        .particle:nth-child(3) { 
+            left: 55%; 
+            top: 100vh;
+            width: 4px; 
+            height: 4px; 
+            animation-duration: 28s;
+            animation-delay: 10s;
+            --drift-particle: 25px;
+        }
+        .particle:nth-child(4) { 
+            left: 70%; 
+            top: 100vh;
+            width: 3px; 
+            height: 3px; 
+            animation-duration: 32s;
+            animation-delay: 15s;
+            --drift-particle: -20px;
+        }
+        .particle:nth-child(5) { 
+            left: 85%; 
+            top: 100vh;
+            width: 2px; 
+            height: 2px; 
+            animation-duration: 27s;
+            animation-delay: 8s;
+            --drift-particle: 18px;
+        }
+
+        @media (max-width: 600px) {
+            .modal-content {
+                padding: 30px 40px;
+            }
+            
+            .modal-content h2 {
+                font-size: 2.5em;
+            }
+            
+            .trophy-icon {
+                font-size: 4em;
+            }
+            
+            .cta-button {
+                font-size: 1.4em;
+                padding: 15px 40px;
+            }
+
+            .spin-counter {
+                top: 10px;
+                right: 10px;
+                padding: 10px 15px;
+                font-size: 1em;
+            }
+        }
+    </style>
+    <script src="js/phaser.js"></script>
+</head>
+<body>
+    <!-- Spin Counter Display -->
+    <div class="spin-counter" id="spinCounter">
+        Spins: <span id="spinCount">0</span>/3
+    </div>
+
+    <!-- Winner Modal -->
+    <div id="winnerModal" class="modal">
+        <div class="modal-content">
+            <div class="trophy-icon">🏆</div>
+            <h2>WINNER!</h2>
+            <p id="prizeAmount">You won $800!</p>
+            <button class="cta-button" id="claimButton">
+                CLAIM BONUS
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Configuration - Can be set via URL parameters or template editor
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedTheme = urlParams.get('theme') || 'underwater';
+        const externalUrl = urlParams.get('url') || 'https://example.com/claim-bonus';
+        const isPreviewMode = urlParams.get('preview') === 'true';
+        
+        // Global game configuration
+        window.GAME_CONFIG = {
+            theme: selectedTheme,
+            externalUrl: externalUrl,
+            spinCount: 0,
+            maxSpins: isPreviewMode ? 999 : 3,  // Unlimited spins in preview mode
+            isPreviewMode: isPreviewMode
+        };
+
+        // Hide spin counter in preview mode
+        if (isPreviewMode) {
+            document.addEventListener('DOMContentLoaded', () => {
+                const spinCounter = document.getElementById('spinCounter');
+                if (spinCounter) {
+                    spinCounter.classList.add('preview-mode');
+                }
+            });
+        }
+
+        // Add theme-specific classes and effects
+        if (selectedTheme === 'china') {
+            // Add class to body for China theme
+            document.body.classList.add('china-theme');
+        }
+        
+        if (selectedTheme === 'christmas') {
+            // Add class to body for Christmas theme
+            document.body.classList.add('christmas-theme');
+        }
+        
+        // Add underwater animated background if theme is underwater
+        if (selectedTheme === 'underwater') {
+            // Add class to body
+            document.body.classList.add('underwater-theme');
+            
+            // Add animated bubbles (background image is in Phaser canvas)
+            window.addEventListener('load', () => {
+                // Skip CSS background and light rays (image in Phaser handles that)
+                // But add bubbles on top for animation
+
+                // Bubble configurations
+                const bubbles = [
+                    { left: '10%', size: 30, duration: 12, delay: 0, drift: 50 },
+                    { left: '25%', size: 20, duration: 15, delay: 2, drift: -30 },
+                    { left: '40%', size: 40, duration: 18, delay: 4, drift: 70 },
+                    { left: '60%', size: 25, duration: 14, delay: 1, drift: -50 },
+                    { left: '75%', size: 35, duration: 16, delay: 3, drift: 40 },
+                    { left: '90%', size: 20, duration: 13, delay: 5, drift: -40 }
+                ];
+
+                // Create bubbles
+                bubbles.forEach(config => {
+                    const bubble = document.createElement('div');
+                    bubble.className = 'bubble';
+                    bubble.style.cssText = `
+                        left: ${config.left};
+                        width: ${config.size}px;
+                        height: ${config.size}px;
+                        animation-duration: ${config.duration}s;
+                        animation-delay: ${config.delay}s;
+                        --drift: ${config.drift}px;
+                    `;
+                    document.body.appendChild(bubble);
+                });
+
+                // Particle configurations
+                const particles = [
+                    { left: '15%', size: 3, duration: 25, delay: 0, drift: 20 },
+                    { left: '35%', size: 2, duration: 30, delay: 5, drift: -15 },
+                    { left: '55%', size: 4, duration: 28, delay: 10, drift: 25 },
+                    { left: '70%', size: 3, duration: 32, delay: 15, drift: -20 },
+                    { left: '85%', size: 2, duration: 27, delay: 8, drift: 18 }
+                ];
+
+                // Create particles
+                particles.forEach(config => {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.cssText = `
+                        left: ${config.left};
+                        top: 100vh;
+                        width: ${config.size}px;
+                        height: ${config.size}px;
+                        animation-duration: ${config.duration}s;
+                        animation-delay: ${config.delay}s;
+                        --drift-particle: ${config.drift}px;
+                    `;
+                    document.body.appendChild(particle);
+                });
+
+                console.log('Underwater bubbles loaded!');
+            });
+        }
+
+        console.log('Game Config:', window.GAME_CONFIG);
+    </script>
+    
+    <!-- Dynamic wheel config based on theme -->
+    <script id="wheelConfigScript"></script>
+    <script>
+        // Load the appropriate wheel config based on selected theme
+        const configScript = document.getElementById('wheelConfigScript');
+        configScript.src = `${window.GAME_CONFIG.theme}/js/wheel_config_8.js`;
+    </script>
+    
+    <script src="js/animCoins.js"></script>
+    <script src="js/wheelGame.js"></script>
+
+    <script>
+        // Modal and CTA functionality
+        const modal = document.getElementById('winnerModal');
+        const claimButton = document.getElementById('claimButton');
+        const spinCountDisplay = document.getElementById('spinCount');
+        const prizeAmountDisplay = document.getElementById('prizeAmount');
+
+        // Function to show winner modal
+        window.showWinnerModal = function(prizeText) {
+            prizeAmountDisplay.textContent = `You won ${prizeText}!`;
+            modal.style.display = 'block';
+            createConfetti();
+        };
+
+        // Function to update spin counter
+        window.updateSpinCounter = function(count) {
+            spinCountDisplay.textContent = count;
+        };
+
+        // Claim button click handler
+        claimButton.addEventListener('click', function() {
+            window.location.href = window.GAME_CONFIG.externalUrl;
+        });
+
+        // Confetti effect
+        function createConfetti() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 5000);
+                }, i * 30);
+            }
+        }
+
+        // Close modal on outside click (optional)
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                // Don't close on outside click for conversion optimization
+                // modal.style.display = 'none';
+            }
+        };
+    </script>
+</body>
+</html>

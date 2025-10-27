@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="0; url=index_selector.html">
+    <title>Fortune Wheel - Redirecting...</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+            text-align: center;
+        }
+        .loader {
+            font-size: 3em;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        p {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="loader">🎰</div>
+        <p>Loading Fortune Wheel...</p>
+        <p style="font-size: 1em; opacity: 0.8;">If not redirected, <a href="index_selector.html" style="color: #FFD700;">click here</a></p>
+    </div>
+    <script>
+        // Backup redirect in case meta refresh doesn't work
+        setTimeout(function() {
+            window.location.href = 'index_selector.html';
+        }, 100);
+    </script>
+</body>
+</html>
