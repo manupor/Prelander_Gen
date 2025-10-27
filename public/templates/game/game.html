@@ -572,28 +572,31 @@
     <!-- Dynamic wheel config based on theme -->
     <script id="wheelConfigScript"></script>
     <script>
-        // Load the appropriate wheel config based on selected theme
+        // Load wheel config and apply custom values BEFORE loading wheelGame.js
         const configScript = document.getElementById('wheelConfigScript');
         configScript.src = `${window.GAME_CONFIG.theme}/js/wheel_config_8.js`;
         
-        // Override wheel values AFTER config loads if custom values provided
+        // Wait for wheel config to load, then modify it and load the game
         configScript.onload = function() {
+            console.log('🎲 Wheel config loaded');
+            
+            // Apply custom wheel values if provided
             if (window.GAME_CONFIG.customWheelValues && typeof wheelConfig !== 'undefined') {
-                console.log('Original wheel config:', JSON.parse(JSON.stringify(wheelConfig.sectors)));
+                console.log('🎰 APPLYING CUSTOM WHEEL VALUES BEFORE PHASER INIT');
+                console.log('Original sectors:', wheelConfig.sectors.map(s => s.text));
                 
                 // Parse custom wheel values (comma-separated)
                 const customValues = window.GAME_CONFIG.customWheelValues.split(',').map(v => v.trim());
                 
                 if (customValues.length === 8) {
-                    console.log('Applying custom wheel values:', customValues);
+                    console.log('Custom values:', customValues);
                     
                     // Update each sector with custom values
                     wheelConfig.sectors.forEach((sector, index) => {
-                        const customValue = customValues[index];
-                        sector.text = customValue;
+                        sector.text = customValues[index];
                         
-                        // Try to extract numeric value for win amount
-                        const numericMatch = customValue.match(/[\d,]+/);
+                        // Extract numeric value for win amount
+                        const numericMatch = customValues[index].match(/[\d,]+/);
                         if (numericMatch) {
                             sector.win = parseInt(numericMatch[0].replace(/,/g, ''));
                         }
@@ -602,16 +605,23 @@
                         sector.isBigWin = (index === 7);
                     });
                     
-                    console.log('Updated wheel config:', wheelConfig.sectors);
+                    console.log('✅ Updated sectors:', wheelConfig.sectors.map(s => s.text));
                 } else {
-                    console.warn('Custom wheel values must have exactly 8 values. Got:', customValues.length);
+                    console.warn('⚠️ Need exactly 8 values, got:', customValues.length);
                 }
             }
+            
+            // NOW load animCoins and wheelGame which will initialize Phaser
+            const animScript = document.createElement('script');
+            animScript.src = 'js/animCoins.js';
+            animScript.onload = function() {
+                const gameScript = document.createElement('script');
+                gameScript.src = 'js/wheelGame.js';
+                document.body.appendChild(gameScript);
+            };
+            document.body.appendChild(animScript);
         };
     </script>
-    
-    <script src="js/animCoins.js"></script>
-    <script src="js/wheelGame.js"></script>
 
     <script>
         // Modal and CTA functionality
