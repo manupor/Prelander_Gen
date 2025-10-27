@@ -153,13 +153,13 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Update the site with new generated content
-    const { data: updatedSite, error: updateError } = await supabase
+    // Update the site with new HTML/CSS
+    const { error: updateError } = await supabase
       .from('sites')
       .update({
-        generated_html: html,
-        generated_css: css,
-        // Keep original brand data unchanged
+        generated_html: rendered.html,
+        generated_css: rendered.css || '',
+        updated_at: new Date().toISOString(),
       })
       .eq('id', siteId)
       .select()
