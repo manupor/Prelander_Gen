@@ -6,6 +6,10 @@ import { Template6 } from '@/templates/t6'
 import { Template7 } from '@/templates/t7'
 import { Template9 } from '@/templates/t9'
 import { Template10 } from '@/templates/t10'
+import { Template14 } from '@/templates/t14'
+import { Template15 } from '@/templates/t15'
+import { Template16 } from '@/templates/t16'
+import { Template17 } from '@/templates/t17'
 
 interface TemplatePreviewModalProps {
   templateId: TemplateId | null
@@ -15,6 +19,27 @@ interface TemplatePreviewModalProps {
 }
 
 const getSampleBrandConfig = (templateId: TemplateId) => {
+  // Fortune Wheel templates (t14-t17)
+  if (templateId === 't14' || templateId === 't15' || templateId === 't16' || templateId === 't17') {
+    return {
+      brandName: 'Fortune Casino',
+      logoUrl: 'https://via.placeholder.com/150x60/FFD700/000000?text=CASINO',
+      colors: {
+        primary: '#ffd700',
+        secondary: '#ff6b6b',
+        accent: '#4ecdc4'
+      },
+      copy: {
+        headline: 'SPIN THE WHEEL TO WIN!',
+        subheadline: 'Try your luck and win amazing prizes',
+        cta: 'CLAIM BONUS'
+      },
+      industry: 'Casino & Gaming',
+      description: 'Interactive wheel of fortune game',
+      ctaUrl: 'https://example.com'
+    }
+  }
+  
   // Fisherman Slot specific config (t9 and t10)
   if (templateId === 't9' || templateId === 't10') {
     return {
@@ -68,6 +93,10 @@ const templateComponents = {
   t7: Template7,
   t9: Template9,
   t10: Template10,
+  t14: Template14,
+  t15: Template15,
+  t16: Template16,
+  t17: Template17,
 }
 
 export function TemplatePreviewModal({ templateId, isOpen, onClose, onSelect }: TemplatePreviewModalProps) {
