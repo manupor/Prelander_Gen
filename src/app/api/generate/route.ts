@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
-import { CreateSiteSchema } from '@/lib/types'
+import { CreateSiteSchema, TemplateId, BrandConfig } from '@/lib/types'
 import { generateMarketingCopy } from '@/lib/openai'
 import { extractColorsFromImage } from '@/lib/colors'
 import { generateSlug } from '@/lib/utils'
@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
     try {
       const rendered = renderer(brandConfig)
       html = rendered.html
-      css = rendered.css
+      css = rendered.css || ''
     } catch (e) {
       console.error('Template render failed, using fallback:', e)
       css = `:root{--brand-primary:${colors.primary};--brand-secondary:${colors.secondary};--brand-accent:${colors.accent};}body{font-family:ui-sans-serif,system-ui;line-height:1.6;color:#111827;margin:0;padding:2rem}.btn{background:var(--brand-primary);color:#fff;padding:.75rem 1.25rem;border-radius:.5rem;border:0;font-weight:600}`
