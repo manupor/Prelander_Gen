@@ -44,8 +44,8 @@ export default async function DemoPreview({
 
   // Render Sweet Bonanza template
   const rendered = renderT7(brandConfig)
-  let html = rendered.html
-  let css = rendered.css || ''
+  const html = rendered.html
+  const css = rendered.css || ''
 
   return (
     <html lang="en">
