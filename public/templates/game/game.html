@@ -415,9 +415,9 @@
     <script src="js/phaser.js"></script>
 </head>
 <body>
-    <!-- Nano Kit Logo -->
-    <div class="nanokit-logo">
-        <img src="/images/nano-kit-logo.png" alt="Powered by Nano Kit">
+    <!-- Nano Kit Logo (or Custom Logo) -->
+    <div class="nanokit-logo" id="customLogoContainer">
+        <img src="/images/nano-kit-logo.png" alt="Powered by Nano Kit" id="logoImage">
     </div>
 
     <!-- Spin Counter Display -->
@@ -444,6 +444,7 @@
         const externalUrl = urlParams.get('url') || 'https://example.com/claim-bonus';
         const isPreviewMode = urlParams.get('preview') === 'true';
         const customWheelValues = urlParams.get('wheelValues') || null;
+        const customLogoUrl = urlParams.get('logoUrl') || null;
         const popupTitle = urlParams.get('popupTitle') || 'WINNER!';
         const popupMessage = urlParams.get('popupMessage') || 'Congratulations! You won';
         const popupPrize = urlParams.get('popupPrize') || null;
@@ -456,10 +457,27 @@
             maxSpins: isPreviewMode ? 999 : 3,  // Unlimited spins in preview mode
             isPreviewMode: isPreviewMode,
             customWheelValues: customWheelValues,
+            customLogoUrl: customLogoUrl,
             popupTitle: popupTitle,
             popupMessage: popupMessage,
             popupPrize: popupPrize
         };
+        
+        // Apply custom logo if provided
+        if (customLogoUrl && customLogoUrl.trim() !== '') {
+            document.addEventListener('DOMContentLoaded', () => {
+                const logoImage = document.getElementById('logoImage');
+                if (logoImage) {
+                    logoImage.src = customLogoUrl;
+                    logoImage.alt = 'Custom Logo';
+                    logoImage.onerror = function() {
+                        // If custom logo fails to load, keep Nano Kit logo
+                        this.src = '/images/nano-kit-logo.png';
+                        this.alt = 'Powered by Nano Kit';
+                    };
+                }
+            });
+        }
 
         // Hide spin counter in preview mode
         if (isPreviewMode) {

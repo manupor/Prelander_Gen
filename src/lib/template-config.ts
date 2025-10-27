@@ -34,6 +34,7 @@ export interface TemplateConfig {
     
     // Customization fields
     customLogo?: TemplateField
+    logoUrl?: TemplateField
     
     // Popup/Win modal fields
     popupTitle?: TemplateField
@@ -242,6 +243,14 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
         description: 'Title displayed above the wheel game',
         required: true
       },
+      logoUrl: {
+        id: 'logoUrl',
+        label: '🎨 Custom Logo URL',
+        type: 'url',
+        placeholder: 'https://your-site.com/logo.png',
+        description: 'Logo displayed in bottom-left corner (replaces Nano Kit logo)',
+        required: false
+      },
       ctaUrl: {
         id: 'ctaUrl',
         label: 'Claim Bonus URL',
@@ -296,6 +305,14 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
         placeholder: 'SPIN THE WHEEL',
         description: 'Title displayed above the wheel game',
         required: true
+      },
+      logoUrl: {
+        id: 'logoUrl',
+        label: '🎨 Custom Logo URL',
+        type: 'url',
+        placeholder: 'https://your-site.com/logo.png',
+        description: 'Logo displayed in bottom-left corner (replaces Nano Kit logo)',
+        required: false
       },
       ctaUrl: {
         id: 'ctaUrl',
@@ -352,6 +369,14 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
         description: 'Title displayed above the wheel game',
         required: true
       },
+      logoUrl: {
+        id: 'logoUrl',
+        label: '🎨 Custom Logo URL',
+        type: 'url',
+        placeholder: 'https://your-site.com/logo.png',
+        description: 'Logo displayed in bottom-left corner (replaces Nano Kit logo)',
+        required: false
+      },
       ctaUrl: {
         id: 'ctaUrl',
         label: 'Claim Bonus URL',
@@ -406,6 +431,14 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
         placeholder: 'SPIN THE WHEEL',
         description: 'Title displayed above the wheel game',
         required: true
+      },
+      logoUrl: {
+        id: 'logoUrl',
+        label: '🎨 Custom Logo URL',
+        type: 'url',
+        placeholder: 'https://your-site.com/logo.png',
+        description: 'Logo displayed in bottom-left corner (replaces Nano Kit logo)',
+        required: false
       },
       ctaUrl: {
         id: 'ctaUrl',

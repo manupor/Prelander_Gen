@@ -4,6 +4,7 @@ export function renderTemplate(config: BrandConfig): { html: string; css?: strin
   const headline = config.copy?.headline || 'SPIN THE WHEEL'
   const cta = config.copy?.cta || 'CLAIM BONUS'
   const ctaUrl = config.ctaUrl || '#'
+  const logoUrl = config.logoUrl || ''
   const popupTitle = (config as any).popupTitle || 'WINNER!'
   const popupMessage = (config as any).popupMessage || 'Congratulations! You won'
   const popupPrize = (config as any).popupPrize || '$800'
@@ -91,7 +92,7 @@ export function renderTemplate(config: BrandConfig): { html: string; css?: strin
   <!-- Game iframe -->
   <iframe 
     id="gameFrame"
-    src="/templates/game/game.html?theme=china&url=${encodeURIComponent(ctaUrl || '#')}&popupTitle=${encodeURIComponent(popupTitle)}&popupMessage=${encodeURIComponent(popupMessage)}&popupPrize=${encodeURIComponent(popupPrize)}&wheelValues=${encodeURIComponent(wheelValues)}"
+    src="/templates/game/game.html?theme=china&url=${encodeURIComponent(ctaUrl || '#')}&popupTitle=${encodeURIComponent(popupTitle)}&popupMessage=${encodeURIComponent(popupMessage)}&popupPrize=${encodeURIComponent(popupPrize)}&wheelValues=${encodeURIComponent(wheelValues)}&logoUrl=${encodeURIComponent(logoUrl)}"
     allowfullscreen
   ></iframe>
 

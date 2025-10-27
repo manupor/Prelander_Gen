@@ -867,12 +867,12 @@ export default function SiteEditorPage() {
       primaryColor,
       secondaryColor,
       accentColor,
-      logoUrl: logoUrl || '',
+      logoUrl: logoUrl || '',  // Logo for all templates
       popupTitle,
       popupMessage,
       popupPrize,
       gameBalance: gameBalance.toString(),
-      wheelValues: wheelValues || '',  // Add wheel values for Fortune Wheel templates
+      wheelValues: wheelValues || '',  // Wheel values for Fortune Wheel templates
       preview: '1',  // Flag to disable blur in editor iframe
     })
     
@@ -1803,7 +1803,7 @@ export default function SiteEditorPage() {
                   style={{ height: '90vh' }}
                 >
                   <iframe
-                    key={`live-${templateId}-${viewMode}-${wheelValues}`}
+                    key={`live-${templateId}-${viewMode}-${wheelValues}-${logoUrl}`}
                     src={getPreviewUrl()}
                     className="w-full h-full border-0"
                     title="Live Preview"
@@ -1837,7 +1837,7 @@ export default function SiteEditorPage() {
                       style={{ height: '82vh' }}
                     >
                       <iframe
-                        key={`template-${templateId}-${viewMode}-${wheelValues}`}
+                        key={`template-${templateId}-${viewMode}-${wheelValues}-${logoUrl}`}
                         src={getPreviewUrl()}
                         className="w-full h-full border-0"
                         title="Template Preview"
