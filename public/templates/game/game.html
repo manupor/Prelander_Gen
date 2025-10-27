@@ -164,6 +164,39 @@
             font-size: 1.5em;
         }
 
+        /* Nano Kit Logo */
+        .nanokit-logo {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .nanokit-logo img {
+            width: 120px;
+            height: auto;
+            filter: drop-shadow(0 0 15px rgba(255, 0, 255, 0.6));
+        }
+
+        .nanokit-logo:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+            .nanokit-logo {
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .nanokit-logo img {
+                width: 80px;
+            }
+        }
+
         /* Underwater animated background */
         .water-background {
             position: fixed;
@@ -387,6 +420,11 @@
     <script src="js/phaser.js"></script>
 </head>
 <body>
+    <!-- Nano Kit Logo -->
+    <div class="nanokit-logo">
+        <img src="/images/nano-kit-logo.png" alt="Powered by Nano Kit">
+    </div>
+
     <!-- Spin Counter Display -->
     <div class="spin-counter" id="spinCounter">
         Spins: <span id="spinCount">0</span>/3
@@ -410,6 +448,10 @@
         const selectedTheme = urlParams.get('theme') || 'underwater';
         const externalUrl = urlParams.get('url') || 'https://example.com/claim-bonus';
         const isPreviewMode = urlParams.get('preview') === 'true';
+        const customWheelValues = urlParams.get('wheelValues') || null;
+        const popupTitle = urlParams.get('popupTitle') || 'WINNER!';
+        const popupMessage = urlParams.get('popupMessage') || 'Congratulations! You won';
+        const popupPrize = urlParams.get('popupPrize') || null;
         
         // Global game configuration
         window.GAME_CONFIG = {
@@ -417,7 +459,11 @@
             externalUrl: externalUrl,
             spinCount: 0,
             maxSpins: isPreviewMode ? 999 : 3,  // Unlimited spins in preview mode
-            isPreviewMode: isPreviewMode
+            isPreviewMode: isPreviewMode,
+            customWheelValues: customWheelValues,
+            popupTitle: popupTitle,
+            popupMessage: popupMessage,
+            popupPrize: popupPrize
         };
 
         // Hide spin counter in preview mode
@@ -429,6 +475,8 @@
                 }
             });
         }
+        
+        console.log('Custom Wheel Values:', customWheelValues);
 
         // Add theme-specific classes and effects
         if (selectedTheme === 'china') {
@@ -514,6 +562,39 @@
         // Load the appropriate wheel config based on selected theme
         const configScript = document.getElementById('wheelConfigScript');
         configScript.src = `${window.GAME_CONFIG.theme}/js/wheel_config_8.js`;
+        
+        // Override wheel values AFTER config loads if custom values provided
+        configScript.onload = function() {
+            if (window.GAME_CONFIG.customWheelValues && typeof wheelConfig !== 'undefined') {
+                console.log('Original wheel config:', JSON.parse(JSON.stringify(wheelConfig.sectors)));
+                
+                // Parse custom wheel values (comma-separated)
+                const customValues = window.GAME_CONFIG.customWheelValues.split(',').map(v => v.trim());
+                
+                if (customValues.length === 8) {
+                    console.log('Applying custom wheel values:', customValues);
+                    
+                    // Update each sector with custom values
+                    wheelConfig.sectors.forEach((sector, index) => {
+                        const customValue = customValues[index];
+                        sector.text = customValue;
+                        
+                        // Try to extract numeric value for win amount
+                        const numericMatch = customValue.match(/[\d,]+/);
+                        if (numericMatch) {
+                            sector.win = parseInt(numericMatch[0].replace(/,/g, ''));
+                        }
+                        
+                        // Mark last sector as big win
+                        sector.isBigWin = (index === 7);
+                    });
+                    
+                    console.log('Updated wheel config:', wheelConfig.sectors);
+                } else {
+                    console.warn('Custom wheel values must have exactly 8 values. Got:', customValues.length);
+                }
+            }
+        };
     </script>
     
     <script src="js/animCoins.js"></script>
@@ -528,7 +609,17 @@
 
         // Function to show winner modal
         window.showWinnerModal = function(prizeText) {
-            prizeAmountDisplay.textContent = `You won ${prizeText}!`;
+            // Use custom popup content if provided
+            const title = window.GAME_CONFIG.popupTitle || 'WINNER!';
+            const message = window.GAME_CONFIG.popupMessage || 'Congratulations! You won';
+            const prize = window.GAME_CONFIG.popupPrize || prizeText;
+            
+            // Update modal title
+            document.querySelector('.modal-content h2').textContent = title;
+            
+            // Update prize display
+            prizeAmountDisplay.textContent = `${message} ${prize}!`;
+            
             modal.style.display = 'block';
             createConfetti();
         };
