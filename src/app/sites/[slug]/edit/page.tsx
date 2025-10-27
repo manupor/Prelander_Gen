@@ -66,6 +66,7 @@ export default function SiteEditorPage() {
   const [gameBalance, setGameBalance] = useState(1000)
   const [gameLogo, setGameLogo] = useState('')
   const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [showWinPopupEditor, setShowWinPopupEditor] = useState(false)
   const [uploadingLogo, setUploadingLogo] = useState(false)
   const [vertical, setVertical] = useState('casino')
   const [templateId, setTemplateId] = useState('t6')
@@ -1702,6 +1703,45 @@ export default function SiteEditorPage() {
         {/* Right Panel - Preview */}
         <div data-tour="preview" className="flex-1 bg-gray-950 p-3 overflow-auto">
           <div className="max-w-full mx-auto">
+            {/* Quick Actions */}
+            <div className="fixed top-20 left-4 z-50 flex gap-2">
+              <button
+                onClick={expandAll}
+                disabled={areAllExpanded}
+                className={`px-3 py-2 rounded-lg font-medium text-sm transition-all ${
+                  areAllExpanded 
+                    ? 'bg-gray-800 text-gray-500 cursor-not-allowed' 
+                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                }`}
+              >
+                Expand All
+              </button>
+              <button
+                onClick={collapseAll}
+                disabled={areAllCollapsed}
+                className={`px-3 py-2 rounded-lg font-medium text-sm transition-all ${
+                  areAllCollapsed 
+                    ? 'bg-gray-800 text-gray-500 cursor-not-allowed' 
+                    : 'bg-gray-700 text-white hover:bg-gray-600'
+                }`}
+              >
+                Collapse All
+              </button>
+              
+              {/* Win Popup Editor for Fortune Wheel templates */}
+              {(templateId === 't14' || templateId === 't15' || templateId === 't16' || templateId === 't17') && (
+                <button
+                  onClick={() => setShowWinPopupEditor(!showWinPopupEditor)}
+                  className="px-3 py-2 rounded-lg font-medium text-sm bg-purple-600 text-white hover:bg-purple-700 transition-all flex items-center gap-2"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                  {showWinPopupEditor ? 'Hide' : 'Edit'} Win Popup
+                </button>
+              )}
+            </div>
+
             {/* View Mode Toggle */}
             <div className="flex items-center justify-center gap-2 mb-4">
               <button
