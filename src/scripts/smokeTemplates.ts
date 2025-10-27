@@ -25,7 +25,7 @@ const brand: BrandConfig = {
   ctaUrl: 'https://example.com'
 }
 
-const tests: Array<[string, (b: BrandConfig) => { html: string; css: string }]> = [
+const tests: Array<[string, (b: BrandConfig) => { html: string; css?: string }]> = [
   ['t1', renderT1],
   ['t2', renderT2],
   ['t3', renderT3],
