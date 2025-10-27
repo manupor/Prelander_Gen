@@ -247,7 +247,8 @@ export default function SiteEditorPage() {
       setPopupTitle(data.popup_title || '')
       setPopupMessage(data.popup_message || '')
       setPopupPrize(data.popup_prize || '')
-      setWheelValues(data.wheel_values || '')
+      // Load wheel values from database
+      setWheelValues(data.wheel_values || '$100, $200, $500, $1000, $2000, $5000, $800, $1500')
       setGameBalance(data.game_balance || 1000)
       setVertical(data.vertical || 'casino')
       setTemplateId(data.template_id || 't6')
@@ -370,11 +371,10 @@ export default function SiteEditorPage() {
       updateData.popup_prize = popupPrize
       updateData.game_balance = gameBalance
       
-      // TEMPORARILY DISABLED: wheel_values causes schema cache issues in Supabase
-      // Will re-enable after cache refresh
-      // if (wheelValues && wheelValues.trim() !== '') {
-      //   updateData.wheel_values = wheelValues
-      // }
+      // Save wheel values for Fortune Wheel templates
+      if (wheelValues && wheelValues.trim() !== '') {
+        updateData.wheel_values = wheelValues
+      }
       
       const { error } = await supabase
         .from('sites')
