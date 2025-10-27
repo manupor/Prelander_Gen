@@ -4,11 +4,20 @@ import { renderTemplate as renderT6 } from '@/templates/t6/server'
 import { renderTemplate as renderT7 } from '@/templates/t7/server'
 import { renderTemplate as renderT9 } from '@/templates/t9/server'
 import { renderTemplate as renderT10 } from '@/templates/t10/server'
+import { renderTemplate as renderT14 } from '@/templates/t14/server'
+import { renderTemplate as renderT15 } from '@/templates/t15/server'
+import { renderTemplate as renderT16 } from '@/templates/t16/server'
+import { renderTemplate as renderT17 } from '@/templates/t17/server'
+
 const templateRenderers = {
   t6: renderT6,
   t7: renderT7,
   t9: renderT9,
   t10: renderT10,
+  t14: renderT14,  // Fortune Wheel - Underwater
+  t15: renderT15,  // Fortune Wheel - China
+  t16: renderT16,  // Fortune Wheel - Christmas
+  t17: renderT17,  // Fortune Wheel - Pirates
 }
 
 export async function POST(request: NextRequest) {
@@ -62,7 +71,8 @@ export async function POST(request: NextRequest) {
         popupTitle: site.popup_title || 'WINNER!',
         popupMessage: site.popup_message || 'Congratulations! You\'ve won!',
         popupPrize: site.popup_prize || '$1,000 + 50 FREE SPINS',
-        gameBalance: site.game_balance || 1000
+        gameBalance: site.game_balance || 1000,
+        wheelValues: site.wheel_values || '$100, $200, $500, $1000, $2000, $5000, $800, $1500'  // Fortune Wheel values
       } as any
 
       const { html, css } = renderer(brandConfig)

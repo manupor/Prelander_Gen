@@ -38,9 +38,12 @@ export async function POST(request: NextRequest) {
 
     // Map template IDs to their game folders
     const templateGameMap: Record<string, string> = {
-      't9': 'FisherMan Slot',   // Fisherman themed slot game
-      't10': 'CastleSlot',       // Castle themed slot game
-      // Add other templates with games here
+      't9': 'FisherMan Slot',      // Fisherman themed slot game
+      't10': 'CastleSlot',          // Castle themed slot game
+      't14': 'templates/game',      // Fortune Wheel - Underwater
+      't15': 'templates/game',      // Fortune Wheel - China
+      't16': 'templates/game',      // Fortune Wheel - Christmas
+      't17': 'templates/game',      // Fortune Wheel - Pirates
     }
 
     // If template uses iframe for games, include game files
