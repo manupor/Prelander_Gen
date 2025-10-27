@@ -1323,175 +1323,169 @@ export default function SiteEditorPage() {
                 const hasPopupFields = fields.popupTitle || fields.popupMessage || fields.popupPrize
 
                 return (
-                  <div className="p-4 space-y-4 border-t border-gray-700">
+                  <div className="p-4 space-y-6 border-t border-gray-700">
                     {/* Template-specific info */}
-                    <div className="bg-gradient-to-r from-cyan-900/20 to-purple-900/20 border border-cyan-700/30 rounded-lg p-3 mb-4">
-                      <div className="flex items-center gap-2">
+                    <div className="bg-gradient-to-r from-cyan-900/30 to-purple-900/30 border border-cyan-500/40 rounded-lg p-4">
+                      <div className="flex items-center gap-2 mb-2">
                         <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
-                        <p className="text-xs text-cyan-300 font-semibold">
+                        <p className="text-sm text-cyan-300 font-bold">
                           {templateConfig.name}
                         </p>
                       </div>
-                      <p className="text-xs text-gray-400 mt-1">
+                      <p className="text-xs text-gray-400">
                         Showing {Object.keys(fields).length} editable field{Object.keys(fields).length !== 1 ? 's' : ''} for this template
                       </p>
                     </div>
 
-                    {/* Headline */}
-                    {fields.headline && (
-                      <div>
-                        <label className="block text-xs font-medium text-gray-300 mb-2">
-                          {fields.headline.label}
-                          {fields.headline.required && <span className="text-red-400 ml-1">*</span>}
-                        </label>
-                        <input
-                          type="text"
-                          value={headline}
-                          onChange={(e) => setHeadline(e.target.value)}
-                          className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                          placeholder={fields.headline.placeholder}
-                          required={fields.headline.required}
-                        />
-                        {fields.headline.description && (
-                          <p className="text-xs text-gray-500 mt-1">{fields.headline.description}</p>
-                        )}
-                      </div>
-                    )}
+                    {/* Basic Fields Section */}
+                    <div className="space-y-4">
+                      {/* Headline */}
+                      {fields.headline && (
+                        <div>
+                          <label className="block text-sm font-medium text-white mb-2">
+                            {fields.headline.label}
+                            {fields.headline.required && <span className="text-red-400 ml-1">*</span>}
+                          </label>
+                          <input
+                            type="text"
+                            value={headline}
+                            onChange={(e) => setHeadline(e.target.value)}
+                            className="w-full px-4 py-3 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                            placeholder={fields.headline.placeholder}
+                            required={fields.headline.required}
+                          />
+                          {fields.headline.description && (
+                            <p className="text-xs text-gray-500 mt-1.5">{fields.headline.description}</p>
+                          )}
+                        </div>
+                      )}
 
-                    {/* Subheadline */}
-                    {fields.subheadline && (
-                      <div>
-                        <label className="block text-xs font-medium text-gray-300 mb-2">
-                          {fields.subheadline.label}
-                          {fields.subheadline.required && <span className="text-red-400 ml-1">*</span>}
-                        </label>
-                        <input
-                          type="text"
-                          value={subheadline}
-                          onChange={(e) => setSubheadline(e.target.value)}
-                          className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                          placeholder={fields.subheadline.placeholder}
-                        />
-                        {fields.subheadline.description && (
-                          <p className="text-xs text-gray-500 mt-1">{fields.subheadline.description}</p>
-                        )}
-                      </div>
-                    )}
+                      {/* Subheadline */}
+                      {fields.subheadline && (
+                        <div>
+                          <label className="block text-sm font-medium text-white mb-2">
+                            {fields.subheadline.label}
+                            {fields.subheadline.required && <span className="text-red-400 ml-1">*</span>}
+                          </label>
+                          <input
+                            type="text"
+                            value={subheadline}
+                            onChange={(e) => setSubheadline(e.target.value)}
+                            className="w-full px-4 py-3 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                            placeholder={fields.subheadline.placeholder}
+                          />
+                          {fields.subheadline.description && (
+                            <p className="text-xs text-gray-500 mt-1.5">{fields.subheadline.description}</p>
+                          )}
+                        </div>
+                      )}
 
-                    {/* CTA Button Text */}
-                    {fields.cta && (
-                      <div>
-                        <label className="block text-xs font-medium text-gray-300 mb-2">
-                          {fields.cta.label}
-                          {fields.cta.required && <span className="text-red-400 ml-1">*</span>}
-                        </label>
-                        <input
-                          type="text"
-                          value={cta}
-                          onChange={(e) => setCta(e.target.value)}
-                          className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                          placeholder={fields.cta.placeholder}
-                          required={fields.cta.required}
-                        />
-                        {fields.cta.description && (
-                          <p className="text-xs text-gray-500 mt-1">{fields.cta.description}</p>
-                        )}
-                      </div>
-                    )}
+                      {/* CTA Button Text */}
+                      {fields.cta && (
+                        <div>
+                          <label className="block text-sm font-medium text-white mb-2">
+                            {fields.cta.label}
+                            {fields.cta.required && <span className="text-red-400 ml-1">*</span>}
+                          </label>
+                          <input
+                            type="text"
+                            value={cta}
+                            onChange={(e) => setCta(e.target.value)}
+                            className="w-full px-4 py-3 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                            placeholder={fields.cta.placeholder}
+                            required={fields.cta.required}
+                          />
+                          {fields.cta.description && (
+                            <p className="text-xs text-gray-500 mt-1.5">{fields.cta.description}</p>
+                          )}
+                        </div>
+                      )}
 
-                    {/* CTA URL */}
-                    {fields.ctaUrl && (
-                      <div>
-                        <label className="block text-xs font-medium text-gray-300 mb-2">
-                          {fields.ctaUrl.label}
-                          {fields.ctaUrl.required && <span className="text-red-400 ml-1">*</span>}
-                        </label>
-                        <input
-                          type="url"
-                          value={ctaUrl}
-                          onChange={(e) => setCtaUrl(e.target.value)}
-                          className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                          placeholder={fields.ctaUrl.placeholder}
-                          required={fields.ctaUrl.required}
-                        />
-                        {fields.ctaUrl.description && (
-                          <p className="text-xs text-gray-500 mt-1">{fields.ctaUrl.description}</p>
-                        )}
-                      </div>
-                    )}
+                      {/* CTA URL */}
+                      {fields.ctaUrl && (
+                        <div>
+                          <label className="block text-sm font-medium text-white mb-2 flex items-center gap-2">
+                            <LinkIcon size={14} className="text-cyan-400" />
+                            {fields.ctaUrl.label}
+                            {fields.ctaUrl.required && <span className="text-red-400 ml-1">*</span>}
+                          </label>
+                          <input
+                            type="url"
+                            value={ctaUrl}
+                            onChange={(e) => setCtaUrl(e.target.value)}
+                            className="w-full px-4 py-3 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                            placeholder={fields.ctaUrl.placeholder}
+                            required={fields.ctaUrl.required}
+                          />
+                          {fields.ctaUrl.description && (
+                            <p className="text-xs text-gray-500 mt-1.5">{fields.ctaUrl.description}</p>
+                          )}
+                        </div>
+                      )}
+                    </div>
 
-                    {/* Wheel Values */}
+                    {/* Fortune Wheel Specific Section */}
                     {fields.wheelValues && (
-                      <div>
-                        <label className="block text-xs font-medium text-gray-300 mb-2">
-                          {fields.wheelValues.label}
-                          {fields.wheelValues.required && <span className="text-red-400 ml-1">*</span>}
-                        </label>
-                        <textarea
-                          value={wheelValues}
-                          onChange={(e) => setWheelValues(e.target.value)}
-                          rows={2}
-                          className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500 font-mono"
-                          placeholder={fields.wheelValues.placeholder}
-                        />
-                        {fields.wheelValues.description && (
-                          <p className="text-xs text-gray-500 mt-1">{fields.wheelValues.description}</p>
-                        )}
+                      <div className="border-t border-gray-700 pt-6">
+                        <div className="flex items-center gap-2 mb-4">
+                          <span className="text-2xl">🎰</span>
+                          <h4 className="text-sm font-bold text-white">Wheel Configuration</h4>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-white mb-2">
+                            {fields.wheelValues.label}
+                            {fields.wheelValues.required && <span className="text-red-400 ml-1">*</span>}
+                          </label>
+                          <textarea
+                            value={wheelValues}
+                            onChange={(e) => setWheelValues(e.target.value)}
+                            rows={3}
+                            className="w-full px-4 py-3 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 font-mono"
+                            placeholder={fields.wheelValues.placeholder}
+                          />
+                          {fields.wheelValues.description && (
+                            <p className="text-xs text-gray-500 mt-1.5">{fields.wheelValues.description}</p>
+                          )}
+                        </div>
                       </div>
                     )}
 
                     {/* Game Balance */}
                     {fields.gameBalance && (
-                      <div>
-                        <label className="block text-xs font-medium text-gray-300 mb-2">
-                          {fields.gameBalance.label}
-                          {fields.gameBalance.required && <span className="text-red-400 ml-1">*</span>}
-                        </label>
-                        <input
-                          type="number"
-                          value={gameBalance}
-                          onChange={(e) => setGameBalance(parseInt(e.target.value) || 1000)}
-                          min="0"
-                          step="100"
-                          className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                          placeholder={fields.gameBalance.placeholder}
-                        />
-                        {fields.gameBalance.description && (
-                          <p className="text-xs text-gray-500 mt-1">{fields.gameBalance.description}</p>
-                        )}
-                      </div>
-                    )}
-
-
-                    {/* CTA URL */}
-                    {fields.ctaUrl && (
-                      <div>
-                        <label className="block text-xs font-medium text-gray-300 mb-2 flex items-center gap-1">
-                          <LinkIcon size={12} />
-                          {fields.ctaUrl.label}
-                          {fields.ctaUrl.required && <span className="text-red-400 ml-1">*</span>}
-                        </label>
-                        <input
-                          type="url"
-                          value={ctaUrl}
-                          onChange={(e) => setCtaUrl(e.target.value)}
-                          className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                          placeholder={fields.ctaUrl.placeholder}
-                          required={fields.ctaUrl.required}
-                        />
-                        {fields.ctaUrl.description && (
-                          <p className="text-xs text-gray-500 mt-1">{fields.ctaUrl.description}</p>
-                        )}
+                      <div className="border-t border-gray-700 pt-6">
+                        <div className="flex items-center gap-2 mb-4">
+                          <span className="text-2xl">💰</span>
+                          <h4 className="text-sm font-bold text-white">Game Balance</h4>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-white mb-2">
+                            {fields.gameBalance.label}
+                            {fields.gameBalance.required && <span className="text-red-400 ml-1">*</span>}
+                          </label>
+                          <input
+                            type="number"
+                            value={gameBalance}
+                            onChange={(e) => setGameBalance(parseInt(e.target.value) || 1000)}
+                            min="0"
+                            step="100"
+                            className="w-full px-4 py-3 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                            placeholder={fields.gameBalance.placeholder}
+                          />
+                          {fields.gameBalance.description && (
+                            <p className="text-xs text-gray-500 mt-1.5">{fields.gameBalance.description}</p>
+                          )}
+                        </div>
                       </div>
                     )}
 
                     {/* Win Popup Section (if template supports it) */}
                     {hasPopupFields && (
-                      <div className="border-t border-gray-700 pt-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <label className="block text-xs font-medium text-gray-300">
-                            🎉 Win Popup
-                          </label>
+                      <div className="border-t border-gray-700 pt-6">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center gap-2">
+                            <span className="text-2xl">🎉</span>
+                            <h4 className="text-sm font-bold text-white">Win Popup</h4>
+                          </div>
                           <button
                             onClick={() => {
                               setIsPopupOpen(true)
@@ -1500,31 +1494,36 @@ export default function SiteEditorPage() {
                                 iframe.contentWindow.postMessage('showPopup', '*')
                               }
                             }}
-                            className="px-2 py-1 bg-purple-600 hover:bg-purple-700 text-white text-xs rounded transition-colors"
+                            className="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-xs rounded-lg transition-colors font-medium flex items-center gap-1"
                           >
-                            👁️ Preview
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            Preview
                           </button>
                         </div>
-                        <p className="text-xs text-gray-500 mb-3">
-                          Appears after user interaction with the game
+                        <p className="text-xs text-gray-400 mb-4 bg-purple-900/20 border border-purple-700/30 rounded-lg p-2">
+                          💡 This popup appears after user interaction with the game
                         </p>
                         
-                        <div className="space-y-3">
+                        <div className="space-y-4">
                           {/* Popup Title */}
                           {fields.popupTitle && (
                             <div>
-                              <label className="block text-xs font-medium text-gray-300 mb-1">
+                              <label className="block text-sm font-medium text-white mb-2 flex items-center gap-2">
+                                <span>🏆</span>
                                 {fields.popupTitle.label}
                               </label>
                               <input
                                 type="text"
                                 value={popupTitle}
                                 onChange={(e) => setPopupTitle(e.target.value)}
-                                className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white font-bold focus:outline-none focus:border-blue-500"
+                                className="w-full px-4 py-3 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white font-bold focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
                                 placeholder={fields.popupTitle.placeholder}
                               />
                               {fields.popupTitle.description && (
-                                <p className="text-xs text-gray-500 mt-1">{fields.popupTitle.description}</p>
+                                <p className="text-xs text-gray-500 mt-1.5">{fields.popupTitle.description}</p>
                               )}
                             </div>
                           )}
@@ -1532,14 +1531,15 @@ export default function SiteEditorPage() {
                           {/* Popup Message */}
                           {fields.popupMessage && (
                             <div>
-                              <label className="block text-xs font-medium text-gray-300 mb-1">
+                              <label className="block text-sm font-medium text-white mb-2 flex items-center gap-2">
+                                <span>💬</span>
                                 {fields.popupMessage.label}
                               </label>
                               {fields.popupMessage.type === 'textarea' ? (
                                 <textarea
                                   value={popupMessage}
                                   onChange={(e) => setPopupMessage(e.target.value)}
-                                  className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                                  className="w-full px-4 py-3 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
                                   placeholder={fields.popupMessage.placeholder}
                                   rows={2}
                                 />
@@ -1548,12 +1548,12 @@ export default function SiteEditorPage() {
                                   type="text"
                                   value={popupMessage}
                                   onChange={(e) => setPopupMessage(e.target.value)}
-                                  className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                                  className="w-full px-4 py-3 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
                                   placeholder={fields.popupMessage.placeholder}
                                 />
                               )}
                               {fields.popupMessage.description && (
-                                <p className="text-xs text-gray-500 mt-1">{fields.popupMessage.description}</p>
+                                <p className="text-xs text-gray-500 mt-1.5">{fields.popupMessage.description}</p>
                               )}
                             </div>
                           )}
@@ -1561,18 +1561,19 @@ export default function SiteEditorPage() {
                           {/* Popup Prize */}
                           {fields.popupPrize && (
                             <div>
-                              <label className="block text-xs font-medium text-gray-300 mb-1">
+                              <label className="block text-sm font-medium text-white mb-2 flex items-center gap-2">
+                                <span>💰</span>
                                 {fields.popupPrize.label}
                               </label>
                               <input
                                 type="text"
                                 value={popupPrize}
                                 onChange={(e) => setPopupPrize(e.target.value)}
-                                className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white font-bold focus:outline-none focus:border-blue-500"
+                                className="w-full px-4 py-3 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white font-bold focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
                                 placeholder={fields.popupPrize.placeholder}
                               />
                               {fields.popupPrize.description && (
-                                <p className="text-xs text-gray-500 mt-1">{fields.popupPrize.description}</p>
+                                <p className="text-xs text-gray-500 mt-1.5">{fields.popupPrize.description}</p>
                               )}
                             </div>
                           )}
