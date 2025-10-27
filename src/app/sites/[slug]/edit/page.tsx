@@ -364,16 +364,19 @@ export default function SiteEditorPage() {
         template_id: templateId  // Always save template_id
       }
       
-      // Try to add popup fields and game balance (they might not exist in DB yet)
-      // Optional fields (may not exist in all database schemas)
-      updateData.popup_title = popupTitle
-      updateData.popup_message = popupMessage
-      updateData.popup_prize = popupPrize
-      updateData.game_balance = gameBalance
-      
-      // Save wheel values for Fortune Wheel templates
-      if (wheelValues && wheelValues.trim() !== '') {
-        updateData.wheel_values = wheelValues
+      // Try to add optional fields that might not exist in all database schemas
+      try {
+        updateData.popup_title = popupTitle
+        updateData.popup_message = popupMessage
+        updateData.popup_prize = popupPrize
+        updateData.game_balance = gameBalance
+        
+        // Save wheel values for Fortune Wheel templates
+        if (wheelValues && wheelValues.trim() !== '') {
+          updateData.wheel_values = wheelValues
+        }
+      } catch (e) {
+        console.warn('Some optional fields not available in schema:', e)
       }
       
       const { error } = await supabase
@@ -382,8 +385,23 @@ export default function SiteEditorPage() {
         .eq('slug', slug)
 
       if (error) {
-        console.error('Save error:', error)
-        throw error
+        // If error is about missing column, try without optional fields
+        if (error.message?.includes('wheel_values') || error.message?.includes('schema cache')) {
+          console.warn('wheel_values column not in schema, saving without it')
+          const { wheel_values, popup_title, popup_message, popup_prize, game_balance, ...basicUpdate } = updateData
+          const { error: retryError } = await supabase
+            .from('sites')
+            .update(basicUpdate)
+            .eq('slug', slug)
+          
+          if (retryError) {
+            console.error('Retry save error:', retryError)
+            throw retryError
+          }
+        } else {
+          console.error('Save error:', error)
+          throw error
+        }
       }
 
       // Regenerate HTML with new values
