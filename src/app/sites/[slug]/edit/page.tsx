@@ -388,7 +388,19 @@ export default function SiteEditorPage() {
         // If error is about missing column, try without optional fields
         if (error.message?.includes('wheel_values') || error.message?.includes('schema cache')) {
           console.warn('wheel_values column not in schema, saving without it')
-          const { wheel_values, popup_title, popup_message, popup_prize, game_balance, ...basicUpdate } = updateData
+          // Remove only optional fields, keep critical fields like template_id
+          const basicUpdate = {
+            headline: updateData.headline,
+            subheadline: updateData.subheadline,
+            cta: updateData.cta,
+            cta_url: updateData.cta_url,
+            primary_color: updateData.primary_color,
+            secondary_color: updateData.secondary_color,
+            accent_color: updateData.accent_color,
+            logo_url: updateData.logo_url,
+            template_id: updateData.template_id  // CRITICAL: Always include template_id
+          }
+          
           const { error: retryError } = await supabase
             .from('sites')
             .update(basicUpdate)
