@@ -1803,7 +1803,7 @@ export default function SiteEditorPage() {
                   style={{ height: '90vh' }}
                 >
                   <iframe
-                    key={`live-${templateId}-${viewMode}`}
+                    key={`live-${templateId}-${viewMode}-${wheelValues}`}
                     src={getPreviewUrl()}
                     className="w-full h-full border-0"
                     title="Live Preview"
@@ -1837,7 +1837,7 @@ export default function SiteEditorPage() {
                       style={{ height: '82vh' }}
                     >
                       <iframe
-                        key={`template-${templateId}-${viewMode}`}
+                        key={`template-${templateId}-${viewMode}-${wheelValues}`}
                         src={getPreviewUrl()}
                         className="w-full h-full border-0"
                         title="Template Preview"
