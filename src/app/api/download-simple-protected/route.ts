@@ -46,6 +46,14 @@ export async function POST(request: NextRequest) {
       't17': 'templates/game',      // Fortune Wheel - Pirates
     }
 
+    // Map Fortune Wheel templates to their specific themes
+    const fortuneWheelThemes: Record<string, string> = {
+      't14': 'underwater',
+      't15': 'china',
+      't16': 'christmas',
+      't17': 'pirates',
+    }
+
     // If template uses iframe for games, include game files
     if (site.template_id in templateGameMap) {
       const fs = await import('fs/promises')
@@ -64,12 +72,37 @@ export async function POST(request: NextRequest) {
         if (folderExists) {
           console.log('[DOWNLOAD] Game folder found, reading files...')
           
+          // For Fortune Wheel templates, only include specific theme files
+          const isFortuneWheel = site.template_id in fortuneWheelThemes
+          const specificTheme = isFortuneWheel ? fortuneWheelThemes[site.template_id] : null
+          
           // Recursive function to read all files
           async function readDirRecursive(dir: string, baseDir: string = dir) {
             const entries = await fs.readdir(dir, { withFileTypes: true })
             
             for (const entry of entries) {
               const fullPath = path.join(dir, entry.name)
+              const relativePath = path.relative(baseDir, fullPath)
+              
+              // For Fortune Wheel, filter out unwanted theme folders
+              if (isFortuneWheel && specificTheme) {
+                const pathParts = relativePath.split(path.sep)
+                const firstPart = pathParts[0]
+                
+                // Skip if it's a theme folder but not the one we want
+                const allThemes = ['underwater', 'china', 'christmas', 'pirates', 'antique', 'candy', 'egypt', 'farm', 'forest', 'greek', 'indian', 'modern', 'neon', 'pink', 'viking']
+                if (allThemes.includes(firstPart) && firstPart !== specificTheme) {
+                  continue // Skip this entire theme folder
+                }
+                
+                // Skip unnecessary files
+                const skipFiles = ['CHANGELOG.md', 'DEPLOYMENT.md', 'PACKAGE_GUIDE.md', 'README.md', 'README_INTEGRATION.md', 
+                                   'config-tester.html', 'index.html', 'index_carousel.html', 'index_main.html', 
+                                   'index_preview.html', 'index_selector.html', 'netlify.toml']
+                if (skipFiles.includes(entry.name)) {
+                  continue
+                }
+              }
               
               if (entry.isDirectory()) {
                 // Recurse into subdirectory
@@ -83,7 +116,6 @@ export async function POST(request: NextRequest) {
                   const relativePath = path.relative(baseDir, fullPath)
                   
                   // Normalize path separators for ZIP (always use forward slash)
-                  // Also sanitize filename to avoid issues with special characters
                   const zipPath = `game/${relativePath}`
                     .replace(/\\/g, '/')  // Windows path separator
                     .replace(/[<>:"|?*]/g, '_')  // Invalid filename characters
@@ -106,10 +138,8 @@ export async function POST(request: NextRequest) {
             }
           }
           
-          // Start recursive read from game folder
           await readDirRecursive(gamePath)
-          
-          console.log(`[DOWNLOAD] Successfully included game files from ${gameFolder}`)
+          console.log('[DOWNLOAD] Game files added to ZIP')
         } else {
           console.warn('[DOWNLOAD] Game folder not found:', gamePath)
         }
