@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
       actualTemplateId = dbTemplateId as TemplateId
     }
     
-    const rendererMap: Record<TemplateId, typeof renderT7> = {
+    const rendererMap: Record<TemplateId, (brand: BrandConfig) => { html: string; css?: string }> = {
       t6: renderT6,
       t7: renderT7,
       t9: renderT9,
