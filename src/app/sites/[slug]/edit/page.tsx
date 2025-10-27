@@ -1382,6 +1382,47 @@ export default function SiteEditorPage() {
                       </div>
                     )}
 
+                    {/* CTA URL */}
+                    {fields.ctaUrl && (
+                      <div>
+                        <label className="block text-xs font-medium text-gray-300 mb-2">
+                          {fields.ctaUrl.label}
+                          {fields.ctaUrl.required && <span className="text-red-400 ml-1">*</span>}
+                        </label>
+                        <input
+                          type="url"
+                          value={ctaUrl}
+                          onChange={(e) => setCtaUrl(e.target.value)}
+                          className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                          placeholder={fields.ctaUrl.placeholder}
+                          required={fields.ctaUrl.required}
+                        />
+                        {fields.ctaUrl.description && (
+                          <p className="text-xs text-gray-500 mt-1">{fields.ctaUrl.description}</p>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Wheel Values */}
+                    {fields.wheelValues && (
+                      <div>
+                        <label className="block text-xs font-medium text-gray-300 mb-2">
+                          {fields.wheelValues.label}
+                          {fields.wheelValues.required && <span className="text-red-400 ml-1">*</span>}
+                        </label>
+                        <textarea
+                          value={wheelValues}
+                          onChange={(e) => setWheelValues(e.target.value)}
+                          rows={2}
+                          className="w-full px-3 py-2 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500 font-mono"
+                          placeholder={fields.wheelValues.placeholder}
+                        />
+                        {fields.wheelValues.description && (
+                          <p className="text-xs text-gray-500 mt-1">{fields.wheelValues.description}</p>
+                        )}
+                      </div>
+                    )}
+
                     {/* Game Balance */}
                     {fields.gameBalance && (
                       <div>

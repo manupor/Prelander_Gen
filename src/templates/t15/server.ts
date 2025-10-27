@@ -7,6 +7,7 @@ export function renderTemplate(config: BrandConfig): { html: string; css?: strin
   const popupTitle = (config as any).popupTitle || 'WINNER!'
   const popupMessage = (config as any).popupMessage || 'Congratulations! You won'
   const popupPrize = (config as any).popupPrize || '$800'
+  const wheelValues = (config as any).wheelValues || '$100, $200, $500, $1000, $2000, $5000, $800, $1500'
 
   const html = `
 <!DOCTYPE html>
@@ -90,7 +91,7 @@ export function renderTemplate(config: BrandConfig): { html: string; css?: strin
   <!-- Game iframe -->
   <iframe 
     id="gameFrame"
-    src="/templates/game/game.html?theme=china&url=${encodeURIComponent(ctaUrl || '#')}&popupTitle=${encodeURIComponent(popupTitle)}&popupMessage=${encodeURIComponent(popupMessage)}&popupPrize=${encodeURIComponent(popupPrize)}"
+    src="/templates/game/game.html?theme=china&url=${encodeURIComponent(ctaUrl || '#')}&popupTitle=${encodeURIComponent(popupTitle)}&popupMessage=${encodeURIComponent(popupMessage)}&popupPrize=${encodeURIComponent(popupPrize)}&wheelValues=${encodeURIComponent(wheelValues)}"
     allowfullscreen
   ></iframe>
 
