@@ -195,7 +195,7 @@ export async function PUT(
       try {
         const rendered = renderer(brand)
         html = rendered.html
-        css = rendered.css
+        css = rendered.css || ''
       } catch (e) {
         console.error(`Template render (PUT) failed for template ${actualTemplateId}:`, e)
         console.error('Brand config that caused error:', JSON.stringify(brand, null, 2))
@@ -205,7 +205,7 @@ export async function PUT(
           console.log(`Attempting fallback with renderT6 for template ${actualTemplateId}`)
           const fallback = renderT7(brand)
           html = fallback.html
-          css = fallback.css
+          css = fallback.css || ''
         } catch (fallbackError) {
           console.error('Even fallback failed:', fallbackError)
           // Last resort: generic HTML
