@@ -370,10 +370,11 @@ export default function SiteEditorPage() {
       updateData.popup_prize = popupPrize
       updateData.game_balance = gameBalance
       
-      // Only add wheel_values if it's not empty (column may not exist yet)
-      if (wheelValues && wheelValues.trim() !== '') {
-        updateData.wheel_values = wheelValues
-      }
+      // TEMPORARILY DISABLED: wheel_values causes schema cache issues in Supabase
+      // Will re-enable after cache refresh
+      // if (wheelValues && wheelValues.trim() !== '') {
+      //   updateData.wheel_values = wheelValues
+      // }
       
       const { error } = await supabase
         .from('sites')
