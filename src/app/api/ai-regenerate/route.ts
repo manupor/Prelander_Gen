@@ -154,7 +154,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Update the site with new HTML/CSS
-    const { error: updateError } = await supabase
+    const { data: updatedSite, error: updateError } = await supabase
       .from('sites')
       .update({
         generated_html: html,
