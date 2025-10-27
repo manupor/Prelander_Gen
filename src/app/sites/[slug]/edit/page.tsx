@@ -1428,6 +1428,33 @@ export default function SiteEditorPage() {
                       )}
                     </div>
 
+                    {/* Custom Logo for Fortune Wheel */}
+                    {fields.logoUrl && (
+                      <div className="border-t border-gray-700 pt-6">
+                        <div className="flex items-center gap-2 mb-4">
+                          <span className="text-2xl">🎨</span>
+                          <h4 className="text-sm font-bold text-white">Custom Branding</h4>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-white mb-2 flex items-center gap-2">
+                            <ImageIcon size={14} className="text-cyan-400" />
+                            {fields.logoUrl.label}
+                            {fields.logoUrl.required && <span className="text-red-400 ml-1">*</span>}
+                          </label>
+                          <input
+                            type="url"
+                            value={logoUrl}
+                            onChange={(e) => setLogoUrl(e.target.value)}
+                            className="w-full px-4 py-3 text-sm bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500"
+                            placeholder={fields.logoUrl.placeholder}
+                          />
+                          {fields.logoUrl.description && (
+                            <p className="text-xs text-gray-500 mt-1.5">{fields.logoUrl.description}</p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
                     {/* Fortune Wheel Specific Section */}
                     {fields.wheelValues && (
                       <div className="border-t border-gray-700 pt-6">
