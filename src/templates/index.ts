@@ -2,9 +2,17 @@ import { Template6, renderTemplate as renderT6 } from './t6'
 import { Template7, renderTemplate as renderT7 } from './t7'
 import { Template9, renderTemplate as renderT9 } from './t9'
 import { Template10, renderTemplate as renderT10 } from './t10'
+import { Template14 } from './t14'
+import { Template15 } from './t15'
+import { Template16 } from './t16'
+import { Template17 } from './t17'
+import { renderTemplate as renderT14 } from './t14/server'
+import { renderTemplate as renderT15 } from './t15/server'
+import { renderTemplate as renderT16 } from './t16/server'
+import { renderTemplate as renderT17 } from './t17/server'
 import { TemplateDefinition } from '@/lib/types'
 
-export const templates: Record<'t6' | 't7' | 't9' | 't10', TemplateDefinition> = {
+export const templates: Record<'t6' | 't7' | 't9' | 't10' | 't14' | 't15' | 't16' | 't17', TemplateDefinition> = {
   t6: {
     id: 't6',
     name: 'Cyber Casino',
@@ -37,6 +45,38 @@ export const templates: Record<'t6' | 't7' | 't9' | 't10', TemplateDefinition> =
     component: Template10,
     renderTemplate: renderT10,
   },
+  t14: {
+    id: 't14',
+    name: 'Fortune Wheel - Underwater',
+    description: 'Interactive spinning wheel game with underwater ocean theme and prize rewards',
+    preview: '/templates/t14-preview.png',
+    component: Template14,
+    renderTemplate: renderT14,
+  },
+  t15: {
+    id: 't15',
+    name: 'Fortune Wheel - China',
+    description: 'Traditional Chinese themed fortune wheel with lucky prizes and festive design',
+    preview: '/templates/t15-preview.png',
+    component: Template15,
+    renderTemplate: renderT15,
+  },
+  t16: {
+    id: 't16',
+    name: 'Fortune Wheel - Christmas',
+    description: 'Holiday themed spinning wheel with Christmas decorations and festive prizes',
+    preview: '/templates/t16-preview.png',
+    component: Template16,
+    renderTemplate: renderT16,
+  },
+  t17: {
+    id: 't17',
+    name: 'Fortune Wheel - Pirates',
+    description: 'Pirate treasure themed fortune wheel with golden prizes and adventure spirit',
+    preview: '/templates/t17-preview.png',
+    component: Template17,
+    renderTemplate: renderT17,
+  },
 }
 
 export { 
@@ -44,8 +84,16 @@ export {
   Template7, 
   Template9,
   Template10,
+  Template14,
+  Template15,
+  Template16,
+  Template17,
   renderT6,
   renderT7,
   renderT9,
-  renderT10
+  renderT10,
+  renderT14,
+  renderT15,
+  renderT16,
+  renderT17
 }
