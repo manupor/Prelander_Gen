@@ -168,32 +168,27 @@
         .nanokit-logo {
             position: fixed;
             bottom: 20px;
-            right: 20px;
+            left: 20px;
             z-index: 1000;
-            opacity: 0.9;
+            opacity: 0.8;
             transition: all 0.3s ease;
             pointer-events: none;
         }
 
         .nanokit-logo img {
-            width: 120px;
+            width: 100px;
             height: auto;
-            filter: drop-shadow(0 0 15px rgba(255, 0, 255, 0.6));
-        }
-
-        .nanokit-logo:hover {
-            opacity: 1;
-            transform: scale(1.05);
+            filter: drop-shadow(0 0 10px rgba(255, 0, 255, 0.4));
         }
 
         @media (max-width: 600px) {
             .nanokit-logo {
                 bottom: 10px;
-                right: 10px;
+                left: 10px;
             }
             
             .nanokit-logo img {
-                width: 80px;
+                width: 70px;
             }
         }
 

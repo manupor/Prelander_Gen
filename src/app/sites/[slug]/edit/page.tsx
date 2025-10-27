@@ -974,29 +974,46 @@ export default function SiteEditorPage() {
                 </span>
               </div>
               <div className="flex gap-2">
-                <button
+                <button 
                   onClick={expandAll}
                   disabled={areAllExpanded}
-                  className="flex-1 px-3 py-2 bg-gray-900 hover:bg-gray-700 text-gray-300 hover:text-white text-xs rounded transition-colors flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className={`flex-1 px-3 py-1.5 text-xs rounded transition-all ${
+                    areAllExpanded 
+                      ? 'bg-gray-800 text-gray-500 cursor-not-allowed' 
+                      : 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:from-cyan-500 hover:to-blue-500'
+                  }`}
                 >
-                  <ChevronDown size={14} />
-                  Expand All
+                  ▼ Expand All
                 </button>
-                <button
+                <button 
                   onClick={collapseAll}
                   disabled={areAllCollapsed}
-                  className="flex-1 px-3 py-2 bg-gray-900 hover:bg-gray-700 text-gray-300 hover:text-white text-xs rounded transition-colors flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className={`flex-1 px-3 py-1.5 text-xs rounded transition-all ${
+                    areAllCollapsed 
+                      ? 'bg-gray-800 text-gray-500 cursor-not-allowed' 
+                      : 'bg-gray-700 text-white hover:bg-gray-600'
+                  }`}
                 >
-                  <ChevronUp size={14} />
-                  Collapse All
+                  ▲ Collapse All
                 </button>
               </div>
+              
+              {/* Win Popup Editor for Fortune Wheel templates */}
+              {(templateId === 't14' || templateId === 't15' || templateId === 't16' || templateId === 't17') && (
+                <button
+                  onClick={() => setShowWinPopupEditor(!showWinPopupEditor)}
+                  className="w-full mt-2 px-3 py-1.5 text-xs bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded hover:from-purple-500 hover:to-pink-500 transition-all flex items-center justify-center gap-2"
+                >
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                  {showWinPopupEditor ? 'Hide' : 'Edit'} Win Popup
+                </button>
+              )}
+              
               <button
-                onClick={() => {
-                  localStorage.removeItem('hasSeenEditorTour')
-                  setShowTour(true)
-                }}
-                className="w-full mt-2 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded transition-colors flex items-center justify-center gap-1"
+                onClick={() => setShowTour(true)}
+                className="w-full mt-2 px-3 py-1.5 text-xs bg-gradient-to-r from-orange-600 to-red-600 text-white rounded hover:from-orange-500 hover:to-red-500 transition-all"
               >
                 🎯 Show Tour
               </button>
@@ -1744,44 +1761,6 @@ export default function SiteEditorPage() {
         {/* Right Panel - Preview */}
         <div data-tour="preview" className="flex-1 bg-gray-950 p-3 overflow-auto">
           <div className="max-w-full mx-auto">
-            {/* Quick Actions */}
-            <div className="fixed top-20 left-4 z-50 flex gap-2">
-              <button
-                onClick={expandAll}
-                disabled={areAllExpanded}
-                className={`px-3 py-2 rounded-lg font-medium text-sm transition-all ${
-                  areAllExpanded 
-                    ? 'bg-gray-800 text-gray-500 cursor-not-allowed' 
-                    : 'bg-blue-600 text-white hover:bg-blue-700'
-                }`}
-              >
-                Expand All
-              </button>
-              <button
-                onClick={collapseAll}
-                disabled={areAllCollapsed}
-                className={`px-3 py-2 rounded-lg font-medium text-sm transition-all ${
-                  areAllCollapsed 
-                    ? 'bg-gray-800 text-gray-500 cursor-not-allowed' 
-                    : 'bg-gray-700 text-white hover:bg-gray-600'
-                }`}
-              >
-                Collapse All
-              </button>
-              
-              {/* Win Popup Editor for Fortune Wheel templates */}
-              {(templateId === 't14' || templateId === 't15' || templateId === 't16' || templateId === 't17') && (
-                <button
-                  onClick={() => setShowWinPopupEditor(!showWinPopupEditor)}
-                  className="px-3 py-2 rounded-lg font-medium text-sm bg-purple-600 text-white hover:bg-purple-700 transition-all flex items-center gap-2"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                  </svg>
-                  {showWinPopupEditor ? 'Hide' : 'Edit'} Win Popup
-                </button>
-              )}
-            </div>
 
             {/* View Mode Toggle */}
             <div className="flex items-center justify-center gap-2 mb-4">
