@@ -179,14 +179,18 @@ export async function PUT(
       
       console.log(`Database template_id: ${dbTemplateId}, Actual template: ${actualTemplateId}`)
       
-      const rendererMap: Record<TemplateId, typeof renderT7> = {
+      const renderers: Record<TemplateId, (brand: BrandConfig) => { html: string; css?: string }> = {
         t6: renderT6,
         t7: renderT7,
         t9: renderT9,
         t10: renderT10,
+        t14: renderT14,
+        t15: renderT15,
+        t16: renderT16,
+        t17: renderT17,
       }
 
-      const renderer = rendererMap[actualTemplateId] ?? renderT7
+      const renderer = renderers[actualTemplateId] ?? renderT7
       
       try {
         const rendered = renderer(brand)
