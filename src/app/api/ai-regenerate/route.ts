@@ -138,7 +138,7 @@ export async function POST(request: NextRequest) {
     try {
       const rendered = renderer(variantBrand)
       html = rendered.html
-      css = rendered.css
+      css = rendered.css || ''
     } catch (e) {
       console.error(`Template render failed for template ${actualTemplateId}:`, e)
       
@@ -146,7 +146,7 @@ export async function POST(request: NextRequest) {
       try {
         const fallback = renderT7(variantBrand)
         html = fallback.html
-        css = fallback.css
+        css = fallback.css || ''
       } catch (fallbackError) {
         console.error('Even fallback failed:', fallbackError)
         return NextResponse.json({ error: 'Template rendering failed' }, { status: 500 })
@@ -157,8 +157,8 @@ export async function POST(request: NextRequest) {
     const { error: updateError } = await supabase
       .from('sites')
       .update({
-        generated_html: rendered.html,
-        generated_css: rendered.css || '',
+        generated_html: html,
+        generated_css: css,
         updated_at: new Date().toISOString(),
       })
       .eq('id', siteId)
