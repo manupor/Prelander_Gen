@@ -59,9 +59,10 @@ export default function SiteEditorPage() {
   const [secondaryColor, setSecondaryColor] = useState('#7b68ee')
   const [accentColor, setAccentColor] = useState('#ffd700')
   const [logoUrl, setLogoUrl] = useState('')
-  const [popupTitle, setPopupTitle] = useState('WINNER!')
-  const [popupMessage, setPopupMessage] = useState('Congratulations! You\'ve won!')
-  const [popupPrize, setPopupPrize] = useState('$1,000 + 50 FREE SPINS')
+  const [popupTitle, setPopupTitle] = useState('')
+  const [popupMessage, setPopupMessage] = useState('')
+  const [popupPrize, setPopupPrize] = useState('')
+  const [wheelValues, setWheelValues] = useState('')
   const [gameBalance, setGameBalance] = useState(1000)
   const [gameLogo, setGameLogo] = useState('')
   const [isPopupOpen, setIsPopupOpen] = useState(false)
@@ -242,9 +243,10 @@ export default function SiteEditorPage() {
       setSecondaryColor(data.secondary_color || '#7b68ee')
       setAccentColor(data.accent_color || '#ffd700')
       setLogoUrl(data.logo_url || '')
-      setPopupTitle(data.popup_title || 'WINNER!')
-      setPopupMessage(data.popup_message || 'Congratulations! You\'ve won!')
-      setPopupPrize(data.popup_prize || '$1,000 + 50 FREE SPINS')
+      setPopupTitle(data.popup_title || '')
+      setPopupMessage(data.popup_message || '')
+      setPopupPrize(data.popup_prize || '')
+      setWheelValues(data.wheel_values || '')
       setGameBalance(data.game_balance || 1000)
       setVertical(data.vertical || 'casino')
       setTemplateId(data.template_id || 't6')
@@ -365,9 +367,10 @@ export default function SiteEditorPage() {
         updateData.popup_title = popupTitle
         updateData.popup_message = popupMessage
         updateData.popup_prize = popupPrize
+        updateData.wheel_values = wheelValues
         updateData.game_balance = gameBalance
       } catch (e) {
-        console.warn('Popup fields, game_balance, or custom_logo not available in database yet')
+        console.warn('Popup fields, game_balance, or wheel_values not available in database yet')
       }
       
       const { error } = await supabase

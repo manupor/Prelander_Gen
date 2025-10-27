@@ -30,6 +30,7 @@ export interface TemplateConfig {
     gameCredit?: TemplateField
     gameTotalBet?: TemplateField
     totalWin?: TemplateField
+    wheelValues?: TemplateField
     
     // Customization fields
     customLogo?: TemplateField
@@ -249,9 +250,17 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
         description: 'Where users go after winning',
         required: true
       },
+      wheelValues: {
+        id: 'wheelValues',
+        label: '🎰 Wheel Prize Values',
+        type: 'textarea',
+        placeholder: '$100, $200, $500, $1000, $2000, $5000, $800, $1500',
+        description: 'Comma-separated prize values (8 values for the wheel)',
+        required: false
+      },
       popupTitle: {
         id: 'popupTitle',
-        label: 'Win Modal Title',
+        label: '🏆 Win Modal Title',
         type: 'text',
         placeholder: 'WINNER!',
         description: 'Title in the win popup',
@@ -259,7 +268,7 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
       },
       popupMessage: {
         id: 'popupMessage',
-        label: 'Win Message',
+        label: '💬 Win Message',
         type: 'text',
         placeholder: 'Congratulations! You won',
         description: 'Message in the win popup',
@@ -267,10 +276,10 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
       },
       popupPrize: {
         id: 'popupPrize',
-        label: 'Prize Amount',
+        label: '💰 Prize Display',
         type: 'text',
         placeholder: '$800',
-        description: 'Prize shown in popup (auto from wheel)',
+        description: 'Prize shown in popup (overrides wheel value)',
         required: false
       }
     }
@@ -296,9 +305,17 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
         description: 'Where users go after winning',
         required: true
       },
+      wheelValues: {
+        id: 'wheelValues',
+        label: '🎰 Wheel Prize Values',
+        type: 'textarea',
+        placeholder: '$100, $200, $500, $1000, $2000, $5000, $800, $1500',
+        description: 'Comma-separated prize values (8 values for the wheel)',
+        required: false
+      },
       popupTitle: {
         id: 'popupTitle',
-        label: 'Win Modal Title',
+        label: '🏆 Win Modal Title',
         type: 'text',
         placeholder: 'WINNER!',
         description: 'Title in the win popup',
@@ -306,7 +323,7 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
       },
       popupMessage: {
         id: 'popupMessage',
-        label: 'Win Message',
+        label: '💬 Win Message',
         type: 'text',
         placeholder: 'Congratulations! You won',
         description: 'Message in the win popup',
@@ -314,10 +331,10 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
       },
       popupPrize: {
         id: 'popupPrize',
-        label: 'Prize Amount',
+        label: '💰 Prize Display',
         type: 'text',
         placeholder: '$800',
-        description: 'Prize shown in popup (auto from wheel)',
+        description: 'Prize shown in popup (overrides wheel value)',
         required: false
       }
     }
@@ -343,9 +360,17 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
         description: 'Where users go after winning',
         required: true
       },
+      wheelValues: {
+        id: 'wheelValues',
+        label: '🎰 Wheel Prize Values',
+        type: 'textarea',
+        placeholder: '$100, $200, $500, $1000, $2000, $5000, $800, $1500',
+        description: 'Comma-separated prize values (8 values for the wheel)',
+        required: false
+      },
       popupTitle: {
         id: 'popupTitle',
-        label: 'Win Modal Title',
+        label: '🏆 Win Modal Title',
         type: 'text',
         placeholder: 'WINNER!',
         description: 'Title in the win popup',
@@ -353,7 +378,7 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
       },
       popupMessage: {
         id: 'popupMessage',
-        label: 'Win Message',
+        label: '💬 Win Message',
         type: 'text',
         placeholder: 'Congratulations! You won',
         description: 'Message in the win popup',
@@ -361,10 +386,10 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
       },
       popupPrize: {
         id: 'popupPrize',
-        label: 'Prize Amount',
+        label: '💰 Prize Display',
         type: 'text',
         placeholder: '$800',
-        description: 'Prize shown in popup (auto from wheel)',
+        description: 'Prize shown in popup (overrides wheel value)',
         required: false
       }
     }
@@ -390,9 +415,17 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
         description: 'Where users go after winning',
         required: true
       },
+      wheelValues: {
+        id: 'wheelValues',
+        label: '🎰 Wheel Prize Values',
+        type: 'textarea',
+        placeholder: '$100, $200, $500, $1000, $2000, $5000, $800, $1500',
+        description: 'Comma-separated prize values (8 values for the wheel)',
+        required: false
+      },
       popupTitle: {
         id: 'popupTitle',
-        label: 'Win Modal Title',
+        label: '🏆 Win Modal Title',
         type: 'text',
         placeholder: 'WINNER!',
         description: 'Title in the win popup',
@@ -400,7 +433,7 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
       },
       popupMessage: {
         id: 'popupMessage',
-        label: 'Win Message',
+        label: '💬 Win Message',
         type: 'text',
         placeholder: 'Congratulations! You won',
         description: 'Message in the win popup',
@@ -408,10 +441,10 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
       },
       popupPrize: {
         id: 'popupPrize',
-        label: 'Prize Amount',
+        label: '💰 Prize Display',
         type: 'text',
         placeholder: '$800',
-        description: 'Prize shown in popup (auto from wheel)',
+        description: 'Prize shown in popup (overrides wheel value)',
         required: false
       }
     }
