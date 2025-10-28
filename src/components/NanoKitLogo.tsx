@@ -13,13 +13,13 @@ interface NanoKitLogoProps {
 export function NanoKitLogo({ size = 'md', href, className = '' }: NanoKitLogoProps) {
   const [imageError, setImageError] = useState(false)
   
-  // Logo real es 572x160 (ratio ~3.6:1)
+  // Logo real es 4000x3000 (ratio 4:3)
   // Tamaños optimizados para visibilidad consistente
   const dimensions = {
-    sm: { width: 143, height: 40 },      // Small - Footer/Secondary
-    md: { width: 172, height: 48 },      // Medium - General use
-    lg: { width: 215, height: 60 },      // Large - Hero/Emphasis
-    header: { width: 143, height: 40 }   // Header - Navbar (same as sm for consistency)
+    sm: { width: 160, height: 120 },      // Small - Footer/Secondary
+    md: { width: 200, height: 150 },      // Medium - General use
+    lg: { width: 280, height: 210 },      // Large - Hero/Emphasis
+    header: { width: 160, height: 120 }   // Header - Navbar (same as sm for consistency)
   }
   
   const textSizes = {
@@ -38,7 +38,7 @@ export function NanoKitLogo({ size = 'md', href, className = '' }: NanoKitLogoPr
         </span>
       ) : (
         <Image
-          src="/images/logo.png"
+          src="/images/nano-kit-logo.png"
           alt="Nano Kit"
           width={dimensions[size].width}
           height={dimensions[size].height}
