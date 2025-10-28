@@ -8,7 +8,7 @@ export interface Organization {
   created_at: string
 }
 
-export type TemplateId = 't6' | 't7' | 't9' | 't10' | 't14' | 't15' | 't16' | 't17'
+export type TemplateId = 't6' | 't7' | 't9' | 't14' | 't15' | 't16' | 't17'
 
 export interface Site {
   id: string
@@ -111,7 +111,7 @@ export interface TemplateRenderResult {
 
 // Zod schemas for validation
 export const CreateSiteSchema = z.object({
-  templateId: z.enum(['t6', 't7', 't9', 't10', 't14', 't15', 't16', 't17']),
+  templateId: z.enum(['t6', 't7', 't9', 't14', 't15', 't16', 't17']),
   brandName: z.string().min(1, 'Brand name is required'),
   industry: z.string().min(1, 'Industry is required'),
   logoUrl: z.string().nullable().optional(),

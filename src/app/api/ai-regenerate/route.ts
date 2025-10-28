@@ -4,7 +4,6 @@ import { BrandConfig, TemplateId } from '@/lib/types'
 import { renderTemplate as renderT6 } from '@/templates/t6/server'
 import { renderTemplate as renderT7 } from '@/templates/t7/server'
 import { renderTemplate as renderT9 } from '@/templates/t9/server'
-import { renderTemplate as renderT10 } from '@/templates/t10/server'
 import { renderTemplate as renderT14 } from '@/templates/t14/server'
 import { renderTemplate as renderT15 } from '@/templates/t15/server'
 import { renderTemplate as renderT16 } from '@/templates/t16/server'
@@ -13,7 +12,10 @@ const templateRenderers = {
   t6: renderT6,
   t7: renderT7,
   t9: renderT9,
-  t10: renderT10,
+  t14: renderT14,
+  t15: renderT15,
+  t16: renderT16,
+  t17: renderT17,
 }
 
 export async function POST(request: NextRequest) {
@@ -87,7 +89,6 @@ export async function POST(request: NextRequest) {
       t6: renderT6,
       t7: renderT7,
       t9: renderT9,
-      t10: renderT10,
       t14: renderT14,
       t15: renderT15,
       t16: renderT16,
