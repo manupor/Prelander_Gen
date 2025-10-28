@@ -1,8 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
-import { useState } from 'react'
 
 interface NanoKitLogoProps {
   size?: 'sm' | 'md' | 'lg' | 'header'
@@ -11,19 +9,8 @@ interface NanoKitLogoProps {
 }
 
 export function NanoKitLogo({ size = 'md', href, className = '' }: NanoKitLogoProps) {
-  const [imageError, setImageError] = useState(false)
-  
-  // Logo real es 4000x3000 (ratio 4:3)
-  // Tamaños optimizados para visibilidad consistente
-  const dimensions = {
-    sm: { width: 160, height: 120 },      // Small - Footer/Secondary
-    md: { width: 200, height: 150 },      // Medium - General use
-    lg: { width: 280, height: 210 },      // Large - Hero/Emphasis
-    header: { width: 160, height: 120 }   // Header - Navbar (same as sm for consistency)
-  }
-  
   const textSizes = {
-    sm: 'text-lg',
+    sm: 'text-xl',
     md: 'text-2xl',
     lg: 'text-4xl',
     header: 'text-2xl'
@@ -31,31 +18,14 @@ export function NanoKitLogo({ size = 'md', href, className = '' }: NanoKitLogoPr
 
   const logoElement = (
     <div className={`flex items-center ${className} hover:scale-105 transition-transform duration-300`}>
-      {imageError ? (
-        <span className={`${textSizes[size]} font-black bg-gradient-to-r from-[#4FC3FF] via-[#B94AFF] to-[#FF76FF] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(79,195,255,0.8)]`}
-          style={{ fontFamily: 'Space Grotesk, system-ui, sans-serif' }}>
-          ✨ NANO KIT
-        </span>
-      ) : (
-        <Image
-          src="/images/nano-kit-logo.png"
-          alt="Nano Kit"
-          width={dimensions[size].width}
-          height={dimensions[size].height}
-          className="object-contain"
-          style={{
-            filter: 'drop-shadow(0 0 20px rgba(79, 195, 255, 0.6)) brightness(1.2)',
-            maxWidth: '100%',
-            height: 'auto'
-          }}
-          priority
-          unoptimized
-          onError={(e) => {
-            console.error('Logo failed to load:', e);
-            setImageError(true);
-          }}
-        />
-      )}
+      <span 
+        className={`${textSizes[size]} font-black bg-gradient-to-r from-[#4FC3FF] via-[#B94AFF] to-[#FF76FF] bg-clip-text text-transparent`}
+        style={{ 
+          fontFamily: 'Space Grotesk, system-ui, sans-serif',
+          filter: 'drop-shadow(0 0 20px rgba(79, 195, 255, 0.8))'
+        }}>
+        ✨ NANO KIT
+      </span>
     </div>
   )
 
