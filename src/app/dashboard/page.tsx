@@ -584,7 +584,7 @@ export default function DashboardPage() {
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div className="flex items-center justify-end space-x-3">
                               <Link
-                                href={`/sites/${site.slug}`}
+                                href={`/sites/${site.slug}?preview=1`}
                                 className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors duration-200"
                                 target="_blank"
                               >
