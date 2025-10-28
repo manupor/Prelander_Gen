@@ -79,10 +79,8 @@ export function Template8({ brand }: Template8Props) {
       <div className="container">
         {/* Logo */}
         <a href="#" className="logo" id="logo" onClick={handleClaimBonus}>
-          {brand.logoUrl ? (
+          {brand.logoUrl && (
             <img src={brand.logoUrl} alt={brand.brandName} />
-          ) : (
-            <img src="/images/logo.png" alt="Gates of Olympus" />
           )}
         </a>
 

@@ -2,7 +2,7 @@ import { BrandConfig } from '../../lib/types'
 
 export function renderTemplate(brand: BrandConfig): { html: string; css: string } {
   // Safely extract brand data with fallbacks
-  const brandName = brand.brandName || 'Gates of Olympus'
+  const brandName = brand.brandName || 'Your Brand'
   const logoUrl = brand.logoUrl || ''
   const colors = {
     primary: brand.colors?.primary || '#FFD700',
@@ -385,7 +385,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${brandName} - Gates of Olympus</title>
+    <title>${brandName}</title>
     <link rel="stylesheet" href="/css/gates-olympus-original.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>${css}</style>
