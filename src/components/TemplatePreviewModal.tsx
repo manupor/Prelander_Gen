@@ -39,8 +39,8 @@ const getSampleBrandConfig = (templateId: TemplateId) => {
     }
   }
   
-  // Fisherman Slot specific config (t9 and t10)
-  if (templateId === 't9' || templateId === 't10') {
+  // Fisherman Slot specific config (t9)
+  if (templateId === 't9') {
     return {
       brandName: 'Ocean Casino',
       logoUrl: 'https://via.placeholder.com/150x60/4F46E5/FFFFFF?text=CASINO',
