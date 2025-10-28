@@ -194,14 +194,17 @@ export function generateEncryptedHTML(
         }
       }
       
-      // Anti-tampering check
+      // Anti-tampering check - Detecta modificaciones no autorizadas
+      // Aumentado límite de scripts a 10 para evitar falsos positivos
+      const initialScriptCount = document.getElementsByTagName('script').length;
       let tamperCheck = setInterval(function() {
         const scripts = document.getElementsByTagName('script');
-        if (scripts.length > 2) {
+        // Solo detecta si se agregan muchos scripts nuevos (inyección masiva)
+        if (scripts.length > initialScriptCount + 10) {
           document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#000;color:#fff;font-family:sans-serif;text-align:center;"><div><h1>⚠️ Tampering Detected</h1><p>Unauthorized modification detected.</p></div></div>';
           clearInterval(tamperCheck);
         }
-      }, 1000);
+      }, 5000);
       
       // Decrypt and render
       setTimeout(function() {

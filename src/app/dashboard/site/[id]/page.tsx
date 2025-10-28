@@ -338,7 +338,7 @@ export default function SiteDetailPage() {
                 ← Dashboard
               </Button>
               {site.status === 'published' && (
-                <Button variant="outline" onClick={() => window.open(`/sites/${site.slug}?preview=1`, '_blank')} className="border-cyan-400/40 bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 hover:border-cyan-400 backdrop-blur-sm font-semibold shadow-lg">
+                <Button variant="outline" onClick={() => window.open(`/sites/${site.slug}`, '_blank')} className="border-cyan-400/40 bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 hover:border-cyan-400 backdrop-blur-sm font-semibold shadow-lg">
                   🌐 View Live
                 </Button>
               )}

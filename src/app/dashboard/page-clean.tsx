@@ -172,7 +172,7 @@ export default async function DashboardPage() {
                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                               <div className="flex items-center space-x-2">
                                 <Link
-                                  href={`/sites/${site.slug}?preview=1`}
+                                  href={`/sites/${site.slug}`}
                                   className="text-blue-600 hover:text-blue-900"
                                   target="_blank"
                                 >
