@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { NanoKitLogo } from '@/components/NanoKitLogo'
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0)
@@ -61,6 +62,22 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative z-10 pt-32 pb-40 px-6">
         <div className="max-w-6xl mx-auto text-center">
+          {/* Logo Principal */}
+          <div className="mb-10 animate-fadeIn flex justify-center">
+            <Image
+              src="/images/nano-kit-logo.png"
+              alt="Nano Kit Logo"
+              width={300}
+              height={225}
+              className="object-contain"
+              style={{
+                filter: 'drop-shadow(0 0 40px rgba(79, 195, 255, 0.6)) brightness(1.2)',
+              }}
+              priority
+              unoptimized
+            />
+          </div>
+          
           <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-[#B94AFF]/10 to-[#4FC3FF]/10 border border-[#4FC3FF]/30 mb-10 backdrop-blur-sm animate-fadeIn shadow-[0_0_20px_rgba(79,195,255,0.2)]">
             <div className="w-2 h-2 rounded-full bg-[#4FC3FF] animate-pulse" />
             <span className="text-sm font-bold tracking-wider text-[#EAF1FF]">AI-POWERED LANDING PAGE BUILDER</span>
