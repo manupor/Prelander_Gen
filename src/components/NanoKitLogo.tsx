@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 
 interface NanoKitLogoProps {
   size?: 'sm' | 'md' | 'lg' | 'header'
@@ -10,7 +9,6 @@ interface NanoKitLogoProps {
 }
 
 export function NanoKitLogo({ size = 'md', href, className = '' }: NanoKitLogoProps) {
-  // Dimensiones del logo nano-kit-logo.png (4:3 ratio)
   const dimensions = {
     sm: { width: 120, height: 90 },
     md: { width: 150, height: 113 },
@@ -20,15 +18,46 @@ export function NanoKitLogo({ size = 'md', href, className = '' }: NanoKitLogoPr
 
   const logoElement = (
     <div className={`flex items-center ${className}`}>
-      <Image
-        src="/images/nano-kit-logo.png"
-        alt="Nano Kit"
-        width={dimensions[size].width}
-        height={dimensions[size].height}
+      <svg 
+        width={dimensions[size].width} 
+        height={dimensions[size].height} 
+        viewBox="0 0 200 150" 
         className="object-contain"
-        priority
-        unoptimized
-      />
+      >
+        {/* Background Circle */}
+        <circle cx="100" cy="75" r="60" fill="url(#gradient1)" />
+        
+        {/* NANO Text */}
+        <text 
+          x="100" 
+          y="65" 
+          textAnchor="middle" 
+          className="fill-white font-black text-2xl" 
+          style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+        >
+          NANO
+        </text>
+        
+        {/* KIT Text */}
+        <text 
+          x="100" 
+          y="90" 
+          textAnchor="middle" 
+          className="fill-white font-black text-lg" 
+          style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+        >
+          KIT
+        </text>
+        
+        {/* Gradient Definition */}
+        <defs>
+          <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#B94AFF" />
+            <stop offset="50%" stopColor="#4FC3FF" />
+            <stop offset="100%" stopColor="#FF76FF" />
+          </linearGradient>
+        </defs>
+      </svg>
     </div>
   )
 
