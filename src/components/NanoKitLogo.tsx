@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { NANO_KIT_LOGO_BASE64 } from '@/lib/logo-base64'
 
 interface NanoKitLogoProps {
   size?: 'sm' | 'md' | 'lg' | 'header'
@@ -20,7 +21,7 @@ export function NanoKitLogo({ size = 'md', href, className = '' }: NanoKitLogoPr
   const logoElement = (
     <div className={`flex items-center ${className}`}>
       <img
-        src="/logo.png"
+        src={NANO_KIT_LOGO_BASE64}
         alt="Nano Kit Logo"
         width={dimensions[size].width}
         height={dimensions[size].height}
@@ -31,22 +32,11 @@ export function NanoKitLogo({ size = 'md', href, className = '' }: NanoKitLogoPr
           width: 'auto',
           height: 'auto'
         }}
-        onError={(e) => {
-          console.log('❌ Logo failed to load from /logo.png');
-          // Fallback: try original path
-          const img = e.target as HTMLImageElement;
-          if (img.src.includes('/logo.png')) {
-            img.src = '/images/nano-kit-logo.png';
-          } else {
-            // Ultimate fallback: replace with styled div
-            img.style.display = 'none';
-            const fallback = document.createElement('div');
-            fallback.className = 'flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg text-white font-bold text-sm';
-            fallback.style.width = dimensions[size].width + 'px';
-            fallback.style.height = dimensions[size].height + 'px';
-            fallback.textContent = 'NANO KIT';
-            img.parentNode?.replaceChild(fallback, img);
-          }
+        onLoad={() => {
+          console.log('✅ Logo PNG loaded successfully from base64');
+        }}
+        onError={() => {
+          console.error('❌ Base64 logo failed - this should never happen');
         }}
       />
     </div>
