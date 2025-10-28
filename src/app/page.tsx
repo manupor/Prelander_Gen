@@ -37,7 +37,7 @@ export default function Home() {
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-2xl bg-black/40 border-b border-[#B94AFF]/20">
+      <header className="sticky top-0 z-[100] backdrop-blur-2xl bg-black/40 border-b border-[#B94AFF]/20">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <NanoKitLogo size="header" href="/" />
@@ -60,22 +60,15 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative z-10 pt-32 pb-40 px-6">
+      <section className="relative z-20 pt-32 pb-40 px-6">
         <div className="max-w-6xl mx-auto text-center">
           {/* Logo Principal */}
           <div className="mb-10 animate-fadeIn flex justify-center">
-            <Image
-              src="/images/nano-kit-logo.png"
-              alt="Nano Kit Logo"
-              width={300}
-              height={225}
-              className="object-contain"
-              style={{
-                filter: 'drop-shadow(0 0 40px rgba(79, 195, 255, 0.6)) brightness(1.2)',
-              }}
-              priority
-              unoptimized
-            />
+            <div style={{
+              filter: 'drop-shadow(0 0 40px rgba(79, 195, 255, 0.6)) brightness(1.2)',
+            }}>
+              <NanoKitLogo size="lg" />
+            </div>
           </div>
           
           <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-[#B94AFF]/10 to-[#4FC3FF]/10 border border-[#4FC3FF]/30 mb-10 backdrop-blur-sm animate-fadeIn shadow-[0_0_20px_rgba(79,195,255,0.2)]">
