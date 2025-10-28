@@ -49,6 +49,7 @@ export default function SignupPage() {
         email,
         password,
         options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
           data: {
             preferred_name: preferredName || email.split('@')[0]
           }
