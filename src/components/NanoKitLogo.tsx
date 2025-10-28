@@ -49,7 +49,11 @@ export function NanoKitLogo({ size = 'md', href, className = '' }: NanoKitLogoPr
             height: 'auto'
           }}
           priority
-          onError={() => setImageError(true)}
+          unoptimized
+          onError={(e) => {
+            console.error('Logo failed to load:', e);
+            setImageError(true);
+          }}
         />
       )}
     </div>
