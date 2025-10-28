@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation'
 import { renderTemplate as renderT6 } from '@/templates/t6/server'
 import { renderTemplate as renderT7 } from '@/templates/t7/server'
 import { renderTemplate as renderT9 } from '@/templates/t9/server'
-import { renderTemplate as renderT10 } from '@/templates/t10/server'
 import { renderTemplate as renderT14 } from '@/templates/t14/server'
 import { renderTemplate as renderT15 } from '@/templates/t15/server'
 import { renderTemplate as renderT16 } from '@/templates/t16/server'
@@ -99,9 +98,6 @@ export default async function SitePage({
       case 't9':
       case 't4': // Legacy support for t4 as t9
         rendered = renderT9(brandConfig);
-        break;
-      case 't10':
-        rendered = renderT10(brandConfig);
         break;
       case 't14':
         rendered = renderT14(brandConfig);

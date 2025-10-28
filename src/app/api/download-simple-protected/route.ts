@@ -39,7 +39,6 @@ export async function POST(request: NextRequest) {
     // Map template IDs to their game folders
     const templateGameMap: Record<string, string> = {
       't9': 'FisherMan Slot',      // Fisherman themed slot game
-      't10': 'CastleSlot',          // Castle themed slot game
       't14': 'templates/game',      // Fortune Wheel - Underwater
       't15': 'templates/game',      // Fortune Wheel - China
       't16': 'templates/game',      // Fortune Wheel - Christmas
@@ -199,7 +198,6 @@ async function generateSimpleProtectedPage(site: any) {
   // Fix iframe paths for downloaded templates with games
   const templateGameMap: Record<string, string> = {
     't9': 'FisherMan Slot',       // Fisherman themed slot game
-    't10': 'CastleSlot',           // Castle themed slot game
     't14': 'templates/game',       // Fortune Wheel - Underwater
     't15': 'templates/game',       // Fortune Wheel - China
     't16': 'templates/game',       // Fortune Wheel - Christmas
