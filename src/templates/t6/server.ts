@@ -670,7 +670,7 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
                 <p class="subtitle">${subheadline}</p>
                 <div class="bonus-timer">
                     <span class="timer-icon">▲</span>
-                    <span class="timer-text">BONUS EXPIRES: 05:55</span>
+                    <span class="timer-text">BONUS EXPIRES: <span id="countdown">05:55</span></span>
                     <span class="timer-icon">▲</span>
                 </div>
             </header>
@@ -737,6 +737,27 @@ export function renderTemplate(brand: BrandConfig): { html: string; css: string 
         </div>
     </div>
     <script>
+        // Countdown Timer - Starts at 5:55 and counts down
+        let timeRemaining = 5 * 60 + 55; // 5 minutes 55 seconds
+        const countdownElement = document.getElementById('countdown');
+        
+        function updateCountdown() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            countdownElement.textContent = \`\${minutes.toString().padStart(2, '0')}:\${seconds.toString().padStart(2, '0')}\`;
+            
+            if (timeRemaining > 0) {
+                timeRemaining--;
+            } else {
+                // Timer expired - reset to 5:55
+                timeRemaining = 5 * 60 + 55;
+            }
+        }
+        
+        // Update countdown every second
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call
+        
         let spinCount = 0;
         let isSpinning = false;
         const symbols = ['◆', '▲', '●', '★', '◇', '▼'];
