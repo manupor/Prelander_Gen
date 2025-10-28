@@ -17,13 +17,8 @@ export function NanoKitLogo({ size = 'md', href, className = '' }: NanoKitLogoPr
   }
 
   const logoElement = (
-    <div className={`flex items-center ${className} hover:scale-105 transition-transform duration-300`}>
-      <span 
-        className={`${textSizes[size]} font-black bg-gradient-to-r from-[#4FC3FF] via-[#B94AFF] to-[#FF76FF] bg-clip-text text-transparent`}
-        style={{ 
-          fontFamily: 'Space Grotesk, system-ui, sans-serif',
-          filter: 'drop-shadow(0 0 20px rgba(79, 195, 255, 0.8))'
-        }}>
+    <div className={`flex items-center ${className}`}>
+      <span className={`${textSizes[size]} font-bold text-white`}>
         ✨ NANO KIT
       </span>
     </div>
