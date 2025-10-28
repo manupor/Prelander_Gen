@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 
 interface NanoKitLogoProps {
   size?: 'sm' | 'md' | 'lg' | 'header'
@@ -9,23 +10,25 @@ interface NanoKitLogoProps {
 }
 
 export function NanoKitLogo({ size = 'md', href, className = '' }: NanoKitLogoProps) {
-  const textSizes = {
-    sm: 'text-xl',
-    md: 'text-2xl',
-    lg: 'text-4xl',
-    header: 'text-2xl'
+  // Dimensiones del logo nano-kit-logo.png (4:3 ratio)
+  const dimensions = {
+    sm: { width: 120, height: 90 },
+    md: { width: 150, height: 113 },
+    lg: { width: 200, height: 150 },
+    header: { width: 120, height: 90 }
   }
 
   const logoElement = (
     <div className={`flex items-center ${className}`}>
-      <span 
-        className={`${textSizes[size]} font-black bg-gradient-to-r from-[#4FC3FF] via-[#B94AFF] to-[#FF76FF] bg-clip-text text-transparent`}
-        style={{ 
-          fontFamily: 'Space Grotesk, system-ui, sans-serif',
-          filter: 'drop-shadow(0 0 20px rgba(79, 195, 255, 0.8))'
-        }}>
-        ✨ NANO KIT
-      </span>
+      <Image
+        src="/images/nano-kit-logo.png"
+        alt="Nano Kit"
+        width={dimensions[size].width}
+        height={dimensions[size].height}
+        className="object-contain"
+        priority
+        unoptimized
+      />
     </div>
   )
 
