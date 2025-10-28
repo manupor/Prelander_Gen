@@ -1,8 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
-import { NANO_KIT_LOGO_BASE64 } from '@/lib/logo-base64'
 
 interface NanoKitLogoProps {
   size?: 'sm' | 'md' | 'lg' | 'header'
@@ -21,7 +19,7 @@ export function NanoKitLogo({ size = 'md', href, className = '' }: NanoKitLogoPr
   const logoElement = (
     <div className={`flex items-center ${className}`}>
       <img
-        src={NANO_KIT_LOGO_BASE64}
+        src="https://raw.githubusercontent.com/manupor/Prelander_Gen/main/public/images/nano-kit-logo.png"
         alt="Nano Kit Logo"
         width={dimensions[size].width}
         height={dimensions[size].height}
@@ -33,10 +31,12 @@ export function NanoKitLogo({ size = 'md', href, className = '' }: NanoKitLogoPr
           height: 'auto'
         }}
         onLoad={() => {
-          console.log('✅ Logo PNG loaded successfully from base64');
+          console.log('✅ Logo PNG loaded from GitHub raw');
         }}
-        onError={() => {
-          console.error('❌ Base64 logo failed - this should never happen');
+        onError={(e) => {
+          console.log('❌ GitHub raw failed, trying local paths');
+          const img = e.target as HTMLImageElement;
+          img.src = '/logo.png';
         }}
       />
     </div>
