@@ -21,7 +21,7 @@ export function NanoKitLogo({ size = 'md', href, className = '' }: NanoKitLogoPr
   const logoElement = (
     <div className={`flex items-center ${className}`}>
       <Image
-        src="/images/NANO-WHITE.png"
+        src="/images/nano-kit-logo.png"
         alt="Nano Kit"
         width={dimensions[size].width}
         height={dimensions[size].height}
