@@ -7,6 +7,7 @@ import { renderTemplate as renderT14 } from '@/templates/t14/server'
 import { renderTemplate as renderT15 } from '@/templates/t15/server'
 import { renderTemplate as renderT16 } from '@/templates/t16/server'
 import { renderTemplate as renderT17 } from '@/templates/t17/server'
+import { renderTemplate as renderT18 } from '@/templates/t18/server'
 
 const templateRenderers = {
   t6: renderT6,
@@ -16,6 +17,7 @@ const templateRenderers = {
   t15: renderT15,  // Fortune Wheel - China
   t16: renderT16,  // Fortune Wheel - Christmas
   t17: renderT17,  // Fortune Wheel - Pirates
+  t18: renderT18,  // Big Cash Scratch Card
 }
 
 export async function POST(request: NextRequest) {

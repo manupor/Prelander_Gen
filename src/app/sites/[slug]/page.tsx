@@ -7,6 +7,7 @@ import { renderTemplate as renderT14 } from '@/templates/t14/server'
 import { renderTemplate as renderT15 } from '@/templates/t15/server'
 import { renderTemplate as renderT16 } from '@/templates/t16/server'
 import { renderTemplate as renderT17 } from '@/templates/t17/server'
+import { renderTemplate as renderT18 } from '@/templates/t18/server'
 import { injectProtection, addProtectionStyles, applyFullEncryption, shouldEncrypt } from '@/lib/site-protection'
 
 interface SitePageParams {
@@ -110,6 +111,9 @@ export default async function SitePage({
         break;
       case 't17':
         rendered = renderT17(brandConfig);
+        break;
+      case 't18':
+        rendered = renderT18(brandConfig);
         break;
       default:
         // Fallback to site's stored HTML if template not found

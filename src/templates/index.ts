@@ -5,13 +5,15 @@ import { Template14 } from './t14'
 import { Template15 } from './t15'
 import { Template16 } from './t16'
 import { Template17 } from './t17'
+import { Template18 } from './t18'
 import { renderTemplate as renderT14 } from './t14/server'
 import { renderTemplate as renderT15 } from './t15/server'
 import { renderTemplate as renderT16 } from './t16/server'
 import { renderTemplate as renderT17 } from './t17/server'
+import { renderTemplate as renderT18 } from './t18/server'
 import { TemplateDefinition } from '@/lib/types'
 
-export const templates: Record<'t6' | 't7' | 't9' | 't14' | 't15' | 't16' | 't17', TemplateDefinition> = {
+export const templates: Record<'t6' | 't7' | 't9' | 't14' | 't15' | 't16' | 't17' | 't18', TemplateDefinition> = {
   t6: {
     id: 't6',
     name: 'Cyber Casino',
@@ -68,6 +70,14 @@ export const templates: Record<'t6' | 't7' | 't9' | 't14' | 't15' | 't16' | 't17
     component: Template17,
     renderTemplate: renderT17,
   },
+  t18: {
+    id: 't18',
+    name: 'Big Cash Scratch Card',
+    description: 'Interactive scratch card game with 12 chances to win up to $100,000',
+    preview: '/templates/t18-preview.png',
+    component: Template18,
+    renderTemplate: renderT18,
+  },
 }
 
 export { 
@@ -78,11 +88,13 @@ export {
   Template15,
   Template16,
   Template17,
+  Template18,
   renderT6,
   renderT7,
   renderT9,
   renderT14,
   renderT15,
   renderT16,
-  renderT17
+  renderT17,
+  renderT18
 }

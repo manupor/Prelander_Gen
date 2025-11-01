@@ -481,6 +481,45 @@ export const TEMPLATE_CONFIGS: Record<string, TemplateConfig> = {
         required: false
       }
     }
+  },
+
+  t18: {
+    id: 't18',
+    name: 'Big Cash Scratch Card',
+    fields: {
+      headline: {
+        id: 'headline',
+        label: 'Main Title',
+        type: 'text',
+        placeholder: 'BIG CASH',
+        description: 'Main game title displayed at the top',
+        required: true
+      },
+      subheadline: {
+        id: 'subheadline',
+        label: 'Prize Text',
+        type: 'text',
+        placeholder: 'WIN UP TO $100,000!',
+        description: 'Prize amount text shown below the title',
+        required: true
+      },
+      cta: {
+        id: 'cta',
+        label: 'Claim Button Text',
+        type: 'text',
+        placeholder: 'CLAIM NOW',
+        description: 'Button text in the win modal',
+        required: true
+      },
+      ctaUrl: {
+        id: 'ctaUrl',
+        label: 'Destination URL',
+        type: 'url',
+        placeholder: 'https://your-casino.com/claim',
+        description: 'Where users go when they win and claim',
+        required: true
+      }
+    }
   }
 
 }
