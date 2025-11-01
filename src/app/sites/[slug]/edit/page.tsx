@@ -1129,6 +1129,7 @@ export default function SiteEditorPage() {
                       { id: 't15', name: 'Fortune Wheel - China', desc: 'Chinese theme wheel game', preview: '/templates/t15-preview.png' },
                       { id: 't16', name: 'Fortune Wheel - Christmas', desc: 'Holiday theme wheel game', preview: '/templates/t16-preview.png' },
                       { id: 't17', name: 'Fortune Wheel - Pirates', desc: 'Pirate theme wheel game', preview: '/templates/t17-preview.png' },
+                      { id: 't18', name: 'Big Cash Scratch Card', desc: 'Interactive scratch game', preview: '/templates/t18-preview.png' },
                     ].map((template) => (
                       <button
                         key={template.id}
