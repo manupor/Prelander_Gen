@@ -9,6 +9,7 @@ import { Template14 } from '@/templates/t14'
 import { Template15 } from '@/templates/t15'
 import { Template16 } from '@/templates/t16'
 import { Template17 } from '@/templates/t17'
+import { Template18 } from '@/templates/t18'
 
 interface TemplatePreviewModalProps {
   templateId: TemplateId | null
@@ -18,6 +19,27 @@ interface TemplatePreviewModalProps {
 }
 
 const getSampleBrandConfig = (templateId: TemplateId) => {
+  // Scratch Card template (t18)
+  if (templateId === 't18') {
+    return {
+      brandName: 'Big Cash Casino',
+      logoUrl: 'https://via.placeholder.com/150x60/FFD700/000000?text=CASINO',
+      colors: {
+        primary: '#ff0000',
+        secondary: '#ffcc00',
+        accent: '#ff6600'
+      },
+      copy: {
+        headline: 'BIG CASH',
+        subheadline: 'WIN UP TO $100,000!',
+        cta: 'CLAIM NOW'
+      },
+      industry: 'Casino & Gaming',
+      description: 'Interactive scratch card game',
+      ctaUrl: 'https://example.com'
+    }
+  }
+  
   // Fortune Wheel templates (t14-t17)
   if (templateId === 't14' || templateId === 't15' || templateId === 't16' || templateId === 't17') {
     return {
@@ -95,6 +117,7 @@ const templateComponents = {
   t15: Template15,
   t16: Template16,
   t17: Template17,
+  t18: Template18,
 }
 
 export function TemplatePreviewModal({ templateId, isOpen, onClose, onSelect }: TemplatePreviewModalProps) {
